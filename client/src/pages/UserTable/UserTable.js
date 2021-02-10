@@ -1,15 +1,17 @@
 import React, { useMemo, useState, useEffect } from 'react';
 import { useTable, usePagination } from 'react-table';
+import ReactPaginate from 'react-paginate';
 import { loader } from 'graphql.macro';
 import { useMutation } from '@apollo/client';
 
 import Loader from '../../components/Loader/Loader';
+import WindowSize from '../../Utils/useWindowSize/useWindowSize';
 
 import ProfilePic from '../../assets/rick.png';
 import EditPic from '../../assets/edit.png';
 import TrashPic from '../../assets/trash.png';
 
-import { Styles } from './style';
+import { Container, Styles } from './style';
 
 const UPDATE_USER_ROLE = loader('./mutationUpdateUser.graphql');
 
@@ -22,18 +24,20 @@ function UserTable({
 }) {
   const [s, setS] = useState(getPages);
 
+  const { width } = WindowSize();
+
   const columns = useMemo(
     () => [
       {
         Header: <input type='checkbox'></input>,
-        Footer: (info) => `Count: ${Number(getPages)}`,
+        // Footer: (info) => `Count: ${Number(getPages)}`,
         accessor: 'check',
       },
       {
         Header: 'Id',
         id: 'row',
         Cell: ({ row }) => {
-          return <div>{row.index + 1}</div>;
+          return <div className='id'>{row.index + 1}</div>;
         },
       },
       {
@@ -84,7 +88,7 @@ function UserTable({
       },
       {
         Header: 'User ID',
-        accessor: (d) => d.id,
+        accessor: (d) => <div className='userId'>{d.id}</div>,
       },
       {
         Header: 'Actions',
@@ -169,49 +173,52 @@ function UserTable({
   }
 
   return (
-    <div>
-      <p>this is a table</p>
-      <Styles>
-        <table {...getTableProps()}>
-          <thead>
-            {headerGroups.map((headerGroup) => (
-              <tr {...headerGroup.getHeaderGroupProps()}>
-                {headerGroup.headers.map((column) => (
-                  <th {...column.getHeaderProps()}>
-                    {column.render('Header')}
-                  </th>
-                ))}
-              </tr>
-            ))}
-          </thead>
-          <tbody {...getTableBodyProps()}>
-            {rows.map((row, i) => {
-              prepareRow(row);
-              return (
-                <tr {...row.getRowProps()}>
-                  {row.cells.map((cell) => {
-                    return (
-                      <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
-                    );
-                  })}
+    <Container>
+      <p className='title'>Users</p>
+      {width > 1000 ? (
+        <Styles>
+          <table {...getTableProps()}>
+            <thead>
+              {headerGroups.map((headerGroup) => (
+                <tr {...headerGroup.getHeaderGroupProps()}>
+                  {headerGroup.headers.map((column) => (
+                    <th {...column.getHeaderProps()}>
+                      {column.render('Header')}
+                    </th>
+                  ))}
                 </tr>
-              );
-            })}
-          </tbody>
-          <tfoot>
-            {footerGroups.map((group) => (
-              <tr {...group.getFooterGroupProps()}>
-                {group.headers.map((column) => (
-                  <td {...column.getFooterProps()}>
-                    {column.Footer && column.render('Footer')}
-                  </td>
-                ))}
-              </tr>
-            ))}
-          </tfoot>
-        </table>
-      </Styles>
-
+              ))}
+            </thead>
+            <tbody {...getTableBodyProps()}>
+              {rows.map((row, i) => {
+                prepareRow(row);
+                return (
+                  <tr {...row.getRowProps()}>
+                    {row.cells.map((cell) => {
+                      return (
+                        <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
+                      );
+                    })}
+                  </tr>
+                );
+              })}
+            </tbody>
+            <tfoot>
+              {footerGroups.map((group) => (
+                <tr {...group.getFooterGroupProps()}>
+                  {group.headers.map((column) => (
+                    <td {...column.getFooterProps()}>
+                      {column.Footer && column.render('Footer')}
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tfoot>
+          </table>
+        </Styles>
+      ) : (
+        <span>Please visit from Desktop</span>
+      )}
       {/* 
         Pagination can be built however you'd like. 
         This is just a very basic UI implementation:
@@ -259,8 +266,22 @@ function UserTable({
             </option>
           ))}
         </select>
+        <ReactPaginate
+          pageCount={pageCount}
+          pageRangeDisplayed={2}
+          marginPagesDisplayed={2}
+          previousLabel='<'
+          nextLabel='>'
+          breakClassName={'page'}
+          containerClassName={'container'}
+          pageClassName={'page'}
+          pageLinkClassName={'pageLink'}
+          previousLinkClassName={('pageLink', 'arrow')}
+          nextLinkClassName={('pageLink', 'arrow')}
+          activeClassName={'activePage'}
+        />
       </div>
-    </div>
+    </Container>
   );
 }
 
