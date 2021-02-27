@@ -3,22 +3,30 @@ import { useDropzone } from 'react-dropzone';
 
 import { Container } from './style';
 
-export const Dropzone = ({ onDrop, accept = '' }) => {
-  //todo give warning on invalid file types
+export const Dropzone = ({ onDrop, accept = '', disabled = false }) => {
   const {
     getInputProps,
     getRootProps,
     isDragAccept,
     isDragActive,
     isDragReject,
-  } = useDropzone({ onDrop, maxFiles: 1, multiple: false, accept });
+  } = useDropzone({ onDrop, maxFiles: 1, multiple: false, accept, disabled });
 
   return (
-    <Container {...getRootProps({ isDragAccept, isDragActive, isDragReject })}>
+    <Container
+      {...getRootProps({
+        isDragAccept,
+        isDragActive,
+        isDragReject,
+        className: 'dropzone disabled',
+      })}
+    >
       <input {...getInputProps()} />
 
       {isDragActive ? (
         <p>Drop here</p>
+      ) : disabled ? (
+        <p>loading...</p>
       ) : (
         <p>Drag and drop, or click to select files</p>
       )}

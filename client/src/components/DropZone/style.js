@@ -33,4 +33,8 @@ export const Container = styled.div`
   &:hover {
     border: 2px dashed blue;
   }
+
+  p {
+    user-select: none;
+  }
 `;

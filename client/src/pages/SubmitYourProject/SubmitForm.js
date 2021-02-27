@@ -14,6 +14,7 @@ import { Dropzone } from '../../components/DropZone/Dropzone';
 import SelectTags from './SelectTags/SelectTags';
 import Button from '../../components/Button/Button';
 import Active from '../../components/Active/Active';
+import LoadingText from '../../components/LoadingText/LoadingText';
 
 import useCurrentUser from '../../components/useCurrentUser/useCurrentUser';
 
@@ -49,6 +50,7 @@ const CREATE_PROJECT_MUTATION = loader('./mutationCreateProject.graphql');
 const EMAIL_STRING = 'https://mail.google.com/mail/?view=cm&fs=1&tf=1&to=';
 
 function SubmitForm() {
+  const [imageFiles, setImageFiles] = useState();
   const [successModal, setSuccessModal] = useState(false);
   const { register, handleSubmit, control, errors, watch } = useForm({
     defaultValues: {
@@ -81,12 +83,16 @@ function SubmitForm() {
   });
 
   async function onSubmit(data) {
+    await uploadImageToCloudinary(imageFiles.rawFiles, data);
+  }
+
+  async function createTheProject(data, imagelink) {
     try {
       await createProject({
         variables: {
           input: {
             authorId: user.id,
-            preview: data.preview,
+            preview: imagelink,
             title: data.title,
             siteLink: data.siteLink,
             repoLink: data.repoLink,
@@ -95,18 +101,13 @@ function SubmitForm() {
           },
         },
       });
-
       setSuccessModal(true);
     } catch (error) {
       toast.error("Couldn't create project");
     }
   }
 
-  async function handleImage(event, onChange) {
-    if (!event.length) {
-      return null;
-    }
-
+  async function uploadImageToCloudinary(event, data) {
     let reader = new FileReader();
     reader.readAsDataURL(event[0]);
     reader.onabort = () => alert('failed');
@@ -117,13 +118,28 @@ function SubmitForm() {
           path: reader.result,
         },
       });
-
-      onChange(res?.data?.image?.url);
+      await createTheProject(data, res?.data?.image?.url);
     };
   }
 
+  const handleOnDrop = async (event) => {
+    if (!event.length) {
+      return null;
+    }
+    const file = event[0];
+    const blob = URL.createObjectURL(file);
+    setImageFiles({
+      preview: blob,
+      rawFiles: event,
+    });
+  };
+
   if (currentUserLoading) {
     return <Loader />;
+  }
+
+  if (loadingImg) {
+    return <LoadingText />;
   }
 
   return (
@@ -157,13 +173,18 @@ function SubmitForm() {
                   <Spinner />
                 </p>
               )) || (
-                <img alt={preview} src={preview} width='100%' height='100%' />
+                <img
+                  alt={imageFiles?.preview ?? preview}
+                  src={imageFiles?.preview ?? preview}
+                  width='100%'
+                  height='100%'
+                />
               )}
             </Zoom>
           </div>
           <Profile>
             <div className='profileContainer'>
-              <img alt={Rick} src={Rick} width='100%' height='100%'></img>
+              <img alt={Rick} src={Rick} width='100%' height='100%' />
             </div>
             <div className='profileDetails'>
               <p>
@@ -185,10 +206,11 @@ function SubmitForm() {
         <Controller
           name='preview'
           control={control}
-          render={({ onChange }) => (
+          render={() => (
             <Dropzone
               accept='image/*'
-              onDrop={(e) => handleImage(e, onChange)}
+              disabled={loadingImg}
+              onDrop={(e) => handleOnDrop(e)}
             />
           )}
         />
