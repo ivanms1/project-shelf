@@ -18,14 +18,18 @@ export const Main = styled.div`
     outline: none;
     background-color: transparent;
     position: absolute;
-    right: -17px;
+    right: -20px;
     top: -15px;
+    z-index: 200;
+ 
+
   }
 
   button {
     background-color: transparent;
     border: none;
-  }
+    
+  } 
 `;
 
 export const CardContainerInner = styled.div`
@@ -34,6 +38,8 @@ export const CardContainerInner = styled.div`
   box-shadow: 10px 10px 40px 4px rgba(45, 78, 255, 0.15);
   border: 7px solid
     ${({ isApproved }) => (isApproved ? colors.green : colors.red)};
+    
+ 
   border-radius: 7px;
 
   & .imgContainer {
@@ -56,6 +62,7 @@ export const CardContainerInner = styled.div`
     backface-visibility: hidden;
     display: block;
     object-fit: cover;
+    
   }
 
   & .overlay {
@@ -70,6 +77,7 @@ export const CardContainerInner = styled.div`
     -ms-transform: translate(-50%, -50%);
     text-align: center;
     background-color: rgba(0, 0, 0, 0.55);
+    
   }
 
   & .overlayContent {
@@ -78,7 +86,13 @@ export const CardContainerInner = styled.div`
     height: 100%;
     justify-content: space-around;
     align-items: center;
+
+    & button {
+      /* transform: translateY(25px) */
+    }
   }
+
+  
 `;
 
 export const ProjectDetails = styled.div`

@@ -7,9 +7,12 @@ import useCurrentUser from '../useCurrentUser/useCurrentUser';
 
 import { getCurrentDate } from '../../helpers/dateConverter';
 
-import { ReactComponent as Star } from './../../assets/Star.svg';
-import { ReactComponent as StarFill } from './../../assets/Star-Fill.svg';
+import { ReactComponent as Star } from './../../assets/card/star.svg';
+import { ReactComponent as StarFill } from './../../assets/card/star-Fill.svg';
 import { ReactComponent as Spinner } from './../../assets/spinner.svg';
+import { ReactComponent as Bookmark } from './../../assets/card/bookmark.svg';
+import { ReactComponent as BookmarkFill } from './../../assets/card/bookmark-fill.svg';
+
 
 import { Main, CardContainerInner, ProjectDetails, ViewDetails } from './style';
 
@@ -132,6 +135,8 @@ function Cardtwo({ project, children }) {
       <button onClick={reactToProject} className='starContainer'>
         {getActionLikes(project, currentUser) === 'LIKE' ? (
           <Star />
+        
+           
         ) : (
           <StarFill />
         )}
@@ -154,9 +159,9 @@ function Cardtwo({ project, children }) {
             <div className='overlayContent'>
               <button disabled={loading} onClick={favoriteClickHandler}>
                 {getActionFavorite(project, currentUser) === 'FAVORITE' ? (
-                  <Star />
+                    <Bookmark/>
                 ) : (
-                  <StarFill />
+                  <BookmarkFill/>
                 )}
               </button>
               <ViewDetails to={`/projectDetails/${project.id}`}>

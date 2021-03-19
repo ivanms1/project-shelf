@@ -46,11 +46,11 @@ function Register() {
             lastName: data.lastname,
           },
         });
-
+        
         setRedirect(true);
-        // redirect with the id from the response
+        
       } catch (error) {
-        // display error
+        // console.log(consoled)
         console.log(JSON.stringify(error, null, 2));
       }
     }
