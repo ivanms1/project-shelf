@@ -22,14 +22,18 @@ const authLink = setContext((_, { headers }) => {
 });
 
 const projectsMergeConfig = {
-  keyArgs: false,
+  keyArgs: ['modifiers'],
   merge(existing = null, incoming) {
     if (!existing || !existing?.results?.length) {
       return incoming;
     }
 
+    if (!incoming.prevCursor && !incoming.nextCursor) {
+      return incoming;
+    }
+
     if (!incoming.prevCursor) {
-      return existing;
+      return incoming;
     }
 
     if (existing.nextCursor === incoming.nextCursor) {

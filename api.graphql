@@ -31,6 +31,11 @@ input FavoriteProjectInput {
   userId: String!
 }
 
+input GetProjectsFilter {
+  filterBy: Json
+  sortBy: Json
+}
+
 """
 The `JSON` scalar type represents JSON objects as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
 """
@@ -84,18 +89,18 @@ input ProjectWhereUniqueInput {
 
 type Query {
   """Get all approved projects"""
-  adminGetNotApprovedProjects(cursor: String): ProjectsResponse
+  adminGetNotApprovedProjects(cursor: String, modifiers: GetProjectsFilter): ProjectsResponse
   getCurrentUser: User
 
   """Get my favorite projects"""
-  getMyFavoriteProjects(cursor: String): ProjectsResponse
+  getMyFavoriteProjects(cursor: String, modifiers: GetProjectsFilter): ProjectsResponse
 
   """Get all my projects"""
-  getMyProjects(cursor: String): ProjectsResponse
+  getMyProjects(cursor: String, modifiers: GetProjectsFilter): ProjectsResponse
   getProject(id: String!): Project
 
   """Get all approved projects"""
-  getProjects(cursor: String): ProjectsResponse
+  getProjects(cursor: String, modifiers: GetProjectsFilter): ProjectsResponse
   getUser(id: String!): User
   getUsers: [User!]
 }

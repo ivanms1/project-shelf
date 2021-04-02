@@ -12,6 +12,7 @@
     "@testing-library/user-event": "^12.8.3",
     "graphql": "^15.3.0",
     "graphql.macro": "^1.4.2",
+    "lodash": "^4.17.21",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-dropzone": "^11.2.4",

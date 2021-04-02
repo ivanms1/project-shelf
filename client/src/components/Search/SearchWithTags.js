@@ -105,7 +105,7 @@ const formatGroupLabel = (data) => (
 
 function SearchWithTags({ options, onChange, title }) {
   return (
-    <div>
+    <div style={{ margin: '0 auto', maxWidth: 400 }}>
       <span style={titleStyle}>{title}</span>
       <Select
         styles={colourStyles}

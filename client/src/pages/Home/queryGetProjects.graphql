@@ -1,7 +1,7 @@
 #import "../../graphql/projectFragment.graphql"
 
-query GetAllProjects($cursor: String = null) {
-  projects: getProjects(cursor: $cursor) {
+query GetAllProjects($cursor: String = null, $modifiers: GetProjectsFilter) {
+  projects: getProjects(cursor: $cursor, modifiers: $modifiers) {
     ...ProjectsResponseFragment
   }
 }

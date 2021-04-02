@@ -24,7 +24,7 @@ const FavoriteActions = schema.enumType({
   description: 'Favorite actions',
 });
 
-const projectsResponse = schema.objectType({
+schema.objectType({
   name: 'ProjectsResponse',
   definition(t) {
     t.string('nextCursor');
@@ -56,6 +56,14 @@ schema.inputObjectType({
     t.string('siteLink');
     t.string('description');
     t.list.string('tags');
+  },
+});
+
+schema.inputObjectType({
+  name: 'GetProjectsFilter',
+  definition(t) {
+    t.json('filterBy');
+    t.json('sortBy');
   },
 });
 
@@ -179,13 +187,31 @@ schema.queryType({
       description: 'Get all approved projects',
       args: {
         cursor: schema.stringArg(),
+        modifiers: 'GetProjectsFilter',
       },
       async resolve(_root, args, ctx) {
         const incomingCursor = args?.cursor;
         let results;
 
+        const filter =
+          args.modifiers?.filterBy?.field &&
+          (args.modifiers?.filterBy?.value ||
+            args.modifiers?.filterBy?.value === '')
+            ? {
+                [args.modifiers?.filterBy?.field]: {
+                  contains: args.modifiers?.filterBy.value,
+                },
+              }
+            : {};
+
+        const sorter = {
+          [args.modifiers?.sortBy?.field ?? 'createdAt']:
+            args.modifiers?.sortBy?.value ?? 'desc',
+        };
+
         const totalCount = await ctx.db.project.count({
           where: {
+            ...filter,
             isApproved: true,
           },
         });
@@ -198,21 +224,19 @@ schema.queryType({
               id: incomingCursor,
             },
             where: {
+              ...filter,
               isApproved: true,
             },
-            orderBy: {
-              createdAt: 'desc',
-            },
+            orderBy: sorter,
           });
         } else {
           results = await ctx.db.project.findMany({
             take: 9,
             where: {
+              ...filter,
               isApproved: true,
             },
-            orderBy: {
-              createdAt: 'desc',
-            },
+            orderBy: sorter,
           });
         }
 
@@ -232,13 +256,31 @@ schema.queryType({
       description: 'Get all my projects',
       args: {
         cursor: schema.stringArg(),
+        modifiers: 'GetProjectsFilter',
       },
       async resolve(_root, args, ctx) {
         const incomingCursor = args?.cursor;
         let results;
 
+        const filter =
+          args.modifiers?.filterBy?.field &&
+          (args.modifiers?.filterBy?.value ||
+            args.modifiers?.filterBy?.value === '')
+            ? {
+                [args.modifiers?.filterBy?.field]: {
+                  contains: args.modifiers?.filterBy.value,
+                },
+              }
+            : {};
+
+        const sorter = {
+          [args.modifiers?.sortBy?.field ?? 'createdAt']:
+            args.modifiers?.sortBy?.value ?? 'desc',
+        };
+
         const totalCount = await ctx.db.project.count({
           where: {
+            ...filter,
             authorId: ctx.currentUserId,
           },
         });
@@ -251,21 +293,19 @@ schema.queryType({
               id: incomingCursor,
             },
             where: {
+              ...filter,
               authorId: ctx.currentUserId,
             },
-            orderBy: {
-              createdAt: 'desc',
-            },
+            orderBy: sorter,
           });
         } else {
           results = await ctx.db.project.findMany({
             take: 9,
             where: {
+              ...filter,
               authorId: ctx.currentUserId,
             },
-            orderBy: {
-              createdAt: 'desc',
-            },
+            orderBy: sorter,
           });
         }
 
@@ -285,13 +325,31 @@ schema.queryType({
       description: 'Get my favorite projects',
       args: {
         cursor: schema.stringArg(),
+        modifiers: 'GetProjectsFilter',
       },
       async resolve(_root, args, ctx) {
         const incomingCursor = args?.cursor;
         let results;
 
+        const filter =
+          args.modifiers?.filterBy?.field &&
+          (args.modifiers?.filterBy?.value ||
+            args.modifiers?.filterBy?.value === '')
+            ? {
+                [args.modifiers?.filterBy?.field]: {
+                  contains: args.modifiers?.filterBy.value,
+                },
+              }
+            : {};
+
+        const sorter = {
+          [args.modifiers?.sortBy?.field ?? 'createdAt']:
+            args.modifiers?.sortBy?.value ?? 'desc',
+        };
+
         const totalCount = await ctx.db.project.count({
           where: {
+            ...filter,
             favorites: {
               some: {
                 id: {
@@ -310,6 +368,7 @@ schema.queryType({
               id: incomingCursor,
             },
             where: {
+              ...filter,
               favorites: {
                 some: {
                   id: {
@@ -318,14 +377,13 @@ schema.queryType({
                 },
               },
             },
-            orderBy: {
-              createdAt: 'desc',
-            },
+            orderBy: sorter,
           });
         } else {
           results = await ctx.db.project.findMany({
             take: 9,
             where: {
+              ...filter,
               favorites: {
                 some: {
                   id: {
@@ -334,9 +392,7 @@ schema.queryType({
                 },
               },
             },
-            orderBy: {
-              createdAt: 'desc',
-            },
+            orderBy: sorter,
           });
         }
 
@@ -356,13 +412,31 @@ schema.queryType({
       description: 'Get all approved projects',
       args: {
         cursor: schema.stringArg(),
+        modifiers: 'GetProjectsFilter',
       },
       async resolve(_root, args, ctx) {
         const incomingCursor = args?.cursor;
         let results;
 
+        const filter =
+          args.modifiers?.filterBy?.field &&
+          (args.modifiers?.filterBy?.value ||
+            args.modifiers?.filterBy?.value === '')
+            ? {
+                [args.modifiers?.filterBy?.field]: {
+                  contains: args.modifiers?.filterBy.value,
+                },
+              }
+            : {};
+
+        const sorter = {
+          [args.modifiers?.sortBy?.field ?? 'createdAt']:
+            args.modifiers?.sortBy?.value ?? 'desc',
+        };
+
         const totalCount = await ctx.db.project.count({
           where: {
+            ...filter,
             isApproved: false,
           },
         });
@@ -375,21 +449,19 @@ schema.queryType({
               id: incomingCursor,
             },
             where: {
+              ...filter,
               isApproved: false,
             },
-            orderBy: {
-              createdAt: 'desc',
-            },
+            orderBy: sorter,
           });
         } else {
           results = await ctx.db.project.findMany({
             take: 9,
             where: {
+              ...filter,
               isApproved: false,
             },
-            orderBy: {
-              createdAt: 'desc',
-            },
+            orderBy: sorter,
           });
         }
 
