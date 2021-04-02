@@ -33,7 +33,7 @@ const popperOptions = {
       name: 'offset',
       enabled: true,
       options: {
-        offset: [-85, 30],
+        offset: [-100, 30],
       },
     },
   ],

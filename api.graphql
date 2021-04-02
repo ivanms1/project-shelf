@@ -97,7 +97,7 @@ type Query {
   """Get all approved projects"""
   getProjects(cursor: String): ProjectsResponse
   getUser(id: String!): User
-  getUsers: [User!]
+  getUsers(cursor: String): UsersResponse
 }
 
 input ReactToProjectInput {
@@ -141,6 +141,13 @@ type User {
   projects(after: ProjectWhereUniqueInput, before: ProjectWhereUniqueInput, first: Int, last: Int): [Project!]!
   projectsLiked(after: ProjectWhereUniqueInput, before: ProjectWhereUniqueInput, first: Int, last: Int): [Project!]!
   role: Role!
+}
+
+type UsersResponse {
+  nextCursor: String
+  prevCursor: String
+  results: [User!]
+  totalCount: Int
 }
 
 input UserWhereUniqueInput {

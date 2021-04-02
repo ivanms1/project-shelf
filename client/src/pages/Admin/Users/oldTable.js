@@ -208,8 +208,8 @@ function UserTable({
         </table>
       </Styles>
 
-      {/* 
-        Pagination can be built however you'd like. 
+      {/*
+        Pagination can be built however you'd like.
         This is just a very basic UI implementation:
       */}
       <div className='pagination'>

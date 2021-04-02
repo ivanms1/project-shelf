@@ -7,7 +7,6 @@ import { useMutation } from '@apollo/client';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 
-import Loader from '../../components/Loader';
 import Button from '../../components/Button';
 
 import {

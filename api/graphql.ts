@@ -24,12 +24,22 @@ const FavoriteActions = schema.enumType({
   description: 'Favorite actions',
 });
 
-const projectsResponse = schema.objectType({
+schema.objectType({
   name: 'ProjectsResponse',
   definition(t) {
     t.string('nextCursor');
     t.string('prevCursor');
     t.field('results', { type: 'Project', list: true });
+    t.int('totalCount');
+  },
+});
+
+schema.objectType({
+  name: 'UsersResponse',
+  definition(t) {
+    t.string('nextCursor');
+    t.string('prevCursor');
+    t.field('results', { type: 'User', list: true });
     t.int('totalCount');
   },
 });
@@ -144,10 +154,38 @@ schema.queryType({
       },
     });
     t.field('getUsers', {
-      type: 'User',
-      list: true,
-      resolve(_root, _, ctx) {
-        return ctx.db.user.findMany();
+      type: 'UsersResponse',
+      args: {
+        cursor: schema.stringArg(),
+      },
+      async resolve(_root, args, ctx) {
+        const incomingCursor = args?.cursor;
+        let results;
+
+        const totalCount = await ctx.db.user.count();
+        if (incomingCursor) {
+          results = await ctx.db.user.findMany({
+            take: 20,
+            skip: 1,
+            cursor: {
+              id: incomingCursor,
+            },
+          });
+        } else {
+          results = await ctx.db.user.findMany({
+            take: 20,
+          });
+        }
+
+        const lastResult = results[19];
+        const cursor = lastResult?.id;
+
+        return {
+          prevCursor: args.cursor,
+          nextCursor: cursor,
+          results,
+          totalCount,
+        };
       },
     });
     t.field('getCurrentUser', {

@@ -4,6 +4,7 @@ import { Switch } from 'react-router-dom';
 import PrivateRoute from '../../Routes/PrivateRoute';
 import Approved from './Approved';
 import NotApproved from './NotApproved';
+import Users from './Users';
 
 import { Container, TabContainer, StyledNavLink } from './style';
 
@@ -18,7 +19,7 @@ const tabs = [
   },
   {
     title: 'All Users',
-    path: '/admin/allusers',
+    path: '/admin/users',
   },
 ];
 
@@ -39,6 +40,7 @@ function Admin() {
       <Switch>
         <PrivateRoute path='/admin/approved' component={Approved} />
         <PrivateRoute path='/admin/not-approved' component={NotApproved} />
+        <PrivateRoute path='/admin/users' component={Users} />
       </Switch>
     </Container>
   );
