@@ -10,6 +10,8 @@ import { getCurrentDate } from '../../helpers/dateConverter';
 
 import { ReactComponent as Star } from './../../assets/Star.svg';
 import { ReactComponent as StarFill } from './../../assets/Star-Fill.svg';
+import { ReactComponent as Bookmark } from './../../assets/bookmark.svg';
+import { ReactComponent as BookmarkFill } from './../../assets/bookmark-fill.svg';
 
 import {
   Container,
@@ -159,9 +161,9 @@ function Cardtwo({ project, children }) {
             <div className='overlayContent'>
               <button disabled={loading} onClick={favoriteClickHandler}>
                 {getActionFavorite(project, currentUser) === 'FAVORITE' ? (
-                  <Star />
+                  <Bookmark />
                 ) : (
-                  <StarFill />
+                  <BookmarkFill />
                 )}
               </button>
               <ViewDetails to={`/projectDetails/${project.id}`}>

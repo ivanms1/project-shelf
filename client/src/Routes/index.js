@@ -14,6 +14,7 @@ const Login = lazy(() => import('../pages/Login'));
 const Logout = lazy(() => import('../pages/Logout'));
 const Submitproject = lazy(() => import('../pages/SubmitProject'));
 const Favorites = lazy(() => import('../pages/Favorites'));
+const ProfilePage = lazy(() => import('../pages/ProfilePage'));
 const Error = lazy(() => import('../pages/Error'));
 const Admin = lazy(() => import('../pages/Admin'));
 const Edit = lazy(() => import('../pages/Edit'));
@@ -52,6 +53,9 @@ function Routes() {
         </PrivateRoute>
         <PrivateRoute path='/favorites'>
           <Favorites />
+        </PrivateRoute>
+        <PrivateRoute path='/profile-page'>
+          <ProfilePage />
         </PrivateRoute>
         <PrivateRoute path='/projectDetails/:projectId'>
           <CardDetails />

@@ -52,11 +52,13 @@ export const ImgContainerOuter = styled.figure`
   justify-content: center;
   align-items: center;
   overflow: hidden;
+  border: 7px solid ${({ status }) => (status ? colors.green : colors.red)};
+
   img {
     display: block;
     width: 100%;
     height: auto;
-    border: 7px solid ${({ status }) => (status ? colors.green : colors.red)};
+    object-fit: contain;
   }
 `;
 
