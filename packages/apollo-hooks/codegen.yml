@@ -1,0 +1,14 @@
+overwrite: true
+schema: '../../apps/api/src/prisma/schema.graphql'
+generates:
+  generated/index.tsx:
+    documents:
+      ['../../apps/web/src/**/*.graphql', '../../apps/adming/src/**/*.graphql']
+    plugins:
+      - 'typescript'
+      - 'typescript-operations'
+      - 'typescript-react-apollo'
+    config:
+      withHooks: true
+      withComponent: false
+      withHOC: false
