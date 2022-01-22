@@ -1,3 +1,4 @@
+import getAuthToken from '@/helpers/getAuthToken';
 import {
   ApolloClient,
   createHttpLink,
@@ -8,17 +9,12 @@ import {
 
 import { setContext } from '@apollo/client/link/context';
 
-import getAuthToken from '@/helpers/getAuthToken';
-
 let apolloClient: ApolloClient<NormalizedCacheObject> | null;
 
 const URI = 'http://localhost:3333/graphql';
 
-const authLink = setContext((_, { headers }) => {
-  // get the authentication token from local storage if it exists
-  const token = getAuthToken();
-  // return the headers to the context so httpLink can read them
-
+const authLink = setContext(async (_, { headers }) => {
+  const token = await getAuthToken();
   return {
     headers: {
       ...headers,

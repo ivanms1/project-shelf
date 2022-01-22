@@ -1,12 +1,11 @@
+import { getSession } from 'next-auth/react';
 import { TOKEN_NAME } from '../const';
 import isWindowPresent from './isWindowPresent';
 
-function getAuthToken() {
-  if (isWindowPresent()) {
-    return localStorage.getItem(TOKEN_NAME);
-  }
+async function getAuthToken() {
+  const session = await getSession();
 
-  return undefined;
+  return session.token;
 }
 
 export function setAuthToken(token: string) {
