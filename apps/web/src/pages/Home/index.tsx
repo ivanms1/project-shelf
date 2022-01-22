@@ -1,5 +1,4 @@
 import React from 'react';
-
 import { useGetAllProjectsQuery } from 'apollo-hooks';
 
 function Home() {

@@ -54,7 +54,6 @@ function Register() {
           name: data.firstName,
         },
       });
-      console.log(`res`, res);
     } catch (error) {
       // TODO: handle error
     }

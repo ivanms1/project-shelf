@@ -36,14 +36,10 @@ function EditProject() {
           },
         },
       });
-
-      console.log(`data`, data);
     } catch (error) {
-      console.log(`error`, error);
       // TODO: handle error
     }
   };
-  console.log(`errors`, errors);
 
   return (
     <div>
