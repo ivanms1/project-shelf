@@ -11,6 +11,8 @@ import {
 } from 'nexus';
 import { Project } from 'nexus-prisma';
 
+import decodeAccessToken from '../helpers/decodeAccessToken';
+
 export const ProjectType = objectType({
   name: Project.$name,
   description: Project.$description,
@@ -30,7 +32,8 @@ export const ProjectType = objectType({
     t.boolean('isLiked', {
       description: 'If this project is liked by the current user',
       async resolve(_root, _, ctx) {
-        if (!ctx?.currentUserId) {
+        const currentUserId = decodeAccessToken(ctx.accessToken);
+        if (currentUserId) {
           return false;
         }
 
@@ -39,7 +42,7 @@ export const ProjectType = objectType({
             id: _root.id,
             likes: {
               some: {
-                id: ctx.currentUserId,
+                id: currentUserId,
               },
             },
           },
@@ -260,9 +263,11 @@ export const GetMyProjects = extendType({
         const incomingCursor = args?.cursor;
         let results;
 
+        const currentUserId = decodeAccessToken(ctx.accessToken);
+
         const totalCount = await ctx.db.project.count({
           where: {
-            authorId: ctx.currentUserId,
+            authorId: String(currentUserId),
           },
         });
 
@@ -274,7 +279,7 @@ export const GetMyProjects = extendType({
               id: incomingCursor,
             },
             where: {
-              authorId: ctx.currentUserId,
+              authorId: String(currentUserId),
             },
             include: {
               likes: true,
@@ -288,7 +293,7 @@ export const GetMyProjects = extendType({
           results = await ctx.db.project.findMany({
             take: 9,
             where: {
-              authorId: ctx.currentUserId,
+              authorId: String(currentUserId),
             },
             include: {
               likes: true,
@@ -323,7 +328,7 @@ export const CreateProject = extendType({
         input: 'CreateProjectInput',
       },
       resolve(_root, { input }, ctx) {
-        const authorId = ctx.currentUserId;
+        const authorId = decodeAccessToken(ctx.accessToken);
 
         if (!authorId || !input) {
           throw Error('Args missing');
@@ -340,7 +345,7 @@ export const CreateProject = extendType({
             likesCount: 0,
             author: {
               connect: {
-                id: authorId,
+                id: String(authorId),
               },
             },
           },
@@ -396,6 +401,8 @@ export const DeleteProject = extendType({
         id: nonNull(idArg()),
       },
       async resolve(_root, { id }, ctx) {
+        const currentUserId = decodeAccessToken(ctx.accessToken);
+
         const projectToDelete = await ctx.db.project.findFirst({
           where: {
             id,
@@ -403,7 +410,7 @@ export const DeleteProject = extendType({
         });
         const userDeleting = await ctx.db.user.findFirst({
           where: {
-            id: ctx.currentUserId,
+            id: String(currentUserId),
           },
         });
         if (
@@ -497,12 +504,14 @@ export const UpdateProjectStatus = extendType({
         isApproved: nonNull(booleanArg()),
       },
       async resolve(_root, args, ctx) {
-        if (!ctx.currentUserId) {
+        if (!ctx.accessToken) {
           throw Error('Not Authorized');
         }
+
+        const currentUserId = decodeAccessToken(ctx.accessToken);
         const user = await ctx.db.user.findUnique({
           where: {
-            id: ctx.currentUserId,
+            id: String(currentUserId),
           },
         });
 

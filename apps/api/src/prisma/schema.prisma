@@ -20,7 +20,6 @@ model User {
   id            String    @id @default(cuid())
   avatar        String?
   name          String
-  password      String
   email         String
   role          Role      @default(USER)
   github        String?

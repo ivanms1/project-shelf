@@ -14,4 +14,8 @@ export const schema = makeSchema({
       'index.d.ts'
     ),
   },
+  contextType: {
+    module: join(__dirname, './context'),
+    export: 'Context',
+  },
 });

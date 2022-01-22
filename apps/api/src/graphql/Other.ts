@@ -19,7 +19,7 @@ export const UploadImage = extendType({
               reject(err);
             }
             resolve({
-              url: res.url,
+              url: res?.url,
             });
           });
         });

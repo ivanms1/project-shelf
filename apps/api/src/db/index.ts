@@ -15,4 +15,6 @@ class DBClient {
   };
 }
 
-export default DBClient.getInstance().prisma;
+const db = DBClient.getInstance().prisma;
+
+export default db;

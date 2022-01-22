@@ -1,6 +1,6 @@
 import { ApolloServer } from 'apollo-server-express';
 import express from 'express';
-import { createContext } from './context';
+import db from './db';
 
 import { schema } from './schema';
 
@@ -9,12 +9,10 @@ const PORT = 3333;
 const apollo = new ApolloServer({
   schema,
   context: async ({ req }) => {
-    const { prisma } = await createContext();
-
     return {
-      db: prisma,
-      prisma,
-      currentUserId: req?.headers?.authorization,
+      db,
+      prisma: db,
+      accessToken: req?.headers?.authorization,
     };
   },
 });

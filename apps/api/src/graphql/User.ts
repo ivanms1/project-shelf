@@ -8,6 +8,7 @@ import {
   enumType,
 } from 'nexus';
 import { User } from 'nexus-prisma';
+import jwt from 'jsonwebtoken';
 
 export const Role = enumType({
   name: 'Role',
@@ -64,9 +65,15 @@ export const getCurrentUser = extendType({
     t.field('getCurrentUser', {
       type: 'User',
       resolve(_root, _, ctx) {
+        const decoded = jwt.verify(ctx.accessToken, process.env.JWT_SECRET!);
+
+        if (!decoded) {
+          throw Error('Not Authorized');
+        }
+
         return ctx.db.user.findUnique({
           where: {
-            id: ctx.currentUserId,
+            id: String(decoded),
           },
         });
       },
@@ -93,31 +100,7 @@ export const SignUp = extendType({
       type: 'JSONObject',
       args: {
         email: nonNull(stringArg()),
-        password: nonNull(stringArg()),
         name: nonNull(stringArg()),
-      },
-      async resolve(_root, args, ctx) {
-        const newUser = await ctx.db.user.create({
-          data: { ...args },
-        });
-        return {
-          userId: newUser.id,
-          token: 'some token',
-          expiresIn: '1 year',
-        };
-      },
-    });
-  },
-});
-
-export const Login = extendType({
-  type: 'Mutation',
-  definition(t) {
-    t.nonNull.field('login', {
-      type: 'JSONObject',
-      args: {
-        email: nonNull(stringArg()),
-        password: nonNull(stringArg()),
       },
       async resolve(_root, args, ctx) {
         const user = await ctx.db.user.findFirst({
@@ -126,13 +109,20 @@ export const Login = extendType({
           },
         });
 
-        if (!user) {
-          throw new Error('User not found');
+        if (user) {
+          const token = jwt.sign(user.id, process.env.JWT_SECRET!);
+          return {
+            token,
+          };
         }
+
+        const newUser = await ctx.db.user.create({
+          data: { ...args },
+        });
+
+        const token = jwt.sign(newUser.id, process.env.JWT_SECRET!);
         return {
-          userId: user.id,
-          token: 'some token',
-          expiresIn: '1 year',
+          token,
         };
       },
     });
