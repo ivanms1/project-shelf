@@ -13,7 +13,7 @@ RUN yarn
 RUN npx prisma generate
 
 # Bundle app source
-COPY . /app
+COPY apps/api/ /app
 RUN yarn build
 
 FROM node:16.3.0-alpine
