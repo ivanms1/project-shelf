@@ -5,9 +5,8 @@ RUN mkdir -p /app
 WORKDIR /app
 
 # Install app dependencies
-RUN cd apps/api
-COPY package.json /app
-COPY src/prisma/schema.prisma /app/src/prisma/schema.prisma
+COPY apps/api/package.json /app
+COPY apps/api/src/prisma/schema.prisma /app/src/prisma/schema.prisma
 RUN npm install -g ts-node
 RUN npm install -g typescript
 RUN yarn
@@ -21,11 +20,9 @@ FROM node:16.3.0-alpine
 
 WORKDIR /app
 
-RUN cd apps/api
-
-COPY package.json /app
+COPY apps/api/package.json /app
 RUN yarn --production
-COPY src/prisma /app/src/prisma
+COPY apps/api/src/prisma /app/src/prisma
 RUN npx prisma generate
 
 COPY --from=0 /app/dist /app/dist
