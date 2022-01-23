@@ -4,7 +4,7 @@ import db from './db';
 
 import { schema } from './schema';
 
-const PORT = 3333;
+const PORT = 8080;
 
 const apollo = new ApolloServer({
   schema,
@@ -33,5 +33,7 @@ app.use(express.urlencoded({ limit: '50mb', extended: true }));
 app.use(express.json({ type: 'application/json', limit: '50mb' }));
 
 app.listen(PORT, () => {
-  console.log(`🚀 GraphQL service ready at http://localhost:${PORT}/graphql`);
+  console.log(
+    `🚀 GraphQL service ready at ${process.env.SERVER_URL}:${PORT}/graphql`
+  );
 });

@@ -6,7 +6,7 @@
     "test": "jest --detectOpenHandles",
     "dev": "nodemon --exec \"node -r esbuild-register ./src/main.ts\" -e .ts",
     "dev:backend": "ts-node-dev --transpile-only --no-notify ./src/main.ts",
-    "start": "node -r esbuild-register ./src/index.ts",
+    "start": "node ./dist/main.js",
     "build": "tsc",
     "lint": "tsc --noEmit && TIMING=1 eslint src --fix",
     "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist"
@@ -16,6 +16,7 @@
     "@types/cors": "^2.8.10",
     "@types/express": "^4.17.12",
     "@types/jest": "^26.0.22",
+    "@types/jsonwebtoken": "^8.5.8",
     "@types/morgan": "^1.9.2",
     "@types/node": "^15.12.2",
     "@types/supertest": "^2.0.11",

@@ -339,6 +339,7 @@ export const CreateProject = extendType({
         return ctx.db.project.create({
           data: {
             ...rest,
+
             tags: {
               set: tags,
             },
@@ -379,6 +380,7 @@ export const UpdateProject = extendType({
           data: {
             ...rest,
             isApproved: false,
+
             tags: {
               set: tags,
             },

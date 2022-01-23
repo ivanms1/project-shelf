@@ -3,13 +3,23 @@
     "target": "ES2018",
     "module": "commonjs",
     "lib": ["esnext"],
-    "strict": true,
     "outDir": "./dist",
     "rootDir": "./src",
+    "sourceMap": true,
+    "composite": false,
+    "declaration": true,
+    "declarationMap": true,
     "esModuleInterop": true,
-    "sourceMap": true
+    "forceConsistentCasingInFileNames": true,
+    "inlineSources": false,
+    "isolatedModules": true,
+    "moduleResolution": "node",
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "preserveWatchOutput": true,
+    "skipLibCheck": true,
+    "strict": true
   },
   "exclude": ["node_modules"],
-  "extends": "tsconfig/base.json",
   "include": ["src"]
 }
