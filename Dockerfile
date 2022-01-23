@@ -28,4 +28,5 @@ RUN npx prisma generate
 COPY --from=0 /app/dist /app/dist
 
 EXPOSE 8080
+CMD [ "npx", "prisma", "dev" ]
 CMD [ "yarn", "start" ]
