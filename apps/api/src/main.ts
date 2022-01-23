@@ -4,7 +4,7 @@ import db from './db';
 
 import { schema } from './schema';
 
-const PORT = 8080;
+const PORT = process.env.PORT || 8080;
 
 const apollo = new ApolloServer({
   schema,
