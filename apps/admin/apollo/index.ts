@@ -12,8 +12,6 @@ import { setContext } from '@apollo/client/link/context';
 
 let apolloClient: ApolloClient<NormalizedCacheObject> | null;
 
-const URI = 'http://localhost:8080/graphql';
-
 const authLink = setContext(async (_, { headers }) => {
   const token = await getAuthToken();
   return {
@@ -53,7 +51,7 @@ function createApolloClient() {
     connectToDevTools: true,
     link: authLink.concat(
       createHttpLink({
-        uri: URI,
+        uri: process.env.NEXT_PUBLIC_SERVER_URL,
       })
     ),
     cache: new InMemoryCache({
