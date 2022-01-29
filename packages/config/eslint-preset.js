@@ -1,11 +1,17 @@
 module.exports = {
-  extends: ["next", "prettier"],
+  extends: ['next', 'prettier'],
+  plugins: ['@typescript-eslint'],
   settings: {
     next: {
-      rootDir: ["apps/*/", "packages/*/"],
+      rootDir: ['apps/*/', 'packages/*/'],
+      react: {
+        version: 'detect',
+      },
+      'import/ignore': ['node_modules'],
     },
   },
   rules: {
-    "@next/next/no-html-link-for-pages": "off",
+    '@next/next/no-html-link-for-pages': 'off',
+    '@typescript-eslint/no-unused-vars': ['error'],
   },
 };
