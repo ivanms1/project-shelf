@@ -24,6 +24,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       props: {
         initialApolloCache: client.cache.extract(),
       },
+      revalidate: 60,
     };
   } catch (error) {
     console.log('error', error.message);
