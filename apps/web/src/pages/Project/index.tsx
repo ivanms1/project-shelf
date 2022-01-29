@@ -1,8 +1,8 @@
 import React from 'react';
 import Image from 'next/image';
+import { NextSeo } from 'next-seo';
 import { useGetProjectQuery } from 'apollo-hooks';
 import { useRouter } from 'next/router';
-import Head from 'next/head';
 
 function Project() {
   const { query } = useRouter();
@@ -18,13 +18,6 @@ function Project() {
 
   return (
     <>
-      <Head>
-        <meta name='viewport' content='width=device-width, initial-scale=1' />
-        <meta charSet='utf-8' />
-        <title>{project?.title}</title>
-        <meta name='description' content={project?.description}></meta>
-        <meta property='og:image' content={project?.preview} key='ogimage' />
-      </Head>
       <div>
         <h1>{project?.title}</h1>
         <p>{project?.description}</p>
@@ -35,6 +28,24 @@ function Project() {
           height={150}
         />
       </div>
+      <NextSeo
+        title={project?.title}
+        description={project?.description}
+        openGraph={{
+          url: `https://project-shelf-dev.netlify.app/project/${project?.id}`,
+          title: project?.title,
+          description: project?.description,
+          images: [
+            {
+              url: project?.preview,
+              width: 800,
+              height: 600,
+              alt: project?.title,
+              type: 'image/jpeg',
+            },
+          ],
+        }}
+      />
     </>
   );
 }
