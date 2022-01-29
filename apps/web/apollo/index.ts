@@ -17,7 +17,7 @@ const authLink = setContext(async (_, { headers }) => {
   return {
     headers: {
       ...headers,
-      Authorization: token ?? headers.Authorization,
+      Authorization: token ?? headers?.Authorization,
     },
   };
 });
