@@ -39,7 +39,9 @@ export async function getStaticPaths() {
     query: QUERY_GET_APPROVED_PROJECTS,
   });
 
-  const paths = data?.data?.getApprovedProjects?.results?.map((p) => p.id);
+  const paths = data?.data?.getApprovedProjects?.results?.map((p) => ({
+    params: { id: p.id },
+  }));
 
   return { paths, fallback: 'blocking' };
 }
