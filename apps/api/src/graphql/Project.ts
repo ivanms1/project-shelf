@@ -117,7 +117,6 @@ export const GetProject = extendType({
         return ctx.db.project.findUnique({
           where: { id: args.id },
           include: {
-            likes: true,
             author: true,
           },
         });

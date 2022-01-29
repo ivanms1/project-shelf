@@ -2,8 +2,7 @@ overwrite: true
 schema: '../../apps/api/src/prisma/schema.graphql'
 generates:
   generated/index.tsx:
-    documents:
-      ['../../apps/web/src/**/*.graphql', '../../apps/adming/src/**/*.graphql']
+    documents: ['../../apps/web/**/*.graphql', '../../apps/admin/**/*.graphql']
     plugins:
       - 'typescript'
       - 'typescript-operations'

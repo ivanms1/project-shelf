@@ -1,0 +1,19 @@
+query GetProject($id: ID!) {
+  project: getProject(id: $id) {
+    id
+    title
+    preview
+    repoLink
+    siteLink
+    description
+    isApproved
+    likesCount
+    createdAt
+    tags
+    author {
+      id
+      name
+    }
+    isLiked
+  }
+}

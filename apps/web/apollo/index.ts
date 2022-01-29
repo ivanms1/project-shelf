@@ -13,10 +13,11 @@ let apolloClient: ApolloClient<NormalizedCacheObject> | null;
 
 const authLink = setContext(async (_, { headers }) => {
   const token = await getAuthToken();
+
   return {
     headers: {
       ...headers,
-      Authorization: token,
+      Authorization: token ?? headers.Authorization,
     },
   };
 });
