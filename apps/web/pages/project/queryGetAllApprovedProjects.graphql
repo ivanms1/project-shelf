@@ -1,0 +1,10 @@
+query GetApprovedProjects {
+  getApprovedProjects {
+    results {
+      id
+      title
+      preview
+      description
+    }
+  }
+}

@@ -1,24 +1,22 @@
 import Project from '@/pages/Project';
 import { initializeApollo } from 'apollo';
-import { GetProjectQuery } from 'apollo-hooks';
-import { getSession } from 'next-auth/react';
+import { GetApprovedProjectsQuery, GetProjectQuery } from 'apollo-hooks';
 
-import type { GetServerSideProps } from 'next/types';
+import type { GetStaticProps } from 'next/types';
 
 import QUERY_GET_PROJECT from './queryGetProject.graphql';
+import QUERY_GET_APPROVED_PROJECTS from './queryGetAllApprovedProjects.graphql';
 
 export default Project;
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getStaticProps: GetStaticProps = async ({ params }) => {
   try {
     const client = initializeApollo();
-    const { token } = await getSession({ req: context.req });
 
     await client.query<GetProjectQuery>({
       query: QUERY_GET_PROJECT,
-      context: { headers: { Authorization: token } },
       variables: {
-        id: context?.params?.id,
+        id: params?.id,
       },
     });
 
@@ -34,3 +32,14 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     };
   }
 };
+
+export async function getStaticPaths() {
+  const client = initializeApollo();
+  const data = await client.query<GetApprovedProjectsQuery>({
+    query: QUERY_GET_APPROVED_PROJECTS,
+  });
+
+  const paths = data?.data?.getApprovedProjects?.results?.map((p) => p.id);
+
+  return { paths, fallback: 'blocking' };
+}

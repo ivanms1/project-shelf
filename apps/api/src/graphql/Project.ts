@@ -32,23 +32,27 @@ export const ProjectType = objectType({
     t.boolean('isLiked', {
       description: 'If this project is liked by the current user',
       async resolve(_root, _, ctx) {
-        const currentUserId = decodeAccessToken(ctx.accessToken);
-        if (currentUserId) {
-          return false;
-        }
+        try {
+          const currentUserId = decodeAccessToken(ctx.accessToken);
+          if (currentUserId) {
+            return false;
+          }
 
-        const isUserLike = await ctx.db.project.findFirst({
-          where: {
-            id: _root.id,
-            likes: {
-              some: {
-                id: currentUserId,
+          const isUserLike = await ctx.db.project.findFirst({
+            where: {
+              id: _root.id,
+              likes: {
+                some: {
+                  id: currentUserId,
+                },
               },
             },
-          },
-        });
+          });
 
-        return !!isUserLike;
+          return !!isUserLike;
+        } catch (error) {
+          return false;
+        }
       },
     });
   },

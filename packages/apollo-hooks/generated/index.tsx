@@ -220,6 +220,11 @@ export type GetAllProjectsQueryVariables = Exact<{
 
 export type GetAllProjectsQuery = { __typename?: 'Query', projects: { __typename?: 'ProjectsResponse', nextCursor?: string | null | undefined, prevCursor?: string | null | undefined, totalCount?: number | null | undefined, results: Array<{ __typename?: 'Project', id: string, title: string, createdAt: any, isLiked?: boolean | null | undefined, likesCount: number, tags: Array<string>, preview: string, repoLink: string, siteLink: string, description: string, isApproved: boolean, author: { __typename?: 'User', id: string } }> } };
 
+export type GetApprovedProjectsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetApprovedProjectsQuery = { __typename?: 'Query', getApprovedProjects: { __typename?: 'ProjectsResponse', results: Array<{ __typename?: 'Project', id: string, title: string, preview: string, description: string }> } };
+
 export type GetProjectQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
@@ -306,6 +311,45 @@ export function useGetAllProjectsLazyQuery(baseOptions?: Apollo.LazyQueryHookOpt
 export type GetAllProjectsQueryHookResult = ReturnType<typeof useGetAllProjectsQuery>;
 export type GetAllProjectsLazyQueryHookResult = ReturnType<typeof useGetAllProjectsLazyQuery>;
 export type GetAllProjectsQueryResult = Apollo.QueryResult<GetAllProjectsQuery, GetAllProjectsQueryVariables>;
+export const GetApprovedProjectsDocument = gql`
+    query GetApprovedProjects {
+  getApprovedProjects {
+    results {
+      id
+      title
+      preview
+      description
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetApprovedProjectsQuery__
+ *
+ * To run a query within a React component, call `useGetApprovedProjectsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetApprovedProjectsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetApprovedProjectsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetApprovedProjectsQuery(baseOptions?: Apollo.QueryHookOptions<GetApprovedProjectsQuery, GetApprovedProjectsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetApprovedProjectsQuery, GetApprovedProjectsQueryVariables>(GetApprovedProjectsDocument, options);
+      }
+export function useGetApprovedProjectsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetApprovedProjectsQuery, GetApprovedProjectsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetApprovedProjectsQuery, GetApprovedProjectsQueryVariables>(GetApprovedProjectsDocument, options);
+        }
+export type GetApprovedProjectsQueryHookResult = ReturnType<typeof useGetApprovedProjectsQuery>;
+export type GetApprovedProjectsLazyQueryHookResult = ReturnType<typeof useGetApprovedProjectsLazyQuery>;
+export type GetApprovedProjectsQueryResult = Apollo.QueryResult<GetApprovedProjectsQuery, GetApprovedProjectsQueryVariables>;
 export const GetProjectDocument = gql`
     query GetProject($id: ID!) {
   project: getProject(id: $id) {
