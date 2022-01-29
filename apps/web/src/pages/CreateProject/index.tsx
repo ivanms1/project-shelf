@@ -1,7 +1,7 @@
 import React from 'react';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
 
 import {
   useCreateUserProjectMutation,
