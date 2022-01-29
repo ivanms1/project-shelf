@@ -13,13 +13,6 @@ function AuthProvider({ children }: AuthProvider) {
   const router = useRouter();
 
   useEffect(() => {
-    if (
-      status === 'unauthenticated' &&
-      !PUBLIC_ROUTES.includes(router.pathname)
-    ) {
-      router.replace('/login');
-    }
-
     if (status === 'authenticated' && PUBLIC_ROUTES.includes(router.pathname)) {
       router.replace('/');
     }
