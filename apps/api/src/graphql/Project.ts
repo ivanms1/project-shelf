@@ -338,11 +338,11 @@ export const CreateProject = extendType({
         return ctx.db.project.create({
           data: {
             ...rest,
-
             tags: {
               set: tags,
             },
             likesCount: 0,
+            isApproved: true,
             author: {
               connect: {
                 id: String(authorId),
