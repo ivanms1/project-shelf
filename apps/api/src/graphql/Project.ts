@@ -12,6 +12,7 @@ import {
 import { Project } from 'nexus-prisma';
 
 import decodeAccessToken from '../helpers/decodeAccessToken';
+import updateFieldHelper from '../helpers/updateFieldHelper';
 
 export const ProjectType = objectType({
   name: Project.$name,
@@ -76,7 +77,7 @@ export const CreateProjectInput = inputObjectType({
     t.nonNull.string('repoLink');
     t.nonNull.string('siteLink');
     t.nonNull.string('description');
-    t.nonNull.list.string('tags');
+    t.nonNull.list.nonNull.string('tags');
   },
 });
 
@@ -88,7 +89,7 @@ export const UpdateProjectInput = inputObjectType({
     t.string('repoLink');
     t.string('siteLink');
     t.string('description');
-    t.list.string('tags');
+    t.list.nonNull.string('tags');
   },
 });
 
@@ -117,13 +118,28 @@ export const GetProject = extendType({
       args: {
         id: nonNull(idArg()),
       },
-      resolve(_root, args, ctx) {
-        return ctx.db.project.findUnique({
-          where: { id: args.id },
-          include: {
-            author: true,
-          },
-        });
+      async resolve(_root, args, ctx) {
+        try {
+          const project = await ctx.db.project.findUnique({
+            where: { id: args.id },
+            include: {
+              author: true,
+            },
+          });
+
+          if (project?.isApproved) {
+            return project;
+          }
+
+          const currentUserId = decodeAccessToken(ctx.accessToken);
+
+          if (project?.authorId === currentUserId) {
+            return project;
+          }
+          throw Error('Not authorized');
+        } catch (error) {
+          throw Error('Sorry an error happened');
+        }
       },
     });
   },
@@ -371,27 +387,42 @@ export const UpdateProject = extendType({
         projectId: nonNull(idArg()),
         input: 'UpdateProjectInput',
       },
-      resolve(_root, { input, projectId }, ctx) {
-        if (!projectId || !input) {
+      async resolve(_root, { input, projectId }, ctx) {
+        const authorId = decodeAccessToken(ctx.accessToken);
+        if (!projectId || !input || !authorId) {
           throw Error('Args missing');
         }
 
-        const { tags, ...rest } = input;
-
-        return ctx.db.project.update({
-          where: { id: projectId },
-          data: {
-            ...rest,
-            isApproved: false,
-
-            tags: {
-              set: tags,
-            },
-          },
-          include: {
-            author: true,
+        const projectToUpdate = await ctx.db.project.findUnique({
+          where: {
+            id: projectId,
           },
         });
+
+        if (projectToUpdate?.authorId === authorId) {
+          const { tags, ...rest } = input;
+          return ctx.db.project.update({
+            where: { id: projectId },
+            data: {
+              title: updateFieldHelper(rest?.title),
+              preview: updateFieldHelper(rest.preview),
+              repoLink: updateFieldHelper(
+                rest.repoLink !== null ? rest.repoLink : undefined
+              ),
+              siteLink: updateFieldHelper(rest.siteLink),
+              description: updateFieldHelper(rest.description),
+              isApproved: false,
+              tags: {
+                set: tags || projectToUpdate.tags,
+              },
+            },
+            include: {
+              author: true,
+            },
+          });
+        }
+
+        throw Error('Not authorized');
       },
     });
   },
@@ -437,7 +468,7 @@ export const DeleteManyProjects = extendType({
     t.field('deleteManyProjects', {
       type: 'JSONObject',
       args: {
-        ids: nonNull(list(idArg())),
+        ids: nonNull(list(nonNull(idArg()))),
       },
       async resolve(_root, { ids }, ctx) {
         const { count } = await ctx.db.project.deleteMany({
