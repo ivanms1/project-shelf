@@ -14,6 +14,7 @@ export const UploadImage = extendType({
       },
       async resolve(_root, { path }) {
         return new Promise((resolve, reject) => {
+          // @ts-expect-error
           imageUploader.uploader.upload(path, (err, res) => {
             if (err) {
               reject(err);
