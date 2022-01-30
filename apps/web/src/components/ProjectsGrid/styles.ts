@@ -1,4 +1,4 @@
-import { styled } from '@stitches/react';
+import { styled } from 'stitches/stitches.config';
 
 export const StyledProjectsGrid = styled('div', {
   display: 'grid',

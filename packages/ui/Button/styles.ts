@@ -1,4 +1,4 @@
-import { styled } from '@stitches/react';
+import { styled } from '../stitches.config';
 
 export const StyledButton = styled('button', {
   padding: '10px 16px',
@@ -8,11 +8,11 @@ export const StyledButton = styled('button', {
   variants: {
     variant: {
       primary: {
-        backgroundColor: '#ea4c89',
-        color: '#fff',
-        '&:hover': { backgroundColor: '#f082ac' },
+        backgroundColor: '$primary',
+        color: 'white',
+        '&:hover': { backgroundColor: '$primaryLight' },
       },
-      secondary: { backgroundColor: '#F3F3F4' },
+      secondary: { backgroundColor: '$secondary' },
       ghost: { backgroundColor: 'transparent', padding: 0, borderRadius: 0 },
     },
   },

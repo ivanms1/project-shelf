@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { styled } from '@stitches/react';
+import { styled } from 'stitches/stitches.config';
 
 import HeartIcon from '@/assets/icons/heart.svg';
 
@@ -10,6 +10,33 @@ export const StyledProjectCard = styled('div', {
 export const StyledPreview = styled(Image, {
   objectFit: 'cover',
   borderRadius: 5,
+  transition: '0.2s all',
+});
+
+export const ImageContainer = styled('a', {
+  width: 330,
+  height: 247,
+  position: 'relative',
+
+  '& > p': {
+    opacity: 0,
+    position: 'absolute',
+    color: '#fff',
+  },
+
+  '&:hover': {
+    [`& ${StyledPreview}`]: {
+      filter: 'brightness(70%)',
+    },
+
+    '& > p': {
+      padding: 20,
+      bottom: 0,
+      opacity: 1,
+      position: 'absolute',
+      color: '#fff',
+    },
+  },
 });
 
 export const InfoBox = styled('div', {
@@ -35,13 +62,13 @@ export const StyledHeart = styled(HeartIcon, {
     isliked: {
       true: {
         '& > path': {
-          fill: '#ea4c89',
+          fill: '$pink',
         },
       },
       false: {
-        '&:hover > path': { fill: '#ea4c89' },
+        '&:hover > path': { fill: '$pink' },
         '& > path': {
-          fill: '#9e9ea7',
+          fill: '$gray',
         },
       },
     },

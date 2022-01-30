@@ -11,6 +11,9 @@
     "build:web": "turbo run build --scope=web",
     "build:hooks": "turbo run build --scope=apollo-hooks",
     "dev": "turbo run dev --parallel",
+    "dev:web": "turbo run dev --scope=web",
+    "dev:api": "turbo run dev --scope=api",
+    "dev:ui": "turbo run dev --scope=ui",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },

@@ -3,6 +3,7 @@ import React from 'react';
 import type { GetAllProjectsQuery } from 'apollo-hooks';
 
 import {
+  ImageContainer,
   InfoBox,
   LikesContainer,
   StyledAvatar,
@@ -20,15 +21,16 @@ interface ProjectCardProps {
 const ProjectCard = ({ project }: ProjectCardProps) => {
   return (
     <StyledProjectCard>
-      <Link href={`/project/${project.id}`}>
-        <a>
+      <Link href={`/project/${project.id}`} passHref>
+        <ImageContainer>
           <StyledPreview
             alt={project?.title}
             src={project.preview}
             width={330}
             height={247}
           />
-        </a>
+          <p>{project.title}</p>
+        </ImageContainer>
       </Link>
       <InfoBox>
         {project?.author?.avatar && (
