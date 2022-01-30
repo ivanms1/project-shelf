@@ -1,0 +1,15 @@
+# Dependency directories
+node_modules/
+
+# TypeScript cache
+*.tsbuildinfo
+
+# Optional eslint cache
+.eslintcache
+
+
+# dotenv environment variables file
+.env
+
+#ignore all handlebars files
+*.hbs
