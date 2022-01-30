@@ -6,7 +6,6 @@ interface DropzoneProps extends DropzoneOptions {
   currentFile?: any;
   label?: string;
   withPreview?: boolean;
-  rejectMessage?: string;
 }
 
 function Dropzone({

@@ -5,7 +5,8 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@/assets/*": ["src/assets/*"],
+      "@/components/*": ["src/components/*"],
+      "@/assets/*": ["public/assets/*"],
       "@/helpers/*": ["helpers/*"],
       "@/hooks/*": ["src/hooks/*"],
       "@/pages/*": ["src/pages/*"],

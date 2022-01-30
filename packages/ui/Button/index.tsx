@@ -1,15 +1,21 @@
 import * as React from 'react';
 
-interface Button
-  extends React.DetailedHTMLProps<
-    React.ButtonHTMLAttributes<HTMLButtonElement>,
-    HTMLButtonElement
-  > {
-  variant?: 'primary' | 'secondary' | 'ghost' | 'grey';
+import { StyledButton } from './styles';
+
+interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  variant?: 'primary' | 'secondary' | 'ghost';
 }
 
-export function Button({ children, variant, ...props }: Button) {
-  return <button {...props}>{children}</button>;
-}
+export const Button = ({
+  children,
+  variant = 'primary',
+  ...props
+}: ButtonProps) => {
+  return (
+    <StyledButton variant={variant} {...props}>
+      {children}
+    </StyledButton>
+  );
+};
 
 export default Button;

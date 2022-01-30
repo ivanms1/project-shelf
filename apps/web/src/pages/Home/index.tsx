@@ -1,28 +1,49 @@
 import React from 'react';
 import { useGetAllProjectsQuery } from 'apollo-hooks';
-import Head from 'next/head';
+import { Button } from 'ui';
+import Image from 'next/image';
+
+import ProjectsGrid from '@/components/ProjectsGrid';
+
+import useIsLoggedIn from 'hooks/useIsLoggedIn';
+
+import {
+  GridContainer,
+  StyledContentBox,
+  StyledHome,
+  StyledSignInBox,
+} from './styles';
 
 function Home() {
   const { data } = useGetAllProjectsQuery();
 
+  const isLoggedIn = useIsLoggedIn();
+
   return (
-    <>
-      <Head>
-        <meta name='viewport' content='width=device-width, initial-scale=1' />
-        <meta charSet='utf-8' />
-        <title>Project Shelf</title>
-      </Head>
-      <div>
-        <h2>Projects</h2>
-        <div>
-          {data?.projects.results?.map((project) => (
-            <div key={project.id}>
-              <p>{project.title}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </>
+    <StyledHome>
+      {!isLoggedIn && (
+        <StyledSignInBox>
+          <StyledContentBox>
+            <h1>Discover the coolest projects</h1>
+            <p>
+              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quod
+              esse corporis architecto sequi cupiditate aperiam doloremque
+              mollitia natus eveniet. Hic.
+            </p>
+            <Button>Sign up</Button>
+          </StyledContentBox>
+          <Image
+            src={'/assets/images/shelf.png'}
+            alt='project shelf logo'
+            height={400}
+            width={400}
+          />
+        </StyledSignInBox>
+      )}
+      <GridContainer>
+        <ProjectsGrid projects={data?.projects?.results ?? []} />
+      </GridContainer>
+    </StyledHome>
   );
 }
 

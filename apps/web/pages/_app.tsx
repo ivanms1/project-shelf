@@ -3,6 +3,7 @@ import { AppProps } from 'next/app';
 import { SessionProvider } from 'next-auth/react';
 
 import AuthProvider from 'src/components/AuthProvider';
+import Layout from 'src/components/Layout/Layout';
 
 import useApollo from '../hooks/useApollo';
 
@@ -17,7 +18,9 @@ function CustomApp({
     <SessionProvider session={session}>
       <ApolloProvider client={client}>
         <AuthProvider>
-          <Component {...pageProps} />
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
         </AuthProvider>
       </ApolloProvider>
     </SessionProvider>
