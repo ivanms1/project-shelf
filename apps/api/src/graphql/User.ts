@@ -104,28 +104,32 @@ export const SignUp = extendType({
         avatar: nonNull(stringArg()),
       },
       async resolve(_root, args, ctx) {
-        console.log('args', args);
-        const user = await ctx.db.user.findFirst({
-          where: {
-            email: args.email,
-          },
-        });
+        try {
+          const user = await ctx.db.user.findFirst({
+            where: {
+              email: args.email,
+            },
+          });
 
-        if (user) {
-          const token = jwt.sign(user.id, process.env.JWT_SECRET!);
+          if (user) {
+            const token = jwt.sign(user.id, process.env.JWT_SECRET!);
+            return {
+              token,
+            };
+          }
+
+          const newUser = await ctx.db.user.create({
+            data: { ...args },
+          });
+
+          const token = jwt.sign(newUser.id, process.env.JWT_SECRET!);
           return {
             token,
           };
+        } catch (error) {
+          console.log('error', error);
+          throw Error('an error happened');
         }
-
-        const newUser = await ctx.db.user.create({
-          data: { ...args },
-        });
-
-        const token = jwt.sign(newUser.id, process.env.JWT_SECRET!);
-        return {
-          token,
-        };
       },
     });
   },
