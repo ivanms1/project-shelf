@@ -32,11 +32,7 @@ function Project() {
 
   return (
     <>
-      <CloseButton
-        onClick={() => push('/')}
-        className={modalStyles()}
-        variant='ghost'
-      >
+      <CloseButton onClick={() => push('/')} variant='ghost'>
         <StyledCloseIcon />
       </CloseButton>
       <Modal isOpen onClose={() => push('/')} className={modalStyles()}>
