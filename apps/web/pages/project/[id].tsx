@@ -1,5 +1,5 @@
 import Project from '@/pages/Project';
-import { initializeApollo } from 'apollo';
+import { addApolloState, initializeApollo } from 'apollo';
 import { GetApprovedProjectsQuery, GetProjectQuery } from 'apollo-hooks';
 
 import type { GetStaticProps } from 'next/types';
@@ -20,12 +20,10 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       },
     });
 
-    return {
-      props: {
-        initialApolloCache: client.cache.extract(),
-      },
+    return addApolloState(client, {
+      props: {},
       revalidate: 60,
-    };
+    });
   } catch (error) {
     console.log('error', error.message);
     return {

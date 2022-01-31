@@ -1,9 +1,10 @@
 import { useMemo } from 'react';
-import { ApolloClient, NormalizedCacheObject } from '@apollo/client';
-import { initializeApollo } from '../apollo';
 
-function useApollo(initialCache: ApolloClient<NormalizedCacheObject>) {
-  const client = useMemo(() => initializeApollo(initialCache), [initialCache]);
+import { APOLLO_STATE_PROP_NAME, initializeApollo } from '../apollo';
+
+function useApollo(pageProps: any) {
+  const state = pageProps[APOLLO_STATE_PROP_NAME];
+  const client = useMemo(() => initializeApollo(state), [state]);
 
   return client;
 }

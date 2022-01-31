@@ -67,6 +67,7 @@ function Project() {
           url: `https://project-shelf-dev.netlify.app/project/${project?.id}`,
           title: project?.title,
           description: project?.description,
+          site_name: 'Project Shelf',
           images: [
             {
               url: project?.preview,
