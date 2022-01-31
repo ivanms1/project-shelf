@@ -64,7 +64,6 @@ function Project() {
         title={project?.title}
         description={project?.description}
         openGraph={{
-          url: `https://project-shelf-dev.netlify.app/project/${project?.id}`,
           type: 'website',
           title: project?.title,
           description: project?.description,
