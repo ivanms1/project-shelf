@@ -1,4 +1,4 @@
-import { styled, css } from '@stitches/react';
+import { css, styled } from '@/stitches/stitches.config';
 
 export const StyledHome = styled('div', {});
 

@@ -3,9 +3,22 @@ import Image from 'next/image';
 import { NextSeo } from 'next-seo';
 import { useGetProjectQuery } from 'apollo-hooks';
 import { useRouter } from 'next/router';
+import { Button, Modal } from 'ui';
+
+import {
+  CloseButton,
+  Description,
+  Header,
+  ImageContainer,
+  imageStyles,
+  InfoBox,
+  InfoText,
+  modalStyles,
+  StyledCloseIcon,
+} from './styles';
 
 function Project() {
-  const { query } = useRouter();
+  const { query, push } = useRouter();
 
   const { data = {} } = useGetProjectQuery({
     variables: {
@@ -18,16 +31,30 @@ function Project() {
 
   return (
     <>
-      <div>
-        <h1>{project?.title}</h1>
-        <p>{project?.description}</p>
-        <Image
-          alt={project?.title}
-          src={project?.preview}
-          width={200}
-          height={150}
-        />
-      </div>
+      <CloseButton variant='ghost'>
+        <StyledCloseIcon />
+      </CloseButton>
+      <Modal isOpen onClose={() => push('/')} className={modalStyles()}>
+        <Header>
+          <InfoBox>
+            <p>avatar</p>
+            <InfoText>
+              <h1>{project?.title}</h1>
+              <p>{project?.author?.name}</p>
+            </InfoText>
+          </InfoBox>
+          <Button variant='secondary'>Like</Button>
+        </Header>
+        <ImageContainer>
+          <Image
+            alt={project?.title}
+            src={project?.preview}
+            layout='fill'
+            className={imageStyles()}
+          />
+        </ImageContainer>
+        <Description>{project.description}</Description>
+      </Modal>
       <NextSeo
         title={project?.title}
         description={project?.description}

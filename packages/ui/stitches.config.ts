@@ -16,6 +16,9 @@ export const {
       primaryLight: '#f082ac',
       secondary: '#F3F3F4',
     },
+    zIndices: {
+      modalOverlayIndex: 99999,
+    },
   },
   utils: {
     marginHorizontal: (value: string | number) => ({

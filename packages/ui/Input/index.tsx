@@ -6,7 +6,7 @@ interface Input extends InputHTMLAttributes<HTMLInputElement> {
   label?: string;
 }
 
-function Input({ name, id, type = 'text', label, ...props }: Input) {
+export function Input({ name, id, type = 'text', label, ...props }: Input) {
   return (
     <div>
       {!!label && <label htmlFor={id || name}>{label}</label>}
