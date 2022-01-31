@@ -7,7 +7,7 @@ input CreateProjectInput {
   preview: String!
   repoLink: String!
   siteLink: String!
-  tags: [String]!
+  tags: [String!]!
   title: String!
 }
 
@@ -23,10 +23,10 @@ scalar JSONObject @specifiedBy(url: "http://www.ecma-international.org/publicati
 
 type Mutation {
   createProject(input: CreateProjectInput): Project
-  deleteManyProjects(ids: [ID]!): JSONObject
+  deleteManyProjects(ids: [ID!]!): JSONObject
   deleteProject(id: ID!): String
   reactToProject(input: ReactToProjectInput): Project
-  signup(email: String!, name: String!): JSONObject!
+  signup(avatar: String!, email: String!, name: String!): JSONObject!
   updateProject(input: UpdateProjectInput, projectId: ID!): Project
   updateProjectStatus(isApproved: Boolean!, projectId: String!): Project
   updateUser(input: UpdateUsertInput, userId: String!): User!
@@ -95,7 +95,7 @@ input UpdateProjectInput {
   preview: String
   repoLink: String
   siteLink: String
-  tags: [String]
+  tags: [String!]
   title: String
 }
 

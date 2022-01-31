@@ -1,8 +1,11 @@
 import React from 'react';
+import { Button } from 'ui';
+import Link from 'next/link';
 
 import type { GetAllProjectsQuery } from 'apollo-hooks';
 
 import {
+  AuthorBox,
   ImageContainer,
   InfoBox,
   LikesContainer,
@@ -11,8 +14,6 @@ import {
   StyledPreview,
   StyledProjectCard,
 } from './styles';
-import { Button } from 'ui';
-import Link from 'next/link';
 
 interface ProjectCardProps {
   project: GetAllProjectsQuery['projects']['results'][0];
@@ -33,15 +34,17 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
         </ImageContainer>
       </Link>
       <InfoBox>
-        {project?.author?.avatar && (
-          <StyledAvatar
-            alt={project?.author.name}
-            src={project?.author?.avatar}
-            width={10}
-            height={10}
-          />
-        )}
-        <p>{project?.author?.name}</p>
+        <AuthorBox>
+          {project?.author?.avatar && (
+            <StyledAvatar
+              alt={project?.author.name}
+              src={project?.author?.avatar}
+              width={25}
+              height={25}
+            />
+          )}
+          <span>{project?.author?.name}</span>
+        </AuthorBox>
         <LikesContainer>
           <Button variant='ghost'>
             <StyledHeart isliked={project?.isLiked} />

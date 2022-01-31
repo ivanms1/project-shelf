@@ -24,7 +24,7 @@ export type CreateProjectInput = {
   preview: Scalars['String'];
   repoLink: Scalars['String'];
   siteLink: Scalars['String'];
-  tags: Array<InputMaybe<Scalars['String']>>;
+  tags: Array<Scalars['String']>;
   title: Scalars['String'];
 };
 
@@ -33,7 +33,6 @@ export type Mutation = {
   createProject?: Maybe<Project>;
   deleteManyProjects?: Maybe<Scalars['JSONObject']>;
   deleteProject?: Maybe<Scalars['String']>;
-  login: Scalars['JSONObject'];
   reactToProject?: Maybe<Project>;
   signup: Scalars['JSONObject'];
   updateProject?: Maybe<Project>;
@@ -49,18 +48,12 @@ export type MutationCreateProjectArgs = {
 
 
 export type MutationDeleteManyProjectsArgs = {
-  ids: Array<InputMaybe<Scalars['ID']>>;
+  ids: Array<Scalars['ID']>;
 };
 
 
 export type MutationDeleteProjectArgs = {
   id: Scalars['ID'];
-};
-
-
-export type MutationLoginArgs = {
-  email: Scalars['String'];
-  password: Scalars['String'];
 };
 
 
@@ -70,9 +63,9 @@ export type MutationReactToProjectArgs = {
 
 
 export type MutationSignupArgs = {
+  avatar: Scalars['String'];
   email: Scalars['String'];
   name: Scalars['String'];
-  password: Scalars['String'];
 };
 
 
@@ -185,7 +178,7 @@ export type UpdateProjectInput = {
   preview?: InputMaybe<Scalars['String']>;
   repoLink?: InputMaybe<Scalars['String']>;
   siteLink?: InputMaybe<Scalars['String']>;
-  tags?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  tags?: InputMaybe<Array<Scalars['String']>>;
   title?: InputMaybe<Scalars['String']>;
 };
 
@@ -220,6 +213,15 @@ export type GetAllProjectsQueryVariables = Exact<{
 
 export type GetAllProjectsQuery = { __typename?: 'Query', projects: { __typename?: 'ProjectsResponse', nextCursor?: string | null | undefined, prevCursor?: string | null | undefined, totalCount?: number | null | undefined, results: Array<{ __typename?: 'Project', id: string, title: string, createdAt: any, isLiked?: boolean | null | undefined, likesCount: number, tags: Array<string>, preview: string, repoLink: string, siteLink: string, description: string, isApproved: boolean, author: { __typename?: 'User', id: string, avatar?: string | null | undefined, name: string } }> } };
 
+export type SignupMutationVariables = Exact<{
+  email: Scalars['String'];
+  name: Scalars['String'];
+  avatar: Scalars['String'];
+}>;
+
+
+export type SignupMutation = { __typename?: 'Mutation', signup: any };
+
 export type GetApprovedProjectsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -230,7 +232,7 @@ export type GetProjectQueryVariables = Exact<{
 }>;
 
 
-export type GetProjectQuery = { __typename?: 'Query', project?: { __typename?: 'Project', id: string, title: string, preview: string, repoLink: string, siteLink: string, description: string, isApproved: boolean, likesCount: number, createdAt: any, tags: Array<string>, isLiked?: boolean | null | undefined, author: { __typename?: 'User', id: string, name: string } } | null | undefined };
+export type GetProjectQuery = { __typename?: 'Query', project?: { __typename?: 'Project', id: string, title: string, preview: string, repoLink: string, siteLink: string, description: string, isApproved: boolean, likesCount: number, createdAt: any, tags: Array<string>, isLiked?: boolean | null | undefined, author: { __typename?: 'User', id: string, name: string, avatar?: string | null | undefined } } | null | undefined };
 
 export type CreateUserProjectMutationVariables = Exact<{
   input?: InputMaybe<CreateProjectInput>;
@@ -313,6 +315,39 @@ export function useGetAllProjectsLazyQuery(baseOptions?: Apollo.LazyQueryHookOpt
 export type GetAllProjectsQueryHookResult = ReturnType<typeof useGetAllProjectsQuery>;
 export type GetAllProjectsLazyQueryHookResult = ReturnType<typeof useGetAllProjectsLazyQuery>;
 export type GetAllProjectsQueryResult = Apollo.QueryResult<GetAllProjectsQuery, GetAllProjectsQueryVariables>;
+export const SignupDocument = gql`
+    mutation Signup($email: String!, $name: String!, $avatar: String!) {
+  signup(email: $email, name: $name, avatar: $avatar)
+}
+    `;
+export type SignupMutationFn = Apollo.MutationFunction<SignupMutation, SignupMutationVariables>;
+
+/**
+ * __useSignupMutation__
+ *
+ * To run a mutation, you first call `useSignupMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useSignupMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [signupMutation, { data, loading, error }] = useSignupMutation({
+ *   variables: {
+ *      email: // value for 'email'
+ *      name: // value for 'name'
+ *      avatar: // value for 'avatar'
+ *   },
+ * });
+ */
+export function useSignupMutation(baseOptions?: Apollo.MutationHookOptions<SignupMutation, SignupMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<SignupMutation, SignupMutationVariables>(SignupDocument, options);
+      }
+export type SignupMutationHookResult = ReturnType<typeof useSignupMutation>;
+export type SignupMutationResult = Apollo.MutationResult<SignupMutation>;
+export type SignupMutationOptions = Apollo.BaseMutationOptions<SignupMutation, SignupMutationVariables>;
 export const GetApprovedProjectsDocument = gql`
     query GetApprovedProjects {
   getApprovedProjects {
@@ -368,6 +403,7 @@ export const GetProjectDocument = gql`
     author {
       id
       name
+      avatar
     }
     isLiked
   }

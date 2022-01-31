@@ -21,6 +21,7 @@ export const ImageContainer = styled('a', {
   '& > p': {
     opacity: 0,
     position: 'absolute',
+    bottom: 0,
     color: '#fff',
   },
 
@@ -45,8 +46,17 @@ export const InfoBox = styled('div', {
   justifyContent: 'space-between',
 });
 
+export const AuthorBox = styled('div', {
+  display: 'flex',
+  flexDirection: 'row',
+  gap: '0 10',
+
+  '& > span': {
+    marginLeft: 8,
+  },
+});
+
 export const StyledAvatar = styled(Image, {
-  objectFit: 'cover',
   borderRadius: '50%',
 });
 
@@ -58,6 +68,9 @@ export const LikesContainer = styled('div', {
 export const StyledHeart = styled(HeartIcon, {
   width: 15,
   marginRight: 5,
+  '& > path': {
+    transition: 'fill .4s ease',
+  },
   variants: {
     isliked: {
       true: {

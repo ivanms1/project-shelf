@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { Button } from 'ui';
 
 import { css, styled } from '@/stitches/stitches.config';
@@ -50,7 +51,12 @@ export const InfoBox = styled('div', {
   },
 });
 
+export const StyledAvatar = styled(Image, {
+  borderRadius: '50%',
+});
+
 export const InfoText = styled('div', {
+  marginLeft: 15,
   '& > h1': {
     fontWeight: 600,
     fontSize: 16,

@@ -14,6 +14,7 @@ import {
   InfoBox,
   InfoText,
   modalStyles,
+  StyledAvatar,
   StyledCloseIcon,
 } from './styles';
 
@@ -37,7 +38,7 @@ function Project() {
       <Modal isOpen onClose={() => push('/')} className={modalStyles()}>
         <Header>
           <InfoBox>
-            <p>avatar</p>
+            <StyledAvatar height={40} width={40} src={project?.author.avatar} />
             <InfoText>
               <h1>{project?.title}</h1>
               <p>{project?.author?.name}</p>

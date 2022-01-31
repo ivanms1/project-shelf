@@ -13,6 +13,7 @@ export const schema = makeSchema({
       'nexus-typegen',
       'index.d.ts'
     ),
+    schema: join(__dirname, '..', 'schema.graphql'),
   },
   contextType: {
     module: join(__dirname, './context'),

@@ -1,7 +1,9 @@
-import { gql } from '@apollo/client';
 import { initializeApollo } from 'apollo';
+import { SignupMutation } from 'apollo-hooks';
 import NextAuth from 'next-auth';
 import GithubProvider from 'next-auth/providers/github';
+
+import MUTATION_SIGNUP from './mutationSignup.graphql';
 
 export default NextAuth({
   session: { strategy: 'jwt' },
@@ -19,15 +21,12 @@ export default NextAuth({
     async signIn({ user, account }) {
       const apolloClient = initializeApollo();
 
-      const { data } = await apolloClient.mutate({
-        mutation: gql`
-          mutation Signup($email: String!, $name: String!) {
-            signup(email: $email, name: $name)
-          }
-        `,
+      const { data } = await apolloClient.mutate<SignupMutation>({
+        mutation: MUTATION_SIGNUP,
         variables: {
           email: user?.email,
           name: user?.name,
+          avatar: user?.image,
         },
       });
 

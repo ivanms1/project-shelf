@@ -101,8 +101,10 @@ export const SignUp = extendType({
       args: {
         email: nonNull(stringArg()),
         name: nonNull(stringArg()),
+        avatar: nonNull(stringArg()),
       },
       async resolve(_root, args, ctx) {
+        console.log('args', args);
         const user = await ctx.db.user.findFirst({
           where: {
             email: args.email,

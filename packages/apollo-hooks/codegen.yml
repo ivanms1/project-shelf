@@ -1,5 +1,5 @@
 overwrite: true
-schema: '../../apps/api/src/prisma/schema.graphql'
+schema: '../../apps/api/schema.graphql'
 generates:
   generated/index.tsx:
     documents: ['../../apps/web/**/*.graphql', '../../apps/admin/**/*.graphql']

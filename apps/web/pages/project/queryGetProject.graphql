@@ -13,6 +13,7 @@ query GetProject($id: ID!) {
     author {
       id
       name
+      avatar
     }
     isLiked
   }
