@@ -26,7 +26,7 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
         <ImageContainer>
           <StyledPreview
             alt={project?.title}
-            src={project.preview}
+            src={project?.preview}
             width={330}
             height={247}
           />

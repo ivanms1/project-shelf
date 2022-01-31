@@ -38,7 +38,11 @@ function Project() {
       <Modal isOpen onClose={() => push('/')} className={modalStyles()}>
         <Header>
           <InfoBox>
-            <StyledAvatar height={40} width={40} src={project?.author.avatar} />
+            <StyledAvatar
+              height={40}
+              width={40}
+              src={project?.author?.avatar}
+            />
             <InfoText>
               <h1>{project?.title}</h1>
               <p>{project?.author?.name}</p>
@@ -54,7 +58,7 @@ function Project() {
             className={imageStyles()}
           />
         </ImageContainer>
-        <Description>{project.description}</Description>
+        <Description>{project?.description}</Description>
       </Modal>
       <NextSeo
         title={project?.title}
