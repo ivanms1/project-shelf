@@ -2,7 +2,7 @@ import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
 
-const PUBLIC_ROUTES = ['/login'];
+const PRIVATE_ROUTES = ['/create-projects'];
 
 interface AuthProvider {
   children: React.ReactNode;
@@ -13,7 +13,10 @@ function AuthProvider({ children }: AuthProvider) {
   const router = useRouter();
 
   useEffect(() => {
-    if (status === 'authenticated' && PUBLIC_ROUTES.includes(router.pathname)) {
+    if (
+      status !== 'authenticated' &&
+      PRIVATE_ROUTES.includes(router.pathname)
+    ) {
       router.replace('/');
     }
   }, [status]);

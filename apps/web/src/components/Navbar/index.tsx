@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import React from 'react';
 import { Button } from 'ui';
+import { signIn } from 'next-auth/react';
 
 import useIsLoggedIn from 'hooks/useIsLoggedIn';
 
@@ -27,11 +28,7 @@ const Navbar = ({}: NavbarProps) => {
             </a>
           </Link>
         ) : (
-          <Link href='/login'>
-            <a>
-              <Button>Login</Button>
-            </a>
-          </Link>
+          <Button onClick={() => signIn()}>Login</Button>
         )}
       </RightSection>
     </StyledNavbar>
