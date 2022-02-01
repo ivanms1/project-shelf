@@ -4,6 +4,7 @@ import { NextSeo } from 'next-seo';
 import { useGetProjectQuery } from 'apollo-hooks';
 import { useRouter } from 'next/router';
 import { Button, Modal } from 'ui';
+import { buildImageUrl } from 'cloudinary-build-url';
 
 import {
   CloseButton,
@@ -53,7 +54,15 @@ function Project() {
         <ImageContainer>
           <Image
             alt={project?.title}
-            src={project?.preview}
+            src={buildImageUrl(project?.preview, {
+              transformations: {
+                resize: {
+                  type: 'scale',
+                  height: 558,
+                  width: 732,
+                },
+              },
+            })}
             layout='fill'
             className={imageStyles()}
           />
@@ -70,7 +79,15 @@ function Project() {
           site_name: 'Project Shelf',
           images: [
             {
-              url: project?.preview,
+              url: buildImageUrl(project?.preview, {
+                transformations: {
+                  resize: {
+                    type: 'scale',
+                    width: 800,
+                    height: 600,
+                  },
+                },
+              }),
               width: 800,
               height: 600,
               alt: project?.title,
