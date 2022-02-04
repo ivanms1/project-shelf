@@ -63,7 +63,7 @@ const DetailsFormModal = ({
         />
       </InputsContainer>
       <ButtonsContainer>
-        <Button variant='secondary' type='button'>
+        <Button variant='secondary' onClick={onClose} type='button'>
           Close
         </Button>
         <Button type='submit' onClick={handleSubmit(onSubmit)}>

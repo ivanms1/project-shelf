@@ -7,7 +7,7 @@ export const Container = styled('div', {});
 export const ButtonsContainer = styled('div', {
   display: 'flex',
   paddingHorizontal: 30,
-  paddingVertical: 25,
+  paddingTop: 25,
   justifyContent: 'space-between',
   top: 0,
   width: '100%',
