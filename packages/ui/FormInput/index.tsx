@@ -1,7 +1,8 @@
 import * as React from 'react';
-
 import { InputHTMLAttributes } from 'react';
 import { FieldError } from 'react-hook-form';
+
+import { Container, Label, StyledInput } from '../Input/styles';
 
 interface FormInput extends InputHTMLAttributes<HTMLInputElement> {
   register: any;
@@ -20,10 +21,10 @@ export function FormInput({
   ...props
 }: FormInput) {
   return (
-    <div>
-      {!!label && <label htmlFor={id || name}>{label}</label>}
-      <input id={id} name={name} type={type} {...register} {...props} />
-    </div>
+    <Container>
+      {!!label && <Label htmlFor={id || name}>{label}</Label>}
+      <StyledInput id={id} name={name} type={type} {...register} {...props} />
+    </Container>
   );
 }
 

@@ -2,15 +2,18 @@ import React from 'react';
 import Image from 'next/image';
 import { DropzoneOptions, useDropzone } from 'react-dropzone';
 
+import { Container } from './styles';
+
 interface DropzoneProps extends DropzoneOptions {
   currentFile?: any;
   label?: string;
   withPreview?: boolean;
+  children?: React.ReactNode;
 }
 
 function Dropzone({
   onDrop,
-  label = 'Drop your file ',
+  children,
   currentFile,
   withPreview,
   accept,
@@ -24,23 +27,22 @@ function Dropzone({
   });
 
   return (
-    <div {...getRootProps()}>
+    <Container {...getRootProps()}>
       <input {...getInputProps()} />
       {currentFile ? (
         withPreview ? (
           <Image
             src={URL.createObjectURL(currentFile)}
             alt={currentFile?.name}
-            height={300}
-            width={400}
+            layout='fill'
           />
         ) : (
           <span>{currentFile?.name}</span>
         )
       ) : (
-        <span>{label}</span>
+        children
       )}
-    </div>
+    </Container>
   );
 }
 

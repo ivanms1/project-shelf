@@ -17,7 +17,7 @@ export const {
       secondary: '#F3F3F4',
       pink: '#ea4c89',
       gray: '#9e9ea7',
-      modalOverlayBg: 'rgba(30,30,30,0.9)',
+      modalOverlayBg: 'rgba(30,30,30,0.7)',
     },
     zIndices: {
       modalOverlayIndex: 99999,
