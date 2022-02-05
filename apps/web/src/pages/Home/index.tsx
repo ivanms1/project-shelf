@@ -55,8 +55,8 @@ function Home() {
           images: [
             {
               url: 'https://project-shelf-dev.netlify.app/assets/images/shelf.png',
-              width: 800,
-              height: 600,
+              width: 200,
+              height: 200,
               alt: 'Project Shelf',
             },
           ],
