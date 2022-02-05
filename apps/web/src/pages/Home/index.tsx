@@ -18,7 +18,7 @@ import {
 function Home() {
   const { data } = useGetApprovedProjectsQuery();
 
-  const isLoggedIn = useIsLoggedIn();
+  const { isLoggedIn } = useIsLoggedIn();
 
   return (
     <StyledHome>
