@@ -1,10 +1,7 @@
 import { useGetCurrentUserQuery } from 'apollo-hooks';
-import { signOut } from 'next-auth/react';
 
 const useIsLoggedIn = () => {
-  const { data, loading } = useGetCurrentUserQuery({
-    onError: () => signOut(),
-  });
+  const { data, loading } = useGetCurrentUserQuery();
 
   return {
     isLoggedIn: !!data?.getCurrentUser?.id,

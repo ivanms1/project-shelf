@@ -10,7 +10,8 @@ import { RightSection, searchButtonStyles, StyledNavbar } from './styles';
 interface NavbarProps {}
 
 const Navbar = ({}: NavbarProps) => {
-  const isLoggedIn = useIsLoggedIn();
+  const { isLoggedIn } = useIsLoggedIn();
+
   return (
     <StyledNavbar>
       <Link href='/'>
