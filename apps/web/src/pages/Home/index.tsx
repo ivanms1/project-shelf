@@ -2,6 +2,7 @@ import React from 'react';
 import { useGetApprovedProjectsQuery } from 'apollo-hooks';
 import { Button } from 'ui';
 import Image from 'next/image';
+import { NextSeo } from 'next-seo';
 
 import ProjectsGrid from '@/components/ProjectsGrid';
 
@@ -43,6 +44,24 @@ function Home() {
       <GridContainer>
         <ProjectsGrid projects={data?.projects?.results ?? []} />
       </GridContainer>
+      <NextSeo
+        title='Welcome to Project Shelf'
+        description='Discover the coolest projects'
+        openGraph={{
+          type: 'website',
+          title: 'Welcome to Project Shelf',
+          description: 'Discover the coolest projects',
+          site_name: 'Project Shelf',
+          images: [
+            {
+              url: 'https://project-shelf-dev.netlify.app/assets/images/shelf.png',
+              width: 800,
+              height: 600,
+              alt: 'Project Shelf',
+            },
+          ],
+        }}
+      />
     </StyledHome>
   );
 }
