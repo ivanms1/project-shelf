@@ -1,0 +1,11 @@
+query GetCurrentUser {
+  getCurrentUser {
+    id
+    name
+    email
+    github
+    discord
+    avatar
+    role
+  }
+}

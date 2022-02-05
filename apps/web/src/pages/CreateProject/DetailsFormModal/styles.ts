@@ -1,4 +1,5 @@
 import { css, styled } from 'stitches/stitches.config';
+import { Button } from 'ui';
 
 export const modalStyles = css({
   padding: 50,
@@ -21,4 +22,10 @@ export const InputsContainer = styled('div', {
 export const ButtonsContainer = styled('div', {
   display: 'flex',
   justifyContent: 'space-between',
+});
+
+export const PublishButton = styled(Button, {
+  display: 'flex',
+  justifyContent: 'center',
+  minWidth: 100,
 });

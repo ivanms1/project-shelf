@@ -25,7 +25,6 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       revalidate: 60,
     });
   } catch (error) {
-    console.log('error', error.message);
     return {
       props: {},
     };
@@ -38,7 +37,7 @@ export async function getStaticPaths() {
     query: QUERY_GET_APPROVED_PROJECTS,
   });
 
-  const paths = data?.data?.getApprovedProjects?.results?.map((p) => ({
+  const paths = data?.data?.projects?.results?.map((p) => ({
     params: { id: p.id },
   }));
 

@@ -51,9 +51,9 @@ function CreateProject() {
 
   const router = useRouter();
 
-  const [createProject] = useCreateUserProjectMutation();
+  const [createProject, { loading }] = useCreateUserProjectMutation();
 
-  const [uploadImage] = useUploadImageMutation();
+  const [uploadImage, { loading: imageLoading }] = useUploadImageMutation();
 
   const onSubmit: SubmitHandler<FormTypes> = async (values) => {
     try {
@@ -136,6 +136,7 @@ function CreateProject() {
             isOpen={isDetailsModalOpen}
             onClose={() => setIsDetailsModalOpen(false)}
             onSubmit={onSubmit}
+            isLoading={loading || imageLoading}
           />
         </Form>
       </FormProvider>

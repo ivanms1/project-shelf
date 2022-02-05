@@ -1,10 +1,7 @@
-query GetApprovedProjects {
-  getApprovedProjects {
-    results {
-      id
-      title
-      preview
-      description
-    }
+#import "@/graphql/projectFragment.graphql"
+
+query GetApprovedProjects($cursor: String = null) {
+  projects: getApprovedProjects(cursor: $cursor) {
+    ...ProjectsResponseFragment
   }
 }

@@ -7,6 +7,7 @@ import {
   ButtonsContainer,
   InputsContainer,
   modalStyles,
+  PublishButton,
   Title,
 } from './styles';
 
@@ -26,12 +27,14 @@ interface DetailsFormModalProps {
   isOpen: boolean;
   onClose: () => void;
   onSubmit: SubmitHandler<FormTypes>;
+  isLoading: boolean;
 }
 
 const DetailsFormModal = ({
   isOpen,
   onClose,
   onSubmit,
+  isLoading,
 }: DetailsFormModalProps) => {
   const {
     register,
@@ -66,9 +69,14 @@ const DetailsFormModal = ({
         <Button variant='secondary' onClick={onClose} type='button'>
           Close
         </Button>
-        <Button type='submit' onClick={handleSubmit(onSubmit)}>
+        <PublishButton
+          type='submit'
+          isLoading={isLoading}
+          disabled={isLoading}
+          onClick={handleSubmit(onSubmit)}
+        >
           Publish
-        </Button>
+        </PublishButton>
       </ButtonsContainer>
     </Modal>
   );

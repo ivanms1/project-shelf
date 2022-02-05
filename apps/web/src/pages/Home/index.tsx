@@ -1,11 +1,11 @@
 import React from 'react';
-import { useGetAllProjectsQuery } from 'apollo-hooks';
+import { useGetApprovedProjectsQuery } from 'apollo-hooks';
 import { Button } from 'ui';
 import Image from 'next/image';
 
 import ProjectsGrid from '@/components/ProjectsGrid';
 
-import useIsLoggedIn from 'hooks/useIsLoggedIn';
+import useIsLoggedIn from '@/hooks/useIsLoggedIn';
 
 import {
   GridContainer,
@@ -15,7 +15,7 @@ import {
 } from './styles';
 
 function Home() {
-  const { data } = useGetAllProjectsQuery();
+  const { data } = useGetApprovedProjectsQuery();
 
   const isLoggedIn = useIsLoggedIn();
 

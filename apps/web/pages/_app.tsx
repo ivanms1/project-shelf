@@ -6,7 +6,7 @@ import { setConfig } from 'cloudinary-build-url';
 import AuthProvider from 'src/components/AuthProvider';
 import Layout from 'src/components/Layout/Layout';
 
-import useApollo from '../hooks/useApollo';
+import useApollo from '@/hooks/useApollo';
 
 import './styles.css';
 

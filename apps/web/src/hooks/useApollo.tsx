@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 
-import { APOLLO_STATE_PROP_NAME, initializeApollo } from '../apollo';
+import { APOLLO_STATE_PROP_NAME, initializeApollo } from '../../apollo';
 
 function useApollo(pageProps: any) {
   const state = pageProps[APOLLO_STATE_PROP_NAME];

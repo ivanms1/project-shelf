@@ -3,7 +3,7 @@ import React from 'react';
 import { Button } from 'ui';
 import { signIn } from 'next-auth/react';
 
-import useIsLoggedIn from 'hooks/useIsLoggedIn';
+import useIsLoggedIn from '@/hooks/useIsLoggedIn';
 
 import { RightSection, searchButtonStyles, StyledNavbar } from './styles';
 
