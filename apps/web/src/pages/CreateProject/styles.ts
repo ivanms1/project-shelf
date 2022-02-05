@@ -8,14 +8,24 @@ export const ButtonsContainer = styled('div', {
   display: 'flex',
   paddingHorizontal: 30,
   paddingTop: 25,
+  paddingBottom: 25,
   justifyContent: 'space-between',
   top: 0,
   width: '100%',
   position: 'sticky',
+
+  '@desktop': {
+    paddingBottom: 0,
+  },
 });
 
 export const Form = styled('form', {
-  paddingHorizontal: 410,
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  '@desktop': {
+    paddingHorizontal: 410,
+  },
 
   '& > h1': {
     fontSize: 32,
@@ -61,6 +71,9 @@ export const UploadContainer = styled('div', {
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
-  height: '100%',
-  padding: 60,
+
+  '@desktop': {
+    padding: 60,
+    height: '100%',
+  },
 });

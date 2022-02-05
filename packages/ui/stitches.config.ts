@@ -20,6 +20,9 @@ export const {
       modalOverlayIndex: 99999,
     },
   },
+  media: {
+    desktop: '(min-width: 769px)',
+  },
   utils: {
     marginHorizontal: (value: string | number) => ({
       marginLeft: value,

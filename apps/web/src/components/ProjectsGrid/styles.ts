@@ -4,4 +4,5 @@ export const StyledProjectsGrid = styled('div', {
   display: 'grid',
   gap: 50,
   gridTemplateColumns: 'repeat( auto-fit, minmax(330px, 1fr) )',
+  justifyItems: 'center',
 });

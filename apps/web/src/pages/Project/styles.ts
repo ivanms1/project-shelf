@@ -22,14 +22,18 @@ export const StyledCloseIcon = styled(CloseIcon, {
 });
 
 export const modalStyles = css({
-  height: 'calc(100vh - 30px)',
   marginTop: 30,
   maxHeight: 'none',
   width: '100vw',
   overflowY: 'auto',
-  borderRadius: '12px 12px 0 0',
-  paddingHorizontal: 360,
-  paddingVertical: 40,
+  borderRadius: 12,
+
+  '@desktop': {
+    height: 'calc(100vh - 30px)',
+    paddingHorizontal: 360,
+    paddingVertical: 40,
+    borderRadius: '12px 12px 0 0',
+  },
 });
 
 export const Header = styled('div', {
@@ -38,7 +42,10 @@ export const Header = styled('div', {
   justifyContent: 'space-between',
   alignItems: 'center',
   marginBottom: 40,
-  paddingHorizontal: 100,
+
+  '@desktop': {
+    paddingHorizontal: 100,
+  },
 });
 
 export const InfoBox = styled('div', {
@@ -70,10 +77,16 @@ export const InfoText = styled('div', {
 
 export const ImageContainer = styled('div', {
   position: 'relative',
-  width: '100%',
-  height: '85%',
+  width: 335,
+  height: 251,
   maxHeight: 730,
-  marginBottom: 60,
+  marginBottom: 40,
+
+  '@desktop': {
+    width: '100%',
+    height: '85%',
+    paddingHorizontal: 60,
+  },
 });
 
 export const imageStyles = css({
@@ -81,5 +94,7 @@ export const imageStyles = css({
 });
 
 export const Description = styled('p', {
-  paddingHorizontal: 60,
+  '@desktop': {
+    paddingHorizontal: 60,
+  },
 });

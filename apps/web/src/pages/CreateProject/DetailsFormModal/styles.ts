@@ -2,8 +2,11 @@ import { css, styled } from 'stitches/stitches.config';
 import { Button } from 'ui';
 
 export const modalStyles = css({
-  padding: 50,
-  minWidth: 600,
+  minWidth: '100%',
+  '@desktop': {
+    padding: 50,
+    minWidth: 600,
+  },
 })();
 
 export const Title = styled('h1', {
