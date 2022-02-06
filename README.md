@@ -29,29 +29,30 @@ This monorepo contains
 
 - ### Backend
 
-      - **PostgreSQL Database**
+  - **PostgreSQL Database**
 
-      To run the backend, a connection to a database is needed. The easiest way to run a Postgres DB locally is via [Docker](https://www.docker.com/).
+    To run the backend, a connection to a database is needed. The easiest way to run a Postgres DB locally is via [Docker](https://www.docker.com/).
 
-      Once you have Docker installed run this command:
+    Once you have Docker installed run this command:
 
-          ```
-          docker run --detach --publish 5432:5432 -e POSTGRES_PASSWORD=postgres --name project-sheld postgres:10.12
-          ```
+    ```
+    docker run --detach --publish 5432:5432 -e POSTGRES_PASSWORD=postgres --name project-sheld postgres:10.12
+    ```
 
-  Another alternative is running a PostgreSQL DB in the cloud with services like [fly.io](https://fly.io/) or [Heroku](https://dashboard.heroku.com) wich have a a free tier.
+    Another alternative is running a PostgreSQL DB in the cloud with services like [fly.io](https://fly.io/) or [Heroku](https://dashboard.heroku.com) wich have a a free tier.
 
-      - **Cloudinary**
+  - **Cloudinary**
 
-      All the images are saved in [Cloudinary](https://cloudinary.com/), the free tier is more than enough for development.
+    All the images are saved in [Cloudinary](https://cloudinary.com/), the free tier is more than enough for development.
 
-      - **Enviroment Variables**
-      ```
-      DATABASE_URL="postgresql://postgres:postgres@localhost:5432/project-shelf"
-      CLOUDINARY_URL="Your Cloudinary key goes here"
-      JWT_SECRET="Any random string, only for development"
-      SERVER_URL="http://localhost"
-      ```
+  - **Enviroment Variables**
+
+    ```
+    DATABASE_URL="postgresql://postgres:postgres@localhost:5432/project-shelf"
+    CLOUDINARY_URL="Your Cloudinary key goes here"
+    JWT_SECRET="Any random string, only for development"
+    SERVER_URL="http://localhost"
+    ```
 
 - ### Frontend
   - **Github OAuth**
