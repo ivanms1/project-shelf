@@ -30,7 +30,7 @@
   "devDependencies": {
     "@cld-apis/types": "^0.1.6",
     "@svgr/webpack": "^6.2.1",
-    "@types/react": "17.0.37",
+    "@types/react": "17.0.39",
     "config": "*",
     "eslint": "7.32.0",
     "next-transpile-modules": "9.0.0",
