@@ -66,6 +66,7 @@ This monorepo contains
     ```
     GITHUB_CLIENT_ID="your oatuh github client id"
     GITHUB_CLIENT_SECRET="your oatuh github client secret"
+    JWT_SECRET="some random string, only for development"
     NEXTAUTH_URL="http://localhost:3000"
     NEXT_PUBLIC_SERVER_URL="http://localhost:8080/graphql"
     NEXT_PUBLIC_CLOUD_NAME="cloudinary id"
