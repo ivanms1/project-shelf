@@ -1,10 +1,10 @@
-import { gql } from '@apollo/client';
-import { initializeApollo } from 'apollo';
-import NextAuth from 'next-auth';
-import GithubProvider from 'next-auth/providers/github';
+import { gql } from "@apollo/client";
+import { initializeApollo } from "apollo";
+import NextAuth from "next-auth";
+import GithubProvider from "next-auth/providers/github";
 
 export default NextAuth({
-  session: { strategy: 'jwt' },
+  session: { strategy: "jwt" },
   providers: [
     GithubProvider({
       clientId: process.env.GITHUB_CLIENT_ID,

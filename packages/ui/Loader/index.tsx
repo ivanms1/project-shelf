@@ -1,14 +1,14 @@
-import { CSSProperties } from '@stitches/react';
-import React from 'react';
+import { CSSProperties } from "@stitches/react";
+import React from "react";
 
-import { StyledLoader } from './styles';
+import { StyledLoader } from "./styles";
 
 interface Loader {
-  size?: 'sm' | 'md' | 'lg';
+  size?: "sm" | "md" | "lg";
   css?: Partial<CSSProperties>;
 }
 
-export const Loader = ({ size = 'sm', css }: Loader) => {
+export const Loader = ({ size = "sm", css }: Loader) => {
   return <StyledLoader size={size} css={css} />;
 };
 

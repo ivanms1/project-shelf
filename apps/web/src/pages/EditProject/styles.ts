@@ -1,3 +1,3 @@
-import { styled } from 'stitches/stitches.config';
+import { styled } from "stitches/stitches.config";
 
-export const StyledEditProject = styled('div', {});
+export const StyledEditProject = styled("div", {});

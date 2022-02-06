@@ -1,18 +1,18 @@
-import merge from 'deepmerge';
-import isEqual from 'lodash/isEqual';
+import merge from "deepmerge";
+import isEqual from "lodash/isEqual";
 import {
   ApolloClient,
   createHttpLink,
   FieldPolicy,
   InMemoryCache,
   NormalizedCacheObject,
-} from '@apollo/client';
+} from "@apollo/client";
 
-import getAuthToken from '@/helpers/getAuthToken';
+import getAuthToken from "@/helpers/getAuthToken";
 
-import { setContext } from '@apollo/client/link/context';
+import { setContext } from "@apollo/client/link/context";
 
-export const APOLLO_STATE_PROP_NAME = '__APOLLO_STATE__';
+export const APOLLO_STATE_PROP_NAME = "__APOLLO_STATE__";
 
 let apolloClient: ApolloClient<NormalizedCacheObject> | null;
 
@@ -52,7 +52,7 @@ const projectsMergeConfig: FieldPolicy<any, any, any> = {
 
 function createApolloClient() {
   return new ApolloClient({
-    ssrMode: typeof window === 'undefined',
+    ssrMode: typeof window === "undefined",
     connectToDevTools: true,
     link: authLink.concat(
       createHttpLink({
@@ -90,7 +90,7 @@ export function initializeApollo(initialState?: any) {
     _apolloClient.cache.restore(data);
   }
 
-  if (typeof window === 'undefined') {
+  if (typeof window === "undefined") {
     return _apolloClient;
   }
 

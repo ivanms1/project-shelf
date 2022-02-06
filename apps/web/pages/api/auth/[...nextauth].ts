@@ -1,12 +1,12 @@
-import { initializeApollo } from 'apollo';
-import { SignupMutation } from 'apollo-hooks';
-import NextAuth from 'next-auth';
-import GithubProvider from 'next-auth/providers/github';
+import { initializeApollo } from "apollo";
+import { SignupMutation } from "apollo-hooks";
+import NextAuth from "next-auth";
+import GithubProvider from "next-auth/providers/github";
 
-import MUTATION_SIGNUP from './mutationSignup.graphql';
+import MUTATION_SIGNUP from "./mutationSignup.graphql";
 
 export default NextAuth({
-  session: { strategy: 'jwt' },
+  session: { strategy: "jwt" },
   jwt: {
     secret: process.env.JWT_SECRET,
   },

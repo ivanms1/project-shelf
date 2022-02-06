@@ -1,1 +1,1 @@
-export const TOKEN_NAME = 'project-shelf';
+export const TOKEN_NAME = "project-shelf";

@@ -1,8 +1,8 @@
-import { styled } from 'stitches/stitches.config';
+import { styled } from "stitches/stitches.config";
 
-export const StyledProjectsGrid = styled('div', {
-  display: 'grid',
+export const StyledProjectsGrid = styled("div", {
+  display: "grid",
   gap: 50,
-  gridTemplateColumns: 'repeat( auto-fit, minmax(330px, 1fr) )',
-  justifyItems: 'center',
+  gridTemplateColumns: "repeat( auto-fit, minmax(330px, 1fr) )",
+  justifyItems: "center",
 });

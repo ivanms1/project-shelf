@@ -1,14 +1,14 @@
-import { extendType, nonNull, stringArg } from 'nexus';
+import { extendType, nonNull, stringArg } from "nexus";
 
-import * as cloudinary from 'cloudinary';
+import * as cloudinary from "cloudinary";
 
 const imageUploader = cloudinary.v2;
 
 export const UploadImage = extendType({
-  type: 'Mutation',
+  type: "Mutation",
   definition(t) {
-    t.field('uploadImage', {
-      type: 'JSONObject',
+    t.field("uploadImage", {
+      type: "JSONObject",
       args: {
         path: nonNull(stringArg()),
       },

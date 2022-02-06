@@ -1,12 +1,12 @@
-import React from 'react';
-import type { GetAllProjectsQuery } from 'apollo-hooks';
+import React from "react";
+import type { GetAllProjectsQuery } from "apollo-hooks";
 
-import ProjectCard from '../ProjectCard';
+import ProjectCard from "../ProjectCard";
 
-import { StyledProjectsGrid } from './styles';
+import { StyledProjectsGrid } from "./styles";
 
 interface ProjectsGridProps {
-  projects: GetAllProjectsQuery['projects']['results'];
+  projects: GetAllProjectsQuery["projects"]["results"];
 }
 
 const ProjectsGrid = ({ projects }: ProjectsGridProps) => {

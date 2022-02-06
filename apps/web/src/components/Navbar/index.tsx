@@ -1,11 +1,11 @@
-import Link from 'next/link';
-import React from 'react';
-import { Button } from 'ui';
-import { signIn } from 'next-auth/react';
+import Link from "next/link";
+import React from "react";
+import { Button } from "ui";
+import { signIn } from "next-auth/react";
 
-import useIsLoggedIn from '@/hooks/useIsLoggedIn';
+import useIsLoggedIn from "@/hooks/useIsLoggedIn";
 
-import { RightSection, searchButtonStyles, StyledNavbar } from './styles';
+import { RightSection, searchButtonStyles, StyledNavbar } from "./styles";
 
 interface NavbarProps {}
 
@@ -14,16 +14,16 @@ const Navbar = ({}: NavbarProps) => {
 
   return (
     <StyledNavbar>
-      <Link href='/'>
+      <Link href="/">
         <a>Project Shelf</a>
       </Link>
 
       <RightSection>
-        <Button variant='secondary' className={searchButtonStyles()}>
+        <Button variant="secondary" className={searchButtonStyles()}>
           Search
         </Button>
         {isLoggedIn ? (
-          <Link href='/create-project'>
+          <Link href="/create-project">
             <a>
               <Button>Add Project</Button>
             </a>

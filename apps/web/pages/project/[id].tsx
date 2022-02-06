@@ -1,11 +1,11 @@
-import Project from '@/pages/Project';
-import { addApolloState, initializeApollo } from 'apollo';
-import { GetApprovedProjectsQuery, GetProjectQuery } from 'apollo-hooks';
+import Project from "@/pages/Project";
+import { addApolloState, initializeApollo } from "apollo";
+import { GetApprovedProjectsQuery, GetProjectQuery } from "apollo-hooks";
 
-import type { GetStaticProps } from 'next/types';
+import type { GetStaticProps } from "next/types";
 
-import QUERY_GET_PROJECT from './queryGetProject.graphql';
-import QUERY_GET_APPROVED_PROJECTS from './queryGetAllApprovedProjects.graphql';
+import QUERY_GET_PROJECT from "./queryGetProject.graphql";
+import QUERY_GET_APPROVED_PROJECTS from "./queryGetAllApprovedProjects.graphql";
 
 export default Project;
 
@@ -41,5 +41,5 @@ export async function getStaticPaths() {
     params: { id: p.id },
   }));
 
-  return { paths, fallback: 'blocking' };
+  return { paths, fallback: "blocking" };
 }

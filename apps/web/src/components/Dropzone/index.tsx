@@ -1,8 +1,8 @@
-import React from 'react';
-import Image from 'next/image';
-import { DropzoneOptions, useDropzone } from 'react-dropzone';
+import React from "react";
+import Image from "next/image";
+import { DropzoneOptions, useDropzone } from "react-dropzone";
 
-import { Container } from './styles';
+import { Container } from "./styles";
 
 interface DropzoneProps extends DropzoneOptions {
   currentFile?: any;
@@ -34,7 +34,7 @@ function Dropzone({
           <Image
             src={URL.createObjectURL(currentFile)}
             alt={currentFile?.name}
-            layout='fill'
+            layout="fill"
           />
         ) : (
           <span>{currentFile?.name}</span>

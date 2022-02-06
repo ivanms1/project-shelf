@@ -1,15 +1,15 @@
-import React, { useState } from 'react';
-import * as yup from 'yup';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
-import { Button } from 'ui';
-import { useRouter } from 'next/router';
-import Dropzone from 'src/components/Dropzone';
+import React, { useState } from "react";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
+import { Button } from "ui";
+import { useRouter } from "next/router";
+import Dropzone from "src/components/Dropzone";
 
 import {
   useCreateUserProjectMutation,
   useUploadImageMutation,
-} from 'apollo-hooks';
+} from "apollo-hooks";
 
 import {
   ButtonsContainer,
@@ -19,19 +19,19 @@ import {
   StyledImageIcon,
   TitleInput,
   UploadContainer,
-} from './styles';
-import DetailsFormModal from './DetailsFormModal';
+} from "./styles";
+import DetailsFormModal from "./DetailsFormModal";
 
 const validationSchema = yup.object().shape({
-  title: yup.string().required('This is a required field'),
-  description: yup.string().required('This is a required field'),
-  repoLink: yup.string().required('This is a required field'),
-  siteLink: yup.string().required('This is a required field'),
+  title: yup.string().required("This is a required field"),
+  description: yup.string().required("This is a required field"),
+  repoLink: yup.string().required("This is a required field"),
+  siteLink: yup.string().required("This is a required field"),
   tags: yup
     .array()
     .of(yup.object().shape({ value: yup.string(), label: yup.string() }))
-    .min(1, 'Add at least one tag'),
-  preview: yup.string().required('This is a required field'),
+    .min(1, "Add at least one tag"),
+  preview: yup.string().required("This is a required field"),
 });
 
 export type FormTypes = {
@@ -58,7 +58,7 @@ function CreateProject() {
   const onSubmit: SubmitHandler<FormTypes> = async (values) => {
     try {
       const reader = new FileReader();
-      reader.readAsDataURL(methods.getValues('preview'));
+      reader.readAsDataURL(methods.getValues("preview"));
 
       reader.onload = async () => {
         const res = await uploadImage({
@@ -84,14 +84,14 @@ function CreateProject() {
     }
   };
 
-  const currentImage = methods.watch('preview');
-  const currentTitle = methods.watch('title');
-  const currentDescription = methods.watch('description');
+  const currentImage = methods.watch("preview");
+  const currentTitle = methods.watch("title");
+  const currentDescription = methods.watch("description");
 
   return (
     <Container>
       <ButtonsContainer>
-        <Button type='button' variant='secondary'>
+        <Button type="button" variant="secondary">
           Cancel
         </Button>
         <Button
@@ -111,14 +111,14 @@ function CreateProject() {
           )}
           {currentImage && (
             <TitleInput
-              placeholder='Give me a name'
-              {...methods.register('title')}
+              placeholder="Give me a name"
+              {...methods.register("title")}
             />
           )}
           <Dropzone
             currentFile={currentImage}
-            onDrop={(files) => methods.setValue('preview', files[0])}
-            label='Drop your thumbnail'
+            onDrop={(files) => methods.setValue("preview", files[0])}
+            label="Drop your thumbnail"
             withPreview
           >
             <UploadContainer>
@@ -128,8 +128,8 @@ function CreateProject() {
           </Dropzone>
           {currentImage && (
             <DescriptionInput
-              placeholder='Add a brief description about your project and what went into creating it'
-              {...methods.register('description')}
+              placeholder="Add a brief description about your project and what went into creating it"
+              {...methods.register("description")}
             />
           )}
           <DetailsFormModal

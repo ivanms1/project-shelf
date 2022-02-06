@@ -1,4 +1,4 @@
-import { useGetCurrentUserQuery } from 'apollo-hooks';
+import { useGetCurrentUserQuery } from "apollo-hooks";
 
 const useIsLoggedIn = () => {
   const { data, loading } = useGetCurrentUserQuery();

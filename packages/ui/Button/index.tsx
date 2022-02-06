@@ -1,16 +1,16 @@
-import * as React from 'react';
-import { Loader } from '../Loader';
+import * as React from "react";
+import { Loader } from "../Loader";
 
-import { StyledButton } from './styles';
+import { StyledButton } from "./styles";
 
 interface Button extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'primary' | 'secondary' | 'ghost';
+  variant?: "primary" | "secondary" | "ghost";
   isLoading?: boolean;
 }
 
 export const Button = ({
   children,
-  variant = 'primary',
+  variant = "primary",
   isLoading,
   ...props
 }: Button) => {

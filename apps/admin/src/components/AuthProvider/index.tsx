@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react';
-import { useSession } from 'next-auth/react';
-import { useRouter } from 'next/router';
+import React, { useEffect } from "react";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
 
-const PUBLIC_ROUTES = ['/login'];
+const PUBLIC_ROUTES = ["/login"];
 
 interface AuthProvider {
   children: React.ReactNode;
@@ -14,14 +14,14 @@ function AuthProvider({ children }: AuthProvider) {
 
   useEffect(() => {
     if (
-      status === 'unauthenticated' &&
+      status === "unauthenticated" &&
       !PUBLIC_ROUTES.includes(router.pathname)
     ) {
-      router.replace('/login');
+      router.replace("/login");
     }
 
-    if (status === 'authenticated' && PUBLIC_ROUTES.includes(router.pathname)) {
-      router.replace('/');
+    if (status === "authenticated" && PUBLIC_ROUTES.includes(router.pathname)) {
+      router.replace("/");
     }
   }, [status]);
 

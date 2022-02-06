@@ -1,3 +1,3 @@
-import CreateProject from '@/pages/CreateProject';
+import CreateProject from "@/pages/CreateProject";
 
 export default CreateProject;

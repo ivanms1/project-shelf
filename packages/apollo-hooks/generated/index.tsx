@@ -1,10 +1,16 @@
-import { gql } from '@apollo/client';
-import * as Apollo from '@apollo/client';
+import { gql } from "@apollo/client";
+import * as Apollo from "@apollo/client";
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
-export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
+export type Exact<T extends { [key: string]: unknown }> = {
+  [K in keyof T]: T[K];
+};
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
+  [SubKey in K]?: Maybe<T[SubKey]>;
+};
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
+  [SubKey in K]: Maybe<T[SubKey]>;
+};
 const defaultOptions = {} as const;
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
@@ -20,111 +26,102 @@ export type Scalars = {
 };
 
 export type CreateProjectInput = {
-  description: Scalars['String'];
-  preview: Scalars['String'];
-  repoLink: Scalars['String'];
-  siteLink: Scalars['String'];
-  tags: Array<Scalars['String']>;
-  title: Scalars['String'];
+  description: Scalars["String"];
+  preview: Scalars["String"];
+  repoLink: Scalars["String"];
+  siteLink: Scalars["String"];
+  tags: Array<Scalars["String"]>;
+  title: Scalars["String"];
 };
 
 export type Mutation = {
-  __typename?: 'Mutation';
+  __typename?: "Mutation";
   createProject?: Maybe<Project>;
-  deleteManyProjects?: Maybe<Scalars['JSONObject']>;
-  deleteProject?: Maybe<Scalars['String']>;
+  deleteManyProjects?: Maybe<Scalars["JSONObject"]>;
+  deleteProject?: Maybe<Scalars["String"]>;
   reactToProject?: Maybe<Project>;
-  signup: Scalars['JSONObject'];
+  signup: Scalars["JSONObject"];
   updateProject?: Maybe<Project>;
   updateProjectStatus?: Maybe<Project>;
   updateUser: User;
-  uploadImage?: Maybe<Scalars['JSONObject']>;
+  uploadImage?: Maybe<Scalars["JSONObject"]>;
 };
-
 
 export type MutationCreateProjectArgs = {
   input?: InputMaybe<CreateProjectInput>;
 };
 
-
 export type MutationDeleteManyProjectsArgs = {
-  ids: Array<Scalars['ID']>;
+  ids: Array<Scalars["ID"]>;
 };
-
 
 export type MutationDeleteProjectArgs = {
-  id: Scalars['ID'];
+  id: Scalars["ID"];
 };
-
 
 export type MutationReactToProjectArgs = {
   input?: InputMaybe<ReactToProjectInput>;
 };
 
-
 export type MutationSignupArgs = {
-  avatar: Scalars['String'];
-  email: Scalars['String'];
-  name: Scalars['String'];
+  avatar: Scalars["String"];
+  email: Scalars["String"];
+  name: Scalars["String"];
 };
-
 
 export type MutationUpdateProjectArgs = {
   input?: InputMaybe<UpdateProjectInput>;
-  projectId: Scalars['ID'];
+  projectId: Scalars["ID"];
 };
-
 
 export type MutationUpdateProjectStatusArgs = {
-  isApproved: Scalars['Boolean'];
-  projectId: Scalars['String'];
+  isApproved: Scalars["Boolean"];
+  projectId: Scalars["String"];
 };
-
 
 export type MutationUpdateUserArgs = {
   input?: InputMaybe<UpdateUsertInput>;
-  userId: Scalars['String'];
+  userId: Scalars["String"];
 };
 
-
 export type MutationUploadImageArgs = {
-  path: Scalars['String'];
+  path: Scalars["String"];
 };
 
 export type Project = {
-  __typename?: 'Project';
+  __typename?: "Project";
   author: User;
-  createdAt: Scalars['DateTime'];
-  description: Scalars['String'];
-  id: Scalars['ID'];
-  isApproved: Scalars['Boolean'];
+  createdAt: Scalars["DateTime"];
+  description: Scalars["String"];
+  id: Scalars["ID"];
+  isApproved: Scalars["Boolean"];
   /** If this project is liked by the current user */
-  isLiked?: Maybe<Scalars['Boolean']>;
+  isLiked?: Maybe<Scalars["Boolean"]>;
   likes: Array<User>;
-  likesCount: Scalars['Int'];
-  preview: Scalars['String'];
-  repoLink: Scalars['String'];
-  siteLink: Scalars['String'];
-  tags: Array<Scalars['String']>;
-  title: Scalars['String'];
+  likesCount: Scalars["Int"];
+  preview: Scalars["String"];
+  repoLink: Scalars["String"];
+  siteLink: Scalars["String"];
+  tags: Array<Scalars["String"]>;
+  title: Scalars["String"];
 };
 
 /** Actions available to the user */
 export enum ProjectAction {
-  Dislike = 'DISLIKE',
-  Like = 'LIKE'
+  Dislike = "DISLIKE",
+  Like = "LIKE",
 }
 
 export type ProjectsResponse = {
-  __typename?: 'ProjectsResponse';
-  nextCursor?: Maybe<Scalars['String']>;
-  prevCursor?: Maybe<Scalars['String']>;
+  __typename?: "ProjectsResponse";
+  nextCursor?: Maybe<Scalars["String"]>;
+  prevCursor?: Maybe<Scalars["String"]>;
   results: Array<Project>;
-  totalCount?: Maybe<Scalars['Int']>;
+  totalCount?: Maybe<Scalars["Int"]>;
 };
 
 export type Query = {
-  __typename?: 'Query';
+  __typename?: "Query";
   /** Get all approved projects */
   getApprovedProjects: ProjectsResponse;
   getCurrentUser?: Maybe<User>;
@@ -137,163 +134,320 @@ export type Query = {
   getUsers: Array<Maybe<User>>;
 };
 
-
 export type QueryGetApprovedProjectsArgs = {
-  cursor?: InputMaybe<Scalars['String']>;
+  cursor?: InputMaybe<Scalars["String"]>;
 };
-
 
 export type QueryGetMyProjectsArgs = {
-  cursor?: InputMaybe<Scalars['String']>;
+  cursor?: InputMaybe<Scalars["String"]>;
 };
-
 
 export type QueryGetProjectArgs = {
-  id: Scalars['ID'];
+  id: Scalars["ID"];
 };
-
 
 export type QueryGetProjectsAdminArgs = {
-  cursor?: InputMaybe<Scalars['String']>;
+  cursor?: InputMaybe<Scalars["String"]>;
 };
 
-
 export type QueryGetUserArgs = {
-  id: Scalars['ID'];
+  id: Scalars["ID"];
 };
 
 export type ReactToProjectInput = {
   action: ProjectAction;
-  projectId: Scalars['ID'];
-  userId: Scalars['ID'];
+  projectId: Scalars["ID"];
+  userId: Scalars["ID"];
 };
 
 export enum Role {
-  Admin = 'ADMIN',
-  User = 'USER'
+  Admin = "ADMIN",
+  User = "USER",
 }
 
 export type UpdateProjectInput = {
-  description?: InputMaybe<Scalars['String']>;
-  preview?: InputMaybe<Scalars['String']>;
-  repoLink?: InputMaybe<Scalars['String']>;
-  siteLink?: InputMaybe<Scalars['String']>;
-  tags?: InputMaybe<Array<Scalars['String']>>;
-  title?: InputMaybe<Scalars['String']>;
+  description?: InputMaybe<Scalars["String"]>;
+  preview?: InputMaybe<Scalars["String"]>;
+  repoLink?: InputMaybe<Scalars["String"]>;
+  siteLink?: InputMaybe<Scalars["String"]>;
+  tags?: InputMaybe<Array<Scalars["String"]>>;
+  title?: InputMaybe<Scalars["String"]>;
 };
 
 /** Update the user information */
 export type UpdateUsertInput = {
-  discord: Scalars['String'];
-  email: Scalars['String'];
-  github: Scalars['String'];
-  name: Scalars['String'];
+  discord: Scalars["String"];
+  email: Scalars["String"];
+  github: Scalars["String"];
+  name: Scalars["String"];
   role: Role;
 };
 
 export type User = {
-  __typename?: 'User';
-  avatar?: Maybe<Scalars['String']>;
-  discord?: Maybe<Scalars['String']>;
-  email: Scalars['String'];
-  github?: Maybe<Scalars['String']>;
-  id: Scalars['ID'];
-  name: Scalars['String'];
+  __typename?: "User";
+  avatar?: Maybe<Scalars["String"]>;
+  discord?: Maybe<Scalars["String"]>;
+  email: Scalars["String"];
+  github?: Maybe<Scalars["String"]>;
+  id: Scalars["ID"];
+  name: Scalars["String"];
   projects?: Maybe<Array<Project>>;
   projectsLiked?: Maybe<Array<Project>>;
   role: Role;
 };
 
-export type ProjectsResponseFragmentFragment = { __typename?: 'ProjectsResponse', nextCursor?: string | null | undefined, prevCursor?: string | null | undefined, totalCount?: number | null | undefined, results: Array<{ __typename?: 'Project', id: string, title: string, createdAt: any, isLiked?: boolean | null | undefined, likesCount: number, tags: Array<string>, preview: string, repoLink: string, siteLink: string, description: string, isApproved: boolean, author: { __typename?: 'User', id: string, avatar?: string | null | undefined, name: string } }> };
+export type ProjectsResponseFragmentFragment = {
+  __typename?: "ProjectsResponse";
+  nextCursor?: string | null | undefined;
+  prevCursor?: string | null | undefined;
+  totalCount?: number | null | undefined;
+  results: Array<{
+    __typename?: "Project";
+    id: string;
+    title: string;
+    createdAt: any;
+    isLiked?: boolean | null | undefined;
+    likesCount: number;
+    tags: Array<string>;
+    preview: string;
+    repoLink: string;
+    siteLink: string;
+    description: string;
+    isApproved: boolean;
+    author: {
+      __typename?: "User";
+      id: string;
+      avatar?: string | null | undefined;
+      name: string;
+    };
+  }>;
+};
 
 export type GetAllProjectsQueryVariables = Exact<{
-  cursor?: InputMaybe<Scalars['String']>;
+  cursor?: InputMaybe<Scalars["String"]>;
 }>;
 
-
-export type GetAllProjectsQuery = { __typename?: 'Query', projects: { __typename?: 'ProjectsResponse', nextCursor?: string | null | undefined, prevCursor?: string | null | undefined, totalCount?: number | null | undefined, results: Array<{ __typename?: 'Project', id: string, title: string, createdAt: any, isLiked?: boolean | null | undefined, likesCount: number, tags: Array<string>, preview: string, repoLink: string, siteLink: string, description: string, isApproved: boolean, author: { __typename?: 'User', id: string, avatar?: string | null | undefined, name: string } }> } };
+export type GetAllProjectsQuery = {
+  __typename?: "Query";
+  projects: {
+    __typename?: "ProjectsResponse";
+    nextCursor?: string | null | undefined;
+    prevCursor?: string | null | undefined;
+    totalCount?: number | null | undefined;
+    results: Array<{
+      __typename?: "Project";
+      id: string;
+      title: string;
+      createdAt: any;
+      isLiked?: boolean | null | undefined;
+      likesCount: number;
+      tags: Array<string>;
+      preview: string;
+      repoLink: string;
+      siteLink: string;
+      description: string;
+      isApproved: boolean;
+      author: {
+        __typename?: "User";
+        id: string;
+        avatar?: string | null | undefined;
+        name: string;
+      };
+    }>;
+  };
+};
 
 export type SignupMutationVariables = Exact<{
-  email: Scalars['String'];
-  name: Scalars['String'];
-  avatar: Scalars['String'];
+  email: Scalars["String"];
+  name: Scalars["String"];
+  avatar: Scalars["String"];
 }>;
 
-
-export type SignupMutation = { __typename?: 'Mutation', signup: any };
+export type SignupMutation = { __typename?: "Mutation"; signup: any };
 
 export type GetApprovedProjectsQueryVariables = Exact<{
-  cursor?: InputMaybe<Scalars['String']>;
+  cursor?: InputMaybe<Scalars["String"]>;
 }>;
 
-
-export type GetApprovedProjectsQuery = { __typename?: 'Query', projects: { __typename?: 'ProjectsResponse', nextCursor?: string | null | undefined, prevCursor?: string | null | undefined, totalCount?: number | null | undefined, results: Array<{ __typename?: 'Project', id: string, title: string, createdAt: any, isLiked?: boolean | null | undefined, likesCount: number, tags: Array<string>, preview: string, repoLink: string, siteLink: string, description: string, isApproved: boolean, author: { __typename?: 'User', id: string, avatar?: string | null | undefined, name: string } }> } };
+export type GetApprovedProjectsQuery = {
+  __typename?: "Query";
+  projects: {
+    __typename?: "ProjectsResponse";
+    nextCursor?: string | null | undefined;
+    prevCursor?: string | null | undefined;
+    totalCount?: number | null | undefined;
+    results: Array<{
+      __typename?: "Project";
+      id: string;
+      title: string;
+      createdAt: any;
+      isLiked?: boolean | null | undefined;
+      likesCount: number;
+      tags: Array<string>;
+      preview: string;
+      repoLink: string;
+      siteLink: string;
+      description: string;
+      isApproved: boolean;
+      author: {
+        __typename?: "User";
+        id: string;
+        avatar?: string | null | undefined;
+        name: string;
+      };
+    }>;
+  };
+};
 
 export type GetProjectQueryVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars["ID"];
 }>;
 
+export type GetProjectQuery = {
+  __typename?: "Query";
+  project?:
+    | {
+        __typename?: "Project";
+        id: string;
+        title: string;
+        preview: string;
+        repoLink: string;
+        siteLink: string;
+        description: string;
+        isApproved: boolean;
+        likesCount: number;
+        createdAt: any;
+        tags: Array<string>;
+        isLiked?: boolean | null | undefined;
+        author: {
+          __typename?: "User";
+          id: string;
+          name: string;
+          avatar?: string | null | undefined;
+        };
+      }
+    | null
+    | undefined;
+};
 
-export type GetProjectQuery = { __typename?: 'Query', project?: { __typename?: 'Project', id: string, title: string, preview: string, repoLink: string, siteLink: string, description: string, isApproved: boolean, likesCount: number, createdAt: any, tags: Array<string>, isLiked?: boolean | null | undefined, author: { __typename?: 'User', id: string, name: string, avatar?: string | null | undefined } } | null | undefined };
+export type GetCurrentUserQueryVariables = Exact<{ [key: string]: never }>;
 
-export type GetCurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type GetCurrentUserQuery = { __typename?: 'Query', getCurrentUser?: { __typename?: 'User', id: string, name: string, email: string, github?: string | null | undefined, discord?: string | null | undefined, avatar?: string | null | undefined, role: Role } | null | undefined };
+export type GetCurrentUserQuery = {
+  __typename?: "Query";
+  getCurrentUser?:
+    | {
+        __typename?: "User";
+        id: string;
+        name: string;
+        email: string;
+        github?: string | null | undefined;
+        discord?: string | null | undefined;
+        avatar?: string | null | undefined;
+        role: Role;
+      }
+    | null
+    | undefined;
+};
 
 export type CreateUserProjectMutationVariables = Exact<{
   input?: InputMaybe<CreateProjectInput>;
 }>;
 
-
-export type CreateUserProjectMutation = { __typename?: 'Mutation', createProject?: { __typename?: 'Project', id: string, title: string, preview: string, description: string, createdAt: any, siteLink: string, repoLink: string, isApproved: boolean, likes: Array<{ __typename?: 'User', id: string, name: string }> } | null | undefined };
+export type CreateUserProjectMutation = {
+  __typename?: "Mutation";
+  createProject?:
+    | {
+        __typename?: "Project";
+        id: string;
+        title: string;
+        preview: string;
+        description: string;
+        createdAt: any;
+        siteLink: string;
+        repoLink: string;
+        isApproved: boolean;
+        likes: Array<{ __typename?: "User"; id: string; name: string }>;
+      }
+    | null
+    | undefined;
+};
 
 export type UploadImageMutationVariables = Exact<{
-  path: Scalars['String'];
+  path: Scalars["String"];
 }>;
 
-
-export type UploadImageMutation = { __typename?: 'Mutation', image?: any | null | undefined };
+export type UploadImageMutation = {
+  __typename?: "Mutation";
+  image?: any | null | undefined;
+};
 
 export type GetMyProjectsQueryVariables = Exact<{
-  cursor?: InputMaybe<Scalars['String']>;
+  cursor?: InputMaybe<Scalars["String"]>;
 }>;
 
-
-export type GetMyProjectsQuery = { __typename?: 'Query', projects: { __typename?: 'ProjectsResponse', nextCursor?: string | null | undefined, prevCursor?: string | null | undefined, totalCount?: number | null | undefined, results: Array<{ __typename?: 'Project', id: string, title: string, createdAt: any, isLiked?: boolean | null | undefined, likesCount: number, tags: Array<string>, preview: string, repoLink: string, siteLink: string, description: string, isApproved: boolean, author: { __typename?: 'User', id: string, avatar?: string | null | undefined, name: string } }> } };
+export type GetMyProjectsQuery = {
+  __typename?: "Query";
+  projects: {
+    __typename?: "ProjectsResponse";
+    nextCursor?: string | null | undefined;
+    prevCursor?: string | null | undefined;
+    totalCount?: number | null | undefined;
+    results: Array<{
+      __typename?: "Project";
+      id: string;
+      title: string;
+      createdAt: any;
+      isLiked?: boolean | null | undefined;
+      likesCount: number;
+      tags: Array<string>;
+      preview: string;
+      repoLink: string;
+      siteLink: string;
+      description: string;
+      isApproved: boolean;
+      author: {
+        __typename?: "User";
+        id: string;
+        avatar?: string | null | undefined;
+        name: string;
+      };
+    }>;
+  };
+};
 
 export const ProjectsResponseFragmentFragmentDoc = gql`
-    fragment ProjectsResponseFragment on ProjectsResponse {
-  nextCursor
-  prevCursor
-  totalCount
-  results {
-    id
-    title
-    createdAt
-    isLiked
-    likesCount
-    tags
-    preview
-    repoLink
-    siteLink
-    author {
+  fragment ProjectsResponseFragment on ProjectsResponse {
+    nextCursor
+    prevCursor
+    totalCount
+    results {
       id
-      avatar
-      name
+      title
+      createdAt
+      isLiked
+      likesCount
+      tags
+      preview
+      repoLink
+      siteLink
+      author {
+        id
+        avatar
+        name
+      }
+      description
+      isApproved
     }
-    description
-    isApproved
   }
-}
-    `;
+`;
 export const GetAllProjectsDocument = gql`
-    query GetAllProjects($cursor: String = null) {
-  projects: getApprovedProjects(cursor: $cursor) {
-    ...ProjectsResponseFragment
+  query GetAllProjects($cursor: String = null) {
+    projects: getApprovedProjects(cursor: $cursor) {
+      ...ProjectsResponseFragment
+    }
   }
-}
-    ${ProjectsResponseFragmentFragmentDoc}`;
+  ${ProjectsResponseFragmentFragmentDoc}
+`;
 
 /**
  * __useGetAllProjectsQuery__
@@ -311,23 +465,49 @@ export const GetAllProjectsDocument = gql`
  *   },
  * });
  */
-export function useGetAllProjectsQuery(baseOptions?: Apollo.QueryHookOptions<GetAllProjectsQuery, GetAllProjectsQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetAllProjectsQuery, GetAllProjectsQueryVariables>(GetAllProjectsDocument, options);
-      }
-export function useGetAllProjectsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetAllProjectsQuery, GetAllProjectsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetAllProjectsQuery, GetAllProjectsQueryVariables>(GetAllProjectsDocument, options);
-        }
-export type GetAllProjectsQueryHookResult = ReturnType<typeof useGetAllProjectsQuery>;
-export type GetAllProjectsLazyQueryHookResult = ReturnType<typeof useGetAllProjectsLazyQuery>;
-export type GetAllProjectsQueryResult = Apollo.QueryResult<GetAllProjectsQuery, GetAllProjectsQueryVariables>;
-export const SignupDocument = gql`
-    mutation Signup($email: String!, $name: String!, $avatar: String!) {
-  signup(email: $email, name: $name, avatar: $avatar)
+export function useGetAllProjectsQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    GetAllProjectsQuery,
+    GetAllProjectsQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetAllProjectsQuery, GetAllProjectsQueryVariables>(
+    GetAllProjectsDocument,
+    options
+  );
 }
-    `;
-export type SignupMutationFn = Apollo.MutationFunction<SignupMutation, SignupMutationVariables>;
+export function useGetAllProjectsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetAllProjectsQuery,
+    GetAllProjectsQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<GetAllProjectsQuery, GetAllProjectsQueryVariables>(
+    GetAllProjectsDocument,
+    options
+  );
+}
+export type GetAllProjectsQueryHookResult = ReturnType<
+  typeof useGetAllProjectsQuery
+>;
+export type GetAllProjectsLazyQueryHookResult = ReturnType<
+  typeof useGetAllProjectsLazyQuery
+>;
+export type GetAllProjectsQueryResult = Apollo.QueryResult<
+  GetAllProjectsQuery,
+  GetAllProjectsQueryVariables
+>;
+export const SignupDocument = gql`
+  mutation Signup($email: String!, $name: String!, $avatar: String!) {
+    signup(email: $email, name: $name, avatar: $avatar)
+  }
+`;
+export type SignupMutationFn = Apollo.MutationFunction<
+  SignupMutation,
+  SignupMutationVariables
+>;
 
 /**
  * __useSignupMutation__
@@ -348,20 +528,32 @@ export type SignupMutationFn = Apollo.MutationFunction<SignupMutation, SignupMut
  *   },
  * });
  */
-export function useSignupMutation(baseOptions?: Apollo.MutationHookOptions<SignupMutation, SignupMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<SignupMutation, SignupMutationVariables>(SignupDocument, options);
-      }
+export function useSignupMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    SignupMutation,
+    SignupMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<SignupMutation, SignupMutationVariables>(
+    SignupDocument,
+    options
+  );
+}
 export type SignupMutationHookResult = ReturnType<typeof useSignupMutation>;
 export type SignupMutationResult = Apollo.MutationResult<SignupMutation>;
-export type SignupMutationOptions = Apollo.BaseMutationOptions<SignupMutation, SignupMutationVariables>;
+export type SignupMutationOptions = Apollo.BaseMutationOptions<
+  SignupMutation,
+  SignupMutationVariables
+>;
 export const GetApprovedProjectsDocument = gql`
-    query GetApprovedProjects($cursor: String = null) {
-  projects: getApprovedProjects(cursor: $cursor) {
-    ...ProjectsResponseFragment
+  query GetApprovedProjects($cursor: String = null) {
+    projects: getApprovedProjects(cursor: $cursor) {
+      ...ProjectsResponseFragment
+    }
   }
-}
-    ${ProjectsResponseFragmentFragmentDoc}`;
+  ${ProjectsResponseFragmentFragmentDoc}
+`;
 
 /**
  * __useGetApprovedProjectsQuery__
@@ -379,39 +571,62 @@ export const GetApprovedProjectsDocument = gql`
  *   },
  * });
  */
-export function useGetApprovedProjectsQuery(baseOptions?: Apollo.QueryHookOptions<GetApprovedProjectsQuery, GetApprovedProjectsQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetApprovedProjectsQuery, GetApprovedProjectsQueryVariables>(GetApprovedProjectsDocument, options);
-      }
-export function useGetApprovedProjectsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetApprovedProjectsQuery, GetApprovedProjectsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetApprovedProjectsQuery, GetApprovedProjectsQueryVariables>(GetApprovedProjectsDocument, options);
-        }
-export type GetApprovedProjectsQueryHookResult = ReturnType<typeof useGetApprovedProjectsQuery>;
-export type GetApprovedProjectsLazyQueryHookResult = ReturnType<typeof useGetApprovedProjectsLazyQuery>;
-export type GetApprovedProjectsQueryResult = Apollo.QueryResult<GetApprovedProjectsQuery, GetApprovedProjectsQueryVariables>;
-export const GetProjectDocument = gql`
-    query GetProject($id: ID!) {
-  project: getProject(id: $id) {
-    id
-    title
-    preview
-    repoLink
-    siteLink
-    description
-    isApproved
-    likesCount
-    createdAt
-    tags
-    author {
-      id
-      name
-      avatar
-    }
-    isLiked
-  }
+export function useGetApprovedProjectsQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    GetApprovedProjectsQuery,
+    GetApprovedProjectsQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GetApprovedProjectsQuery,
+    GetApprovedProjectsQueryVariables
+  >(GetApprovedProjectsDocument, options);
 }
-    `;
+export function useGetApprovedProjectsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetApprovedProjectsQuery,
+    GetApprovedProjectsQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetApprovedProjectsQuery,
+    GetApprovedProjectsQueryVariables
+  >(GetApprovedProjectsDocument, options);
+}
+export type GetApprovedProjectsQueryHookResult = ReturnType<
+  typeof useGetApprovedProjectsQuery
+>;
+export type GetApprovedProjectsLazyQueryHookResult = ReturnType<
+  typeof useGetApprovedProjectsLazyQuery
+>;
+export type GetApprovedProjectsQueryResult = Apollo.QueryResult<
+  GetApprovedProjectsQuery,
+  GetApprovedProjectsQueryVariables
+>;
+export const GetProjectDocument = gql`
+  query GetProject($id: ID!) {
+    project: getProject(id: $id) {
+      id
+      title
+      preview
+      repoLink
+      siteLink
+      description
+      isApproved
+      likesCount
+      createdAt
+      tags
+      author {
+        id
+        name
+        avatar
+      }
+      isLiked
+    }
+  }
+`;
 
 /**
  * __useGetProjectQuery__
@@ -429,30 +644,51 @@ export const GetProjectDocument = gql`
  *   },
  * });
  */
-export function useGetProjectQuery(baseOptions: Apollo.QueryHookOptions<GetProjectQuery, GetProjectQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetProjectQuery, GetProjectQueryVariables>(GetProjectDocument, options);
-      }
-export function useGetProjectLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetProjectQuery, GetProjectQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetProjectQuery, GetProjectQueryVariables>(GetProjectDocument, options);
-        }
-export type GetProjectQueryHookResult = ReturnType<typeof useGetProjectQuery>;
-export type GetProjectLazyQueryHookResult = ReturnType<typeof useGetProjectLazyQuery>;
-export type GetProjectQueryResult = Apollo.QueryResult<GetProjectQuery, GetProjectQueryVariables>;
-export const GetCurrentUserDocument = gql`
-    query GetCurrentUser {
-  getCurrentUser {
-    id
-    name
-    email
-    github
-    discord
-    avatar
-    role
-  }
+export function useGetProjectQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetProjectQuery,
+    GetProjectQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetProjectQuery, GetProjectQueryVariables>(
+    GetProjectDocument,
+    options
+  );
 }
-    `;
+export function useGetProjectLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetProjectQuery,
+    GetProjectQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<GetProjectQuery, GetProjectQueryVariables>(
+    GetProjectDocument,
+    options
+  );
+}
+export type GetProjectQueryHookResult = ReturnType<typeof useGetProjectQuery>;
+export type GetProjectLazyQueryHookResult = ReturnType<
+  typeof useGetProjectLazyQuery
+>;
+export type GetProjectQueryResult = Apollo.QueryResult<
+  GetProjectQuery,
+  GetProjectQueryVariables
+>;
+export const GetCurrentUserDocument = gql`
+  query GetCurrentUser {
+    getCurrentUser {
+      id
+      name
+      email
+      github
+      discord
+      avatar
+      role
+    }
+  }
+`;
 
 /**
  * __useGetCurrentUserQuery__
@@ -469,36 +705,62 @@ export const GetCurrentUserDocument = gql`
  *   },
  * });
  */
-export function useGetCurrentUserQuery(baseOptions?: Apollo.QueryHookOptions<GetCurrentUserQuery, GetCurrentUserQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetCurrentUserQuery, GetCurrentUserQueryVariables>(GetCurrentUserDocument, options);
-      }
-export function useGetCurrentUserLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetCurrentUserQuery, GetCurrentUserQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetCurrentUserQuery, GetCurrentUserQueryVariables>(GetCurrentUserDocument, options);
-        }
-export type GetCurrentUserQueryHookResult = ReturnType<typeof useGetCurrentUserQuery>;
-export type GetCurrentUserLazyQueryHookResult = ReturnType<typeof useGetCurrentUserLazyQuery>;
-export type GetCurrentUserQueryResult = Apollo.QueryResult<GetCurrentUserQuery, GetCurrentUserQueryVariables>;
+export function useGetCurrentUserQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    GetCurrentUserQuery,
+    GetCurrentUserQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetCurrentUserQuery, GetCurrentUserQueryVariables>(
+    GetCurrentUserDocument,
+    options
+  );
+}
+export function useGetCurrentUserLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetCurrentUserQuery,
+    GetCurrentUserQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<GetCurrentUserQuery, GetCurrentUserQueryVariables>(
+    GetCurrentUserDocument,
+    options
+  );
+}
+export type GetCurrentUserQueryHookResult = ReturnType<
+  typeof useGetCurrentUserQuery
+>;
+export type GetCurrentUserLazyQueryHookResult = ReturnType<
+  typeof useGetCurrentUserLazyQuery
+>;
+export type GetCurrentUserQueryResult = Apollo.QueryResult<
+  GetCurrentUserQuery,
+  GetCurrentUserQueryVariables
+>;
 export const CreateUserProjectDocument = gql`
-    mutation CreateUserProject($input: CreateProjectInput) {
-  createProject(input: $input) {
-    id
-    title
-    preview
-    description
-    createdAt
-    siteLink
-    repoLink
-    isApproved
-    likes {
+  mutation CreateUserProject($input: CreateProjectInput) {
+    createProject(input: $input) {
       id
-      name
+      title
+      preview
+      description
+      createdAt
+      siteLink
+      repoLink
+      isApproved
+      likes {
+        id
+        name
+      }
     }
   }
-}
-    `;
-export type CreateUserProjectMutationFn = Apollo.MutationFunction<CreateUserProjectMutation, CreateUserProjectMutationVariables>;
+`;
+export type CreateUserProjectMutationFn = Apollo.MutationFunction<
+  CreateUserProjectMutation,
+  CreateUserProjectMutationVariables
+>;
 
 /**
  * __useCreateUserProjectMutation__
@@ -517,19 +779,36 @@ export type CreateUserProjectMutationFn = Apollo.MutationFunction<CreateUserProj
  *   },
  * });
  */
-export function useCreateUserProjectMutation(baseOptions?: Apollo.MutationHookOptions<CreateUserProjectMutation, CreateUserProjectMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<CreateUserProjectMutation, CreateUserProjectMutationVariables>(CreateUserProjectDocument, options);
-      }
-export type CreateUserProjectMutationHookResult = ReturnType<typeof useCreateUserProjectMutation>;
-export type CreateUserProjectMutationResult = Apollo.MutationResult<CreateUserProjectMutation>;
-export type CreateUserProjectMutationOptions = Apollo.BaseMutationOptions<CreateUserProjectMutation, CreateUserProjectMutationVariables>;
-export const UploadImageDocument = gql`
-    mutation UploadImage($path: String!) {
-  image: uploadImage(path: $path)
+export function useCreateUserProjectMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CreateUserProjectMutation,
+    CreateUserProjectMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    CreateUserProjectMutation,
+    CreateUserProjectMutationVariables
+  >(CreateUserProjectDocument, options);
 }
-    `;
-export type UploadImageMutationFn = Apollo.MutationFunction<UploadImageMutation, UploadImageMutationVariables>;
+export type CreateUserProjectMutationHookResult = ReturnType<
+  typeof useCreateUserProjectMutation
+>;
+export type CreateUserProjectMutationResult =
+  Apollo.MutationResult<CreateUserProjectMutation>;
+export type CreateUserProjectMutationOptions = Apollo.BaseMutationOptions<
+  CreateUserProjectMutation,
+  CreateUserProjectMutationVariables
+>;
+export const UploadImageDocument = gql`
+  mutation UploadImage($path: String!) {
+    image: uploadImage(path: $path)
+  }
+`;
+export type UploadImageMutationFn = Apollo.MutationFunction<
+  UploadImageMutation,
+  UploadImageMutationVariables
+>;
 
 /**
  * __useUploadImageMutation__
@@ -548,20 +827,35 @@ export type UploadImageMutationFn = Apollo.MutationFunction<UploadImageMutation,
  *   },
  * });
  */
-export function useUploadImageMutation(baseOptions?: Apollo.MutationHookOptions<UploadImageMutation, UploadImageMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<UploadImageMutation, UploadImageMutationVariables>(UploadImageDocument, options);
-      }
-export type UploadImageMutationHookResult = ReturnType<typeof useUploadImageMutation>;
-export type UploadImageMutationResult = Apollo.MutationResult<UploadImageMutation>;
-export type UploadImageMutationOptions = Apollo.BaseMutationOptions<UploadImageMutation, UploadImageMutationVariables>;
-export const GetMyProjectsDocument = gql`
-    query GetMyProjects($cursor: String = null) {
-  projects: getMyProjects(cursor: $cursor) {
-    ...ProjectsResponseFragment
-  }
+export function useUploadImageMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UploadImageMutation,
+    UploadImageMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<UploadImageMutation, UploadImageMutationVariables>(
+    UploadImageDocument,
+    options
+  );
 }
-    ${ProjectsResponseFragmentFragmentDoc}`;
+export type UploadImageMutationHookResult = ReturnType<
+  typeof useUploadImageMutation
+>;
+export type UploadImageMutationResult =
+  Apollo.MutationResult<UploadImageMutation>;
+export type UploadImageMutationOptions = Apollo.BaseMutationOptions<
+  UploadImageMutation,
+  UploadImageMutationVariables
+>;
+export const GetMyProjectsDocument = gql`
+  query GetMyProjects($cursor: String = null) {
+    projects: getMyProjects(cursor: $cursor) {
+      ...ProjectsResponseFragment
+    }
+  }
+  ${ProjectsResponseFragmentFragmentDoc}
+`;
 
 /**
  * __useGetMyProjectsQuery__
@@ -579,14 +873,37 @@ export const GetMyProjectsDocument = gql`
  *   },
  * });
  */
-export function useGetMyProjectsQuery(baseOptions?: Apollo.QueryHookOptions<GetMyProjectsQuery, GetMyProjectsQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetMyProjectsQuery, GetMyProjectsQueryVariables>(GetMyProjectsDocument, options);
-      }
-export function useGetMyProjectsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetMyProjectsQuery, GetMyProjectsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetMyProjectsQuery, GetMyProjectsQueryVariables>(GetMyProjectsDocument, options);
-        }
-export type GetMyProjectsQueryHookResult = ReturnType<typeof useGetMyProjectsQuery>;
-export type GetMyProjectsLazyQueryHookResult = ReturnType<typeof useGetMyProjectsLazyQuery>;
-export type GetMyProjectsQueryResult = Apollo.QueryResult<GetMyProjectsQuery, GetMyProjectsQueryVariables>;
+export function useGetMyProjectsQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    GetMyProjectsQuery,
+    GetMyProjectsQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetMyProjectsQuery, GetMyProjectsQueryVariables>(
+    GetMyProjectsDocument,
+    options
+  );
+}
+export function useGetMyProjectsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetMyProjectsQuery,
+    GetMyProjectsQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<GetMyProjectsQuery, GetMyProjectsQueryVariables>(
+    GetMyProjectsDocument,
+    options
+  );
+}
+export type GetMyProjectsQueryHookResult = ReturnType<
+  typeof useGetMyProjectsQuery
+>;
+export type GetMyProjectsLazyQueryHookResult = ReturnType<
+  typeof useGetMyProjectsLazyQuery
+>;
+export type GetMyProjectsQueryResult = Apollo.QueryResult<
+  GetMyProjectsQuery,
+  GetMyProjectsQueryVariables
+>;

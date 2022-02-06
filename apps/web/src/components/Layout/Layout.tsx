@@ -1,7 +1,7 @@
-import React from 'react';
-import Navbar from '../Navbar';
+import React from "react";
+import Navbar from "../Navbar";
 
-import { StyledLayout } from './styles';
+import { StyledLayout } from "./styles";
 
 interface LayoutProps {
   children: React.ReactNode;

@@ -1,14 +1,14 @@
-import React from 'react';
-import { RegisterOptions, useController } from 'react-hook-form';
-import Select, { SelectProps } from '../Select';
+import React from "react";
+import { RegisterOptions, useController } from "react-hook-form";
+import Select, { SelectProps } from "../Select";
 
-interface FormSelectProps extends Omit<SelectProps, 'onChange' | 'value'> {
+interface FormSelectProps extends Omit<SelectProps, "onChange" | "value"> {
   control: any;
   name: string;
   defaultValue?: { value: string | number; label: string } | null;
   rules?: Omit<
     RegisterOptions,
-    'valueAsNumber' | 'valueAsDate' | 'setValueAs' | 'disabled'
+    "valueAsNumber" | "valueAsDate" | "setValueAs" | "disabled"
   >;
 }
 

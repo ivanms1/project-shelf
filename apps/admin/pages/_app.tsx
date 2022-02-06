@@ -1,12 +1,12 @@
-import { ApolloProvider } from '@apollo/client';
-import { AppProps } from 'next/app';
-import { SessionProvider } from 'next-auth/react';
+import { ApolloProvider } from "@apollo/client";
+import { AppProps } from "next/app";
+import { SessionProvider } from "next-auth/react";
 
-import AuthProvider from 'src/components/AuthProvider';
+import AuthProvider from "src/components/AuthProvider";
 
-import useApollo from '../hooks/useApollo';
+import useApollo from "../hooks/useApollo";
 
-import './styles.css';
+import "./styles.css";
 
 function CustomApp({
   Component,

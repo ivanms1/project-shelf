@@ -1,7 +1,7 @@
-import React from 'react';
-import { SubmitHandler, useFormContext } from 'react-hook-form';
-import { Button, FormInput, FormSelect, Modal } from 'ui';
-import { FormTypes } from '..';
+import React from "react";
+import { SubmitHandler, useFormContext } from "react-hook-form";
+import { Button, FormInput, FormSelect, Modal } from "ui";
+import { FormTypes } from "..";
 
 import {
   ButtonsContainer,
@@ -9,18 +9,18 @@ import {
   modalStyles,
   PublishButton,
   Title,
-} from './styles';
+} from "./styles";
 
 const PLACEHOLDER_OPTIONS = [
-  { value: 'React', label: 'React' },
-  { value: 'Vue', label: 'Vue' },
-  { value: 'Angular', label: 'Angular' },
-  { value: 'Node.js', label: 'Node.js' },
-  { value: 'Javascript', label: 'Javascript' },
-  { value: 'Svelte', label: 'Svelte' },
-  { value: 'Prisma', label: 'Prisma' },
-  { value: 'GraphQL', label: 'GraphQL' },
-  { value: 'Golang', label: 'Golang' },
+  { value: "React", label: "React" },
+  { value: "Vue", label: "Vue" },
+  { value: "Angular", label: "Angular" },
+  { value: "Node.js", label: "Node.js" },
+  { value: "Javascript", label: "Javascript" },
+  { value: "Svelte", label: "Svelte" },
+  { value: "Prisma", label: "Prisma" },
+  { value: "GraphQL", label: "GraphQL" },
+  { value: "Golang", label: "Golang" },
 ];
 
 interface DetailsFormModalProps {
@@ -48,29 +48,29 @@ const DetailsFormModal = ({
       <Title>Final details</Title>
       <InputsContainer>
         <FormInput
-          label='Repository Link'
-          register={register('repoLink')}
+          label="Repository Link"
+          register={register("repoLink")}
           error={errors.repoLink}
         />
         <FormInput
-          label='Live Site Link'
-          register={register('siteLink')}
+          label="Live Site Link"
+          register={register("siteLink")}
           error={errors.siteLink}
         />
         <FormSelect
           isMulti
           control={control}
-          name='tags'
-          label='Tags'
+          name="tags"
+          label="Tags"
           options={PLACEHOLDER_OPTIONS}
         />
       </InputsContainer>
       <ButtonsContainer>
-        <Button variant='secondary' onClick={onClose} type='button'>
+        <Button variant="secondary" onClick={onClose} type="button">
           Close
         </Button>
         <PublishButton
-          type='submit'
+          type="submit"
           isLoading={isLoading}
           disabled={isLoading}
           onClick={handleSubmit(onSubmit)}

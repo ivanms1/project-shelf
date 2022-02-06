@@ -1,3 +1,3 @@
-import About from '@/pages/About'
+import About from "@/pages/About";
 
-export default About
+export default About;

@@ -1,9 +1,9 @@
-import React from 'react';
-import { Button } from 'ui';
-import Link from 'next/link';
-import { buildImageUrl } from 'cloudinary-build-url';
+import React from "react";
+import { Button } from "ui";
+import Link from "next/link";
+import { buildImageUrl } from "cloudinary-build-url";
 
-import type { GetAllProjectsQuery } from 'apollo-hooks';
+import type { GetAllProjectsQuery } from "apollo-hooks";
 
 import {
   AuthorBox,
@@ -14,10 +14,10 @@ import {
   StyledHeart,
   StyledPreview,
   StyledProjectCard,
-} from './styles';
+} from "./styles";
 
 interface ProjectCardProps {
-  project: GetAllProjectsQuery['projects']['results'][0];
+  project: GetAllProjectsQuery["projects"]["results"][0];
 }
 
 const ProjectCard = ({ project }: ProjectCardProps) => {
@@ -30,7 +30,7 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
             src={buildImageUrl(project?.preview, {
               transformations: {
                 resize: {
-                  type: 'scale',
+                  type: "scale",
                   height: 247,
                   width: 330,
                 },
@@ -55,7 +55,7 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
           <span>{project?.author?.name}</span>
         </AuthorBox>
         <LikesContainer>
-          <Button variant='ghost'>
+          <Button variant="ghost">
             <StyledHeart isliked={project?.isLiked} />
           </Button>
           <p>{project.likesCount}</p>

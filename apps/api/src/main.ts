@@ -1,8 +1,8 @@
-import { ApolloServer } from 'apollo-server-express';
-import express from 'express';
-import db from './db';
+import { ApolloServer } from "apollo-server-express";
+import express from "express";
+import db from "./db";
 
-import { schema } from './schema';
+import { schema } from "./schema";
 
 const PORT = process.env.PORT || 8080;
 
@@ -24,17 +24,17 @@ apollo.start().then(() =>
     app,
     cors: {
       origin: [
-        'http://localhost:3000',
-        'https://studio.apollographql.com',
-        'https://project-shelf-dev.netlify.app',
+        "http://localhost:3000",
+        "https://studio.apollographql.com",
+        "https://project-shelf-dev.netlify.app",
       ],
       credentials: true,
     },
   })
 );
 
-app.use(express.urlencoded({ limit: '50mb', extended: true }));
-app.use(express.json({ type: 'application/json', limit: '50mb' }));
+app.use(express.urlencoded({ limit: "50mb", extended: true }));
+app.use(express.json({ type: "application/json", limit: "50mb" }));
 
 app.listen(PORT, () => {
   console.log(

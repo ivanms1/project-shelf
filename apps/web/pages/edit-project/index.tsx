@@ -1,3 +1,3 @@
-import EditProject from '@/pages/EditProject';
+import EditProject from "@/pages/EditProject";
 
 export default EditProject;

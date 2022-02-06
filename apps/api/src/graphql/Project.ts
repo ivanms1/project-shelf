@@ -8,11 +8,11 @@ import {
   inputObjectType,
   list,
   enumType,
-} from 'nexus';
-import { Project } from 'nexus-prisma';
+} from "nexus";
+import { Project } from "nexus-prisma";
 
-import decodeAccessToken from '../helpers/decodeAccessToken';
-import updateFieldHelper from '../helpers/updateFieldHelper';
+import decodeAccessToken from "../helpers/decodeAccessToken";
+import updateFieldHelper from "../helpers/updateFieldHelper";
 
 export const ProjectType = objectType({
   name: Project.$name,
@@ -30,8 +30,8 @@ export const ProjectType = objectType({
     t.field(Project.tags);
     t.field(Project.author);
     t.field(Project.likes);
-    t.boolean('isLiked', {
-      description: 'If this project is liked by the current user',
+    t.boolean("isLiked", {
+      description: "If this project is liked by the current user",
       async resolve(_root, _, ctx) {
         try {
           const currentUserId = decodeAccessToken(ctx.accessToken);
@@ -60,61 +60,61 @@ export const ProjectType = objectType({
 });
 
 export const ProjectsResponse = objectType({
-  name: 'ProjectsResponse',
+  name: "ProjectsResponse",
   definition(t) {
-    t.string('nextCursor');
-    t.string('prevCursor');
-    t.nonNull.list.nonNull.field('results', { type: 'Project' });
-    t.int('totalCount');
+    t.string("nextCursor");
+    t.string("prevCursor");
+    t.nonNull.list.nonNull.field("results", { type: "Project" });
+    t.int("totalCount");
   },
 });
 
 export const CreateProjectInput = inputObjectType({
-  name: 'CreateProjectInput',
+  name: "CreateProjectInput",
   definition(t) {
-    t.nonNull.string('title');
-    t.nonNull.string('preview');
-    t.nonNull.string('repoLink');
-    t.nonNull.string('siteLink');
-    t.nonNull.string('description');
-    t.nonNull.list.nonNull.string('tags');
+    t.nonNull.string("title");
+    t.nonNull.string("preview");
+    t.nonNull.string("repoLink");
+    t.nonNull.string("siteLink");
+    t.nonNull.string("description");
+    t.nonNull.list.nonNull.string("tags");
   },
 });
 
 export const UpdateProjectInput = inputObjectType({
-  name: 'UpdateProjectInput',
+  name: "UpdateProjectInput",
   definition(t) {
-    t.string('title');
-    t.string('preview');
-    t.string('repoLink');
-    t.string('siteLink');
-    t.string('description');
-    t.list.nonNull.string('tags');
+    t.string("title");
+    t.string("preview");
+    t.string("repoLink");
+    t.string("siteLink");
+    t.string("description");
+    t.list.nonNull.string("tags");
   },
 });
 
 const ProjectActions = enumType({
-  name: 'ProjectAction',
-  members: ['LIKE', 'DISLIKE'],
-  description: 'Actions available to the user',
+  name: "ProjectAction",
+  members: ["LIKE", "DISLIKE"],
+  description: "Actions available to the user",
 });
 
 export const ReactToProjectInput = inputObjectType({
-  name: 'ReactToProjectInput',
+  name: "ReactToProjectInput",
   definition(t) {
-    t.nonNull.id('projectId');
-    t.nonNull.id('userId');
-    t.nonNull.field('action', {
+    t.nonNull.id("projectId");
+    t.nonNull.id("userId");
+    t.nonNull.field("action", {
       type: ProjectActions,
     });
   },
 });
 
 export const GetProject = extendType({
-  type: 'Query',
+  type: "Query",
   definition(t) {
-    t.field('getProject', {
-      type: 'Project',
+    t.field("getProject", {
+      type: "Project",
       args: {
         id: nonNull(idArg()),
       },
@@ -136,9 +136,9 @@ export const GetProject = extendType({
           if (project?.authorId === currentUserId) {
             return project;
           }
-          throw Error('Not authorized');
+          throw Error("Not authorized");
         } catch (error) {
-          throw Error('Sorry an error happened');
+          throw Error("Sorry an error happened");
         }
       },
     });
@@ -146,11 +146,11 @@ export const GetProject = extendType({
 });
 
 export const GetApprovedProjects = extendType({
-  type: 'Query',
+  type: "Query",
   definition(t) {
-    t.nonNull.field('getApprovedProjects', {
-      type: 'ProjectsResponse',
-      description: 'Get all approved projects',
+    t.nonNull.field("getApprovedProjects", {
+      type: "ProjectsResponse",
+      description: "Get all approved projects",
       args: {
         cursor: stringArg(),
       },
@@ -179,7 +179,7 @@ export const GetApprovedProjects = extendType({
               author: true,
             },
             orderBy: {
-              createdAt: 'desc',
+              createdAt: "desc",
             },
           });
         } else {
@@ -193,7 +193,7 @@ export const GetApprovedProjects = extendType({
               author: true,
             },
             orderBy: {
-              createdAt: 'desc',
+              createdAt: "desc",
             },
           });
         }
@@ -213,11 +213,11 @@ export const GetApprovedProjects = extendType({
 });
 
 export const GetProjectsAdmin = extendType({
-  type: 'Query',
+  type: "Query",
   definition(t) {
-    t.nonNull.field('getProjectsAdmin', {
-      type: 'ProjectsResponse',
-      description: 'Admin query to get projects',
+    t.nonNull.field("getProjectsAdmin", {
+      type: "ProjectsResponse",
+      description: "Admin query to get projects",
       args: {
         cursor: stringArg(),
       },
@@ -239,7 +239,7 @@ export const GetProjectsAdmin = extendType({
               author: true,
             },
             orderBy: {
-              createdAt: 'desc',
+              createdAt: "desc",
             },
           });
         } else {
@@ -250,7 +250,7 @@ export const GetProjectsAdmin = extendType({
               author: true,
             },
             orderBy: {
-              createdAt: 'desc',
+              createdAt: "desc",
             },
           });
         }
@@ -270,11 +270,11 @@ export const GetProjectsAdmin = extendType({
 });
 
 export const GetMyProjects = extendType({
-  type: 'Query',
+  type: "Query",
   definition(t) {
-    t.nonNull.field('getMyProjects', {
-      type: 'ProjectsResponse',
-      description: 'Get all my projects',
+    t.nonNull.field("getMyProjects", {
+      type: "ProjectsResponse",
+      description: "Get all my projects",
       args: {
         cursor: stringArg(),
       },
@@ -305,7 +305,7 @@ export const GetMyProjects = extendType({
               author: true,
             },
             orderBy: {
-              createdAt: 'desc',
+              createdAt: "desc",
             },
           });
         } else {
@@ -319,7 +319,7 @@ export const GetMyProjects = extendType({
               author: true,
             },
             orderBy: {
-              createdAt: 'desc',
+              createdAt: "desc",
             },
           });
         }
@@ -339,18 +339,18 @@ export const GetMyProjects = extendType({
 });
 
 export const CreateProject = extendType({
-  type: 'Mutation',
+  type: "Mutation",
   definition(t) {
-    t.field('createProject', {
-      type: 'Project',
+    t.field("createProject", {
+      type: "Project",
       args: {
-        input: 'CreateProjectInput',
+        input: "CreateProjectInput",
       },
       resolve(_root, { input }, ctx) {
         const authorId = decodeAccessToken(ctx.accessToken);
 
         if (!authorId || !input) {
-          throw Error('Args missing');
+          throw Error("Args missing");
         }
 
         const { tags, ...rest } = input;
@@ -379,18 +379,18 @@ export const CreateProject = extendType({
 });
 
 export const UpdateProject = extendType({
-  type: 'Mutation',
+  type: "Mutation",
   definition(t) {
-    t.field('updateProject', {
-      type: 'Project',
+    t.field("updateProject", {
+      type: "Project",
       args: {
         projectId: nonNull(idArg()),
-        input: 'UpdateProjectInput',
+        input: "UpdateProjectInput",
       },
       async resolve(_root, { input, projectId }, ctx) {
         const authorId = decodeAccessToken(ctx.accessToken);
         if (!projectId || !input || !authorId) {
-          throw Error('Args missing');
+          throw Error("Args missing");
         }
 
         const projectToUpdate = await ctx.db.project.findUnique({
@@ -422,17 +422,17 @@ export const UpdateProject = extendType({
           });
         }
 
-        throw Error('Not authorized');
+        throw Error("Not authorized");
       },
     });
   },
 });
 
 export const DeleteProject = extendType({
-  type: 'Mutation',
+  type: "Mutation",
   definition(t) {
-    t.field('deleteProject', {
-      type: 'String',
+    t.field("deleteProject", {
+      type: "String",
       args: {
         id: nonNull(idArg()),
       },
@@ -451,9 +451,9 @@ export const DeleteProject = extendType({
         });
         if (
           projectToDelete?.authorId !== userDeleting?.id &&
-          userDeleting?.role !== 'ADMIN'
+          userDeleting?.role !== "ADMIN"
         ) {
-          throw Error('Not Authorized');
+          throw Error("Not Authorized");
         }
         await ctx.db.project.delete({ where: { id } });
         return id;
@@ -463,10 +463,10 @@ export const DeleteProject = extendType({
 });
 
 export const DeleteManyProjects = extendType({
-  type: 'Mutation',
+  type: "Mutation",
   definition(t) {
-    t.field('deleteManyProjects', {
-      type: 'JSONObject',
+    t.field("deleteManyProjects", {
+      type: "JSONObject",
       args: {
         ids: nonNull(list(nonNull(idArg()))),
       },
@@ -487,26 +487,26 @@ export const DeleteManyProjects = extendType({
 });
 
 export const ReactToProject = extendType({
-  type: 'Mutation',
+  type: "Mutation",
   definition(t) {
-    t.field('reactToProject', {
-      type: 'Project',
+    t.field("reactToProject", {
+      type: "Project",
       args: {
-        input: 'ReactToProjectInput',
+        input: "ReactToProjectInput",
       },
       resolve(_root, { input }, ctx) {
         if (!input) {
-          throw new Error('Invalid action');
+          throw new Error("Invalid action");
         }
 
         if (!input.projectId) {
-          throw new Error('Missing project dd');
+          throw new Error("Missing project dd");
         }
         let action;
-        if (input.action === 'LIKE') {
-          action = 'connect';
+        if (input.action === "LIKE") {
+          action = "connect";
         } else {
-          action = 'disconnect';
+          action = "disconnect";
         }
 
         return ctx.db.project.update({
@@ -531,17 +531,17 @@ export const ReactToProject = extendType({
 });
 
 export const UpdateProjectStatus = extendType({
-  type: 'Mutation',
+  type: "Mutation",
   definition(t) {
-    t.field('updateProjectStatus', {
-      type: 'Project',
+    t.field("updateProjectStatus", {
+      type: "Project",
       args: {
         projectId: nonNull(stringArg()),
         isApproved: nonNull(booleanArg()),
       },
       async resolve(_root, args, ctx) {
         if (!ctx.accessToken) {
-          throw Error('Not Authorized');
+          throw Error("Not Authorized");
         }
 
         const currentUserId = decodeAccessToken(ctx.accessToken);
@@ -551,8 +551,8 @@ export const UpdateProjectStatus = extendType({
           },
         });
 
-        if (!user || user.role !== 'ADMIN') {
-          throw Error('Not Authorized');
+        if (!user || user.role !== "ADMIN") {
+          throw Error("Not Authorized");
         }
 
         return ctx.db.project.update({

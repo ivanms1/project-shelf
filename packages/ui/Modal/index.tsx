@@ -1,8 +1,8 @@
-import classNames from 'classnames';
-import React from 'react';
-import ReactModal from 'react-modal';
+import classNames from "classnames";
+import React from "react";
+import ReactModal from "react-modal";
 
-import { modal, overlay, StyledModal } from './styles';
+import { modal, overlay, StyledModal } from "./styles";
 
 interface ModalProps extends ReactModal.Props {
   children: React.ReactNode;

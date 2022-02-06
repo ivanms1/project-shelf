@@ -1,7 +1,7 @@
-import React from 'react';
-import { default as RSelect } from 'react-select';
+import React from "react";
+import { default as RSelect } from "react-select";
 
-import { Container, customStyles, Label } from './styles';
+import { Container, customStyles, Label } from "./styles";
 
 type Value = { value: string | number; label: string };
 

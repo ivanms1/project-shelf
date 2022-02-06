@@ -4,11 +4,11 @@ import {
   FieldPolicy,
   InMemoryCache,
   NormalizedCacheObject,
-} from '@apollo/client';
+} from "@apollo/client";
 
-import getAuthToken from '@/helpers/getAuthToken';
+import getAuthToken from "@/helpers/getAuthToken";
 
-import { setContext } from '@apollo/client/link/context';
+import { setContext } from "@apollo/client/link/context";
 
 let apolloClient: ApolloClient<NormalizedCacheObject> | null;
 
@@ -47,7 +47,7 @@ const projectsMergeConfig: FieldPolicy<any, any, any> = {
 
 function createApolloClient() {
   return new ApolloClient({
-    ssrMode: typeof window === 'undefined',
+    ssrMode: typeof window === "undefined",
     connectToDevTools: true,
     link: authLink.concat(
       createHttpLink({
@@ -79,7 +79,7 @@ export function initializeApollo(initialState?: any) {
     });
   }
 
-  if (typeof window === 'undefined') {
+  if (typeof window === "undefined") {
     return _apolloClient;
   }
 

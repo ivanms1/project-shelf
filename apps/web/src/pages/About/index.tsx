@@ -5,6 +5,7 @@ export default function About() {
 	return (
 		<div className='container'>
 			<h1>ABOUT PAGE</h1>
+			<p>(trying again for prettier)</p>
 		</div>
 	)
 }

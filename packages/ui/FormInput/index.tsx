@@ -1,8 +1,8 @@
-import * as React from 'react';
-import { InputHTMLAttributes } from 'react';
-import { FieldError } from 'react-hook-form';
+import * as React from "react";
+import { InputHTMLAttributes } from "react";
+import { FieldError } from "react-hook-form";
 
-import { Container, Label, StyledInput } from '../Input/styles';
+import { Container, Label, StyledInput } from "../Input/styles";
 
 interface FormInput extends InputHTMLAttributes<HTMLInputElement> {
   register: any;
@@ -15,7 +15,7 @@ interface FormInput extends InputHTMLAttributes<HTMLInputElement> {
 export function FormInput({
   name,
   id,
-  type = 'text',
+  type = "text",
   label,
   register,
   ...props

@@ -1,10 +1,10 @@
-import { GetStaticProps } from 'next';
-import { addApolloState, initializeApollo } from 'apollo';
-import { GetApprovedProjectsQuery } from 'apollo-hooks';
+import { GetStaticProps } from "next";
+import { addApolloState, initializeApollo } from "apollo";
+import { GetApprovedProjectsQuery } from "apollo-hooks";
 
-import Home from '@/pages/Home';
+import Home from "@/pages/Home";
 
-import QUERY_GET_APPROVED_PROJECTS from './project/queryGetAllApprovedProjects.graphql';
+import QUERY_GET_APPROVED_PROJECTS from "./project/queryGetAllApprovedProjects.graphql";
 
 export default Home;
 

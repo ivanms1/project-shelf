@@ -1,10 +1,10 @@
-import React from 'react';
-import Image from 'next/image';
-import { NextSeo } from 'next-seo';
-import { useGetProjectQuery } from 'apollo-hooks';
-import { useRouter } from 'next/router';
-import { Button, Modal } from 'ui';
-import { buildImageUrl } from 'cloudinary-build-url';
+import React from "react";
+import Image from "next/image";
+import { NextSeo } from "next-seo";
+import { useGetProjectQuery } from "apollo-hooks";
+import { useRouter } from "next/router";
+import { Button, Modal } from "ui";
+import { buildImageUrl } from "cloudinary-build-url";
 
 import {
   CloseButton,
@@ -17,7 +17,7 @@ import {
   modalStyles,
   StyledAvatar,
   StyledCloseIcon,
-} from './styles';
+} from "./styles";
 
 function Project() {
   const { query, push } = useRouter();
@@ -33,10 +33,10 @@ function Project() {
 
   return (
     <>
-      <CloseButton onClick={() => push('/')} variant='ghost'>
+      <CloseButton onClick={() => push("/")} variant="ghost">
         <StyledCloseIcon />
       </CloseButton>
-      <Modal isOpen onClose={() => push('/')} className={modalStyles()}>
+      <Modal isOpen onClose={() => push("/")} className={modalStyles()}>
         <Header>
           <InfoBox>
             <StyledAvatar
@@ -49,7 +49,7 @@ function Project() {
               <p>{project?.author?.name}</p>
             </InfoText>
           </InfoBox>
-          <Button variant='secondary'>Like</Button>
+          <Button variant="secondary">Like</Button>
         </Header>
         <ImageContainer>
           <Image
@@ -57,13 +57,13 @@ function Project() {
             src={buildImageUrl(project?.preview, {
               transformations: {
                 resize: {
-                  type: 'scale',
+                  type: "scale",
                   height: 558,
                   width: 732,
                 },
               },
             })}
-            layout='fill'
+            layout="fill"
             className={imageStyles()}
           />
         </ImageContainer>
@@ -73,16 +73,16 @@ function Project() {
         title={project?.title}
         description={project?.description}
         openGraph={{
-          type: 'website',
+          type: "website",
           title: project?.title,
           description: project?.description,
-          site_name: 'Project Shelf',
+          site_name: "Project Shelf",
           images: [
             {
               url: buildImageUrl(project?.preview, {
                 transformations: {
                   resize: {
-                    type: 'scale',
+                    type: "scale",
                     width: 800,
                     height: 600,
                   },

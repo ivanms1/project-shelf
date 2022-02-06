@@ -1,5 +1,5 @@
 function isWindowPresent() {
-  return typeof window !== 'undefined';
+  return typeof window !== "undefined";
 }
 
 export default isWindowPresent;
