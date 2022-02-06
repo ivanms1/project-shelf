@@ -119,3 +119,5 @@ This monorepo contains
     ```
     yarn dev:web
     ```
+
+Jahongir
