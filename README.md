@@ -75,6 +75,10 @@ This monorepo contains
 
 - ### General
 
+  - Build the hooks library
+    ```
+    yarn build:hooks
+    ```
   - Install all dependencies, on the root folder run
 
     ```
@@ -106,10 +110,6 @@ This monorepo contains
   ```
 
 - ### Frontend
-  - Build the hooks library
-    ```
-    yarn build:hooks
-    ```
   - Start the app
     ```
     yarn dev:web
