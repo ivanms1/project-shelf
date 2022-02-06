@@ -46,7 +46,7 @@ This monorepo contains
     All the images are saved in [Cloudinary](https://cloudinary.com/), the free tier is more than enough for development.
 
   - **Enviroment Variables**
-
+    Inside the `apps/api` directory
     ```
     DATABASE_URL="database url, if running with docker it would be: postgresql://postgres:postgres@localhost:5432/project-shelf"
     CLOUDINARY_URL="Your Cloudinary key goes here"
@@ -62,7 +62,7 @@ This monorepo contains
     ![](https://res.cloudinary.com/ivanms1/image/upload/v1644078662/Screen_Shot_2022-02-06_at_1.28.01_AM_aa0u5l.png)
 
   - **Enviroment Variables**
-
+    Inside the `apps/web` and `apps/admin` directories
     ```
     GITHUB_CLIENT_ID="your oatuh github client id"
     GITHUB_CLIENT_SECRET="your oatuh github client secret"
