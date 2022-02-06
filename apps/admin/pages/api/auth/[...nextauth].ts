@@ -5,10 +5,6 @@ import GithubProvider from 'next-auth/providers/github';
 
 export default NextAuth({
   session: { strategy: 'jwt' },
-  jwt: {
-    secret: process.env.JWT_SECRET,
-  },
-  secret: process.env.JWT_SECRET,
   providers: [
     GithubProvider({
       clientId: process.env.GITHUB_CLIENT_ID,
