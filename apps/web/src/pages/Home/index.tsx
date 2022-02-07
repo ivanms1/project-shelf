@@ -27,9 +27,8 @@ function Home() {
           <StyledContentBox>
             <h1>Discover the coolest projects</h1>
             <p>
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quod
-              esse corporis architecto sequi cupiditate aperiam doloremque
-              mollitia natus eveniet. Hic.
+              Ever wanted to showcase your project and get feedback from professional developers around the world? You have come to the right place. It does not matter
+              if you have just started programming or done it for years, we want to see what you have created. Sign up now.
             </p>
             <Button>Sign up</Button>
           </StyledContentBox>
