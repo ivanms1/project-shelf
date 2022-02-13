@@ -9,7 +9,9 @@
     "start": "node ./dist/main.js",
     "build": "tsc",
     "lint": "tsc --noEmit && TIMING=1 eslint src --fix",
-    "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist"
+    "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist",
+    "generate": "yarn prisma generate",
+    "migrate": "yarn prisma migrate"
   },
   "devDependencies": {
     "@types/body-parser": "^1.19.0",
@@ -34,7 +36,7 @@
     "preset": "scripts/jest/node"
   },
   "dependencies": {
-    "@prisma/client": "^3.9.1",
+    "@prisma/client": "^3.9.2",
     "apollo-server-express": "^3.6.1",
     "body-parser": "^1.19.0",
     "cloudinary": "^1.28.1",
@@ -46,7 +48,8 @@
     "logger": "*",
     "morgan": "^1.10.0",
     "nexus": "^1.1.0",
-    "nexus-prisma": "^0.35.0"
+    "nexus-prisma": "^0.35.0",
+    "prisma": "^3.9.2"
   },
   "prisma": {
     "schema": "src/prisma/schema.prisma"
