@@ -1,6 +1,7 @@
 import * as React from 'react';
 
 export * from './Button';
+export * from './Badge';
 export * from './Input';
 export * from './FormInput';
 export * from './Modal';

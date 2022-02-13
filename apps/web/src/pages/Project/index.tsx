@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { NextSeo } from 'next-seo';
 import { useGetProjectQuery } from 'apollo-hooks';
 import { useRouter } from 'next/router';
-import { Button, Modal } from 'ui';
+import { Button, Modal, Badge } from 'ui';
 import { buildImageUrl } from 'cloudinary-build-url';
 
 import {
@@ -30,6 +30,7 @@ function Project() {
   });
 
   const { project } = data;
+  console.log('project', project);
 
   return (
     <>
@@ -68,6 +69,11 @@ function Project() {
           />
         </ImageContainer>
         <Description>{project?.description}</Description>
+        <Description>{project?.repoLink}</Description>
+        <Description>{project?.siteLink}</Description>
+        {project?.tags.map((tag) => (
+          <Badge key={project?.id}>{tag}</Badge>
+        ))}
       </Modal>
       <NextSeo
         title={project?.title}
