@@ -17,6 +17,10 @@ import {
   modalStyles,
   StyledAvatar,
   StyledCloseIcon,
+  DescriptionContainer,
+  StyledExtLinkIcon,
+  StyledGithubIcon,
+  HStack,
 } from './styles';
 
 function Project() {
@@ -30,7 +34,6 @@ function Project() {
   });
 
   const { project } = data;
-  console.log('project', project);
 
   return (
     <>
@@ -68,12 +71,24 @@ function Project() {
             className={imageStyles()}
           />
         </ImageContainer>
-        <Description>{project?.description}</Description>
-        <Description>{project?.repoLink}</Description>
-        <Description>{project?.siteLink}</Description>
-        {project?.tags.map((tag) => (
-          <Badge key={project?.id}>{tag}</Badge>
-        ))}
+        <DescriptionContainer>
+          <Description>{project?.description}</Description>
+          <HStack>
+            <Button onClick={() => push(project?.repoLink)} variant='ghost'>
+              <StyledExtLinkIcon />
+            </Button>
+            <Description>{project?.repoLink}</Description>
+          </HStack>
+          <HStack>
+            <Button onClick={() => push(project?.siteLink)} variant='ghost'>
+              <StyledGithubIcon />
+            </Button>
+            <Description>{project?.siteLink}</Description>
+          </HStack>
+          {project?.tags.map((tag) => (
+            <Badge key={project?.id}>{tag}</Badge>
+          ))}
+        </DescriptionContainer>
       </Modal>
       <NextSeo
         title={project?.title}
