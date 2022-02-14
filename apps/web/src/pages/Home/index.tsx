@@ -22,14 +22,6 @@ function Home() {
 
   return (
     <StyledHome>
-      {/* this should be moved to the NavBar component and conditionally render. i put it here for a quick test only.  */}
-      {isLoggedIn && (
-        <>
-          <p>You are signed in (replace with an icon)</p>
-          <Button>Logout</Button>
-        </>
-      )}
-
       {!isLoggedIn && (
         <StyledSignInBox>
           <StyledContentBox>

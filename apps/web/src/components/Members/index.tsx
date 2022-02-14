@@ -4,7 +4,7 @@ import { StyledMembers } from './styles';
 
 interface MembersProps {}
 
-// this will be fetched from DB later with NextJS getStaticProps
+// fetch from DB later with NextJS functions? Or, just leave this array here?
 const members = [
   {
     id: 1,
@@ -18,8 +18,8 @@ const members = [
   },
   {
     id: 3,
-    name: 'Josephy',
-    profile: 'joseph',
+    name: 'Joe',
+    profile: 'joe',
   },
 ];
 
