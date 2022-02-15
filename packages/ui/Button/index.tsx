@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { Loader } from '../Loader';
 
-import { StyledButton, StyledLinkButton } from './styles';
+import { StyledButton } from './styles';
 
 interface Button extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: 'primary' | 'secondary' | 'ghost';
