@@ -10,7 +10,6 @@ COPY apps/api/src/prisma/schema.prisma /app/src/prisma/schema.prisma
 RUN npm install -g ts-node
 RUN npm install -g typescript
 RUN yarn
-RUN npx prisma generate
 
 # Bundle app source
 COPY apps/api/ /app
