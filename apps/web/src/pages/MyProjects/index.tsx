@@ -4,6 +4,7 @@ import { useGetMyProjectsQuery } from 'apollo-hooks';
 
 function MyProjects() {
   const { data } = useGetMyProjectsQuery();
+
   return (
     <div>
       <h1>My projects</h1>

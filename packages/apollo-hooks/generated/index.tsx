@@ -236,6 +236,13 @@ export type GetProjectQueryVariables = Exact<{
 
 export type GetProjectQuery = { __typename?: 'Query', project?: { __typename?: 'Project', id: string, title: string, preview: string, repoLink: string, siteLink: string, description: string, isApproved: boolean, likesCount: number, createdAt: any, tags: Array<string>, isLiked?: boolean | null | undefined, author: { __typename?: 'User', id: string, name: string, avatar?: string | null | undefined } } | null | undefined };
 
+export type GetUserForPageQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type GetUserForPageQuery = { __typename?: 'Query', user?: { __typename?: 'User', id: string, name: string, email: string, github?: string | null | undefined, avatar?: string | null | undefined, role: Role, projects?: Array<{ __typename?: 'Project', id: string, title: string, preview: string, likesCount: number, isLiked?: boolean | null | undefined, tags: Array<string>, description: string, siteLink: string, repoLink: string }> | null | undefined } | null | undefined };
+
 export type GetCurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -440,6 +447,57 @@ export function useGetProjectLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions
 export type GetProjectQueryHookResult = ReturnType<typeof useGetProjectQuery>;
 export type GetProjectLazyQueryHookResult = ReturnType<typeof useGetProjectLazyQuery>;
 export type GetProjectQueryResult = Apollo.QueryResult<GetProjectQuery, GetProjectQueryVariables>;
+export const GetUserForPageDocument = gql`
+    query GetUserForPage($id: ID!) {
+  user: getUser(id: $id) {
+    id
+    name
+    email
+    github
+    avatar
+    role
+    projects {
+      id
+      title
+      preview
+      likesCount
+      isLiked
+      tags
+      description
+      siteLink
+      repoLink
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetUserForPageQuery__
+ *
+ * To run a query within a React component, call `useGetUserForPageQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetUserForPageQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetUserForPageQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useGetUserForPageQuery(baseOptions: Apollo.QueryHookOptions<GetUserForPageQuery, GetUserForPageQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetUserForPageQuery, GetUserForPageQueryVariables>(GetUserForPageDocument, options);
+      }
+export function useGetUserForPageLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetUserForPageQuery, GetUserForPageQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetUserForPageQuery, GetUserForPageQueryVariables>(GetUserForPageDocument, options);
+        }
+export type GetUserForPageQueryHookResult = ReturnType<typeof useGetUserForPageQuery>;
+export type GetUserForPageLazyQueryHookResult = ReturnType<typeof useGetUserForPageLazyQuery>;
+export type GetUserForPageQueryResult = Apollo.QueryResult<GetUserForPageQuery, GetUserForPageQueryVariables>;
 export const GetCurrentUserDocument = gql`
     query GetCurrentUser {
   getCurrentUser {
