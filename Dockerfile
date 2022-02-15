@@ -13,7 +13,6 @@ RUN yarn
 
 # Bundle app source
 COPY apps/api/ /app
-RUN yarn build
 
 FROM node:16.3.0-alpine
 
@@ -23,6 +22,7 @@ COPY apps/api/package.json /app
 RUN yarn --production
 COPY apps/api/src/prisma /app/src/prisma
 RUN npx prisma generate
+RUN yarn build
 
 COPY --from=0 /app/dist /app/dist
 
