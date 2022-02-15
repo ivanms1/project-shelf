@@ -15,6 +15,7 @@ export const {
       primary: '#ea4c89',
       primaryLight: '#f082ac',
       secondary: '#F3F3F4',
+      default: '#dbdbde',
     },
     zIndices: {
       modalOverlayIndex: 99999,
