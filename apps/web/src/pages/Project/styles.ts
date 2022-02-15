@@ -124,3 +124,8 @@ export const Description = styled('p', {
     paddingVertical: 5,
   },
 });
+
+export const StyledLink = styled('a', {
+  display: 'flex',
+  alignItems: 'center',
+});

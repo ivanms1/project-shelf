@@ -1,5 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { NextSeo } from 'next-seo';
 import { useGetProjectQuery } from 'apollo-hooks';
 import { useRouter } from 'next/router';
@@ -21,6 +22,7 @@ import {
   StyledExtLinkIcon,
   StyledGithubIcon,
   HStack,
+  StyledLink,
 } from './styles';
 
 function Project() {
@@ -74,20 +76,26 @@ function Project() {
         <DescriptionContainer>
           <Description>{project?.description}</Description>
           <HStack>
-            <Button onClick={() => push(project?.repoLink)} variant='ghost'>
-              <StyledExtLinkIcon />
-            </Button>
+            <Link href={project?.repoLink} passHref>
+              <StyledLink target='_blank' rel='noopener noreferrer'>
+                <StyledExtLinkIcon />
+              </StyledLink>
+            </Link>
             <Description>{project?.repoLink}</Description>
           </HStack>
           <HStack>
-            <Button onClick={() => push(project?.siteLink)} variant='ghost'>
-              <StyledGithubIcon />
-            </Button>
+            <Link href={project?.siteLink} passHref>
+              <StyledLink target='_blank' rel='noopener noreferrer'>
+                <StyledGithubIcon />
+              </StyledLink>
+            </Link>
             <Description>{project?.siteLink}</Description>
           </HStack>
-          {project?.tags.map((tag) => (
-            <Badge key={project?.id}>{tag}</Badge>
-          ))}
+          <HStack>
+            {project?.tags.map((tag) => (
+              <Badge key={project?.id}>{tag}</Badge>
+            ))}
+          </HStack>
         </DescriptionContainer>
       </Modal>
       <NextSeo
