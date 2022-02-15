@@ -16,9 +16,21 @@ import {
 } from './styles';
 
 function Home() {
-  const { data } = useGetApprovedProjectsQuery();
+  const { data, loading, fetchMore } = useGetApprovedProjectsQuery();
 
   const { isLoggedIn } = useIsLoggedIn();
+
+  const onRefetch = () => {
+    if (!data?.projects?.nextCursor) {
+      return;
+    }
+
+    fetchMore({
+      variables: {
+        cursor: data?.projects?.nextCursor,
+      },
+    });
+  };
 
   return (
     <StyledHome>
@@ -42,7 +54,12 @@ function Home() {
         </StyledSignInBox>
       )}
       <GridContainer>
-        <ProjectsGrid projects={data?.projects?.results ?? []} />
+        <ProjectsGrid
+          loading={loading}
+          projects={data?.projects?.results ?? []}
+          nextCursor={data?.projects?.nextCursor}
+          onRefetch={onRefetch}
+        />
       </GridContainer>
       <NextSeo
         title='Welcome to Project Shelf'
