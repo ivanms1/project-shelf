@@ -5,8 +5,9 @@ export const StyledUser = styled('div', {
   display: 'flex',
   alignItems: 'center',
   flexDirection: 'column',
-  justifyContent: 'space-between',
+  backgroundColor: '#F9F8FD',
   padding: 26,
+  height: '100vh',
 });
 
 export const StyledAvatar = styled(Image, {
@@ -21,15 +22,14 @@ export const StyledUserContainer = styled('div', {
   flexDirection: 'column',
   padding: 26,
 });
-export const StyledProject = styled(Image, {
-  borderRadius: 10,
+
+export const StyledCard = styled('div', {
+  padding: 20,
+  backgroundColor: '#fff',
 });
 export const StyledProjectContainer = styled('div', {
   display: 'flex',
-  alignItems: 'center',
   flexDirection: 'row',
   gap: 20,
-
-  justifyContent: 'space-between',
   padding: 26,
 });

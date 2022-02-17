@@ -1,16 +1,18 @@
 import React from 'react';
+import Image from 'next/image';
+
 import { useGetUserForPageQuery } from 'apollo-hooks';
+
 import {
   StyledUser,
   StyledAvatar,
   StyledUserContainer,
   StyledTitle,
-  StyledProject,
   StyledProjectContainer,
+  StyledCard,
 } from './styles';
 
 function User(props) {
-  console.log('useId', props?.userId);
   const { data = {} } = useGetUserForPageQuery({
     variables: {
       id: String(props?.userId),
@@ -24,23 +26,27 @@ function User(props) {
   return (
     <StyledUser>
       <StyledUserContainer>
-        <StyledAvatar
-          src={user?.avatar}
-          alt={user?.name}
-          height={200}
-          width={200}
-        />
-        <StyledTitle>{user.name}</StyledTitle>
+        {user?.avatar && (
+          <StyledAvatar
+            src={user?.avatar}
+            alt={user?.name}
+            height={200}
+            width={200}
+          />
+        )}
+        <StyledTitle>{user?.name}</StyledTitle>
       </StyledUserContainer>
       <StyledProjectContainer>
-        {user.projects.map((project) => (
-          <StyledProject
-            key={project.id}
-            src={project.preview}
-            alt={project.title}
-            height={300}
-            width={400}
-          />
+        {user?.projects.map((project) => (
+          <StyledCard key={project.id}>
+            <Image
+              src={project.preview}
+              alt={project.title}
+              height={300}
+              width={400}
+            />
+            <div>{project.title}</div>
+          </StyledCard>
         ))}
       </StyledProjectContainer>
     </StyledUser>
