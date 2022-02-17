@@ -34,7 +34,7 @@ export const ProjectType = objectType({
       description: 'If this project is liked by the current user',
       async resolve(_root, _, ctx) {
         try {
-          const currentUserId = decodeAccessToken(ctx.accessToken);
+          const currentUserId = decodeAccessToken(ctx?.accessToken);
           if (!currentUserId) {
             return false;
           }
@@ -52,7 +52,6 @@ export const ProjectType = objectType({
 
           return !!isUserLike;
         } catch (error) {
-          console.log('error', error);
           return false;
         }
       },
