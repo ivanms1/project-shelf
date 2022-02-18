@@ -34,7 +34,11 @@ const Navbar = ({}: NavbarProps) => {
                 <Button>Add Project</Button>
               </a>
             </Link>
-            <Button className={searchButtonStyles()} onClick={() => signOut()}>
+            <Button
+              variant='secondary'
+              className={searchButtonStyles()}
+              onClick={() => signOut()}
+            >
               Logout
             </Button>
           </>
