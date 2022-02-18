@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import { styled } from 'stitches/stitches.config';
 
 export const StyledUser = styled('div', {

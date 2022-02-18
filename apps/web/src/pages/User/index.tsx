@@ -1,5 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 
 import { useGetUserForPageQuery } from 'apollo-hooks';
 
@@ -38,15 +39,17 @@ function User(props) {
       </StyledUserContainer>
       <StyledProjectContainer>
         {user?.projects.map((project) => (
-          <StyledCard key={project.id}>
-            <Image
-              src={project.preview}
-              alt={project.title}
-              height={300}
-              width={400}
-            />
-            <div>{project.title}</div>
-          </StyledCard>
+          <Link href={`/project/${project.id}`} key={project.id} passHref>
+            <StyledCard key={project.id}>
+              <Image
+                src={project.preview}
+                alt={project.title}
+                height={300}
+                width={400}
+              />
+              <div>{project.title}</div>
+            </StyledCard>
+          </Link>
         ))}
       </StyledProjectContainer>
     </StyledUser>
