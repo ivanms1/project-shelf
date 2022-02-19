@@ -32,7 +32,7 @@ const Members = () => {
       <Header>Project Shelf Contributors</Header>
       <FlexContainer>
         {members.map((member) => (
-          <Member {...member} />
+          <Member key={member?.id} {...member} />
         ))}
       </FlexContainer>
     </StyledMembers>
