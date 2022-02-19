@@ -2,6 +2,7 @@ import Members from '@/components/Members';
 import React from 'react';
 import { StyledAbout } from './styles';
 
+// tslint:disable-next-line:no-empty-interface
 interface AboutProps {}
 
 const About = ({}: AboutProps) => {

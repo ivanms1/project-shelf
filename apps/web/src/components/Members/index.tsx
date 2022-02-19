@@ -1,7 +1,8 @@
 import React from 'react';
 import Member from '../Member';
-import { StyledMembers } from './styles';
+import { StyledMembers, FlexContainer } from './styles';
 
+// tslint:disable-next-line:no-empty-interface
 interface MembersProps {}
 
 // fetch from DB later with NextJS functions? Or, just leave this array here?
@@ -9,17 +10,17 @@ const members = [
   {
     id: 1,
     name: 'Simon',
-    profile: 'simonhlee97',
+    username: 'simonhlee97',
   },
   {
     id: 2,
     name: 'Ivan',
-    profile: 'ivan',
+    username: 'ivanms1',
   },
   {
     id: 3,
     name: 'Joe',
-    profile: 'joe',
+    username: 'jm066',
   },
 ];
 
@@ -28,11 +29,11 @@ const Members = ({}: MembersProps) => {
     <>
       <StyledMembers>
         <h2>Core Team</h2>
-        <ul>
+        <FlexContainer>
           {members.map((member) => (
-            <Member name={member.name} profile={member.profile} />
+            <Member name={member.name} username={member.username} {...member} />
           ))}
-        </ul>
+        </FlexContainer>
       </StyledMembers>
     </>
   );

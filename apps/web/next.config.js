@@ -15,6 +15,10 @@ module.exports = withTM({
     return config;
   },
   images: {
-    domains: ['res.cloudinary.com', 'avatars.githubusercontent.com'],
+    domains: [
+      'res.cloudinary.com',
+      'avatars.githubusercontent.com',
+      'github.com',
+    ],
   },
 });
