@@ -28,16 +28,14 @@ const members = [
 
 const Members = () => {
   return (
-    <>
-      <StyledMembers>
-        <Header>Project Shelf Contributors</Header>
-        <FlexContainer>
-          {members.map((member) => (
-            <Member {...member} />
-          ))}
-        </FlexContainer>
-      </StyledMembers>
-    </>
+    <StyledMembers>
+      <Header>Project Shelf Contributors</Header>
+      <FlexContainer>
+        {members.map((member) => (
+          <Member {...member} />
+        ))}
+      </FlexContainer>
+    </StyledMembers>
   );
 };
 

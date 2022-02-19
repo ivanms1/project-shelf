@@ -35,7 +35,7 @@ export const ProjectType = objectType({
       async resolve(_root, _, ctx) {
         try {
           const currentUserId = decodeAccessToken(ctx?.accessToken);
-          if (currentUserId) {
+          if (!currentUserId) {
             return false;
           }
 
