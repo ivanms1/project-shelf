@@ -1,5 +1,6 @@
 import { Button } from 'ui';
-import { css, styled } from '@/stitches/stitches.config';
+import { styled } from '@/stitches/stitches.config';
+
 export const Header = styled('h1', {
   fontSize: '36pt',
   marginBottom: '16px',

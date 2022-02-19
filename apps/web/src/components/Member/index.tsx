@@ -1,17 +1,17 @@
 import Link from 'next/link';
 
-import { StyledMember, Card, ProfileImage, H1 } from './styles';
+import { StyledMember, Card, ProfileImage, Title } from './styles';
 
 interface MemberProps {
   name: string;
   username: string;
 }
 
-export const Member: React.FC<MemberProps> = ({ name, username }) => {
+export const Member = ({ name, username }: MemberProps) => {
   return (
     <StyledMember>
       <Card>
-        <H1>{name}</H1>
+        <Title>{name}</Title>
         <p>
           <Link href={`https://github.com/${username}`}>Github Profile</Link>
         </p>

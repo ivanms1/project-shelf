@@ -6,7 +6,7 @@ interface SigninProps {
 }
 
 const Signin = ({ providers }: SigninProps) => {
-  const onSubmit = (data) => alert(JSON.stringify(data, null, 2));
+  // const onSubmit = (data) => alert(JSON.stringify(data, null, 2));
 
   return (
     <StyledSignin>

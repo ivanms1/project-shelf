@@ -21,6 +21,6 @@ export const Card = styled('div', {
 export const ProfileImage = styled(Image, {
   borderRadius: '50%',
 });
-export const H1 = styled('h1', {
+export const Title = styled('h1', {
   fontSize: '40pt',
 });
