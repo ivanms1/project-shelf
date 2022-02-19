@@ -34,3 +34,6 @@ export const StyledProjectContainer = styled('div', {
   gap: 20,
   padding: 26,
 });
+export const StyledLink = styled('div', {
+  cursor: 'pointer',
+});

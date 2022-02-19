@@ -11,6 +11,7 @@ import {
   StyledTitle,
   StyledProjectContainer,
   StyledCard,
+  StyledLink,
 } from './styles';
 
 function User(props) {
@@ -22,7 +23,6 @@ function User(props) {
   });
 
   const { user } = data;
-  console.log('user', user);
 
   return (
     <StyledUser>
@@ -39,17 +39,19 @@ function User(props) {
       </StyledUserContainer>
       <StyledProjectContainer>
         {user?.projects.map((project) => (
-          <Link href={`/project/${project.id}`} key={project.id} passHref>
-            <StyledCard key={project.id}>
-              <Image
-                src={project.preview}
-                alt={project.title}
-                height={300}
-                width={400}
-              />
-              <div>{project.title}</div>
-            </StyledCard>
-          </Link>
+          <StyledLink key={project.id}>
+            <Link href={`/project/${project.id}`} passHref>
+              <StyledCard key={project.id}>
+                <Image
+                  src={project.preview}
+                  alt={project.title}
+                  height={300}
+                  width={400}
+                />
+                <div>{project.title}</div>
+              </StyledCard>
+            </Link>
+          </StyledLink>
         ))}
       </StyledProjectContainer>
     </StyledUser>
@@ -57,4 +59,3 @@ function User(props) {
 }
 
 export default User;
-//ckzkzm2zd00021etjgdfh0z58
