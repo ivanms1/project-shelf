@@ -1,14 +1,33 @@
 import User from '@/pages/User';
+import { addApolloState, initializeApollo } from 'apollo';
+import { GetUserForPageQuery } from 'apollo-hooks';
 
+import type { GetServerSideProps } from 'next';
+
+import QUERY_GET_USER_FOR_PAGE from './queryGetUserForPage.graphql';
 export default User;
 
-export async function getServerSideProps(context) {
-  const { params } = context;
-  const id = params.id;
+export const getServerSideProps: GetServerSideProps = async ({ params }) => {
+  try {
+    const client = initializeApollo();
 
-  return {
-    props: {
-      userId: id,
-    },
-  };
-}
+    await client.query<GetUserForPageQuery>({
+      query: QUERY_GET_USER_FOR_PAGE,
+      variables: {
+        id: params?.id,
+      },
+    });
+
+    return addApolloState(client, {
+      props: {
+        userId: params?.id,
+      },
+    });
+  } catch (error) {
+    return {
+      props: {
+        userId: params?.id,
+      },
+    };
+  }
+};

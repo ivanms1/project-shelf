@@ -1,5 +1,4 @@
 import Image from 'next/image';
-import Link from 'next/link';
 import { styled } from 'stitches/stitches.config';
 
 export const StyledUser = styled('div', {
@@ -24,16 +23,9 @@ export const StyledUserContainer = styled('div', {
   padding: 26,
 });
 
-export const StyledCard = styled('div', {
-  padding: 20,
-  backgroundColor: '#fff',
-});
 export const StyledProjectContainer = styled('div', {
   display: 'flex',
   flexDirection: 'row',
   gap: 20,
   padding: 26,
-});
-export const StyledLink = styled('div', {
-  cursor: 'pointer',
 });

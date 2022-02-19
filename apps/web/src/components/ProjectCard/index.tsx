@@ -5,6 +5,7 @@ import { buildImageUrl } from 'cloudinary-build-url';
 
 import {
   GetAllProjectsQuery,
+  Project,
   ProjectAction,
   useReactToProjectMutation,
 } from 'apollo-hooks';
@@ -21,10 +22,10 @@ import {
 } from './styles';
 
 interface ProjectCardProps {
-  project: GetAllProjectsQuery['projects']['results'][0];
+  project: Partial<Project>;
 }
 
-const ProjectCard = ({ project }: ProjectCardProps) => {
+const ProjectCard = ({ project }: Partial<ProjectCardProps>) => {
   const [reactToProject] = useReactToProjectMutation();
 
   const handleLike = async () => {

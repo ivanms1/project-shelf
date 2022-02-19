@@ -1,8 +1,8 @@
 import React from 'react';
-import Image from 'next/image';
-import Link from 'next/link';
-
+import { NextSeo } from 'next-seo';
 import { useGetUserForPageQuery } from 'apollo-hooks';
+
+import ProjectCard from '@/components/ProjectCard';
 
 import {
   StyledUser,
@@ -10,8 +10,6 @@ import {
   StyledUserContainer,
   StyledTitle,
   StyledProjectContainer,
-  StyledCard,
-  StyledLink,
 } from './styles';
 
 function User(props) {
@@ -23,7 +21,7 @@ function User(props) {
   });
 
   const { user } = data;
-
+  console.log('user', user);
   return (
     <StyledUser>
       <StyledUserContainer>
@@ -39,19 +37,7 @@ function User(props) {
       </StyledUserContainer>
       <StyledProjectContainer>
         {user?.projects.map((project) => (
-          <StyledLink key={project.id}>
-            <Link href={`/project/${project.id}`} passHref>
-              <StyledCard key={project.id}>
-                <Image
-                  src={project.preview}
-                  alt={project.title}
-                  height={300}
-                  width={400}
-                />
-                <div>{project.title}</div>
-              </StyledCard>
-            </Link>
-          </StyledLink>
+          <ProjectCard key={project?.id} project={project} />
         ))}
       </StyledProjectContainer>
     </StyledUser>
