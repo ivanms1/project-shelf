@@ -1,4 +1,4 @@
-import React from 'react';
+import Link from 'next/link';
 
 import { StyledMember, Card, ProfileImage, H1 } from './styles';
 
@@ -12,7 +12,9 @@ export const Member: React.FC<MemberProps> = ({ name, username }) => {
     <StyledMember>
       <Card>
         <H1>{name}</H1>
-        <p>github: {username}</p>
+        <p>
+          <Link href={`https://github.com/${username}`}>Github Profile</Link>
+        </p>
         <ProfileImage
           src={`https://github.com/${username}.png`}
           alt='github-profile'

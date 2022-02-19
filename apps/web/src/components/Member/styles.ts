@@ -9,6 +9,9 @@ export const Card = styled('div', {
   marginBottom: 40,
   backgroundColor: 'black',
   color: 'white',
+  '& > *': {
+    marginBottom: '9px',
+  },
 
   '@desktop': {
     paddingHorizontal: 100,

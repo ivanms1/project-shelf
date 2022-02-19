@@ -1,9 +1,6 @@
 import React from 'react';
 import Member from '../Member';
-import { StyledMembers, FlexContainer } from './styles';
-
-// tslint:disable-next-line:no-empty-interface
-interface MembersProps {}
+import { StyledMembers, FlexContainer, Header } from './styles';
 
 // fetch from DB later with NextJS functions? Or, just leave this array here?
 const members = [
@@ -19,19 +16,19 @@ const members = [
   },
   {
     id: 3,
-    name: 'Joe',
+    name: 'Mina',
     username: 'jm066',
   },
 ];
 
-const Members = ({}: MembersProps) => {
+const Members = () => {
   return (
     <>
       <StyledMembers>
-        <h2>Core Team</h2>
+        <Header>Project Shelf Contributors</Header>
         <FlexContainer>
           {members.map((member) => (
-            <Member name={member.name} username={member.username} {...member} />
+            <Member {...member} />
           ))}
         </FlexContainer>
       </StyledMembers>
