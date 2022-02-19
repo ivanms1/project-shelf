@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import React from 'react';
 import { Button } from 'ui';
-import { signIn } from 'next-auth/react';
+import { signIn, signOut } from 'next-auth/react';
 
 import useIsLoggedIn from '@/hooks/useIsLoggedIn';
 
@@ -19,15 +19,29 @@ const Navbar = ({}: NavbarProps) => {
       </Link>
 
       <RightSection>
+        <Link href='/projects'>
+          <Button variant='secondary' className={searchButtonStyles()}>
+            Projects
+          </Button>
+        </Link>
         <Button variant='secondary' className={searchButtonStyles()}>
           Search
         </Button>
         {isLoggedIn ? (
-          <Link href='/create-project'>
-            <a>
-              <Button>Add Project</Button>
-            </a>
-          </Link>
+          <>
+            <Link href='/create-project'>
+              <a>
+                <Button>Add Project</Button>
+              </a>
+            </Link>
+            <Button
+              variant='secondary'
+              className={searchButtonStyles()}
+              onClick={() => signOut()}
+            >
+              Logout
+            </Button>
+          </>
         ) : (
           <Button onClick={() => signIn()}>Login</Button>
         )}
