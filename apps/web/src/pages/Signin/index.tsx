@@ -6,12 +6,10 @@ interface SigninProps {
 }
 
 const Signin = ({ providers }: SigninProps) => {
-  // const onSubmit = (data) => alert(JSON.stringify(data, null, 2));
-
   return (
     <StyledSignin>
-      {Object.values(providers).map((provider) => (
-        <LoginContent>
+      <LoginContent>
+        {Object.values(providers).map((provider) => (
           <div key={provider.name}>
             <Header>Project Shelf</Header>
             <LoginButton
@@ -25,8 +23,8 @@ const Signin = ({ providers }: SigninProps) => {
               Sign in with {provider.name}
             </LoginButton>
           </div>
-        </LoginContent>
-      ))}
+        ))}
+      </LoginContent>
     </StyledSignin>
   );
 };
