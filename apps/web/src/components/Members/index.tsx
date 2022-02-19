@@ -2,6 +2,7 @@ import React from 'react';
 import Member from '../Member';
 import { StyledMembers } from './styles';
 
+// tslint:disable-next-line:no-empty-interface
 interface MembersProps {}
 
 // fetch from DB later with NextJS functions? Or, just leave this array here?
