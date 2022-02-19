@@ -3,7 +3,11 @@ import { Button } from 'ui';
 import Link from 'next/link';
 import { buildImageUrl } from 'cloudinary-build-url';
 
-import type { GetAllProjectsQuery } from 'apollo-hooks';
+import {
+  GetAllProjectsQuery,
+  ProjectAction,
+  useReactToProjectMutation,
+} from 'apollo-hooks';
 
 import {
   AuthorBox,
@@ -21,6 +25,25 @@ interface ProjectCardProps {
 }
 
 const ProjectCard = ({ project }: ProjectCardProps) => {
+  const [reactToProject] = useReactToProjectMutation();
+
+  const handleLike = async () => {
+    try {
+      await reactToProject({
+        variables: {
+          input: {
+            projectId: project.id,
+            action: project?.isLiked
+              ? ProjectAction.Dislike
+              : ProjectAction.Like,
+          },
+        },
+      });
+    } catch (error) {
+      // TODO: Handle error
+    }
+  };
+
   return (
     <StyledProjectCard>
       <Link href={`/project/${project.id}`} passHref>
@@ -55,7 +78,7 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
           <span>{project?.author?.name}</span>
         </AuthorBox>
         <LikesContainer>
-          <Button variant='ghost'>
+          <Button variant='ghost' onClick={handleLike}>
             <StyledHeart isliked={project?.isLiked} />
           </Button>
           <p>{project.likesCount}</p>

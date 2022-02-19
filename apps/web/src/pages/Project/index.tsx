@@ -1,9 +1,10 @@
 import React from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { NextSeo } from 'next-seo';
 import { useGetProjectQuery } from 'apollo-hooks';
 import { useRouter } from 'next/router';
-import { Button, Modal } from 'ui';
+import { Button, Modal, Badge } from 'ui';
 import { buildImageUrl } from 'cloudinary-build-url';
 
 import {
@@ -17,6 +18,11 @@ import {
   modalStyles,
   StyledAvatar,
   StyledCloseIcon,
+  DescriptionContainer,
+  StyledExtLinkIcon,
+  StyledGithubIcon,
+  HStack,
+  StyledLink,
 } from './styles';
 
 function Project() {
@@ -67,7 +73,30 @@ function Project() {
             className={imageStyles()}
           />
         </ImageContainer>
-        <Description>{project?.description}</Description>
+        <DescriptionContainer>
+          <Description>{project?.description}</Description>
+          <HStack>
+            <Link href={project?.repoLink} passHref>
+              <StyledLink target='_blank' rel='noopener noreferrer'>
+                <StyledExtLinkIcon />
+              </StyledLink>
+            </Link>
+            <Description>{project?.repoLink}</Description>
+          </HStack>
+          <HStack>
+            <Link href={project?.siteLink} passHref>
+              <StyledLink target='_blank' rel='noopener noreferrer'>
+                <StyledGithubIcon />
+              </StyledLink>
+            </Link>
+            <Description>{project?.siteLink}</Description>
+          </HStack>
+          <HStack>
+            {project?.tags.map((tag) => (
+              <Badge key={project?.id}>{tag}</Badge>
+            ))}
+          </HStack>
+        </DescriptionContainer>
       </Modal>
       <NextSeo
         title={project?.title}

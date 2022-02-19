@@ -4,6 +4,8 @@ import { Button } from 'ui';
 import { css, styled } from '@/stitches/stitches.config';
 
 import CloseIcon from '@/assets/icons/close.svg';
+import ExtLinkIcon from '@/assets/icons/ext-link.svg';
+import GithubIcon from '@/assets/icons/github.svg';
 
 export const CloseButton = styled(Button, {
   position: 'absolute',
@@ -19,6 +21,17 @@ export const StyledCloseIcon = styled(CloseIcon, {
   '&:hover': {
     stroke: 'white',
   },
+});
+export const StyledExtLinkIcon = styled(ExtLinkIcon, {
+  height: 20,
+  width: 20,
+  marginRight: 10,
+});
+export const StyledGithubIcon = styled(GithubIcon, {
+  height: 22,
+  width: 22,
+  marginRight: 10,
+  fill: 'gray',
 });
 
 export const modalStyles = css({
@@ -93,8 +106,26 @@ export const imageStyles = css({
   borderRadius: 10,
 });
 
-export const Description = styled('p', {
+export const DescriptionContainer = styled('div', {
   '@desktop': {
     paddingHorizontal: 60,
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'start',
   },
+});
+export const HStack = styled('div', {
+  display: 'flex',
+  flexDirection: 'row',
+  padding: '5px 0',
+});
+export const Description = styled('p', {
+  '@desktop': {
+    paddingVertical: 5,
+  },
+});
+
+export const StyledLink = styled('a', {
+  display: 'flex',
+  alignItems: 'center',
 });

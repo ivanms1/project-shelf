@@ -6,3 +6,14 @@ export const StyledProjectsGrid = styled('div', {
   gridTemplateColumns: 'repeat( auto-fit, minmax(330px, 1fr) )',
   justifyItems: 'center',
 });
+
+export const LoaderContainer = styled('div', {
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+});
+
+export const loaderStyles = {
+  borderColor: 'rgba(0, 0, 0, 0.2)',
+  borderLeft: '0.5em solid #ffffff',
+};
