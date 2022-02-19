@@ -1,4 +1,5 @@
 import * as React from 'react';
+
 import { Loader } from '../Loader';
 
 import { StyledButton } from './styles';
@@ -6,12 +7,15 @@ import { StyledButton } from './styles';
 interface Button extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: 'primary' | 'secondary' | 'ghost';
   isLoading?: boolean;
+  url?: string;
 }
 
 export const Button = ({
   children,
   variant = 'primary',
   isLoading,
+  url,
+
   ...props
 }: Button) => {
   return (

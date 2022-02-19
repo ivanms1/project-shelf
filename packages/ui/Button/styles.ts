@@ -5,7 +5,6 @@ export const StyledButton = styled('button', {
   borderRadius: 8,
   fontSize: 15,
   cursor: 'pointer',
-
   '&:disabled': {
     cursor: 'not-allowed',
     opacity: 0.5,

@@ -44,7 +44,7 @@ export const ProjectType = objectType({
               id: _root.id,
               likes: {
                 some: {
-                  id: currentUserId,
+                  id: String(currentUserId),
                 },
               },
             },
@@ -52,6 +52,7 @@ export const ProjectType = objectType({
 
           return !!isUserLike;
         } catch (error) {
+          console.log('error', error);
           return false;
         }
       },
@@ -101,9 +102,9 @@ const ProjectActions = enumType({
 
 export const ReactToProjectInput = inputObjectType({
   name: 'ReactToProjectInput',
+  description: 'Fields necessary to like or dislike a project',
   definition(t) {
     t.nonNull.id('projectId');
-    t.nonNull.id('userId');
     t.nonNull.field('action', {
       type: ProjectActions,
     });
@@ -491,16 +492,18 @@ export const ReactToProject = extendType({
   definition(t) {
     t.field('reactToProject', {
       type: 'Project',
+      description: 'Like or remove like from project',
       args: {
         input: 'ReactToProjectInput',
       },
       resolve(_root, { input }, ctx) {
+        const authorId = decodeAccessToken(ctx.accessToken);
         if (!input) {
           throw new Error('Invalid action');
         }
 
-        if (!input.projectId) {
-          throw new Error('Missing project dd');
+        if (!input.projectId || !authorId) {
+          throw new Error('Missing project id');
         }
         let action;
         if (input.action === 'LIKE') {
@@ -514,15 +517,14 @@ export const ReactToProject = extendType({
             id: input.projectId,
           },
           data: {
+            likesCount: {
+              [input?.action === 'LIKE' ? 'increment' : 'decrement']: 1,
+            },
             likes: {
               [action]: {
-                id: input.userId,
+                id: authorId,
               },
             },
-          },
-          include: {
-            likes: true,
-            author: true,
           },
         });
       },

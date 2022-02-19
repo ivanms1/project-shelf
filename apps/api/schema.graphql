@@ -25,6 +25,8 @@ type Mutation {
   createProject(input: CreateProjectInput): Project
   deleteManyProjects(ids: [ID!]!): JSONObject
   deleteProject(id: ID!): String
+
+  """Like or remove like from project"""
   reactToProject(input: ReactToProjectInput): Project
   signup(avatar: String!, email: String!, name: String!): JSONObject!
   updateProject(input: UpdateProjectInput, projectId: ID!): Project
@@ -79,10 +81,10 @@ type Query {
   getUsers: [User]!
 }
 
+"""Fields necessary to like or dislike a project"""
 input ReactToProjectInput {
   action: ProjectAction!
   projectId: ID!
-  userId: ID!
 }
 
 enum Role {
