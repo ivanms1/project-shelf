@@ -49,7 +49,6 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
         },
       });
     } catch (error) {
-      console.log('error', error);
       // TODO: Handle error
     }
   };
