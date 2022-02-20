@@ -19,15 +19,11 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
     });
 
     return addApolloState(client, {
-      props: {
-        userId: params?.id,
-      },
+      props: {},
     });
   } catch (error) {
     return {
-      props: {
-        userId: params?.id,
-      },
+      props: {},
     };
   }
 };
