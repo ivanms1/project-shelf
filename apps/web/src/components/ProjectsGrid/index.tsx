@@ -1,5 +1,5 @@
 import React from 'react';
-import type { GetAllProjectsQuery } from 'apollo-hooks';
+import type { Project } from 'apollo-hooks';
 import { Waypoint } from 'react-waypoint';
 
 import ProjectCard from '../ProjectCard';
@@ -8,7 +8,7 @@ import { LoaderContainer, loaderStyles, StyledProjectsGrid } from './styles';
 import { Loader } from 'ui';
 
 interface ProjectsGridProps {
-  projects: GetAllProjectsQuery['projects']['results'];
+  projects: Partial<Project>[];
   onRefetch: () => void;
   loading: boolean;
   nextCursor: string | null;
