@@ -4,7 +4,6 @@ import Link from 'next/link';
 import { buildImageUrl } from 'cloudinary-build-url';
 
 import {
-  GetAllProjectsQuery,
   Project,
   ProjectAction,
   useReactToProjectMutation,
@@ -42,6 +41,7 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
         optimisticResponse: {
           reactToProject: {
             ...project,
+            id: project?.id,
             likesCount: project?.isLiked
               ? project.likesCount - 1
               : project.likesCount + 1,
