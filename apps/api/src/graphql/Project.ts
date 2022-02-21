@@ -52,7 +52,6 @@ export const ProjectType = objectType({
 
           return !!isUserLike;
         } catch (error) {
-          console.log('error', error);
           return false;
         }
       },

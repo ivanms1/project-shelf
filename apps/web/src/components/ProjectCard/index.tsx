@@ -38,6 +38,15 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
               : ProjectAction.Like,
           },
         },
+        optimisticResponse: {
+          reactToProject: {
+            ...project,
+            likesCount: project?.isLiked
+              ? project.likesCount - 1
+              : project.likesCount + 1,
+            isLiked: !project?.isLiked,
+          },
+        },
       });
     } catch (error) {
       // TODO: Handle error
