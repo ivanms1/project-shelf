@@ -53,6 +53,9 @@ export const GetUser = extendType({
           where: {
             id: args.id,
           },
+          include: {
+            projects: true,
+          },
         });
       },
     });

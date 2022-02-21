@@ -26,7 +26,8 @@ import {
 } from './styles';
 
 function Project() {
-  const { query, push } = useRouter();
+  const { query } = useRouter();
+  const router = useRouter();
 
   const { data = {} } = useGetProjectQuery({
     variables: {
@@ -39,10 +40,10 @@ function Project() {
 
   return (
     <>
-      <CloseButton onClick={() => push('/')} variant='ghost'>
+      <CloseButton onClick={() => router.back()} variant='ghost'>
         <StyledCloseIcon />
       </CloseButton>
-      <Modal isOpen onClose={() => push('/')} className={modalStyles()}>
+      <Modal isOpen onClose={() => router.back()} className={modalStyles()}>
         <Header>
           <InfoBox>
             <StyledAvatar
