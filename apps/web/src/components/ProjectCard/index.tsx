@@ -25,7 +25,7 @@ interface ProjectCardProps {
   project: Partial<Project>;
 }
 
-const ProjectCard = ({ project }: Partial<ProjectCardProps>) => {
+const ProjectCard = ({ project }: ProjectCardProps) => {
   const [reactToProject] = useReactToProjectMutation();
 
   const handleLike = async () => {
