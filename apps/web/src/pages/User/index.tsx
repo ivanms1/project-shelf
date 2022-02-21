@@ -15,9 +15,9 @@ import {
 function User(props) {
   const { data = {} } = useGetUserForPageQuery({
     variables: {
-      id: String(props?.userId),
+      id: String(props?.id),
     },
-    skip: !props?.userId,
+    skip: !props?.id,
   });
 
   const { user } = data;
