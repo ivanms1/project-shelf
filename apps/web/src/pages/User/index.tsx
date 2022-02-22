@@ -1,7 +1,9 @@
 import React from 'react';
 import { NextSeo } from 'next-seo';
 import { useGetUserForPageQuery } from 'apollo-hooks';
+
 import ProjectCard from '@/components/ProjectCard';
+
 import { buildImageUrl } from 'cloudinary-build-url';
 
 import {
@@ -37,7 +39,16 @@ function User(props) {
       </StyledUserContainer>
       <StyledProjectContainer>
         {user?.projects.map((project) => (
-          <ProjectCard key={project?.id} project={project} />
+          <ProjectCard
+            key={project?.id}
+            project={{
+              ...project,
+              author: {
+                name: user?.name,
+                avatar: user?.avatar,
+              },
+            }}
+          />
         ))}
       </StyledProjectContainer>
       <NextSeo
