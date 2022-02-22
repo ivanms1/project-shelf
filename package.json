@@ -9,6 +9,7 @@
   "scripts": {
     "build": "turbo run build",
     "build:web": "turbo run build --scope=web",
+    "tsc:web": "cd apps/web && yarn tsc",
     "build:hooks": "turbo run build --scope=apollo-hooks",
     "dev": "turbo run dev --parallel",
     "dev:web": "turbo run dev --scope=web",
