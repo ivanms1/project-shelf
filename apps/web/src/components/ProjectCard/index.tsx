@@ -3,11 +3,7 @@ import { Button } from 'ui';
 import Link from 'next/link';
 import { buildImageUrl } from 'cloudinary-build-url';
 
-import {
-  Project,
-  ProjectAction,
-  useReactToProjectMutation,
-} from 'apollo-hooks';
+import { ProjectAction, useReactToProjectMutation } from 'apollo-hooks';
 
 import {
   AuthorBox,
@@ -20,8 +16,18 @@ import {
   StyledProjectCard,
 } from './styles';
 
-interface ProjectCardProps {
-  project: Partial<Project>;
+export interface ProjectCardProps {
+  project: {
+    id: string;
+    isLiked?: boolean;
+    likesCount: number;
+    title: string;
+    preview: string;
+    author: {
+      name: string;
+      avatar?: string;
+    };
+  };
 }
 
 const ProjectCard = ({ project }: ProjectCardProps) => {

@@ -19,11 +19,6 @@ const Navbar = ({}: NavbarProps) => {
       </Link>
 
       <RightSection>
-        <Link href='/projects'>
-          <Button variant='secondary' className={searchButtonStyles()}>
-            Projects
-          </Button>
-        </Link>
         <Button variant='secondary' className={searchButtonStyles()}>
           Search
         </Button>
