@@ -47,10 +47,16 @@ function Project() {
         <Header>
           <InfoBox>
             <StyledAvatar
+              onClick={() => {
+                router.push({
+                  pathname: `/user/${project?.author?.id}`,
+                });
+              }}
               height={40}
               width={40}
               src={project?.author?.avatar}
             />
+
             <InfoText>
               <h1>{project?.title}</h1>
               <p>{project?.author?.name}</p>
