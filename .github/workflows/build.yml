@@ -1,27 +1,14 @@
-name: Build
-
-on:
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main]
-
+name: learn-github-actions
+on: [push]
 jobs:
-  build:
+  check-bats-version:
     runs-on: ubuntu-latest
-
-strategy:
-  matrix:
-    node-version: [14.x]
-
-steps:
-  - uses: actions/checkout@v2
-  - name: Node.js
-    uses: actions/setup-node@v1
-    with:
-      node-version: ${{ matrix.node-version }}
-  - run: npm install -g yarn
-  - name: yarn install
-    run: |
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+      - run: npm install -g yarn
+      run: |
       yarn 
       yarn tsc:web
