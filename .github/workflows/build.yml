@@ -1,4 +1,4 @@
-name: Check type
+name: Check types
 
 on:
   push:
@@ -17,7 +17,7 @@ jobs:
           node-version: '14'
 
       - run: npm install -g yarn
-      - name: yarn install
+      - name: compile typescript
         run: |
           yarn 
           yarn tsc:web
