@@ -23,7 +23,7 @@ const ProjectsGrid = ({
     <>
       <StyledProjectsGrid>
         {projects.map((project) => (
-          <ProjectCard key={project?.id} project={project} />
+          <ProjectCard key={project?.id} project={project} previous={'/'} />
         ))}
         {!loading && nextCursor && (
           <Waypoint onEnter={onRefetch} bottomOffset='-50%' />

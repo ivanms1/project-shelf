@@ -28,9 +28,10 @@ export interface ProjectCardProps {
       avatar?: string;
     };
   };
+  previous?: string;
 }
 
-const ProjectCard = ({ project }: ProjectCardProps) => {
+const ProjectCard = ({ project, previous }: ProjectCardProps) => {
   const [reactToProject] = useReactToProjectMutation();
 
   const handleLike = async () => {
@@ -62,7 +63,13 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
 
   return (
     <StyledProjectCard>
-      <Link href={`/project/${project.id}`} passHref>
+      <Link
+        href={{
+          pathname: `/project/${project.id}`,
+          query: { previous: previous },
+        }}
+        passHref
+      >
         <ImageContainer>
           <StyledPreview
             alt={project?.title}
@@ -93,6 +100,7 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
           )}
           <span>{project?.author?.name}</span>
         </AuthorBox>
+
         <LikesContainer>
           <Button variant='ghost' onClick={handleLike}>
             <StyledHeart isliked={project?.isLiked} />

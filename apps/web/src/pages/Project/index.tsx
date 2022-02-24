@@ -26,8 +26,9 @@ import {
 } from './styles';
 
 function Project() {
-  const { query } = useRouter();
   const router = useRouter();
+  const { query } = useRouter();
+  const { previous } = query;
 
   const { data = {} } = useGetProjectQuery({
     variables: {
@@ -40,22 +41,40 @@ function Project() {
 
   return (
     <>
-      <CloseButton onClick={() => router.back()} variant='ghost'>
+      <CloseButton
+        onClick={() =>
+          router.push({
+            pathname: previous as string,
+          })
+        }
+        variant='ghost'
+      >
         <StyledCloseIcon />
       </CloseButton>
-      <Modal isOpen onClose={() => router.back()} className={modalStyles()}>
+
+      <Modal
+        isOpen
+        onClose={() =>
+          router.push({
+            pathname: previous as string,
+          })
+        }
+        className={modalStyles()}
+      >
         <Header>
           <InfoBox>
-            <StyledAvatar
-              onClick={() => {
-                router.push({
-                  pathname: `/user/${project?.author?.id}`,
-                });
-              }}
-              height={40}
-              width={40}
-              src={project?.author?.avatar}
-            />
+            <Button variant='ghost'>
+              <StyledAvatar
+                onClick={() => {
+                  router.push({
+                    pathname: `/user/${project?.author?.id}`,
+                  });
+                }}
+                height={40}
+                width={40}
+                src={project?.author?.avatar}
+              />
+            </Button>
 
             <InfoText>
               <h1>{project?.title}</h1>
@@ -85,7 +104,9 @@ function Project() {
           <HStack>
             <Link href={project?.repoLink} passHref>
               <StyledLink target='_blank' rel='noopener noreferrer'>
-                <StyledExtLinkIcon />
+                <Button variant='ghost'>
+                  <StyledExtLinkIcon />
+                </Button>
               </StyledLink>
             </Link>
             <Description>{project?.repoLink}</Description>
@@ -93,7 +114,9 @@ function Project() {
           <HStack>
             <Link href={project?.siteLink} passHref>
               <StyledLink target='_blank' rel='noopener noreferrer'>
-                <StyledGithubIcon />
+                <Button variant='ghost'>
+                  <StyledGithubIcon />
+                </Button>
               </StyledLink>
             </Link>
             <Description>{project?.siteLink}</Description>
