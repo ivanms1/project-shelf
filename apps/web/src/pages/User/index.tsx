@@ -41,6 +41,7 @@ function User(props) {
         {user?.projects.map((project) => (
           <ProjectCard
             key={project?.id}
+            previous={`/user/${user?.id}`}
             project={{
               ...project,
               author: {

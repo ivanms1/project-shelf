@@ -15,7 +15,6 @@ export const Button = ({
   variant = 'primary',
   isLoading,
   url,
-
   ...props
 }: Button) => {
   return (
