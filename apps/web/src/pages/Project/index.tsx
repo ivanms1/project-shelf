@@ -39,28 +39,19 @@ function Project() {
 
   const { project } = data;
 
+  const handleClose = () => {
+    if (typeof previous == 'string') {
+      router.push({
+        pathname: previous,
+      });
+    }
+  };
   return (
     <>
-      <CloseButton
-        onClick={() =>
-          router.push({
-            pathname: previous as string,
-          })
-        }
-        variant='ghost'
-      >
+      <CloseButton onClick={handleClose} variant='ghost'>
         <StyledCloseIcon />
       </CloseButton>
-
-      <Modal
-        isOpen
-        onClose={() =>
-          router.push({
-            pathname: previous as string,
-          })
-        }
-        className={modalStyles()}
-      >
+      <Modal isOpen onClose={handleClose} className={modalStyles()}>
         <Header>
           <InfoBox>
             <Button variant='ghost'>
