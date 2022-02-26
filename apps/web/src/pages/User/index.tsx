@@ -20,7 +20,7 @@ const User = () => {
 
   const { data = {} } = useGetUserForPageQuery({
     variables: {
-      id: String(!query?.id),
+      id: String(query?.id),
     },
     skip: !query?.id,
   });
@@ -65,7 +65,7 @@ const User = () => {
           site_name: 'Project Shelf',
           images: [
             {
-              url: buildImageUrl(user?.avatar, {
+              url: buildImageUrl(user?.avatar ?? '', {
                 transformations: {
                   resize: {
                     type: 'scale',
