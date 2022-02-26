@@ -17,10 +17,20 @@ const PLACEHOLDER_OPTIONS = [
   { value: 'Angular', label: 'Angular' },
   { value: 'Node.js', label: 'Node.js' },
   { value: 'Javascript', label: 'Javascript' },
+  { value: 'Next.js', label: 'Next.js' },
   { value: 'Svelte', label: 'Svelte' },
   { value: 'Prisma', label: 'Prisma' },
   { value: 'GraphQL', label: 'GraphQL' },
   { value: 'Golang', label: 'Golang' },
+  { value: 'Java', label: 'Java' },
+  { value: 'Python', label: 'Python' },
+  { value: 'ExpressJS', label: 'ExpressJS' },
+  { value: 'SQL', label: 'SQL' },
+  { value: 'TypeScript', label: 'TypeScript' },
+  { value: 'Ruby', label: 'Ruby' },
+  { value: 'Ruby on Rails', label: 'Ruby on Rails' },
+  { value: 'Django', label: 'Django' },
+  { value: 'Backbone', label: 'Backbone' },
 ];
 
 interface DetailsFormModalProps {
@@ -63,6 +73,7 @@ const DetailsFormModal = ({
           name='tags'
           label='Tags'
           options={PLACEHOLDER_OPTIONS}
+          isLimited
         />
       </InputsContainer>
       <ButtonsContainer>

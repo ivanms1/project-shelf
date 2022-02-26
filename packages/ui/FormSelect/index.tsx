@@ -33,6 +33,7 @@ export const FormSelect = ({
         field.onChange(value);
       }}
       {...props}
+      isLimited={field?.value?.length > 4}
     />
   );
 };
