@@ -15,7 +15,7 @@ interface FormSelectProps
     'valueAsNumber' | 'valueAsDate' | 'setValueAs' | 'disabled'
   >;
   error?: FieldError | undefined;
-  register: any;
+  register: Omit<Partial<RegisterOptions>, 'pattern'>;
 }
 
 export const FormSelect = ({
@@ -49,7 +49,7 @@ export const FormSelect = ({
         }}
         {...props}
       />
-      <ToastContainer />
+      {error && <ToastContainer />}
     </div>
   );
 };
