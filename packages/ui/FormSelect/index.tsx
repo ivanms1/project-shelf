@@ -1,8 +1,9 @@
 import React from 'react';
-import { RegisterOptions, useController } from 'react-hook-form';
+import { RegisterOptions, useController, useForm } from 'react-hook-form';
 import Select, { SelectProps } from '../Select';
 
-interface FormSelectProps extends Omit<SelectProps, 'onChange' | 'value'> {
+interface FormSelectProps
+  extends Omit<SelectProps, 'onChange' | 'value' | 'error'> {
   control: any;
   name: string;
   defaultValue?: { value: string | number; label: string } | null;
@@ -26,14 +27,32 @@ export const FormSelect = ({
     rules,
   });
 
+  const {
+    setError,
+    clearErrors,
+    formState: { errors },
+  } = useForm();
+
   return (
     <Select
+      error={errors?.valueLength?.message}
       value={field.value}
-      onChange={(value) => {
-        field.onChange(value);
+      onChange={(value, steps) => {
+        if (field?.value?.length > 4) {
+          if (steps.action === 'select-option') {
+            setError('valueLength', {
+              type: 'custom',
+              message: 'Please select no more than 5 items',
+            });
+          } else {
+            clearErrors('valueLength');
+            return field.onChange(value);
+          }
+        } else {
+          return field.onChange(value);
+        }
       }}
       {...props}
-      isLimited={field?.value?.length > 4}
     />
   );
 };

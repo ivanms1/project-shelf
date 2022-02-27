@@ -73,7 +73,7 @@ const DetailsFormModal = ({
           name='tags'
           label='Tags'
           options={PLACEHOLDER_OPTIONS}
-          isLimited
+          register={register('valueLength')}
         />
       </InputsContainer>
       <ButtonsContainer>
