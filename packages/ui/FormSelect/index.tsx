@@ -1,6 +1,9 @@
-import React from 'react';
-import { RegisterOptions, useController, useForm } from 'react-hook-form';
+import React, { useEffect } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+import { RegisterOptions, useController, FieldError } from 'react-hook-form';
 import Select, { SelectProps } from '../Select';
+
+import 'react-toastify/dist/ReactToastify.css';
 
 interface FormSelectProps
   extends Omit<SelectProps, 'onChange' | 'value' | 'error'> {
@@ -11,6 +14,8 @@ interface FormSelectProps
     RegisterOptions,
     'valueAsNumber' | 'valueAsDate' | 'setValueAs' | 'disabled'
   >;
+  error?: FieldError | undefined;
+  register: any;
 }
 
 export const FormSelect = ({
@@ -18,6 +23,8 @@ export const FormSelect = ({
   name,
   defaultValue = null,
   rules,
+  error,
+  register,
   ...props
 }: FormSelectProps) => {
   const { field } = useController({
@@ -27,33 +34,23 @@ export const FormSelect = ({
     rules,
   });
 
-  const {
-    setError,
-    clearErrors,
-    formState: { errors },
-  } = useForm();
+  useEffect(() => {
+    if (error) {
+      toast(error?.message);
+    }
+  }, [error]);
 
   return (
-    <Select
-      error={errors?.valueLength?.message}
-      value={field.value}
-      onChange={(value, steps) => {
-        if (field?.value?.length > 4) {
-          if (steps.action === 'select-option') {
-            setError('valueLength', {
-              type: 'custom',
-              message: 'Please select no more than 5 items',
-            });
-          } else {
-            clearErrors('valueLength');
-            return field.onChange(value);
-          }
-        } else {
+    <div>
+      <Select
+        value={field.value}
+        onChange={(value) => {
           return field.onChange(value);
-        }
-      }}
-      {...props}
-    />
+        }}
+        {...props}
+      />
+      <ToastContainer />
+    </div>
   );
 };
 

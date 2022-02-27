@@ -30,7 +30,8 @@ const validationSchema = yup.object().shape({
   tags: yup
     .array()
     .of(yup.object().shape({ value: yup.string(), label: yup.string() }))
-    .min(1, 'Add at least one tag'),
+    .min(1, 'Add at least one tag')
+    .max(5, 'Add no more than five tags'),
   preview: yup.string().required('This is a required field'),
 });
 

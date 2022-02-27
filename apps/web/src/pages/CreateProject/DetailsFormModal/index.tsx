@@ -73,7 +73,8 @@ const DetailsFormModal = ({
           name='tags'
           label='Tags'
           options={PLACEHOLDER_OPTIONS}
-          register={register('valueLength')}
+          error={errors.tags}
+          register={register('tags')}
         />
       </InputsContainer>
       <ButtonsContainer>
