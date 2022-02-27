@@ -1,6 +1,7 @@
 import React from 'react';
 import { NextSeo } from 'next-seo';
 import { useGetUserForPageQuery } from 'apollo-hooks';
+import { useRouter } from 'next/router';
 
 import ProjectCard from '@/components/ProjectCard';
 
@@ -14,12 +15,14 @@ import {
   StyledProjectContainer,
 } from './styles';
 
-function User(props) {
+const User = () => {
+  const { query } = useRouter();
+
   const { data = {} } = useGetUserForPageQuery({
     variables: {
-      id: String(props?.id),
+      id: String(query?.id),
     },
-    skip: !props?.id,
+    skip: !query?.id,
   });
 
   const { user } = data;
@@ -38,7 +41,7 @@ function User(props) {
         <StyledTitle>{user?.name}</StyledTitle>
       </StyledUserContainer>
       <StyledProjectContainer>
-        {user?.projects.map((project) => (
+        {user?.projects?.map((project) => (
           <ProjectCard
             key={project?.id}
             previous={`/user/${user?.id}`}
@@ -62,7 +65,7 @@ function User(props) {
           site_name: 'Project Shelf',
           images: [
             {
-              url: buildImageUrl(user?.avatar, {
+              url: buildImageUrl(user?.avatar ?? '', {
                 transformations: {
                   resize: {
                     type: 'scale',
@@ -80,6 +83,6 @@ function User(props) {
       />
     </StyledUser>
   );
-}
+};
 
 export default User;
