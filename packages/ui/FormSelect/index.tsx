@@ -1,12 +1,9 @@
 import React, { useEffect } from 'react';
-import { ToastContainer, toast } from 'react-toastify';
-import { RegisterOptions, useController, FieldError } from 'react-hook-form';
+
+import { RegisterOptions, useController } from 'react-hook-form';
 import Select, { SelectProps } from '../Select';
 
-import 'react-toastify/dist/ReactToastify.css';
-
-interface FormSelectProps
-  extends Omit<SelectProps, 'onChange' | 'value' | 'error'> {
+interface FormSelectProps extends Omit<SelectProps, 'onChange' | 'value'> {
   control: any;
   name: string;
   defaultValue?: { value: string | number; label: string } | null;
@@ -14,7 +11,7 @@ interface FormSelectProps
     RegisterOptions,
     'valueAsNumber' | 'valueAsDate' | 'setValueAs' | 'disabled'
   >;
-  error?: FieldError | undefined;
+
   register: Omit<Partial<RegisterOptions>, 'pattern'>;
 }
 
@@ -23,7 +20,7 @@ export const FormSelect = ({
   name,
   defaultValue = null,
   rules,
-  error,
+
   register,
   ...props
 }: FormSelectProps) => {
@@ -34,12 +31,6 @@ export const FormSelect = ({
     rules,
   });
 
-  useEffect(() => {
-    if (error) {
-      toast(error?.message);
-    }
-  }, [error]);
-
   return (
     <div>
       <Select
@@ -49,7 +40,6 @@ export const FormSelect = ({
         }}
         {...props}
       />
-      {error && <ToastContainer />}
     </div>
   );
 };
