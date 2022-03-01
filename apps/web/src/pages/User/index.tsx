@@ -13,8 +13,8 @@ import {
   StyledUserContainer,
   StyledTitle,
   StyledProjectContainer,
+  StyledProjectsGrid,
 } from './styles';
-import { StyledProjectsGrid } from '@/components/ProjectsGrid/styles';
 
 const User = () => {
   const { query } = useRouter();
