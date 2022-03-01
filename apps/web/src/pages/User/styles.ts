@@ -7,7 +7,7 @@ export const StyledUser = styled('div', {
   flexDirection: 'column',
   backgroundColor: '#F9F8FD',
   padding: 26,
-  height: '100vh',
+  // height: '100vh',
 });
 
 export const StyledAvatar = styled(Image, {
@@ -21,11 +21,10 @@ export const StyledUserContainer = styled('div', {
   alignItems: 'center',
   flexDirection: 'column',
   padding: 26,
+  width: '100%',
 });
 
 export const StyledProjectContainer = styled('div', {
-  display: 'flex',
-  flexDirection: 'row',
-  gap: 20,
-  padding: 26,
+  width: '100%',
+  padding: '40px 100px',
 });

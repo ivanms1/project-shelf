@@ -14,6 +14,7 @@ import {
   StyledTitle,
   StyledProjectContainer,
 } from './styles';
+import { StyledProjectsGrid } from '@/components/ProjectsGrid/styles';
 
 const User = () => {
   const { query } = useRouter();
@@ -40,21 +41,25 @@ const User = () => {
         )}
         <StyledTitle>{user?.name}</StyledTitle>
       </StyledUserContainer>
+
       <StyledProjectContainer>
-        {user?.projects?.map((project) => (
-          <ProjectCard
-            key={project?.id}
-            previous={`/user/${user?.id}`}
-            project={{
-              ...project,
-              author: {
-                name: user?.name,
-                avatar: user?.avatar,
-              },
-            }}
-          />
-        ))}
+        <StyledProjectsGrid>
+          {user?.projects?.map((project) => (
+            <ProjectCard
+              key={project?.id}
+              previous={`/user/${user?.id}`}
+              project={{
+                ...project,
+                author: {
+                  name: user?.name,
+                  avatar: user?.avatar,
+                },
+              }}
+            />
+          ))}
+        </StyledProjectsGrid>
       </StyledProjectContainer>
+
       <NextSeo
         title={user?.name}
         description={user?.name}
