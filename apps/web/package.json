@@ -33,7 +33,7 @@
     "@svgr/webpack": "^6.2.1",
     "@types/react": "17.0.39",
     "config": "*",
-    "eslint": "7.32.0",
+    "eslint": "8.10.0",
     "next-transpile-modules": "9.0.0",
     "plop": "^3.0.5",
     "tsconfig": "*",
