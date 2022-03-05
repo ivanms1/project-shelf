@@ -6,7 +6,7 @@ import { useGetProjectQuery } from 'apollo-hooks';
 import { useRouter } from 'next/router';
 import { Button, Modal, Badge } from 'ui';
 import { buildImageUrl } from 'cloudinary-build-url';
-
+import { ProjectAction, useReactToProjectMutation } from 'apollo-hooks';
 import {
   CloseButton,
   Description,
@@ -23,12 +23,14 @@ import {
   StyledGithubIcon,
   HStack,
   StyledLink,
+  StyledLike,
 } from './styles';
 
 function Project() {
   const router = useRouter();
   const { query } = useRouter();
   const { previous } = query;
+  const [reactToProject] = useReactToProjectMutation();
 
   const { data = {} } = useGetProjectQuery({
     variables: {
@@ -46,6 +48,34 @@ function Project() {
       });
     }
   };
+
+  const handleLike = async () => {
+    try {
+      await reactToProject({
+        variables: {
+          input: {
+            projectId: project.id,
+            action: project?.isLiked
+              ? ProjectAction.Dislike
+              : ProjectAction.Like,
+          },
+        },
+        optimisticResponse: {
+          reactToProject: {
+            ...project,
+            id: project?.id,
+            likesCount: project?.isLiked
+              ? project.likesCount - 1
+              : project.likesCount + 1,
+            isLiked: !project?.isLiked,
+          },
+        },
+      });
+    } catch (error) {
+      // TODO: Handle error
+    }
+  };
+  console.log('project?.isLiked', project?.isLiked);
   return (
     <>
       <CloseButton onClick={handleClose} variant='ghost'>
@@ -72,7 +102,9 @@ function Project() {
               <p>{project?.author?.name}</p>
             </InfoText>
           </InfoBox>
-          <Button variant='secondary'>Like</Button>
+          <Button variant='ghost' onClick={handleLike}>
+            <StyledLike isliked={project?.isLiked}>Like</StyledLike>
+          </Button>
         </Header>
         <ImageContainer>
           <Image

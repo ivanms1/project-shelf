@@ -87,7 +87,23 @@ export const InfoText = styled('div', {
     fontSize: 14,
   },
 });
-
+export const StyledLike = styled('div', {
+  padding: '10px 16px',
+  borderRadius: 8,
+  variants: {
+    isliked: {
+      true: {
+        backgroundColor: '$pink',
+        color: 'white',
+      },
+      false: {
+        backgroundColor: '$gray',
+        opacity: 0.5,
+        '&:hover': { backgroundColor: '$pink', color: 'white' },
+      },
+    },
+  },
+});
 export const ImageContainer = styled('div', {
   position: 'relative',
   width: 335,
