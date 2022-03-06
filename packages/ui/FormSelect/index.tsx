@@ -32,15 +32,13 @@ export const FormSelect = ({
   });
 
   return (
-    <div>
-      <Select
-        value={field.value}
-        onChange={(value) => {
-          return field.onChange(value);
-        }}
-        {...props}
-      />
-    </div>
+    <Select
+      value={field.value}
+      onChange={(value) => {
+        return field.onChange(value);
+      }}
+      {...props}
+    />
   );
 };
 
