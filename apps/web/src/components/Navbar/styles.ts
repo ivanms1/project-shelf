@@ -1,4 +1,4 @@
-import { css, styled } from '@/stitches/stitches.config';
+import { styled } from '@/stitches/stitches.config';
 
 export const StyledNavbar = styled('div', {
   display: 'flex',
