@@ -1,15 +1,14 @@
-import Link from 'next/link';
 import React from 'react';
-import { Button } from 'ui';
+import Link from 'next/link';
 import { signIn } from 'next-auth/react';
+
+import { Button } from 'ui';
 
 import useIsLoggedIn from '@/hooks/useIsLoggedIn';
 
 import { RightSection, StyledNavbar } from './styles';
 
-interface NavbarProps {}
-
-const Navbar = ({}: NavbarProps) => {
+const Navbar = () => {
   const { isLoggedIn, logout } = useIsLoggedIn();
 
   return (
