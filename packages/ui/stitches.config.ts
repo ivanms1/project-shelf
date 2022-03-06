@@ -14,7 +14,7 @@ export const {
     colors: {
       primary: '#ea4c89',
       primaryLight: '#f082ac',
-      secondary: '#3F3F4',
+      secondary: '#F3F3F4',
       errorRed: '#d61b1b',
       default: '#dbdbde',
     },
