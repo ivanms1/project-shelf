@@ -5,6 +5,7 @@ import { styled } from '../stitches.config';
 export const Container = styled('div', {
   display: 'flex',
   flexDirection: 'column',
+  position: 'relative',
 });
 
 export const Label = styled('label', {
@@ -54,11 +55,12 @@ export const customStyles: any = {
         'background-color 200ms ease, outline 200ms ease, color 200ms ease, box-shadow 200ms ease, -webkit-box-shadow 200ms ease',
     };
   },
-  container: (provided: CSSProperties): CSSProperties => ({
-    outline: 'none',
-    ...provided,
-  }),
-  indicatorsContainer: (provided: CSSProperties) => ({
-    display: 'none',
-  }),
 };
+
+export const ErrorMessage = styled('div', {
+  color: '$errorRed',
+  position: 'absolute',
+  bottom: '-23px',
+  fontSize: 14,
+  right: '0',
+});

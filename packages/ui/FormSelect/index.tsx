@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+
 import { RegisterOptions, useController } from 'react-hook-form';
 import Select, { SelectProps } from '../Select';
 
@@ -10,6 +11,8 @@ interface FormSelectProps extends Omit<SelectProps, 'onChange' | 'value'> {
     RegisterOptions,
     'valueAsNumber' | 'valueAsDate' | 'setValueAs' | 'disabled'
   >;
+
+  register: Omit<Partial<RegisterOptions>, 'pattern'>;
 }
 
 export const FormSelect = ({
@@ -17,6 +20,8 @@ export const FormSelect = ({
   name,
   defaultValue = null,
   rules,
+
+  register,
   ...props
 }: FormSelectProps) => {
   const { field } = useController({
@@ -30,7 +35,7 @@ export const FormSelect = ({
     <Select
       value={field.value}
       onChange={(value) => {
-        field.onChange(value);
+        return field.onChange(value);
       }}
       {...props}
     />
