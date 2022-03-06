@@ -13,8 +13,5 @@ export const StyledNavbar = styled('div', {
 export const RightSection = styled('div', {
   display: 'flex',
   flexDirection: 'row',
-});
-
-export const searchButtonStyles = css({
-  marginRight: 15,
+  gap: 15,
 });
