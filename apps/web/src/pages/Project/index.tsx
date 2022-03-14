@@ -75,7 +75,7 @@ function Project() {
       // TODO: Handle error
     }
   };
-  console.log('project?.isLiked', project?.isLiked);
+
   return (
     <>
       <CloseButton onClick={handleClose} variant='ghost'>
@@ -103,7 +103,9 @@ function Project() {
             </InfoText>
           </InfoBox>
           <Button variant='ghost' onClick={handleLike}>
-            <StyledLike isliked={project?.isLiked}>Like</StyledLike>
+            <StyledLike isliked={project?.isLiked}>
+              {project?.isLiked ? 'Liked' : 'Like'}
+            </StyledLike>
           </Button>
         </Header>
         <ImageContainer>
