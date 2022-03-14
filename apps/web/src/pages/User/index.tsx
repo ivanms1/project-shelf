@@ -66,7 +66,7 @@ const User = () => {
         openGraph={{
           type: 'website',
           title: user?.name,
-          description: user?.role,
+          description: user?.github,
           site_name: 'Project Shelf',
           images: [
             {

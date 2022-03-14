@@ -6,6 +6,5 @@ query GetCurrentUser {
     github
     discord
     avatar
-    role
   }
 }
