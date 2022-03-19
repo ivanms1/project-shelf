@@ -25,8 +25,14 @@ import DetailsFormModal from './DetailsFormModal';
 const validationSchema = yup.object().shape({
   title: yup.string().required('This is a required field'),
   description: yup.string().required('This is a required field'),
-  repoLink: yup.string().required('This is a required field'),
-  siteLink: yup.string().required('This is a required field'),
+  repoLink: yup
+    .string()
+    .url('It must be a valid URL')
+    .required('This is a required field'),
+  siteLink: yup
+    .string()
+    .url('It must be a valid URL')
+    .required('This is a required field'),
   tags: yup
     .array()
     .of(yup.object().shape({ value: yup.string(), label: yup.string() }))
