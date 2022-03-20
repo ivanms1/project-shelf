@@ -51,6 +51,7 @@ const User = () => {
               project={{
                 ...project,
                 author: {
+                  id: user?.id,
                   name: user?.name,
                   avatar: user?.avatar,
                 },

@@ -107,18 +107,28 @@ export const imageStyles = css({
 });
 
 export const DescriptionContainer = styled('div', {
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'start',
+  gap: 25,
   '@desktop': {
     paddingHorizontal: 60,
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'start',
   },
 });
+
+export const TagsContainer = styled('div', {
+  display: 'flex',
+  flexDirection: 'row',
+  flexWrap: 'wrap',
+  gap: '10px 0px',
+});
+
 export const HStack = styled('div', {
   display: 'flex',
   flexDirection: 'row',
-  padding: '5px 0',
+  gap: 15,
 });
+
 export const Description = styled('p', {
   '@desktop': {
     paddingVertical: 5,

@@ -1,8 +1,11 @@
-import { signOut } from 'next-auth/react';
+import { signOut, useSession } from 'next-auth/react';
 import { useGetCurrentUserQuery } from 'apollo-hooks';
 
 const useIsLoggedIn = () => {
-  const { data, loading, client } = useGetCurrentUserQuery();
+  const session = useSession();
+  const { data, loading, client } = useGetCurrentUserQuery({
+    skip: session.status === 'unauthenticated' || session.status === 'loading',
+  });
 
   const logout = async () => {
     await client.resetStore();
