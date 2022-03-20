@@ -24,6 +24,7 @@ export interface ProjectCardProps {
     title: string;
     preview: string;
     author: {
+      id: string;
       name: string;
       avatar?: string;
     };
@@ -89,17 +90,19 @@ const ProjectCard = ({ project, previous }: ProjectCardProps) => {
         </ImageContainer>
       </Link>
       <InfoBox>
-        <AuthorBox>
-          {project?.author?.avatar && (
-            <StyledAvatar
-              alt={project?.author.name}
-              src={project?.author?.avatar}
-              width={25}
-              height={25}
-            />
-          )}
-          <span>{project?.author?.name}</span>
-        </AuthorBox>
+        <Link href={`/user/${project?.author?.id}`} passHref>
+          <AuthorBox>
+            {project?.author?.avatar && (
+              <StyledAvatar
+                alt={project?.author.name}
+                src={project?.author?.avatar}
+                width={25}
+                height={25}
+              />
+            )}
+            <span>{project?.author?.name}</span>
+          </AuthorBox>
+        </Link>
 
         <LikesContainer>
           <Button variant='ghost' onClick={handleLike}>

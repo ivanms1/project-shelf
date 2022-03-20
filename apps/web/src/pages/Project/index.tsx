@@ -23,6 +23,7 @@ import {
   StyledGithubIcon,
   HStack,
   StyledLink,
+  TagsContainer,
 } from './styles';
 
 function Project() {
@@ -44,6 +45,8 @@ function Project() {
       router.push({
         pathname: previous,
       });
+    } else {
+      router.push('/');
     }
   };
   return (
@@ -69,7 +72,9 @@ function Project() {
 
             <InfoText>
               <h1>{project?.title}</h1>
-              <p>{project?.author?.name}</p>
+              <Link href={`/user/${project?.author?.id}`}>
+                {project?.author?.name}
+              </Link>
             </InfoText>
           </InfoBox>
           <Button variant='secondary'>Like</Button>
@@ -92,6 +97,11 @@ function Project() {
         </ImageContainer>
         <DescriptionContainer>
           <Description>{project?.description}</Description>
+          <TagsContainer>
+            {project?.tags.map((tag) => (
+              <Badge key={tag}>{tag}</Badge>
+            ))}
+          </TagsContainer>
           <HStack>
             <Link href={project?.repoLink} passHref>
               <StyledLink target='_blank' rel='noopener noreferrer'>
@@ -100,9 +110,6 @@ function Project() {
                 </Button>
               </StyledLink>
             </Link>
-            <Description>{project?.repoLink}</Description>
-          </HStack>
-          <HStack>
             <Link href={project?.siteLink} passHref>
               <StyledLink target='_blank' rel='noopener noreferrer'>
                 <Button variant='ghost'>
@@ -110,12 +117,6 @@ function Project() {
                 </Button>
               </StyledLink>
             </Link>
-            <Description>{project?.siteLink}</Description>
-          </HStack>
-          <HStack>
-            {project?.tags.map((tag) => (
-              <Badge key={project?.id}>{tag}</Badge>
-            ))}
           </HStack>
         </DescriptionContainer>
       </Modal>
