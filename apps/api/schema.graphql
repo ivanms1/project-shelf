@@ -16,6 +16,12 @@ A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `dat
 """
 scalar DateTime
 
+"""Fields necessary to follow or unfollow a user"""
+input FollowUserInput {
+  action: UserFollowActions!
+  userId: ID!
+}
+
 """
 The `JSONObject` scalar type represents JSON objects as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
 """
@@ -25,6 +31,9 @@ type Mutation {
   createProject(input: CreateProjectInput): Project
   deleteManyProjects(ids: [ID!]!): JSONObject
   deleteProject(id: ID!): String
+
+  """Follow or unfollow a user"""
+  followUser(input: FollowUserInput): User!
 
   """Like or remove like from project"""
   reactToProject(input: ReactToProjectInput): Project
@@ -114,10 +123,23 @@ type User {
   avatar: String
   discord: String
   email: String!
+  followerCount: Int!
+  followers: [User!]
+  following: [User!]
+  followingCount: Int!
   github: String
   id: ID!
+
+  """If this user is followed by the current user"""
+  isFollowing: Boolean
   name: String!
   projects: [Project!]
   projectsLiked: [Project!]
   role: Role!
+}
+
+"""Actions of follow or unfollow"""
+enum UserFollowActions {
+  FOLLOW
+  UNFOLLOW
 }

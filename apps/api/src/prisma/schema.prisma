@@ -17,15 +17,23 @@ enum Role {
 }
 
 model User {
-  id            String    @id @default(cuid())
-  avatar        String?
-  name          String
-  email         String
-  role          Role      @default(USER)
-  github        String?
-  discord       String?
-  projects      Project[]
-  projectsLiked Project[] @relation("ProjectstLiked")
+  id              String    @id @default(cuid())
+  avatar          String?
+  name            String
+  email           String
+  role            Role      @default(USER)
+  github          String?
+  discord         String?
+  projects        Project[]
+  projectsLiked   Project[] @relation("ProjectstLiked")
+  followers       User[]    @relation(name: "UserFollower")
+  following       User[]    @relation(name: "UserFollowing")
+  followerCount   Int       @default(0)
+  followingCount  Int       @default(0)
+  UserFollower    User?     @relation("UserFollower", fields: [userFollowerId], references: [id])
+  UserFollowing   User?     @relation("UserFollowing", fields: [userFollowingId], references: [id])
+  userFollowerId  String?
+  userFollowingId String?
 }
 
 model Project {

@@ -9,6 +9,7 @@ import {
 } from 'nexus';
 import { User } from 'nexus-prisma';
 import jwt from 'jsonwebtoken';
+import decodeAccessToken from '../helpers/decodeAccessToken';
 
 export const Role = enumType({
   name: 'Role',
@@ -25,8 +26,38 @@ export const UserType = objectType({
     t.field(User.discord);
     t.field(User.avatar);
     t.field(User.role);
+    t.field(User.followerCount);
+    t.field(User.followingCount);
+    t.list.nonNull.field('followers', { type: 'User' });
+    t.list.nonNull.field('following', { type: 'User' });
     t.list.nonNull.field('projects', { type: 'Project' });
     t.list.nonNull.field('projectsLiked', { type: 'Project' });
+    t.boolean('isFollowing', {
+      description: 'If this user is followed by the current user',
+      async resolve(_root, _, ctx) {
+        try {
+          const currentUserId = decodeAccessToken(ctx?.accessToken);
+          if (!currentUserId) {
+            return false;
+          }
+
+          const isUserFollowing = await ctx.db.user.findFirst({
+            where: {
+              id: _root.id,
+              followers: {
+                some: {
+                  id: String(currentUserId),
+                },
+              },
+            },
+          });
+
+          return !!isUserFollowing;
+        } catch (error) {
+          return false;
+        }
+      },
+    });
   },
 });
 
@@ -39,6 +70,23 @@ export const UpdateUsertInput = inputObjectType({
     t.nonNull.string('github');
     t.nonNull.string('discord');
     t.nonNull.field('role', { type: 'Role' });
+  },
+});
+
+const UserFollowActions = enumType({
+  name: 'UserFollowActions',
+  members: ['FOLLOW', 'UNFOLLOW'],
+  description: 'Actions of follow or unfollow',
+});
+
+export const FollowUserInput = inputObjectType({
+  name: 'FollowUserInput',
+  description: 'Fields necessary to follow or unfollow a user',
+  definition(t) {
+    t.nonNull.id('userId');
+    t.nonNull.field('action', {
+      type: UserFollowActions,
+    });
   },
 });
 
@@ -159,6 +207,71 @@ export const UpdateUser = extendType({
         }
 
         return user;
+      },
+    });
+  },
+});
+
+export const FollowUser = extendType({
+  type: 'Mutation',
+  definition(t) {
+    t.nonNull.field('followUser', {
+      type: 'User',
+      description: 'Follow or unfollow a user',
+      args: {
+        input: 'FollowUserInput',
+      },
+      async resolve(_root, args, ctx) {
+        const currentUserId = decodeAccessToken(ctx.accessToken);
+        if (!args?.input) {
+          throw new Error('Data not found');
+        }
+
+        let action;
+
+        const isFollowing = args?.input?.action === 'FOLLOW';
+
+        if (isFollowing) {
+          action = 'connect';
+        } else {
+          action = 'disconnect';
+        }
+
+        // Update target user
+        const targetUser = await ctx.db.user.update({
+          where: {
+            id: args?.input?.userId,
+          },
+          data: {
+            followerCount: {
+              [isFollowing ? 'increment' : 'decrement']: 1,
+            },
+            followers: {
+              [action]: {
+                id: currentUserId,
+              },
+            },
+          },
+        });
+
+        // update current user
+        await ctx.db.user.update({
+          where: {
+            id: String(currentUserId),
+          },
+          data: {
+            followingCount: {
+              [isFollowing ? 'increment' : 'decrement']: 1,
+            },
+            following: {
+              [action]: {
+                id: args?.input?.userId,
+              },
+            },
+          },
+        });
+
+        return targetUser;
       },
     });
   },

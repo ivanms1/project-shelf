@@ -16,5 +16,7 @@ query GetUserForPage($id: ID!) {
       siteLink
       repoLink
     }
+    isFollowing
+    followerCount
   }
 }

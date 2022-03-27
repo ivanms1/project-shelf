@@ -1,6 +1,10 @@
 import React from 'react';
 import { NextSeo } from 'next-seo';
-import { useGetUserForPageQuery } from 'apollo-hooks';
+import {
+  useFollowUserMutation,
+  useGetUserForPageQuery,
+  UserFollowActions,
+} from 'apollo-hooks';
 import { useRouter } from 'next/router';
 
 import ProjectCard from '@/components/ProjectCard';
@@ -28,6 +32,21 @@ const User = () => {
 
   const { user } = data;
 
+  const [followUser] = useFollowUserMutation();
+
+  const handleFollowUser = async () => {
+    await followUser({
+      variables: {
+        input: {
+          userId: user?.id,
+          action: user.isFollowing
+            ? UserFollowActions.Unfollow
+            : UserFollowActions.Follow,
+        },
+      },
+    });
+  };
+
   return (
     <StyledUser>
       <StyledUserContainer>
@@ -40,6 +59,10 @@ const User = () => {
           />
         )}
         <StyledTitle>{user?.name}</StyledTitle>
+        <p>{user?.followerCount} followers</p>
+        <button onClick={handleFollowUser}>
+          {user?.isFollowing ? 'Unfollow' : 'Follow'}
+        </button>
       </StyledUserContainer>
 
       <StyledProjectContainer>
