@@ -18,7 +18,13 @@ const Navbar = () => {
       </Link>
 
       <RightSection>
+        <Link href='/about'>
+          <a>
+            <Button variant='secondary'>About</Button>
+          </a>
+        </Link>
         <Button variant='secondary'>Search</Button>
+
         {isLoggedIn ? (
           <>
             <Link href='/create-project'>

@@ -1,10 +1,10 @@
 import { styled } from '@/stitches/stitches.config';
 
 export const StyledAbout = styled('div', {
-  maxWidth: '820px',
+  maxWidth: '100%',
   margin: 'auto',
   textAlign: 'center',
-  paddingLeft: '3em',
-  paddingRight: '3em',
-  backgroundColor: 'WhiteSmoke',
+  paddingLeft: '2em',
+  paddingRight: '2em',
+  backgroundColor: 'whitesmoke',
 });
