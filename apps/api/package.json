@@ -36,7 +36,7 @@
     "preset": "scripts/jest/node"
   },
   "dependencies": {
-    "@prisma/client": "^3.9.2",
+    "@prisma/client": "^3.11.1",
     "apollo-server-express": "^3.6.7",
     "body-parser": "^1.19.2",
     "cloudinary": "^1.28.1",
@@ -49,7 +49,7 @@
     "morgan": "^1.10.0",
     "nexus": "^1.1.0",
     "nexus-prisma": "^0.35.0",
-    "prisma": "^3.9.2"
+    "prisma": "^3.11.1"
   },
   "prisma": {
     "schema": "src/prisma/schema.prisma"
