@@ -1,17 +1,17 @@
 import Image from 'next/image';
 import { styled } from 'stitches/stitches.config';
 import { Button } from 'ui';
-export const StyledUser = styled('div', {
-});
+export const StyledUser = styled('div', {});
 export const FollowButton = styled(Button, {
-  position: 'absolute',
+  display: 'flex',
   alignItems: 'center',
-  top: '55%',
-  left: '47%',
-  margintop: '25px',
-  marginleft: '-100px',
-  fontFamily: 'sans-serif',
+  flexDirection: 'column',
+  marginLeft: 'auto',
+  marginRight: 'auto',
+  marginTop: '-22px',
+  marginBottom: '1px',
 });
+
 export const StyledAvatar = styled(Image, {
   borderRadius: '50%',
 });
@@ -28,18 +28,15 @@ export const StyledUserContainer = styled('div', {
 
 export const StyledProjectContainer = styled('div', {
   width: '100%',
-  '@desktop': {
-    padding: '50px 100px',
-    '& > p': {
-      position: 'absolute',
-      
-      left: 340,
-      fontSize: '1.1rem',
-      top: '7.7rem',
-      bottom: '1rem',
-      padding: '19%',
-      fontFamily: 'sans-serif',
-    },
+  '& > h4': {
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    marginTop: '5px',
+    justifyContent: 'center',
+    display: 'flex',
+    alignSelf: 'flex-start',
+    textAlign: 'center',
+    flexDirection: 'column',
   },
 });
 

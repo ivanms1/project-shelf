@@ -29,7 +29,7 @@ const User = () => {
   });
 
   const { user } = data;
-  /** added a button on line 46 and added the followers text on lines 49-51 */
+  
   return (
     
     <StyledUser>
@@ -48,9 +48,7 @@ const User = () => {
   
       <StyledProjectContainer>
          <FollowButton>Follow</FollowButton>
-        <p>
-          <a href='/'>5000 Followers</a>
-        </p>
+        <h4>5000 Followers</h4>
        
         <StyledProjectsGrid>
           {user?.projects?.map((project) => (
