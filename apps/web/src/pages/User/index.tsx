@@ -3,11 +3,13 @@ import { NextSeo } from 'next-seo';
 import { useGetUserForPageQuery } from 'apollo-hooks';
 import { useRouter } from 'next/router';
 
+
 import ProjectCard from '@/components/ProjectCard';
 
 import { buildImageUrl } from 'cloudinary-build-url';
 
 import {
+  FollowButton,
   StyledUser,
   StyledAvatar,
   StyledUserContainer,
@@ -27,8 +29,9 @@ const User = () => {
   });
 
   const { user } = data;
-
+  
   return (
+    
     <StyledUser>
       <StyledUserContainer>
         {user?.avatar && (
@@ -39,10 +42,14 @@ const User = () => {
             width={200}
           />
         )}
+
         <StyledTitle>{user?.name}</StyledTitle>
       </StyledUserContainer>
-
+  
       <StyledProjectContainer>
+         <FollowButton>Follow</FollowButton>
+        <h4>5000 Followers</h4>
+       
         <StyledProjectsGrid>
           {user?.projects?.map((project) => (
             <ProjectCard
@@ -90,5 +97,6 @@ const User = () => {
     </StyledUser>
   );
 };
+
 
 export default User;
