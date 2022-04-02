@@ -4,8 +4,6 @@ import { Button } from 'ui';
 export const StyledUser = styled('div', {});
 export const FollowButton = styled(Button, {
   display: 'flex',
-  alignItems: 'center',
-  flexDirection: 'column',
   marginLeft: 'auto',
   marginRight: 'auto',
   marginTop: '-22px',
@@ -30,13 +28,8 @@ export const StyledProjectContainer = styled('div', {
   width: '100%',
   '& > h4': {
     marginLeft: 'auto',
-    marginRight: 'auto',
     marginTop: '5px',
-    justifyContent: 'center',
-    display: 'flex',
-    alignSelf: 'flex-start',
     textAlign: 'center',
-    flexDirection: 'column',
   },
 });
 
