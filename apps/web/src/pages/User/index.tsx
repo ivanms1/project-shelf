@@ -61,15 +61,13 @@ const User = () => {
         )}
 
         <StyledTitle>{user?.name}</StyledTitle>
-        <p>{user?.followerCount} followers</p>
-        <button onClick={handleFollowUser}>
-          {user?.isFollowing ? 'Unfollow' : 'Follow'}
-        </button>
       </StyledUserContainer>
 
       <StyledProjectContainer>
-        <FollowButton>Follow</FollowButton>
-        <h4>5000 Followers</h4>
+        <FollowButton onClick={handleFollowUser}>
+          {user?.isFollowing ? 'Unfollow' : 'Follow'}
+        </FollowButton>
+        <h4>{user?.followerCount} Followers</h4>
 
         <StyledProjectsGrid>
           {user?.projects?.map((project) => (
