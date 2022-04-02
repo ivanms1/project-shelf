@@ -12,6 +12,7 @@ import ProjectCard from '@/components/ProjectCard';
 import { buildImageUrl } from 'cloudinary-build-url';
 
 import {
+  FollowButton,
   StyledUser,
   StyledAvatar,
   StyledUserContainer,
@@ -58,6 +59,7 @@ const User = () => {
             width={200}
           />
         )}
+
         <StyledTitle>{user?.name}</StyledTitle>
         <p>{user?.followerCount} followers</p>
         <button onClick={handleFollowUser}>
@@ -66,6 +68,9 @@ const User = () => {
       </StyledUserContainer>
 
       <StyledProjectContainer>
+        <FollowButton>Follow</FollowButton>
+        <h4>5000 Followers</h4>
+
         <StyledProjectsGrid>
           {user?.projects?.map((project) => (
             <ProjectCard
