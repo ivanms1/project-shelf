@@ -1,6 +1,6 @@
 # fly.toml file generated for project-shelf on 2022-01-23T18:54:21+09:00
 
-app = "project-shelf"
+app = "project-shelf-dev"
 
 kill_signal = "SIGINT"
 kill_timeout = 5

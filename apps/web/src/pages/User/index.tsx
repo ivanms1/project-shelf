@@ -45,6 +45,15 @@ const User = () => {
             : UserFollowActions.Follow,
         },
       },
+      optimisticResponse: {
+        followUser: {
+          ...user,
+          followerCount: user.isFollowing
+            ? user.followerCount - 1
+            : user.followerCount + 1,
+          isFollowing: !user.isFollowing,
+        },
+      },
     });
   };
 
