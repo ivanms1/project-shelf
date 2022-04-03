@@ -1,0 +1,8 @@
+mutation FollowUser($input: FollowUserInput) {
+  followUser(input: $input) {
+    id
+    name
+    isFollowing
+    followerCount
+  }
+}

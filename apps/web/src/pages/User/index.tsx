@@ -1,8 +1,11 @@
 import React from 'react';
 import { NextSeo } from 'next-seo';
-import { useGetUserForPageQuery } from 'apollo-hooks';
+import {
+  useFollowUserMutation,
+  useGetUserForPageQuery,
+  UserFollowActions,
+} from 'apollo-hooks';
 import { useRouter } from 'next/router';
-
 
 import ProjectCard from '@/components/ProjectCard';
 
@@ -29,9 +32,23 @@ const User = () => {
   });
 
   const { user } = data;
-  
+
+  const [followUser] = useFollowUserMutation();
+
+  const handleFollowUser = async () => {
+    await followUser({
+      variables: {
+        input: {
+          userId: user?.id,
+          action: user.isFollowing
+            ? UserFollowActions.Unfollow
+            : UserFollowActions.Follow,
+        },
+      },
+    });
+  };
+
   return (
-    
     <StyledUser>
       <StyledUserContainer>
         {user?.avatar && (
@@ -45,11 +62,13 @@ const User = () => {
 
         <StyledTitle>{user?.name}</StyledTitle>
       </StyledUserContainer>
-  
+
       <StyledProjectContainer>
-         <FollowButton>Follow</FollowButton>
-        <h4>5000 Followers</h4>
-       
+        <FollowButton onClick={handleFollowUser}>
+          {user?.isFollowing ? 'Unfollow' : 'Follow'}
+        </FollowButton>
+        <h4>{user?.followerCount} Followers</h4>
+
         <StyledProjectsGrid>
           {user?.projects?.map((project) => (
             <ProjectCard
@@ -97,6 +116,5 @@ const User = () => {
     </StyledUser>
   );
 };
-
 
 export default User;

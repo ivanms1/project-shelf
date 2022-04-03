@@ -28,11 +28,19 @@ export type CreateProjectInput = {
   title: Scalars['String'];
 };
 
+/** Fields necessary to follow or unfollow a user */
+export type FollowUserInput = {
+  action: UserFollowActions;
+  userId: Scalars['ID'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   createProject?: Maybe<Project>;
   deleteManyProjects?: Maybe<Scalars['JSONObject']>;
   deleteProject?: Maybe<Scalars['String']>;
+  /** Follow or unfollow a user */
+  followUser: User;
   /** Like or remove like from project */
   reactToProject?: Maybe<Project>;
   signup: Scalars['JSONObject'];
@@ -55,6 +63,11 @@ export type MutationDeleteManyProjectsArgs = {
 
 export type MutationDeleteProjectArgs = {
   id: Scalars['ID'];
+};
+
+
+export type MutationFollowUserArgs = {
+  input?: InputMaybe<FollowUserInput>;
 };
 
 
@@ -197,13 +210,25 @@ export type User = {
   avatar?: Maybe<Scalars['String']>;
   discord?: Maybe<Scalars['String']>;
   email: Scalars['String'];
+  followerCount: Scalars['Int'];
+  followers?: Maybe<Array<User>>;
+  following?: Maybe<Array<User>>;
+  followingCount: Scalars['Int'];
   github?: Maybe<Scalars['String']>;
   id: Scalars['ID'];
+  /** If this user is followed by the current user */
+  isFollowing?: Maybe<Scalars['Boolean']>;
   name: Scalars['String'];
   projects?: Maybe<Array<Project>>;
   projectsLiked?: Maybe<Array<Project>>;
   role: Role;
 };
+
+/** Actions of follow or unfollow */
+export enum UserFollowActions {
+  Follow = 'FOLLOW',
+  Unfollow = 'UNFOLLOW'
+}
 
 export type ProjectsResponseFragmentFragment = { __typename?: 'ProjectsResponse', nextCursor?: string | null | undefined, prevCursor?: string | null | undefined, totalCount?: number | null | undefined, results: Array<{ __typename?: 'Project', id: string, title: string, createdAt: any, isLiked?: boolean | null | undefined, likesCount: number, tags: Array<string>, preview: string, repoLink: string, siteLink: string, description: string, isApproved: boolean, author: { __typename?: 'User', id: string, avatar?: string | null | undefined, name: string } }> };
 
@@ -242,7 +267,7 @@ export type GetUserForPageQueryVariables = Exact<{
 }>;
 
 
-export type GetUserForPageQuery = { __typename?: 'Query', user?: { __typename?: 'User', id: string, name: string, email: string, github?: string | null | undefined, avatar?: string | null | undefined, projects?: Array<{ __typename?: 'Project', id: string, title: string, preview: string, likesCount: number, isLiked?: boolean | null | undefined, tags: Array<string>, description: string, siteLink: string, repoLink: string }> | null | undefined } | null | undefined };
+export type GetUserForPageQuery = { __typename?: 'Query', user?: { __typename?: 'User', id: string, name: string, email: string, github?: string | null | undefined, avatar?: string | null | undefined, isFollowing?: boolean | null | undefined, followerCount: number, projects?: Array<{ __typename?: 'Project', id: string, title: string, preview: string, likesCount: number, isLiked?: boolean | null | undefined, tags: Array<string>, description: string, siteLink: string, repoLink: string }> | null | undefined } | null | undefined };
 
 export type ReactToProjectMutationVariables = Exact<{
   input?: InputMaybe<ReactToProjectInput>;
@@ -276,6 +301,13 @@ export type GetMyProjectsQueryVariables = Exact<{
 
 
 export type GetMyProjectsQuery = { __typename?: 'Query', projects: { __typename?: 'ProjectsResponse', nextCursor?: string | null | undefined, prevCursor?: string | null | undefined, totalCount?: number | null | undefined, results: Array<{ __typename?: 'Project', id: string, title: string, createdAt: any, isLiked?: boolean | null | undefined, likesCount: number, tags: Array<string>, preview: string, repoLink: string, siteLink: string, description: string, isApproved: boolean, author: { __typename?: 'User', id: string, avatar?: string | null | undefined, name: string } }> } };
+
+export type FollowUserMutationVariables = Exact<{
+  input?: InputMaybe<FollowUserInput>;
+}>;
+
+
+export type FollowUserMutation = { __typename?: 'Mutation', followUser: { __typename?: 'User', id: string, name: string, isFollowing?: boolean | null | undefined, followerCount: number } };
 
 export const ProjectsResponseFragmentFragmentDoc = gql`
     fragment ProjectsResponseFragment on ProjectsResponse {
@@ -474,6 +506,8 @@ export const GetUserForPageDocument = gql`
       siteLink
       repoLink
     }
+    isFollowing
+    followerCount
   }
 }
     `;
@@ -689,3 +723,39 @@ export function useGetMyProjectsLazyQuery(baseOptions?: Apollo.LazyQueryHookOpti
 export type GetMyProjectsQueryHookResult = ReturnType<typeof useGetMyProjectsQuery>;
 export type GetMyProjectsLazyQueryHookResult = ReturnType<typeof useGetMyProjectsLazyQuery>;
 export type GetMyProjectsQueryResult = Apollo.QueryResult<GetMyProjectsQuery, GetMyProjectsQueryVariables>;
+export const FollowUserDocument = gql`
+    mutation FollowUser($input: FollowUserInput) {
+  followUser(input: $input) {
+    id
+    name
+    isFollowing
+    followerCount
+  }
+}
+    `;
+export type FollowUserMutationFn = Apollo.MutationFunction<FollowUserMutation, FollowUserMutationVariables>;
+
+/**
+ * __useFollowUserMutation__
+ *
+ * To run a mutation, you first call `useFollowUserMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useFollowUserMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [followUserMutation, { data, loading, error }] = useFollowUserMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useFollowUserMutation(baseOptions?: Apollo.MutationHookOptions<FollowUserMutation, FollowUserMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<FollowUserMutation, FollowUserMutationVariables>(FollowUserDocument, options);
+      }
+export type FollowUserMutationHookResult = ReturnType<typeof useFollowUserMutation>;
+export type FollowUserMutationResult = Apollo.MutationResult<FollowUserMutation>;
+export type FollowUserMutationOptions = Apollo.BaseMutationOptions<FollowUserMutation, FollowUserMutationVariables>;
