@@ -24,12 +24,17 @@ const members = [
     name: 'Jakhongir',
     username: 'jahon93',
   },
+  {
+    id: 5,
+    name: 'Joe',
+    username: 'joemcgee4151986',
+  },
 ];
 
 const Members = () => {
   return (
     <StyledMembers>
-      <Header>Project Shelf Contributors</Header>
+      <Header>PROJECT SHELF Contributors</Header>
       <FlexContainer>
         {members.map((member) => (
           <Member key={member?.id} {...member} />
