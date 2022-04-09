@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { signIn } from 'next-auth/react';
-
+import Image from 'next/image';
 import { Button } from 'ui';
 
 import useIsLoggedIn from '@/hooks/useIsLoggedIn';
@@ -12,9 +12,18 @@ const Navbar = () => {
   const { isLoggedIn, logout } = useIsLoggedIn();
 
   return (
+    
     <StyledNavbar>
       <Link href='/'>
-        <a>Project Shelf</a>
+        <a>
+          <Image
+            src={'/assets/images/shelf.png'}
+            alt='project shelf logo'
+            height={50}
+            width={50}
+            
+          />
+        </a>
       </Link>
 
       <RightSection>
