@@ -3,8 +3,8 @@ import { styled } from 'stitches/stitches.config';
 export const StyledMembers = styled('div', {});
 
 export const Header = styled('h2', {
-  marginTop: '1em',
-  marginBottom: '2em',
+  marginTop: '0em',
+  marginBottom: '0em',
   paddingTop: '2em',
   fontWeight: '800',
   fontSize: '24pt',

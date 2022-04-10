@@ -1,5 +1,6 @@
 import React from 'react';
 import Member from '../Member';
+import Link from 'next/link';
 import { StyledMembers, FlexContainer, Header } from './styles';
 
 // fetch from DB later with NextJS functions? Or, just leave this array here?
@@ -40,6 +41,11 @@ const Members = () => {
           <Member key={member?.id} {...member} />
         ))}
       </FlexContainer>
+      <section>
+        <Link href='https://github.com/project-shelf/project-shelf'>
+          <a>To contribute or to learn more about Project Shelf</a>
+        </Link>
+      </section>
     </StyledMembers>
   );
 };
