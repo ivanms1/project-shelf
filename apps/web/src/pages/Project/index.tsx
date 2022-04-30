@@ -103,14 +103,14 @@ function Project() {
             ))}
           </TagsContainer>
           <HStack>
-            <Link href={project?.repoLink} passHref>
+            <Link href={project?.siteLink} passHref>
               <StyledLink target='_blank' rel='noopener noreferrer'>
                 <Button variant='ghost'>
                   <StyledExtLinkIcon />
                 </Button>
               </StyledLink>
             </Link>
-            <Link href={project?.siteLink} passHref>
+            <Link href={project?.repoLink} passHref>
               <StyledLink target='_blank' rel='noopener noreferrer'>
                 <Button variant='ghost'>
                   <StyledGithubIcon />
