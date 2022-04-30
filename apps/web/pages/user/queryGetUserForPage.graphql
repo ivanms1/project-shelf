@@ -5,17 +5,6 @@ query GetUserForPage($id: ID!) {
     email
     github
     avatar
-    projects {
-      id
-      title
-      preview
-      likesCount
-      isLiked
-      tags
-      description
-      siteLink
-      repoLink
-    }
     isFollowing
     followerCount
   }

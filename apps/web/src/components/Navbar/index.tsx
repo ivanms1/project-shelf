@@ -12,7 +12,6 @@ const Navbar = () => {
   const { isLoggedIn, logout } = useIsLoggedIn();
 
   return (
-    
     <StyledNavbar>
       <Link href='/'>
         <a>
@@ -21,7 +20,6 @@ const Navbar = () => {
             alt='project shelf logo'
             height={50}
             width={50}
-            
           />
         </a>
       </Link>

@@ -1,0 +1,18 @@
+query GetUserProjects($cursor: String, $userId: String) {
+  getUserProjects(cursor: $cursor, userId: $userId) {
+    nextCursor
+    prevCursor
+    results {
+      id
+      title
+      preview
+      likesCount
+      isLiked
+      author {
+        id
+        name
+        avatar
+      }
+    }
+  }
+}

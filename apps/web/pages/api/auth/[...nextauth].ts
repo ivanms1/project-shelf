@@ -39,14 +39,14 @@ export default NextAuth({
 
       return true;
     },
-    async jwt({ token, account }) {
+    jwt({ token, account }) {
       if (account) {
         token.serverToken = account.serverToken;
       }
 
       return token;
     },
-    async session({ session, token }: any) {
+    session({ session, token }: any) {
       session.token = token?.serverToken;
       return session;
     },

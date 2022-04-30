@@ -338,6 +338,74 @@ export const GetMyProjects = extendType({
   },
 });
 
+export const GetUserProjects = extendType({
+  type: 'Query',
+  definition(t) {
+    t.nonNull.field('getUserProjects', {
+      type: 'ProjectsResponse',
+      description: 'Get all the projects from a certain user',
+      args: {
+        cursor: stringArg(),
+        userId: stringArg(),
+      },
+      async resolve(_root, args, ctx) {
+        const incomingCursor = args?.cursor;
+        let results;
+
+        const totalCount = await ctx.db.project.count({
+          where: {
+            authorId: String(args.userId),
+          },
+        });
+
+        if (incomingCursor) {
+          results = await ctx.db.project.findMany({
+            take: 9,
+            skip: 1,
+            cursor: {
+              id: incomingCursor,
+            },
+            where: {
+              authorId: String(args.userId),
+            },
+            include: {
+              likes: true,
+              author: true,
+            },
+            orderBy: {
+              createdAt: 'desc',
+            },
+          });
+        } else {
+          results = await ctx.db.project.findMany({
+            take: 9,
+            where: {
+              authorId: String(args.userId),
+            },
+            include: {
+              likes: true,
+              author: true,
+            },
+            orderBy: {
+              createdAt: 'desc',
+            },
+          });
+        }
+
+        const lastResult = results[8];
+        const cursor = lastResult?.id;
+
+        return {
+          prevCursor: args.cursor,
+          nextCursor: cursor,
+          results,
+          totalCount,
+        };
+      },
+    });
+  },
+});
+
 export const CreateProject = extendType({
   type: 'Mutation',
   definition(t) {

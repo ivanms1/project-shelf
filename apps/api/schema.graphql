@@ -87,6 +87,9 @@ type Query {
   """Admin query to get projects"""
   getProjectsAdmin(cursor: String): ProjectsResponse!
   getUser(id: ID!): User
+
+  """Get all the projects from a certain user"""
+  getUserProjects(cursor: String, userId: String): ProjectsResponse!
   getUsers: [User]!
 }
 

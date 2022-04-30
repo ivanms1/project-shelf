@@ -148,6 +148,8 @@ export type Query = {
   /** Admin query to get projects */
   getProjectsAdmin: ProjectsResponse;
   getUser?: Maybe<User>;
+  /** Get all the projects from a certain user */
+  getUserProjects: ProjectsResponse;
   getUsers: Array<Maybe<User>>;
 };
 
@@ -174,6 +176,12 @@ export type QueryGetProjectsAdminArgs = {
 
 export type QueryGetUserArgs = {
   id: Scalars['ID'];
+};
+
+
+export type QueryGetUserProjectsArgs = {
+  cursor?: InputMaybe<Scalars['String']>;
+  userId?: InputMaybe<Scalars['String']>;
 };
 
 /** Fields necessary to like or dislike a project */
@@ -308,6 +316,14 @@ export type FollowUserMutationVariables = Exact<{
 
 
 export type FollowUserMutation = { __typename?: 'Mutation', followUser: { __typename?: 'User', id: string, name: string, isFollowing?: boolean | null | undefined, followerCount: number } };
+
+export type GetUserProjectsQueryVariables = Exact<{
+  cursor?: InputMaybe<Scalars['String']>;
+  userId?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type GetUserProjectsQuery = { __typename?: 'Query', getUserProjects: { __typename?: 'ProjectsResponse', nextCursor?: string | null | undefined, prevCursor?: string | null | undefined, results: Array<{ __typename?: 'Project', id: string, title: string, preview: string, likesCount: number, isLiked?: boolean | null | undefined, author: { __typename?: 'User', id: string, name: string, avatar?: string | null | undefined } }> } };
 
 export const ProjectsResponseFragmentFragmentDoc = gql`
     fragment ProjectsResponseFragment on ProjectsResponse {
@@ -759,3 +775,52 @@ export function useFollowUserMutation(baseOptions?: Apollo.MutationHookOptions<F
 export type FollowUserMutationHookResult = ReturnType<typeof useFollowUserMutation>;
 export type FollowUserMutationResult = Apollo.MutationResult<FollowUserMutation>;
 export type FollowUserMutationOptions = Apollo.BaseMutationOptions<FollowUserMutation, FollowUserMutationVariables>;
+export const GetUserProjectsDocument = gql`
+    query GetUserProjects($cursor: String, $userId: String) {
+  getUserProjects(cursor: $cursor, userId: $userId) {
+    nextCursor
+    prevCursor
+    results {
+      id
+      title
+      preview
+      likesCount
+      isLiked
+      author {
+        id
+        name
+        avatar
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetUserProjectsQuery__
+ *
+ * To run a query within a React component, call `useGetUserProjectsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetUserProjectsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetUserProjectsQuery({
+ *   variables: {
+ *      cursor: // value for 'cursor'
+ *      userId: // value for 'userId'
+ *   },
+ * });
+ */
+export function useGetUserProjectsQuery(baseOptions?: Apollo.QueryHookOptions<GetUserProjectsQuery, GetUserProjectsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetUserProjectsQuery, GetUserProjectsQueryVariables>(GetUserProjectsDocument, options);
+      }
+export function useGetUserProjectsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetUserProjectsQuery, GetUserProjectsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetUserProjectsQuery, GetUserProjectsQueryVariables>(GetUserProjectsDocument, options);
+        }
+export type GetUserProjectsQueryHookResult = ReturnType<typeof useGetUserProjectsQuery>;
+export type GetUserProjectsLazyQueryHookResult = ReturnType<typeof useGetUserProjectsLazyQuery>;
+export type GetUserProjectsQueryResult = Apollo.QueryResult<GetUserProjectsQuery, GetUserProjectsQueryVariables>;
