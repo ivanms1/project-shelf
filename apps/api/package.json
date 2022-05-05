@@ -43,7 +43,7 @@
     "cors": "^2.8.5",
     "express": "^4.18.1",
     "graphql": "^16.3.0",
-    "graphql-scalars": "^1.14.1",
+    "graphql-scalars": "^1.17.0",
     "jsonwebtoken": "^8.5.1",
     "logger": "*",
     "morgan": "^1.10.0",
