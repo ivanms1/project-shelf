@@ -3,11 +3,12 @@ import { NextSeo } from 'next-seo';
 import {
   useFollowUserMutation,
   useGetUserForPageQuery,
+  useGetUserProjectsQuery,
   UserFollowActions,
 } from 'apollo-hooks';
 import { useRouter } from 'next/router';
 
-import ProjectCard from '@/components/ProjectCard';
+import ProjectsGrid from '@/components/ProjectsGrid';
 
 import { buildImageUrl } from 'cloudinary-build-url';
 
@@ -18,7 +19,6 @@ import {
   StyledUserContainer,
   StyledTitle,
   StyledProjectContainer,
-  StyledProjectsGrid,
 } from './styles';
 
 const User = () => {
@@ -29,6 +29,17 @@ const User = () => {
       id: String(query?.id),
     },
     skip: !query?.id,
+  });
+
+  const {
+    data: projectsData,
+    fetchMore,
+    loading,
+  } = useGetUserProjectsQuery({
+    variables: {
+      userId: data?.user?.id,
+      cursor: null,
+    },
   });
 
   const { user } = data;
@@ -57,6 +68,18 @@ const User = () => {
     });
   };
 
+  const onRefetch = () => {
+    if (!projectsData?.getUserProjects?.nextCursor) {
+      return;
+    }
+
+    fetchMore({
+      variables: {
+        cursor: projectsData?.getUserProjects?.nextCursor,
+      },
+    });
+  };
+
   return (
     <StyledUser>
       <StyledUserContainer>
@@ -68,32 +91,19 @@ const User = () => {
             width={200}
           />
         )}
-
         <StyledTitle>{user?.name}</StyledTitle>
       </StyledUserContainer>
-
       <StyledProjectContainer>
         <FollowButton onClick={handleFollowUser}>
           {user?.isFollowing ? 'Unfollow' : 'Follow'}
         </FollowButton>
         <h4>{user?.followerCount} Followers</h4>
-
-        <StyledProjectsGrid>
-          {user?.projects?.map((project) => (
-            <ProjectCard
-              key={project?.id}
-              previous={`/user/${user?.id}`}
-              project={{
-                ...project,
-                author: {
-                  id: user?.id,
-                  name: user?.name,
-                  avatar: user?.avatar,
-                },
-              }}
-            />
-          ))}
-        </StyledProjectsGrid>
+        <ProjectsGrid
+          projects={projectsData?.getUserProjects?.results ?? []}
+          loading={loading}
+          onRefetch={onRefetch}
+          nextCursor={projectsData?.getUserProjects?.nextCursor}
+        />
       </StyledProjectContainer>
 
       <NextSeo

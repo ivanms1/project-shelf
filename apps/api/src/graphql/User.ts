@@ -169,7 +169,7 @@ export const SignUp = extendType({
         }
 
         const newUser = await ctx.db.user.create({
-          data: { ...args },
+          data: args,
         });
 
         const token = jwt.sign(newUser.id, process.env.JWT_SECRET!);
