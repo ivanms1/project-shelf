@@ -44,6 +44,10 @@ export const SearchInput = styled('input', {
   padding: 24,
   width: '100%',
   maxWidth: 628,
+
+  '&:focus': {
+    outline: 'none',
+  },
 });
 
 export const ResultsTitle = styled('h1', {

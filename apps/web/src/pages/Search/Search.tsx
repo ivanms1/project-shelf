@@ -58,6 +58,7 @@ function Search() {
       </Header>
       <SearchForm onSubmit={handleSubmit(handleSearch)}>
         <SearchInput
+          name='project-search'
           placeholder='Search...'
           defaultValue={query?.search?.[0]}
           {...register('search')}
