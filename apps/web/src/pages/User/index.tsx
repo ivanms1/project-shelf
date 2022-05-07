@@ -40,6 +40,7 @@ const User = () => {
       userId: data?.user?.id,
       cursor: null,
     },
+    skip: !data?.user?.id,
   });
 
   const { user } = data;

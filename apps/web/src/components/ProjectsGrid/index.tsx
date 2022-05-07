@@ -11,6 +11,7 @@ interface ProjectsGridProps {
   onRefetch: () => void;
   loading: boolean;
   nextCursor: string | null;
+  previous?: string;
 }
 
 const ProjectsGrid = ({
@@ -18,12 +19,17 @@ const ProjectsGrid = ({
   loading,
   onRefetch,
   nextCursor,
+  previous = '/',
 }: ProjectsGridProps) => {
   return (
     <>
       <StyledProjectsGrid>
         {projects.map((project) => (
-          <ProjectCard key={project?.id} project={project} previous={'/'} />
+          <ProjectCard
+            key={project?.id}
+            project={project}
+            previous={previous}
+          />
         ))}
         {!loading && nextCursor && (
           <Waypoint onEnter={onRefetch} bottomOffset='-50%' />

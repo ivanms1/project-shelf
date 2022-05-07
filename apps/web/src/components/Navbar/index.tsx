@@ -30,7 +30,11 @@ const Navbar = () => {
             <Button variant='secondary'>About</Button>
           </a>
         </Link>
-        <Button variant='secondary'>Search</Button>
+        <Link href='/search'>
+          <a>
+            <Button variant='secondary'>Search</Button>
+          </a>
+        </Link>
 
         {isLoggedIn ? (
           <>
