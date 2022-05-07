@@ -1,3 +1,4 @@
+import { Prisma } from '@prisma/client';
 import {
   objectType,
   extendType,
@@ -369,7 +370,7 @@ export const SearchProjects = extendType({
       async resolve(_root, args, ctx) {
         const incomingCursor = args?.cursor;
         let results;
-        const filter: any = {
+        const filter: Prisma.ProjectWhereInput | undefined = {
           isApproved: true,
           OR: [
             {
