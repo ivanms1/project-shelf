@@ -5,7 +5,16 @@ import { useRouter } from 'next/router';
 
 import ProjectsGrid from '@/components/ProjectsGrid';
 
-import { StyledSearch } from './styles';
+import {
+  Header,
+  ResultsTitle,
+  SearchForm,
+  SearchInput,
+  StyledSearch,
+  Subtitle,
+  Title,
+  TotalCount,
+} from './styles';
 
 function Search() {
   const { query, push } = useRouter();
@@ -41,10 +50,28 @@ function Search() {
 
   return (
     <StyledSearch>
-      <h1>Search</h1>
-      <form onSubmit={handleSubmit(handleSearch)}>
-        <input defaultValue={query?.search?.[0]} {...register('search')} />
-      </form>
+      <Header>
+        <Title>Search Project Shelf</Title>
+        <Subtitle>
+          18,100,000+ projects from thousands of inspirational developers
+        </Subtitle>
+      </Header>
+      <SearchForm onSubmit={handleSubmit(handleSearch)}>
+        <SearchInput
+          placeholder='Search...'
+          defaultValue={query?.search?.[0]}
+          {...register('search')}
+        />
+      </SearchForm>
+      {!!query?.search?.[0] && (
+        <>
+          <ResultsTitle>{query?.search?.[0]}</ResultsTitle>
+          <TotalCount>
+            {data?.searchProjects?.totalCount ?? 0} projects
+          </TotalCount>
+        </>
+      )}
+
       <ProjectsGrid
         projects={data?.searchProjects?.results ?? []}
         nextCursor={data?.searchProjects?.nextCursor}
