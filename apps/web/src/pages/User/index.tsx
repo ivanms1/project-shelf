@@ -35,6 +35,7 @@ const User = () => {
     data: projectsData,
     fetchMore,
     loading,
+    error,
   } = useGetUserProjectsQuery({
     variables: {
       userId: data?.user?.id,
@@ -93,18 +94,24 @@ const User = () => {
         )}
         <StyledTitle>{user?.name}</StyledTitle>
       </StyledUserContainer>
-      <StyledProjectContainer>
-        <FollowButton onClick={handleFollowUser}>
-          {user?.isFollowing ? 'Unfollow' : 'Follow'}
-        </FollowButton>
-        <h4>{user?.followerCount} Followers</h4>
-        <ProjectsGrid
-          projects={projectsData?.getUserProjects?.results ?? []}
-          loading={loading}
-          onRefetch={onRefetch}
-          nextCursor={projectsData?.getUserProjects?.nextCursor}
-        />
-      </StyledProjectContainer>
+      {user ? (
+        <StyledProjectContainer>
+          <FollowButton onClick={handleFollowUser}>
+            {user?.isFollowing ? 'Unfollow' : 'Follow'}
+          </FollowButton>
+          <h4>{user?.followerCount} Followers</h4>
+          <ProjectsGrid
+            projects={projectsData?.getUserProjects?.results ?? []}
+            loading={loading}
+            onRefetch={onRefetch}
+            nextCursor={projectsData?.getUserProjects?.nextCursor}
+          />
+        </StyledProjectContainer>
+      ) : (
+        <StyledUserContainer>
+          <StyledTitle>User not found</StyledTitle>
+        </StyledUserContainer>
+      )}
 
       <NextSeo
         title={user?.name}
