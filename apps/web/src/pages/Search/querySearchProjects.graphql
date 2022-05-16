@@ -1,0 +1,20 @@
+query SearchProjects($input: SearchProjectsInput) {
+  searchProjects(input: $input) {
+    results {
+      title
+      description
+      preview
+      id
+      likesCount
+      author {
+        id
+        name
+        avatar
+      }
+      isLiked
+    }
+    totalCount
+    nextCursor
+    prevCursor
+  }
+}

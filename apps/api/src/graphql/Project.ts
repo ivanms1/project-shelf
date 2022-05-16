@@ -1,3 +1,4 @@
+import { Prisma } from '@prisma/client';
 import {
   objectType,
   extendType,
@@ -99,6 +100,12 @@ const ProjectActions = enumType({
   description: 'Actions available to the user',
 });
 
+const SearchOrder = enumType({
+  name: 'SearchOrder',
+  members: ['asc', 'desc'],
+  description: 'Search order',
+});
+
 export const ReactToProjectInput = inputObjectType({
   name: 'ReactToProjectInput',
   description: 'Fields necessary to like or dislike a project',
@@ -106,6 +113,18 @@ export const ReactToProjectInput = inputObjectType({
     t.nonNull.id('projectId');
     t.nonNull.field('action', {
       type: ProjectActions,
+    });
+  },
+});
+
+export const SearchProjectsInput = inputObjectType({
+  name: 'SearchProjectsInput',
+  description: 'Search input fields',
+  definition(t) {
+    t.nonNull.string('search');
+    t.nonNull.string('orderBy');
+    t.nonNull.field('order', {
+      type: SearchOrder,
     });
   },
 });
@@ -320,6 +339,83 @@ export const GetMyProjects = extendType({
             },
             orderBy: {
               createdAt: 'desc',
+            },
+          });
+        }
+
+        const lastResult = results[8];
+        const cursor = lastResult?.id;
+
+        return {
+          prevCursor: args.cursor,
+          nextCursor: cursor,
+          results,
+          totalCount,
+        };
+      },
+    });
+  },
+});
+
+export const SearchProjects = extendType({
+  type: 'Query',
+  definition(t) {
+    t.nonNull.field('searchProjects', {
+      type: 'ProjectsResponse',
+      description: 'Search projects query',
+      args: {
+        input: SearchProjectsInput,
+        cursor: stringArg(),
+      },
+      async resolve(_root, args, ctx) {
+        const incomingCursor = args?.cursor;
+        let results;
+        const filter: Prisma.ProjectWhereInput | undefined = {
+          isApproved: true,
+          OR: [
+            {
+              title: {
+                contains: args?.input?.search || undefined,
+                mode: 'insensitive',
+              },
+            },
+            {
+              description: {
+                contains: args?.input?.search || undefined,
+                mode: 'insensitive',
+              },
+            },
+          ],
+        };
+
+        const totalCount = await ctx.db.project.count({
+          where: filter,
+        });
+
+        if (incomingCursor) {
+          results = await ctx.db.project.findMany({
+            take: 9,
+            skip: 1,
+            cursor: {
+              id: incomingCursor,
+            },
+            where: filter,
+            include: {
+              author: true,
+            },
+            orderBy: {
+              [args?.input?.orderBy || 'createdAt']: args?.input?.order,
+            },
+          });
+        } else {
+          results = await ctx.db.project.findMany({
+            take: 9,
+            where: filter,
+            include: {
+              author: true,
+            },
+            orderBy: {
+              [args?.input?.orderBy || 'createdAt']: args?.input?.order,
             },
           });
         }

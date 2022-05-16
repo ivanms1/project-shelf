@@ -91,6 +91,9 @@ type Query {
   """Get all the projects from a certain user"""
   getUserProjects(cursor: String, userId: String): ProjectsResponse!
   getUsers: [User]!
+
+  """Search projects query"""
+  searchProjects(cursor: String, input: SearchProjectsInput): ProjectsResponse!
 }
 
 """Fields necessary to like or dislike a project"""
@@ -102,6 +105,19 @@ input ReactToProjectInput {
 enum Role {
   ADMIN
   USER
+}
+
+"""Search order"""
+enum SearchOrder {
+  asc
+  desc
+}
+
+"""Search input fields"""
+input SearchProjectsInput {
+  order: SearchOrder!
+  orderBy: String!
+  search: String!
 }
 
 input UpdateProjectInput {

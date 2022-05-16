@@ -151,6 +151,8 @@ export type Query = {
   /** Get all the projects from a certain user */
   getUserProjects: ProjectsResponse;
   getUsers: Array<Maybe<User>>;
+  /** Search projects query */
+  searchProjects: ProjectsResponse;
 };
 
 
@@ -184,6 +186,12 @@ export type QueryGetUserProjectsArgs = {
   userId?: InputMaybe<Scalars['String']>;
 };
 
+
+export type QuerySearchProjectsArgs = {
+  cursor?: InputMaybe<Scalars['String']>;
+  input?: InputMaybe<SearchProjectsInput>;
+};
+
 /** Fields necessary to like or dislike a project */
 export type ReactToProjectInput = {
   action: ProjectAction;
@@ -194,6 +202,19 @@ export enum Role {
   Admin = 'ADMIN',
   User = 'USER'
 }
+
+/** Search order */
+export enum SearchOrder {
+  Asc = 'asc',
+  Desc = 'desc'
+}
+
+/** Search input fields */
+export type SearchProjectsInput = {
+  order: SearchOrder;
+  orderBy: Scalars['String'];
+  search: Scalars['String'];
+};
 
 export type UpdateProjectInput = {
   description?: InputMaybe<Scalars['String']>;
@@ -275,7 +296,7 @@ export type GetUserForPageQueryVariables = Exact<{
 }>;
 
 
-export type GetUserForPageQuery = { __typename?: 'Query', user?: { __typename?: 'User', id: string, name: string, email: string, github?: string | null | undefined, avatar?: string | null | undefined, isFollowing?: boolean | null | undefined, followerCount: number, projects?: Array<{ __typename?: 'Project', id: string, title: string, preview: string, likesCount: number, isLiked?: boolean | null | undefined, tags: Array<string>, description: string, siteLink: string, repoLink: string }> | null | undefined } | null | undefined };
+export type GetUserForPageQuery = { __typename?: 'Query', user?: { __typename?: 'User', id: string, name: string, email: string, github?: string | null | undefined, avatar?: string | null | undefined, isFollowing?: boolean | null | undefined, followerCount: number } | null | undefined };
 
 export type ReactToProjectMutationVariables = Exact<{
   input?: InputMaybe<ReactToProjectInput>;
@@ -309,6 +330,13 @@ export type GetMyProjectsQueryVariables = Exact<{
 
 
 export type GetMyProjectsQuery = { __typename?: 'Query', projects: { __typename?: 'ProjectsResponse', nextCursor?: string | null | undefined, prevCursor?: string | null | undefined, totalCount?: number | null | undefined, results: Array<{ __typename?: 'Project', id: string, title: string, createdAt: any, isLiked?: boolean | null | undefined, likesCount: number, tags: Array<string>, preview: string, repoLink: string, siteLink: string, description: string, isApproved: boolean, author: { __typename?: 'User', id: string, avatar?: string | null | undefined, name: string } }> } };
+
+export type SearchProjectsQueryVariables = Exact<{
+  input?: InputMaybe<SearchProjectsInput>;
+}>;
+
+
+export type SearchProjectsQuery = { __typename?: 'Query', searchProjects: { __typename?: 'ProjectsResponse', totalCount?: number | null | undefined, nextCursor?: string | null | undefined, prevCursor?: string | null | undefined, results: Array<{ __typename?: 'Project', title: string, description: string, preview: string, id: string, likesCount: number, isLiked?: boolean | null | undefined, author: { __typename?: 'User', id: string, name: string, avatar?: string | null | undefined } }> } };
 
 export type FollowUserMutationVariables = Exact<{
   input?: InputMaybe<FollowUserInput>;
@@ -511,17 +539,6 @@ export const GetUserForPageDocument = gql`
     email
     github
     avatar
-    projects {
-      id
-      title
-      preview
-      likesCount
-      isLiked
-      tags
-      description
-      siteLink
-      repoLink
-    }
     isFollowing
     followerCount
   }
@@ -739,6 +756,56 @@ export function useGetMyProjectsLazyQuery(baseOptions?: Apollo.LazyQueryHookOpti
 export type GetMyProjectsQueryHookResult = ReturnType<typeof useGetMyProjectsQuery>;
 export type GetMyProjectsLazyQueryHookResult = ReturnType<typeof useGetMyProjectsLazyQuery>;
 export type GetMyProjectsQueryResult = Apollo.QueryResult<GetMyProjectsQuery, GetMyProjectsQueryVariables>;
+export const SearchProjectsDocument = gql`
+    query SearchProjects($input: SearchProjectsInput) {
+  searchProjects(input: $input) {
+    results {
+      title
+      description
+      preview
+      id
+      likesCount
+      author {
+        id
+        name
+        avatar
+      }
+      isLiked
+    }
+    totalCount
+    nextCursor
+    prevCursor
+  }
+}
+    `;
+
+/**
+ * __useSearchProjectsQuery__
+ *
+ * To run a query within a React component, call `useSearchProjectsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useSearchProjectsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSearchProjectsQuery({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useSearchProjectsQuery(baseOptions?: Apollo.QueryHookOptions<SearchProjectsQuery, SearchProjectsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<SearchProjectsQuery, SearchProjectsQueryVariables>(SearchProjectsDocument, options);
+      }
+export function useSearchProjectsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<SearchProjectsQuery, SearchProjectsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<SearchProjectsQuery, SearchProjectsQueryVariables>(SearchProjectsDocument, options);
+        }
+export type SearchProjectsQueryHookResult = ReturnType<typeof useSearchProjectsQuery>;
+export type SearchProjectsLazyQueryHookResult = ReturnType<typeof useSearchProjectsLazyQuery>;
+export type SearchProjectsQueryResult = Apollo.QueryResult<SearchProjectsQuery, SearchProjectsQueryVariables>;
 export const FollowUserDocument = gql`
     mutation FollowUser($input: FollowUserInput) {
   followUser(input: $input) {
