@@ -35,7 +35,6 @@ const User = () => {
     data: projectsData,
     fetchMore,
     loading,
-    error,
   } = useGetUserProjectsQuery({
     variables: {
       userId: data?.user?.id,
