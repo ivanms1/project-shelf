@@ -35,7 +35,7 @@
     "config": "*",
     "eslint": "8.10.0",
     "next-transpile-modules": "9.0.0",
-    "plop": "^3.0.5",
+    "plop": "^3.1.0",
     "tsconfig": "*",
     "typescript": "^4.5.3"
   }
