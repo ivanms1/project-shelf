@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@apollo/client": "^3.5.7",
+    "@apollo/client": "^3.6.6",
     "@hookform/resolvers": "^2.8.5",
     "add": "^2.0.6",
     "apollo-hooks": "*",

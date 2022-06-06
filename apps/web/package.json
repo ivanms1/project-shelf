@@ -10,7 +10,7 @@
     "generate": "plop"
   },
   "dependencies": {
-    "@apollo/client": "^3.5.7",
+    "@apollo/client": "^3.6.6",
     "@hookform/resolvers": "^2.8.5",
     "@stitches/react": "^1.2.6",
     "apollo-hooks": "*",
