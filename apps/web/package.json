@@ -17,7 +17,7 @@
     "cloudinary-build-url": "^0.2.4",
     "deepmerge": "^4.2.2",
     "lodash-es": "^4.17.21",
-    "next": "12.1.4",
+    "next": "^12.1.6",
     "next-auth": "^4.1.0",
     "next-seo": "^5.1.0",
     "react": "18.1.0",
@@ -31,7 +31,7 @@
   "devDependencies": {
     "@cld-apis/types": "^0.1.6",
     "@svgr/webpack": "^6.2.1",
-    "@types/react": "18.0.12",
+    "@types/react": "^18.0.12",
     "config": "*",
     "eslint": "8.10.0",
     "next-transpile-modules": "9.0.0",
