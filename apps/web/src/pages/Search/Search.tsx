@@ -2,6 +2,7 @@ import React from 'react';
 import { SearchOrder, useSearchProjectsQuery } from 'apollo-hooks';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
+import { NextSeo } from 'next-seo';
 
 import ProjectsGrid from '@/components/ProjectsGrid';
 
@@ -80,6 +81,7 @@ function Search() {
         loading={loading}
         previous={`/search/${query?.search?.[0]}`}
       />
+      <NextSeo title='Search Projects' />
     </StyledSearch>
   );
 }

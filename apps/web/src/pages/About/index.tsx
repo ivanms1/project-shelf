@@ -1,10 +1,3 @@
-import Members from '@/components/Members';
-import { StyledAbout } from './styles';
-
-const About = () => (
-  <StyledAbout>
-    <Members />
-  </StyledAbout>
-);
+import About from './About';
 
 export default About;
