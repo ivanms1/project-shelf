@@ -8735,10 +8735,10 @@ react-dropzone@^11.5.3:
     file-selector "^0.2.2"
     prop-types "^15.7.2"
 
-react-hook-form@^7.26.0:
-  version "7.26.0"
-  resolved "https://registry.yarnpkg.com/react-hook-form/-/react-hook-form-7.26.0.tgz#270ae0e7a27c01a57011efacd3d692c977eb1c5d"
-  integrity sha512-nSkCyJB5Ey5QUw3AGQp22JP7TNfPdyC4wqfmheH87NNsHhQwCZgGjexXdBfd7SRt4SHoVzbdPvu6kXG5sSs66Q==
+react-hook-form@^7.33.0:
+  version "7.33.0"
+  resolved "https://registry.yarnpkg.com/react-hook-form/-/react-hook-form-7.33.0.tgz#44a87ddd630f00ebeb0f15aa978f69ca74b8a77b"
+  integrity sha512-h8XoeUHQs1Snx1s/sSvM+eVTSKkWQt8TcrbL+3/Rt5gugxpy4ueL5ZZkubffyNpUyyTz0qM0kwOi2c+JgGTjLA==
 
 react-is@^16.13.1, react-is@^16.7.0:
   version "16.13.1"
