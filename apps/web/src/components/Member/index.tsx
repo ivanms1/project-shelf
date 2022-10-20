@@ -1,5 +1,3 @@
-import Link from 'next/link';
-
 import {
   CardLinks,
   Card,
@@ -18,7 +16,7 @@ interface MemberProps {
 
 export const Member = ({ name, username }: MemberProps) => {
   return (
-    <StyledLink target='_blank' href={`https://github.com/${username}`} tar>
+    <StyledLink target='_blank' href={`https://github.com/${username}`}>
       <Card>
         <ImageContainer>
           <ProfileImage
