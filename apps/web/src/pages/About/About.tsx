@@ -6,8 +6,8 @@ import { StyledAbout } from './styles';
 
 const About = () => (
   <StyledAbout>
-    <Members />
     <NextSeo title='About Project Shelf' />
+    <Members />
   </StyledAbout>
 );
 

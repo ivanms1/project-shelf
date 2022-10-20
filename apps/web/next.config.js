@@ -19,6 +19,7 @@ module.exports = withTM({
       'res.cloudinary.com',
       'avatars.githubusercontent.com',
       'github.com',
+      'github.githubassets.com',
     ],
   },
 });
