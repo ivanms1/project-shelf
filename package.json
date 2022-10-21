@@ -14,7 +14,7 @@
     "generate:hooks": "cd packages/apollo-hooks && yarn generate",
     "update:hooks": "yarn generate:hooks && yarn build:hooks",
     "dev": "turbo run dev --parallel",
-    "dev:web": "turbo run dev --scope=web",
+    "dev:web": "turbo run dev --scope=!admin",
     "dev:api": "turbo run dev --scope=api",
     "dev:ui": "turbo run dev --scope=ui",
     "lint": "turbo run lint",

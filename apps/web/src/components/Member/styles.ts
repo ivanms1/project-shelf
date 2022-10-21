@@ -5,37 +5,64 @@ export const StyledMember = styled('div', {});
 
 export const Card = styled('div', {
   display: 'flex',
-  justifyContent: 'space-around',
-  alignItems: 'center',
-  textAlign: 'left',
-  backgroundColor: '#2451b3',
-  paddingLeft: '2em',
-  paddingRight: '2em',
-  margin: '10px',
-  borderRadius: '12px',
-  border: '1px solid grey',
-  flexBasis: '370px',
-  height: '130px',
-  color: 'white',
-  fontSize: '11pt',
+  flexDirection: 'column',
+  backgroundColor: 'white',
+  borderRadius: '7px',
+  height: '280px',
+  width: '250px',
+  color: 'black',
+  boxShadow: '1px 1px 20px 0px rgba(45, 78, 255, 0.15)',
+
   '&:hover': {
-    border: '1px solid var(--colors-primary)',
+    boxShadow: '10px 10px 40px 4px rgba(45, 78, 255, 0.15)',
   },
 });
 
 export const Wrapper = styled('div', {
-  minWidth: '5.5em',
+  width: '100%',
+  height: '100%',
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'flex-start',
+});
+
+export const ImageContainer = styled('div', {
+  width: '100%',
+  height: '100%',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
 });
 
 export const ProfileImage = styled(Image, {
+  display: 'block',
+  width: '100%',
+  height: '100%',
   borderRadius: '50%',
-  marginRight: '5px',
 });
-export const Title = styled('h1', {
-  fontSize: '13pt',
-  paddingTop: '0.5em',
+
+export const Title = styled('span', {
+  width: '100%',
+  textAlign: 'center',
+  display: 'block',
+  fontSize: '23px',
 });
+
+export const Username = styled('span', {
+  fontSize: '15px',
+  width: '100%',
+  textAlign: 'center',
+  display: 'flex',
+  alignItems: 'center',
+  padding: '10px 0',
+  justifyContent: 'center',
+});
+
 export const CardLinks = styled('div', {
-  paddingTop: '8px',
-  paddingBottom: '8px',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  height: '100%',
 });
+
+export const StyledLink = styled('a', {});
