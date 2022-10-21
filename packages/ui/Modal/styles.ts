@@ -27,7 +27,6 @@ export const overlay = css({
   '& :global(.ReactModal__Overlay--before-close)': {
     opacity: 0,
   },
-  length: 0,
 });
 
 export const modal = css({
@@ -47,5 +46,4 @@ export const modal = css({
   '&:focus': {
     outline: 0,
   },
-  length: 0,
 });
