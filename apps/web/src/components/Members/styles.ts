@@ -15,4 +15,5 @@ export const FlexContainer = styled('div', {
   gap: '30px',
   justifyContent: 'center',
   flexWrap: 'wrap',
+  padding: '0 0 100px 0',
 });
