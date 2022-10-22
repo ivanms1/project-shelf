@@ -44,7 +44,7 @@ const members = [
 const Members = () => {
   return (
     <StyledMembers>
-      <Header>Project-Shelf Contributors</Header>
+      <Header>Project Shelf Contributors</Header>
       <FlexContainer>
         {members.map((member) => (
           <Member key={member?.id} {...member} />
