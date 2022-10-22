@@ -6,7 +6,7 @@ export const Header = styled('p', {
   fontWeight: '600',
   fontSize: '45px',
   textAlign: 'center',
-  margin: '120px 0',
+  margin: '70px 0',
 });
 
 export const FlexContainer = styled('div', {
