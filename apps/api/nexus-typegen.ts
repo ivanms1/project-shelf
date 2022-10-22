@@ -3,19 +3,24 @@
  * Do not make changes to this file directly
  */
 
-
-import type { Context } from "./src/context"
-import type { core } from "nexus"
+import type { Context } from './src/context';
+import type { core } from 'nexus';
 declare global {
   interface NexusGenCustomInputMethods<TypeName extends string> {
     /**
      * A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
      */
-    date<FieldName extends string>(fieldName: FieldName, opts?: core.CommonInputFieldConfig<TypeName, FieldName>): void // "DateTime";
+    date<FieldName extends string>(
+      fieldName: FieldName,
+      opts?: core.CommonInputFieldConfig<TypeName, FieldName>
+    ): void; // "DateTime";
     /**
      * The `JSONObject` scalar type represents JSON objects as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
      */
-    json<FieldName extends string>(fieldName: FieldName, opts?: core.CommonInputFieldConfig<TypeName, FieldName>): void // "JSONObject";
+    json<FieldName extends string>(
+      fieldName: FieldName,
+      opts?: core.CommonInputFieldConfig<TypeName, FieldName>
+    ): void; // "JSONObject";
   }
 }
 declare global {
@@ -23,68 +28,78 @@ declare global {
     /**
      * A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
      */
-    date<FieldName extends string>(fieldName: FieldName, ...opts: core.ScalarOutSpread<TypeName, FieldName>): void // "DateTime";
+    date<FieldName extends string>(
+      fieldName: FieldName,
+      ...opts: core.ScalarOutSpread<TypeName, FieldName>
+    ): void; // "DateTime";
     /**
      * The `JSONObject` scalar type represents JSON objects as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
      */
-    json<FieldName extends string>(fieldName: FieldName, ...opts: core.ScalarOutSpread<TypeName, FieldName>): void // "JSONObject";
+    json<FieldName extends string>(
+      fieldName: FieldName,
+      ...opts: core.ScalarOutSpread<TypeName, FieldName>
+    ): void; // "JSONObject";
   }
 }
-
 
 declare global {
   interface NexusGen extends NexusGenTypes {}
 }
 
 export interface NexusGenInputs {
-  CreateProjectInput: { // input type
+  CreateProjectInput: {
+    // input type
     description: string; // String!
     preview: string; // String!
     repoLink: string; // String!
     siteLink: string; // String!
     tags: Array<string | null>; // [String]!
     title: string; // String!
-  }
-  ReactToProjectInput: { // input type
+  };
+  ReactToProjectInput: {
+    // input type
     action: NexusGenEnums['ProjectAction']; // ProjectAction!
     projectId: string; // ID!
     userId: string; // ID!
-  }
-  UpdateProjectInput: { // input type
+  };
+  UpdateProjectInput: {
+    // input type
     description?: string | null; // String
     preview?: string | null; // String
     repoLink?: string | null; // String
     siteLink?: string | null; // String
     tags?: Array<string | null> | null; // [String]
     title?: string | null; // String
-  }
-  UpdateUsertInput: { // input type
+  };
+  UpdateUsertInput: {
+    // input type
     discord: string; // String!
     email: string; // String!
     github: string; // String!
     name: string; // String!
     role: NexusGenEnums['Role']; // Role!
-  }
+  };
 }
 
 export interface NexusGenEnums {
-  ProjectAction: "DISLIKE" | "LIKE"
-  Role: "ADMIN" | "USER"
+  ProjectAction: 'DISLIKE' | 'LIKE';
+  Role: 'ADMIN' | 'USER';
 }
 
 export interface NexusGenScalars {
-  String: string
-  Int: number
-  Float: number
-  Boolean: boolean
-  ID: string
-  DateTime: any
-  JSONObject: any
+  String: string;
+  Int: number;
+  Float: number;
+  Boolean: boolean;
+  ID: string;
+  DateTime: any;
+  JSONObject: any;
 }
 
 export interface NexusGenObjects {
   Mutation: {};
-  Project: { // root type
+  Project: {
+    // root type
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     description: string; // String!
     id: string; // ID!
@@ -95,15 +110,17 @@ export interface NexusGenObjects {
     siteLink: string; // String!
     tags: string[]; // [String!]!
     title: string; // String!
-  }
-  ProjectsResponse: { // root type
+  };
+  ProjectsResponse: {
+    // root type
     nextCursor?: string | null; // String
     prevCursor?: string | null; // String
     results: NexusGenRootTypes['Project'][]; // [Project!]!
     totalCount?: number | null; // Int
-  }
+  };
   Query: {};
-  User: { // root type
+  User: {
+    // root type
     avatar?: string | null; // String
     discord?: string | null; // String
     email: string; // String!
@@ -113,21 +130,22 @@ export interface NexusGenObjects {
     projects?: NexusGenRootTypes['Project'][] | null; // [Project!]
     projectsLiked?: NexusGenRootTypes['Project'][] | null; // [Project!]
     role: NexusGenEnums['Role']; // Role!
-  }
+  };
 }
 
-export interface NexusGenInterfaces {
-}
+export interface NexusGenInterfaces {}
 
-export interface NexusGenUnions {
-}
+export interface NexusGenUnions {}
 
-export type NexusGenRootTypes = NexusGenObjects
+export type NexusGenRootTypes = NexusGenObjects;
 
-export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars & NexusGenEnums
+export type NexusGenAllTypes = NexusGenRootTypes &
+  NexusGenScalars &
+  NexusGenEnums;
 
 export interface NexusGenFieldTypes {
-  Mutation: { // field return type
+  Mutation: {
+    // field return type
     createProject: NexusGenRootTypes['Project'] | null; // Project
     deleteManyProjects: NexusGenScalars['JSONObject'] | null; // JSONObject
     deleteProject: string | null; // String
@@ -137,8 +155,9 @@ export interface NexusGenFieldTypes {
     updateProjectStatus: NexusGenRootTypes['Project'] | null; // Project
     updateUser: NexusGenRootTypes['User']; // User!
     uploadImage: NexusGenScalars['JSONObject'] | null; // JSONObject
-  }
-  Project: { // field return type
+  };
+  Project: {
+    // field return type
     author: NexusGenRootTypes['User']; // User!
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     description: string; // String!
@@ -152,14 +171,16 @@ export interface NexusGenFieldTypes {
     siteLink: string; // String!
     tags: string[]; // [String!]!
     title: string; // String!
-  }
-  ProjectsResponse: { // field return type
+  };
+  ProjectsResponse: {
+    // field return type
     nextCursor: string | null; // String
     prevCursor: string | null; // String
     results: NexusGenRootTypes['Project'][]; // [Project!]!
     totalCount: number | null; // Int
-  }
-  Query: { // field return type
+  };
+  Query: {
+    // field return type
     getApprovedProjects: NexusGenRootTypes['ProjectsResponse']; // ProjectsResponse!
     getCurrentUser: NexusGenRootTypes['User'] | null; // User
     getMyProjects: NexusGenRootTypes['ProjectsResponse']; // ProjectsResponse!
@@ -167,8 +188,9 @@ export interface NexusGenFieldTypes {
     getProjectsAdmin: NexusGenRootTypes['ProjectsResponse']; // ProjectsResponse!
     getUser: NexusGenRootTypes['User'] | null; // User
     getUsers: Array<NexusGenRootTypes['User'] | null>; // [User]!
-  }
-  User: { // field return type
+  };
+  User: {
+    // field return type
     avatar: string | null; // String
     discord: string | null; // String
     email: string; // String!
@@ -178,122 +200,139 @@ export interface NexusGenFieldTypes {
     projects: NexusGenRootTypes['Project'][] | null; // [Project!]
     projectsLiked: NexusGenRootTypes['Project'][] | null; // [Project!]
     role: NexusGenEnums['Role']; // Role!
-  }
+  };
 }
 
 export interface NexusGenFieldTypeNames {
-  Mutation: { // field return type name
-    createProject: 'Project'
-    deleteManyProjects: 'JSONObject'
-    deleteProject: 'String'
-    reactToProject: 'Project'
-    signup: 'JSONObject'
-    updateProject: 'Project'
-    updateProjectStatus: 'Project'
-    updateUser: 'User'
-    uploadImage: 'JSONObject'
-  }
-  Project: { // field return type name
-    author: 'User'
-    createdAt: 'DateTime'
-    description: 'String'
-    id: 'ID'
-    isApproved: 'Boolean'
-    isLiked: 'Boolean'
-    likes: 'User'
-    likesCount: 'Int'
-    preview: 'String'
-    repoLink: 'String'
-    siteLink: 'String'
-    tags: 'String'
-    title: 'String'
-  }
-  ProjectsResponse: { // field return type name
-    nextCursor: 'String'
-    prevCursor: 'String'
-    results: 'Project'
-    totalCount: 'Int'
-  }
-  Query: { // field return type name
-    getApprovedProjects: 'ProjectsResponse'
-    getCurrentUser: 'User'
-    getMyProjects: 'ProjectsResponse'
-    getProject: 'Project'
-    getProjectsAdmin: 'ProjectsResponse'
-    getUser: 'User'
-    getUsers: 'User'
-  }
-  User: { // field return type name
-    avatar: 'String'
-    discord: 'String'
-    email: 'String'
-    github: 'String'
-    id: 'ID'
-    name: 'String'
-    projects: 'Project'
-    projectsLiked: 'Project'
-    role: 'Role'
-  }
+  Mutation: {
+    // field return type name
+    createProject: 'Project';
+    deleteManyProjects: 'JSONObject';
+    deleteProject: 'String';
+    reactToProject: 'Project';
+    signup: 'JSONObject';
+    updateProject: 'Project';
+    updateProjectStatus: 'Project';
+    updateUser: 'User';
+    uploadImage: 'JSONObject';
+  };
+  Project: {
+    // field return type name
+    author: 'User';
+    createdAt: 'DateTime';
+    description: 'String';
+    id: 'ID';
+    isApproved: 'Boolean';
+    isLiked: 'Boolean';
+    likes: 'User';
+    likesCount: 'Int';
+    preview: 'String';
+    repoLink: 'String';
+    siteLink: 'String';
+    tags: 'String';
+    title: 'String';
+  };
+  ProjectsResponse: {
+    // field return type name
+    nextCursor: 'String';
+    prevCursor: 'String';
+    results: 'Project';
+    totalCount: 'Int';
+  };
+  Query: {
+    // field return type name
+    getApprovedProjects: 'ProjectsResponse';
+    getCurrentUser: 'User';
+    getMyProjects: 'ProjectsResponse';
+    getProject: 'Project';
+    getProjectsAdmin: 'ProjectsResponse';
+    getUser: 'User';
+    getUsers: 'User';
+  };
+  User: {
+    // field return type name
+    avatar: 'String';
+    discord: 'String';
+    email: 'String';
+    github: 'String';
+    id: 'ID';
+    name: 'String';
+    projects: 'Project';
+    projectsLiked: 'Project';
+    role: 'Role';
+  };
 }
 
 export interface NexusGenArgTypes {
   Mutation: {
-    createProject: { // args
+    createProject: {
+      // args
       input?: NexusGenInputs['CreateProjectInput'] | null; // CreateProjectInput
-    }
-    deleteManyProjects: { // args
+    };
+    deleteManyProjects: {
+      // args
       ids: Array<string | null>; // [ID]!
-    }
-    deleteProject: { // args
+    };
+    deleteProject: {
+      // args
       id: string; // ID!
-    }
-    reactToProject: { // args
+    };
+    reactToProject: {
+      // args
       input?: NexusGenInputs['ReactToProjectInput'] | null; // ReactToProjectInput
-    }
-    signup: { // args
+    };
+    signup: {
+      // args
       email: string; // String!
       name: string; // String!
-    }
-    updateProject: { // args
+    };
+    updateProject: {
+      // args
       input?: NexusGenInputs['UpdateProjectInput'] | null; // UpdateProjectInput
       projectId: string; // ID!
-    }
-    updateProjectStatus: { // args
+    };
+    updateProjectStatus: {
+      // args
       isApproved: boolean; // Boolean!
       projectId: string; // String!
-    }
-    updateUser: { // args
+    };
+    updateUser: {
+      // args
       input?: NexusGenInputs['UpdateUsertInput'] | null; // UpdateUsertInput
       userId: string; // String!
-    }
-    uploadImage: { // args
+    };
+    uploadImage: {
+      // args
       path: string; // String!
-    }
-  }
+    };
+  };
   Query: {
-    getApprovedProjects: { // args
+    getApprovedProjects: {
+      // args
       cursor?: string | null; // String
-    }
-    getMyProjects: { // args
+    };
+    getMyProjects: {
+      // args
       cursor?: string | null; // String
-    }
-    getProject: { // args
+    };
+    getProject: {
+      // args
       id: string; // ID!
-    }
-    getProjectsAdmin: { // args
+    };
+    getProjectsAdmin: {
+      // args
       cursor?: string | null; // String
-    }
-    getUser: { // args
+    };
+    getUser: {
+      // args
       id: string; // ID!
-    }
-  }
+    };
+  };
 }
 
-export interface NexusGenAbstractTypeMembers {
-}
+export interface NexusGenAbstractTypeMembers {}
 
-export interface NexusGenTypeInterfaces {
-}
+export interface NexusGenTypeInterfaces {}
 
 export type NexusGenObjectNames = keyof NexusGenObjects;
 
@@ -313,11 +352,11 @@ export type NexusGenAbstractsUsingStrategyResolveType = never;
 
 export type NexusGenFeaturesConfig = {
   abstractTypeStrategies: {
-    isTypeOf: false
-    resolveType: true
-    __typename: false
-  }
-}
+    isTypeOf: false;
+    resolveType: true;
+    __typename: false;
+  };
+};
 
 export interface NexusGenTypes {
   context: Context;
@@ -335,9 +374,19 @@ export interface NexusGenTypes {
   interfaceNames: NexusGenInterfaceNames;
   scalarNames: NexusGenScalarNames;
   unionNames: NexusGenUnionNames;
-  allInputTypes: NexusGenTypes['inputNames'] | NexusGenTypes['enumNames'] | NexusGenTypes['scalarNames'];
-  allOutputTypes: NexusGenTypes['objectNames'] | NexusGenTypes['enumNames'] | NexusGenTypes['unionNames'] | NexusGenTypes['interfaceNames'] | NexusGenTypes['scalarNames'];
-  allNamedTypes: NexusGenTypes['allInputTypes'] | NexusGenTypes['allOutputTypes']
+  allInputTypes:
+    | NexusGenTypes['inputNames']
+    | NexusGenTypes['enumNames']
+    | NexusGenTypes['scalarNames'];
+  allOutputTypes:
+    | NexusGenTypes['objectNames']
+    | NexusGenTypes['enumNames']
+    | NexusGenTypes['unionNames']
+    | NexusGenTypes['interfaceNames']
+    | NexusGenTypes['scalarNames'];
+  allNamedTypes:
+    | NexusGenTypes['allInputTypes']
+    | NexusGenTypes['allOutputTypes'];
   abstractTypes: NexusGenTypes['interfaceNames'] | NexusGenTypes['unionNames'];
   abstractTypeMembers: NexusGenAbstractTypeMembers;
   objectsUsingAbstractStrategyIsTypeOf: NexusGenObjectsUsingAbstractStrategyIsTypeOf;
@@ -345,18 +394,17 @@ export interface NexusGenTypes {
   features: NexusGenFeaturesConfig;
 }
 
-
 declare global {
-  interface NexusGenPluginTypeConfig<TypeName extends string> {
-  }
-  interface NexusGenPluginInputTypeConfig<TypeName extends string> {
-  }
-  interface NexusGenPluginFieldConfig<TypeName extends string, FieldName extends string> {
-  }
-  interface NexusGenPluginInputFieldConfig<TypeName extends string, FieldName extends string> {
-  }
-  interface NexusGenPluginSchemaConfig {
-  }
-  interface NexusGenPluginArgConfig {
-  }
+  interface NexusGenPluginTypeConfig<TypeName extends string> {}
+  interface NexusGenPluginInputTypeConfig<TypeName extends string> {}
+  interface NexusGenPluginFieldConfig<
+    TypeName extends string,
+    FieldName extends string
+  > {}
+  interface NexusGenPluginInputFieldConfig<
+    TypeName extends string,
+    FieldName extends string
+  > {}
+  interface NexusGenPluginSchemaConfig {}
+  interface NexusGenPluginArgConfig {}
 }

@@ -1,10 +1,10 @@
-import React from "react";
+import React from 'react';
 
-import { StyledEditProject } from "./styles";
+import { StyledEditProject } from './styles';
 
 interface EditProjectProps {}
 
-const EditProject = ({} : EditProjectProps) => {
+const EditProject = ({}: EditProjectProps) => {
   return <StyledEditProject>EditProject</StyledEditProject>;
 };
 

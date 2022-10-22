@@ -15,6 +15,7 @@
     "update:hooks": "yarn generate:hooks && yarn build:hooks",
     "dev": "turbo run dev --parallel",
     "dev:web": "turbo run dev --scope=!admin",
+    "dev:admin": "turbo run dev --scope=!web",
     "dev:api": "turbo run dev --scope=api",
     "dev:ui": "turbo run dev --scope=ui",
     "lint": "turbo run lint",
