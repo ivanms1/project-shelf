@@ -34,6 +34,11 @@ const members = [
     name: 'Miroz Devkota',
     username: 'revengemiroz',
   },
+  {
+    id: 7,
+    name: 'Rohil Pinto',
+    username: 'rohilpinto',
+  },
 ];
 
 const Members = () => {
