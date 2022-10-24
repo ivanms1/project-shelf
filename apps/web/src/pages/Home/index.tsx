@@ -19,8 +19,6 @@ function Home() {
 
   const { isLoggedIn } = useIsLoggedIn();
 
-  console.log('data', data);
-
   const onRefetch = () => {
     if (!data?.projects?.nextCursor) {
       return;
