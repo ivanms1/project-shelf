@@ -19,6 +19,8 @@ function Home() {
 
   const { isLoggedIn } = useIsLoggedIn();
 
+  console.log('data', data);
+
   const onRefetch = () => {
     if (!data?.projects?.nextCursor) {
       return;
@@ -26,7 +28,9 @@ function Home() {
 
     fetchMore({
       variables: {
-        cursor: data?.projects?.nextCursor,
+        input: {
+          cursor: data?.projects?.nextCursor,
+        },
       },
     });
   };

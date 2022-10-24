@@ -22,15 +22,18 @@ function Search() {
 
   const { register, handleSubmit } = useForm<{ search: string }>();
 
+  const search = query?.search?.[0];
+
   const { loading, data, fetchMore } = useSearchProjectsQuery({
     variables: {
       input: {
-        search: query?.search?.[0],
+        search,
         orderBy: 'createdAt',
         order: SearchOrder.Asc,
+        cursor: null,
       },
     },
-    skip: !query?.search?.[0],
+    skip: !search,
   });
 
   const handleSearch: SubmitHandler<{ search: string }> = (values) => {
@@ -44,7 +47,12 @@ function Search() {
 
     fetchMore({
       variables: {
-        cursor: data?.searchProjects?.nextCursor,
+        input: {
+          search: search,
+          orderBy: 'createdAt',
+          order: SearchOrder.Asc,
+          cursor: data?.searchProjects?.nextCursor,
+        },
       },
     });
   };
@@ -61,13 +69,13 @@ function Search() {
         <SearchInput
           name='project-search'
           placeholder='Search...'
-          defaultValue={query?.search?.[0]}
+          defaultValue={search}
           {...register('search')}
         />
       </SearchForm>
-      {!!query?.search?.[0] && (
+      {!!search && (
         <>
-          <ResultsTitle>{query?.search?.[0]}</ResultsTitle>
+          <ResultsTitle>{search}</ResultsTitle>
           <TotalCount>
             {data?.searchProjects?.totalCount ?? 0} projects
           </TotalCount>
@@ -79,7 +87,7 @@ function Search() {
         nextCursor={data?.searchProjects?.nextCursor}
         onRefetch={onRefetch}
         loading={loading}
-        previous={`/search/${query?.search?.[0]}`}
+        previous={`/search/${search}`}
       />
       <NextSeo title='Search Projects' />
     </StyledSearch>
