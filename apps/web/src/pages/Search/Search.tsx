@@ -30,9 +30,10 @@ function Search() {
         search,
         orderBy: 'createdAt',
         order: SearchOrder.Asc,
-        cursor: null,
+        cursor: undefined,
       },
     },
+    fetchPolicy: 'no-cache',
     skip: !search,
   });
 
@@ -48,7 +49,7 @@ function Search() {
     fetchMore({
       variables: {
         input: {
-          search: search,
+          search,
           orderBy: 'createdAt',
           order: SearchOrder.Asc,
           cursor: data?.searchProjects?.nextCursor,

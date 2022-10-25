@@ -319,13 +319,13 @@ builder.queryFields((t) => ({
         OR: [
           {
             title: {
-              contains: args?.input?.search || undefined,
+              contains: args?.input?.search || '',
               mode: 'insensitive',
             },
           },
           {
             description: {
-              contains: args?.input?.search || undefined,
+              contains: args?.input?.search || '',
               mode: 'insensitive',
             },
           },
