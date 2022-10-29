@@ -1,6 +1,6 @@
-import decodeAccessToken from '@/helpers/decodeAccessToken';
-import builder from '@/src/builder';
-import db from '@/src/db';
+import decodeAccessToken from '../../helpers/decodeAccessToken';
+import builder from '../../builder';
+import db from '../../db';
 
 const ProjectInput = builder.inputType('CreateProjectInput', {
   description: 'Fields necessary to create a new project',

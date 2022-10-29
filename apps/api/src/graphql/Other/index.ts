@@ -1,6 +1,6 @@
 import * as cloudinary from 'cloudinary';
 
-import builder from '@/src/builder';
+import builder from '../../builder';
 
 const imageUploader = cloudinary.v2;
 

@@ -1,6 +1,6 @@
-import decodeAccessToken from '@/helpers/decodeAccessToken';
-import builder from '@/src/builder';
-import db from '@/src/db';
+import decodeAccessToken from '../../helpers/decodeAccessToken';
+import builder from '../../builder';
+import db from '../../db';
 import { Prisma } from '@prisma/client';
 
 const Project = builder.prismaObject('Project', {

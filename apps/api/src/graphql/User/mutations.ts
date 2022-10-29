@@ -1,9 +1,9 @@
 import jwt from 'jsonwebtoken';
 
-import builder from '@/src/builder';
-import db from '@/src/db';
+import builder from '../../builder';
+import db from '../../db';
 
-import decodeAccessToken from '@/helpers/decodeAccessToken';
+import decodeAccessToken from '../../helpers/decodeAccessToken';
 
 import { Role } from './queries';
 
