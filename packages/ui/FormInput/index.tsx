@@ -1,9 +1,10 @@
-import * as React from 'react';
+import React from 'react';
 import { InputHTMLAttributes } from 'react';
 
 import type { FieldError, FieldErrorsImpl, Merge } from 'react-hook-form';
 
 import { Container, Label, StyledInput } from '../Input/styles';
+
 import { ErrorMessage } from '../Select/styles';
 
 interface FormInput extends InputHTMLAttributes<HTMLInputElement> {

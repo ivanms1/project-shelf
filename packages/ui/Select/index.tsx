@@ -1,3 +1,4 @@
+import React from 'react';
 import { default as RSelect } from 'react-select';
 import { FieldError, Merge, FieldErrorsImpl } from 'react-hook-form';
 

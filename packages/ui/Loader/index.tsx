@@ -1,5 +1,6 @@
-import { CSSProperties } from '@stitches/react';
 import React from 'react';
+
+import { CSSProperties } from '@stitches/react';
 
 import { StyledLoader } from './styles';
 

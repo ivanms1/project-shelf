@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 
 import { StyledBadge } from './styles';
 
@@ -8,7 +8,11 @@ interface Badge {
 }
 
 export const Badge = ({ children, variant = 'solid', ...props }: Badge) => {
-  return <StyledBadge {...props}>{children}</StyledBadge>;
+  return (
+    <StyledBadge variant={variant} {...props}>
+      {children}
+    </StyledBadge>
+  );
 };
 
 export default Badge;
