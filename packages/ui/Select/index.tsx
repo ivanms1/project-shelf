@@ -1,7 +1,6 @@
-import React from 'react';
-
 import { default as RSelect } from 'react-select';
-import { FieldError } from 'react-hook-form';
+import { FieldError, Merge, FieldErrorsImpl } from 'react-hook-form';
+
 import { Container, customStyles, Label, ErrorMessage } from './styles';
 
 type Value = { value: string | number; label: string };
@@ -12,7 +11,7 @@ export interface SelectProps {
   value: Value | [] | null;
   onChange: (value: any) => void;
   isMulti?: boolean;
-  error?: FieldError | undefined;
+  error?: FieldError | Merge<FieldError, FieldErrorsImpl<any>>;
 }
 
 export const Select = ({ label, error, ...props }: SelectProps) => {

@@ -1,5 +1,3 @@
-import React, { useEffect } from 'react';
-
 import { RegisterOptions, useController } from 'react-hook-form';
 import Select, { SelectProps } from '../Select';
 
@@ -20,8 +18,6 @@ export const FormSelect = ({
   name,
   defaultValue = null,
   rules,
-
-  register,
   ...props
 }: FormSelectProps) => {
   const { field } = useController({
