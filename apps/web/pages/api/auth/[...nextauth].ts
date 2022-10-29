@@ -34,7 +34,7 @@ export default NextAuth({
       });
 
       if (account) {
-        account.serverToken = data?.signup?.token;
+        account.serverToken = data?.signup;
       }
 
       return true;

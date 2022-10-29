@@ -24,7 +24,7 @@ import {
 const User = () => {
   const { query } = useRouter();
 
-  const { data = {} } = useGetUserForPageQuery({
+  const { data } = useGetUserForPageQuery({
     variables: {
       id: String(query?.id),
     },
@@ -38,7 +38,9 @@ const User = () => {
   } = useGetUserProjectsQuery({
     variables: {
       userId: data?.user?.id,
-      cursor: null,
+      input: {
+        cursor: null,
+      },
     },
     skip: !data?.user?.id,
   });
@@ -76,7 +78,10 @@ const User = () => {
 
     fetchMore({
       variables: {
-        cursor: projectsData?.getUserProjects?.nextCursor,
+        userId: data?.user?.id,
+        input: {
+          cursor: projectsData?.getUserProjects?.nextCursor,
+        },
       },
     });
   };

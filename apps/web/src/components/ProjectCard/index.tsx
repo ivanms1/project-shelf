@@ -3,7 +3,7 @@ import { Button } from 'ui';
 import Link from 'next/link';
 import { buildImageUrl } from 'cloudinary-build-url';
 
-import { ProjectAction, useReactToProjectMutation } from 'apollo-hooks';
+import { ProjectActions, useReactToProjectMutation } from 'apollo-hooks';
 
 import {
   AuthorBox,
@@ -42,8 +42,8 @@ const ProjectCard = ({ project, previous }: ProjectCardProps) => {
           input: {
             projectId: project.id,
             action: project?.isLiked
-              ? ProjectAction.Dislike
-              : ProjectAction.Like,
+              ? ProjectActions.Dislike
+              : ProjectActions.Like,
           },
         },
         optimisticResponse: {

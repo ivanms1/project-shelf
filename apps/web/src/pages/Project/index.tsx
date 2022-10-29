@@ -31,14 +31,12 @@ function Project() {
   const { query } = useRouter();
   const { previous } = query;
 
-  const { data = {} } = useGetProjectQuery({
+  const { data } = useGetProjectQuery({
     variables: {
       id: String(query?.id),
     },
     skip: !query?.id,
   });
-
-  const { project } = data;
 
   const handleClose = () => {
     if (typeof previous == 'string') {
@@ -61,19 +59,19 @@ function Project() {
               <StyledAvatar
                 onClick={() => {
                   router.push({
-                    pathname: `/user/${project?.author?.id}`,
+                    pathname: `/user/${data?.project?.author?.id}`,
                   });
                 }}
                 height={40}
                 width={40}
-                src={project?.author?.avatar}
+                src={data?.project?.author?.avatar}
               />
             </Button>
 
             <InfoText>
-              <h1>{project?.title}</h1>
-              <Link href={`/user/${project?.author?.id}`}>
-                {project?.author?.name}
+              <h1>{data?.project?.title}</h1>
+              <Link href={`/user/${data?.project?.author?.id}`}>
+                {data?.project?.author?.name}
               </Link>
             </InfoText>
           </InfoBox>
@@ -81,8 +79,8 @@ function Project() {
         </Header>
         <ImageContainer>
           <Image
-            alt={project?.title}
-            src={buildImageUrl(project?.preview, {
+            alt={data?.project?.title}
+            src={buildImageUrl(data?.project?.preview, {
               transformations: {
                 resize: {
                   type: 'scale',
@@ -96,21 +94,21 @@ function Project() {
           />
         </ImageContainer>
         <DescriptionContainer>
-          <Description>{project?.description}</Description>
+          <Description>{data?.project?.description}</Description>
           <TagsContainer>
-            {project?.tags.map((tag) => (
+            {data?.project?.tags.map((tag) => (
               <Badge key={tag}>{tag}</Badge>
             ))}
           </TagsContainer>
           <HStack>
-            <Link href={project?.siteLink} passHref>
+            <Link href={data?.project?.siteLink} passHref>
               <StyledLink target='_blank' rel='noopener noreferrer'>
                 <Button variant='ghost'>
                   <StyledExtLinkIcon />
                 </Button>
               </StyledLink>
             </Link>
-            <Link href={project?.repoLink} passHref>
+            <Link href={data?.project?.repoLink} passHref>
               <StyledLink target='_blank' rel='noopener noreferrer'>
                 <Button variant='ghost'>
                   <StyledGithubIcon />
@@ -121,16 +119,16 @@ function Project() {
         </DescriptionContainer>
       </Modal>
       <NextSeo
-        title={project?.title}
-        description={project?.description}
+        title={data?.project?.title}
+        description={data?.project?.description}
         openGraph={{
           type: 'website',
-          title: project?.title,
-          description: project?.description,
-          site_name: 'Project Shelf',
+          title: data?.project?.title,
+          description: data?.project?.description,
+          site_name: 'data?.Project Shelf',
           images: [
             {
-              url: buildImageUrl(project?.preview, {
+              url: buildImageUrl(data?.project?.preview, {
                 transformations: {
                   resize: {
                     type: 'scale',
@@ -141,7 +139,7 @@ function Project() {
               }),
               width: 800,
               height: 600,
-              alt: project?.title,
+              alt: data?.project?.title,
             },
           ],
         }}

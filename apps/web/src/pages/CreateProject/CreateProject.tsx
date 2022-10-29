@@ -81,7 +81,7 @@ function CreateProject() {
             input: {
               ...values,
               tags: values.tags.map((tag) => tag.value),
-              preview: res?.data?.image?.url,
+              preview: res?.data?.image,
             },
           },
         });

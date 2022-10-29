@@ -26,7 +26,9 @@ function Home() {
 
     fetchMore({
       variables: {
-        cursor: data?.projects?.nextCursor,
+        input: {
+          cursor: data?.projects?.nextCursor,
+        },
       },
     });
   };

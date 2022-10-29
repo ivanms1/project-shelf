@@ -1,5 +1,5 @@
 query SearchProjects($input: SearchProjectsInput) {
-  searchProjects(input: $input) {
+  searchProjects: getApprovedProjects(input: $input) {
     results {
       title
       description

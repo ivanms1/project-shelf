@@ -1,4 +1,4 @@
-mutation ReactToProject($input: ReactToProjectInput) {
+mutation ReactToProject($input: ReactToProjectInput!) {
   reactToProject(input: $input) {
     id
     likesCount
