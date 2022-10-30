@@ -2,11 +2,7 @@ import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { NextSeo } from 'next-seo';
-import {
-  ProjectActions,
-  useGetProjectQuery,
-  useReactToProjectMutation,
-} from 'apollo-hooks';
+import { useGetProjectQuery } from 'apollo-hooks';
 import { useRouter } from 'next/router';
 import { Button, Modal, Badge } from 'ui';
 import { buildImageUrl } from 'cloudinary-build-url';
@@ -27,15 +23,14 @@ import {
   StyledGithubIcon,
   HStack,
   StyledLink,
-  StyledLike,
   TagsContainer,
 } from './styles';
+import LikeButton from './LikeButton/LikeButton';
 
 function Project() {
   const router = useRouter();
   const { query } = useRouter();
   const { previous } = query;
-  const [reactToProject] = useReactToProjectMutation();
 
   const { data } = useGetProjectQuery({
     variables: {
@@ -51,33 +46,6 @@ function Project() {
       });
     } else {
       router.push('/');
-    }
-  };
-
-  const handleLike = async () => {
-    try {
-      await reactToProject({
-        variables: {
-          input: {
-            projectId: data?.project?.id,
-            action: data?.project?.isLiked
-              ? ProjectActions.Dislike
-              : ProjectActions.Like,
-          },
-        },
-        optimisticResponse: {
-          reactToProject: {
-            ...data?.project,
-            id: data?.project?.id,
-            likesCount: data?.project?.isLiked
-              ? data?.project.likesCount - 1
-              : data?.project.likesCount + 1,
-            isLiked: !data?.project?.isLiked,
-          },
-        },
-      });
-    } catch (error) {
-      // TODO: Handle error
     }
   };
 
@@ -109,11 +77,7 @@ function Project() {
               </Link>
             </InfoText>
           </InfoBox>
-          <Button variant='ghost' onClick={handleLike}>
-            <StyledLike isliked={data?.project?.isLiked}>
-              {data?.project?.isLiked ? 'Liked' : 'Like'}
-            </StyledLike>
-          </Button>
+          <LikeButton projectId={data?.project?.id} />
         </Header>
         <ImageContainer>
           <Image
