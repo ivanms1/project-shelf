@@ -9,7 +9,7 @@ const Signin = ({ providers }: SigninProps) => {
   return (
     <StyledSignin>
       <LoginContent>
-        {Object.values(providers).map((provider) => (
+        {Object?.values(providers).map((provider) => (
           <div key={provider.name}>
             <Header>Project Shelf</Header>
             <LoginButton

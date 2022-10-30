@@ -36,3 +36,5 @@ yarn-error.log*
 
 build/**
 dist
+
+tsconfig.tsbuildinfo

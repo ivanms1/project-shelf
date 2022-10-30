@@ -10,6 +10,8 @@
     "build": "turbo run build",
     "build:web": "turbo run build --scope=web",
     "tsc:web": "cd apps/web && yarn tsc",
+    "tsc:admin": "cd apps/admin && yarn tsc",
+    "tsc:api": "cd apps/api && yarn generate && yarn tsc",
     "build:hooks": "cd packages/apollo-hooks && yarn build",
     "generate:hooks": "cd packages/apollo-hooks && yarn generate",
     "update:hooks": "yarn generate:hooks && yarn build:hooks",

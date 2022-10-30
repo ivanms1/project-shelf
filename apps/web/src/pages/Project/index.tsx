@@ -125,7 +125,7 @@ function Project() {
           type: 'website',
           title: data?.project?.title,
           description: data?.project?.description,
-          site_name: 'data?.Project Shelf',
+          site_name: 'Project Shelf',
           images: [
             {
               url: buildImageUrl(data?.project?.preview, {

@@ -17,7 +17,7 @@
     "cloudinary-build-url": "^0.2.4",
     "deepmerge": "^4.2.2",
     "lodash-es": "^4.17.21",
-    "next": "12.1.4",
+    "next": "12.3.0",
     "next-auth": "^4.7.0",
     "next-seo": "^5.1.0",
     "react": "17.0.2",
