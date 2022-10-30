@@ -1,0 +1,7 @@
+query GetProjectLikedStatus($id: String!) {
+  project: getProject(id: $id) {
+    id
+    isLiked
+    likesCount
+  }
+}

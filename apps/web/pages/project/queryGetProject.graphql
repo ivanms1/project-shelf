@@ -15,6 +15,5 @@ query GetProject($id: String!) {
       name
       avatar
     }
-    isLiked
   }
 }

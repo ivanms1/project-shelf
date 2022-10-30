@@ -236,7 +236,7 @@ export type User = {
   id: Scalars['ID'];
   isFollowing: Scalars['Boolean'];
   name: Scalars['String'];
-  projects: Array<Project>;
+  projects?: Maybe<Array<Project>>;
   projectsLiked: Array<Project>;
   role: Role;
 };
@@ -248,6 +248,11 @@ export enum UserFollowActions {
 }
 
 export type ProjectsResponseFragmentFragment = { __typename?: 'ProjectsResponse', nextCursor?: string | null, prevCursor?: string | null, totalCount: number, results: Array<{ __typename?: 'Project', id: string, title: string, createdAt: any, isLiked: boolean, likesCount: number, tags: Array<string>, preview: string, repoLink: string, siteLink: string, description: string, isApproved: boolean, author: { __typename?: 'User', id: string, avatar?: string | null, name: string } }> };
+
+export type GetCurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetCurrentUserQuery = { __typename?: 'Query', getCurrentUser: { __typename?: 'User', id: string, name: string, email: string, github?: string | null, discord?: string | null, avatar?: string | null } };
 
 export type GetAllProjectsQueryVariables = Exact<{
   input?: InputMaybe<SearchProjectsInput>;
@@ -277,7 +282,7 @@ export type GetProjectQueryVariables = Exact<{
 }>;
 
 
-export type GetProjectQuery = { __typename?: 'Query', project: { __typename?: 'Project', id: string, title: string, preview: string, repoLink: string, siteLink: string, description: string, isApproved: boolean, likesCount: number, createdAt: any, tags: Array<string>, isLiked: boolean, author: { __typename?: 'User', id: string, name: string, avatar?: string | null } } };
+export type GetProjectQuery = { __typename?: 'Query', project: { __typename?: 'Project', id: string, title: string, preview: string, repoLink: string, siteLink: string, description: string, isApproved: boolean, likesCount: number, createdAt: any, tags: Array<string>, author: { __typename?: 'User', id: string, name: string, avatar?: string | null } } };
 
 export type GetUserForPageQueryVariables = Exact<{
   id: Scalars['String'];
@@ -292,11 +297,6 @@ export type ReactToProjectMutationVariables = Exact<{
 
 
 export type ReactToProjectMutation = { __typename?: 'Mutation', reactToProject: { __typename?: 'Project', id: string, likesCount: number, isLiked: boolean } };
-
-export type GetCurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type GetCurrentUserQuery = { __typename?: 'Query', getCurrentUser: { __typename?: 'User', id: string, name: string, email: string, github?: string | null, discord?: string | null, avatar?: string | null } };
 
 export type CreateUserProjectMutationVariables = Exact<{
   input: CreateProjectInput;
@@ -318,6 +318,13 @@ export type GetMyProjectsQueryVariables = Exact<{
 
 
 export type GetMyProjectsQuery = { __typename?: 'Query', projects: { __typename?: 'ProjectsResponse', nextCursor?: string | null, prevCursor?: string | null, totalCount: number, results: Array<{ __typename?: 'Project', id: string, title: string, createdAt: any, isLiked: boolean, likesCount: number, tags: Array<string>, preview: string, repoLink: string, siteLink: string, description: string, isApproved: boolean, author: { __typename?: 'User', id: string, avatar?: string | null, name: string } }> } };
+
+export type GetProjectLikedStatusQueryVariables = Exact<{
+  id: Scalars['String'];
+}>;
+
+
+export type GetProjectLikedStatusQuery = { __typename?: 'Query', project: { __typename?: 'Project', id: string, isLiked: boolean, likesCount: number } };
 
 export type SearchProjectsQueryVariables = Exact<{
   input?: InputMaybe<SearchProjectsInput>;
@@ -366,6 +373,45 @@ export const ProjectsResponseFragmentFragmentDoc = gql`
   }
 }
     `;
+export const GetCurrentUserDocument = gql`
+    query GetCurrentUser {
+  getCurrentUser {
+    id
+    name
+    email
+    github
+    discord
+    avatar
+  }
+}
+    `;
+
+/**
+ * __useGetCurrentUserQuery__
+ *
+ * To run a query within a React component, call `useGetCurrentUserQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetCurrentUserQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetCurrentUserQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetCurrentUserQuery(baseOptions?: Apollo.QueryHookOptions<GetCurrentUserQuery, GetCurrentUserQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetCurrentUserQuery, GetCurrentUserQueryVariables>(GetCurrentUserDocument, options);
+      }
+export function useGetCurrentUserLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetCurrentUserQuery, GetCurrentUserQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetCurrentUserQuery, GetCurrentUserQueryVariables>(GetCurrentUserDocument, options);
+        }
+export type GetCurrentUserQueryHookResult = ReturnType<typeof useGetCurrentUserQuery>;
+export type GetCurrentUserLazyQueryHookResult = ReturnType<typeof useGetCurrentUserLazyQuery>;
+export type GetCurrentUserQueryResult = Apollo.QueryResult<GetCurrentUserQuery, GetCurrentUserQueryVariables>;
 export const GetAllProjectsDocument = gql`
     query GetAllProjects($input: SearchProjectsInput) {
   projects: getApprovedProjects(input: $input) {
@@ -487,7 +533,6 @@ export const GetProjectDocument = gql`
       name
       avatar
     }
-    isLiked
   }
 }
     `;
@@ -595,45 +640,6 @@ export function useReactToProjectMutation(baseOptions?: Apollo.MutationHookOptio
 export type ReactToProjectMutationHookResult = ReturnType<typeof useReactToProjectMutation>;
 export type ReactToProjectMutationResult = Apollo.MutationResult<ReactToProjectMutation>;
 export type ReactToProjectMutationOptions = Apollo.BaseMutationOptions<ReactToProjectMutation, ReactToProjectMutationVariables>;
-export const GetCurrentUserDocument = gql`
-    query GetCurrentUser {
-  getCurrentUser {
-    id
-    name
-    email
-    github
-    discord
-    avatar
-  }
-}
-    `;
-
-/**
- * __useGetCurrentUserQuery__
- *
- * To run a query within a React component, call `useGetCurrentUserQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetCurrentUserQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetCurrentUserQuery({
- *   variables: {
- *   },
- * });
- */
-export function useGetCurrentUserQuery(baseOptions?: Apollo.QueryHookOptions<GetCurrentUserQuery, GetCurrentUserQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetCurrentUserQuery, GetCurrentUserQueryVariables>(GetCurrentUserDocument, options);
-      }
-export function useGetCurrentUserLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetCurrentUserQuery, GetCurrentUserQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetCurrentUserQuery, GetCurrentUserQueryVariables>(GetCurrentUserDocument, options);
-        }
-export type GetCurrentUserQueryHookResult = ReturnType<typeof useGetCurrentUserQuery>;
-export type GetCurrentUserLazyQueryHookResult = ReturnType<typeof useGetCurrentUserLazyQuery>;
-export type GetCurrentUserQueryResult = Apollo.QueryResult<GetCurrentUserQuery, GetCurrentUserQueryVariables>;
 export const CreateUserProjectDocument = gql`
     mutation CreateUserProject($input: CreateProjectInput!) {
   createProject(input: $input) {
@@ -744,6 +750,43 @@ export function useGetMyProjectsLazyQuery(baseOptions?: Apollo.LazyQueryHookOpti
 export type GetMyProjectsQueryHookResult = ReturnType<typeof useGetMyProjectsQuery>;
 export type GetMyProjectsLazyQueryHookResult = ReturnType<typeof useGetMyProjectsLazyQuery>;
 export type GetMyProjectsQueryResult = Apollo.QueryResult<GetMyProjectsQuery, GetMyProjectsQueryVariables>;
+export const GetProjectLikedStatusDocument = gql`
+    query GetProjectLikedStatus($id: String!) {
+  project: getProject(id: $id) {
+    id
+    isLiked
+    likesCount
+  }
+}
+    `;
+
+/**
+ * __useGetProjectLikedStatusQuery__
+ *
+ * To run a query within a React component, call `useGetProjectLikedStatusQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetProjectLikedStatusQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetProjectLikedStatusQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useGetProjectLikedStatusQuery(baseOptions: Apollo.QueryHookOptions<GetProjectLikedStatusQuery, GetProjectLikedStatusQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetProjectLikedStatusQuery, GetProjectLikedStatusQueryVariables>(GetProjectLikedStatusDocument, options);
+      }
+export function useGetProjectLikedStatusLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetProjectLikedStatusQuery, GetProjectLikedStatusQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetProjectLikedStatusQuery, GetProjectLikedStatusQueryVariables>(GetProjectLikedStatusDocument, options);
+        }
+export type GetProjectLikedStatusQueryHookResult = ReturnType<typeof useGetProjectLikedStatusQuery>;
+export type GetProjectLikedStatusLazyQueryHookResult = ReturnType<typeof useGetProjectLikedStatusLazyQuery>;
+export type GetProjectLikedStatusQueryResult = Apollo.QueryResult<GetProjectLikedStatusQuery, GetProjectLikedStatusQueryVariables>;
 export const SearchProjectsDocument = gql`
     query SearchProjects($input: SearchProjectsInput) {
   searchProjects: getApprovedProjects(input: $input) {

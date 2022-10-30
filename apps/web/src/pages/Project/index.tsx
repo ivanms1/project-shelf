@@ -25,6 +25,7 @@ import {
   StyledLink,
   TagsContainer,
 } from './styles';
+import LikeButton from './LikeButton/LikeButton';
 
 function Project() {
   const router = useRouter();
@@ -47,6 +48,7 @@ function Project() {
       router.push('/');
     }
   };
+
   return (
     <>
       <CloseButton onClick={handleClose} variant='ghost'>
@@ -75,7 +77,7 @@ function Project() {
               </Link>
             </InfoText>
           </InfoBox>
-          <Button variant='secondary'>Like</Button>
+          <LikeButton projectId={data?.project?.id} />
         </Header>
         <ImageContainer>
           <Image
