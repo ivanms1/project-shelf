@@ -1,6 +1,13 @@
-import Link from 'next/link';
-
-import { StyledMember, Card, ProfileImage, Title } from './styles';
+import {
+  CardLinks,
+  Card,
+  ProfileImage,
+  Title,
+  Wrapper,
+  ImageContainer,
+  Username,
+  StyledLink,
+} from './styles';
 
 interface MemberProps {
   name: string;
@@ -9,20 +16,30 @@ interface MemberProps {
 
 export const Member = ({ name, username }: MemberProps) => {
   return (
-    <StyledMember>
+    <StyledLink target='_blank' href={`https://github.com/${username}`}>
       <Card>
-        <Title>{name}</Title>
-        <p>
-          <Link href={`https://github.com/${username}`}>Github Profile</Link>
-        </p>
-        <ProfileImage
-          src={`https://github.com/${username}.png`}
-          alt='github-profile'
-          width={175}
-          height={175}
-        />
+        <ImageContainer>
+          <ProfileImage
+            src={`https://github.com/${username}.png`}
+            alt='github-profile'
+            width={110}
+            height={110}
+          />
+        </ImageContainer>
+        <Wrapper>
+          <Title>{name}</Title>
+          <Username>@{username}</Username>
+          <CardLinks>
+            <ProfileImage
+              src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png'
+              alt='github-profile'
+              width={42}
+              height={42}
+            />
+          </CardLinks>
+        </Wrapper>
       </Card>
-    </StyledMember>
+    </StyledLink>
   );
 };
 

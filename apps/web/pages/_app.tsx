@@ -8,6 +8,8 @@ import Layout from 'src/components/Layout/Layout';
 
 import useApollo from '@/hooks/useApollo';
 
+import type { Session } from 'next-auth';
+
 import './styles.css';
 
 setConfig({
@@ -17,7 +19,9 @@ setConfig({
 function CustomApp({
   Component,
   pageProps: { session, ...pageProps },
-}: AppProps) {
+}: AppProps<{
+  session: Session;
+}>) {
   const client = useApollo(pageProps);
   return (
     <SessionProvider session={session}>

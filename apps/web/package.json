@@ -10,20 +10,20 @@
     "generate": "plop"
   },
   "dependencies": {
-    "@apollo/client": "^3.5.7",
+    "@apollo/client": "^3.6.6",
     "@hookform/resolvers": "^2.8.5",
-    "@stitches/react": "^1.2.6",
+    "@stitches/react": "^1.2.8",
     "apollo-hooks": "*",
     "cloudinary-build-url": "^0.2.4",
     "deepmerge": "^4.2.2",
     "lodash-es": "^4.17.21",
-    "next": "12.0.7",
-    "next-auth": "^4.1.0",
+    "next": "12.3.0",
+    "next-auth": "^4.7.0",
     "next-seo": "^5.1.0",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-dropzone": "^11.5.3",
-    "react-hook-form": "^7.26.0",
+    "react-hook-form": "^7.38.0",
     "react-waypoint": "^10.1.0",
     "ui": "*",
     "yup": "^0.32.11"
@@ -35,7 +35,7 @@
     "config": "*",
     "eslint": "8.10.0",
     "next-transpile-modules": "9.0.0",
-    "plop": "^3.0.5",
+    "plop": "^3.1.0",
     "tsconfig": "*",
     "typescript": "^4.5.3"
   }

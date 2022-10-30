@@ -1,7 +1,7 @@
 import React from 'react';
 import { SubmitHandler, useFormContext } from 'react-hook-form';
 import { Button, FormInput, FormSelect, Modal } from 'ui';
-import { FormTypes } from '..';
+import { FormTypes } from '../CreateProject';
 
 import {
   ButtonsContainer,

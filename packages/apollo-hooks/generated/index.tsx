@@ -14,11 +14,12 @@ export type Scalars = {
   Int: number;
   Float: number;
   /** A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar. */
-  DateTime: any;
+  Date: any;
   /** The `JSONObject` scalar type represents JSON objects as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf). */
-  JSONObject: any;
+  JSON: any;
 };
 
+/** Fields necessary to create a new project */
 export type CreateProjectInput = {
   description: Scalars['String'];
   preview: Scalars['String'];
@@ -28,38 +29,51 @@ export type CreateProjectInput = {
   title: Scalars['String'];
 };
 
+/** Fields necessary to follow or unfollow a user */
+export type FollowUserInput = {
+  action?: InputMaybe<UserFollowActions>;
+  userId?: InputMaybe<Scalars['ID']>;
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
-  createProject?: Maybe<Project>;
-  deleteManyProjects?: Maybe<Scalars['JSONObject']>;
-  deleteProject?: Maybe<Scalars['String']>;
-  /** Like or remove like from project */
-  reactToProject?: Maybe<Project>;
-  signup: Scalars['JSONObject'];
-  updateProject?: Maybe<Project>;
-  updateProjectStatus?: Maybe<Project>;
+  /** Create a new project */
+  createProject: Project;
+  /** Delete projects */
+  deleteProjects: Array<Scalars['String']>;
+  /** Follow or unfollow a user */
+  followUser: User;
+  /** Like or remove like from a project */
+  reactToProject: Project;
+  /** Create a new user */
+  signup: Scalars['String'];
+  /** Update a project */
+  updateProject: Project;
+  /** Update project status */
+  updateProjectStatus: Project;
+  /** Update the user information */
   updateUser: User;
-  uploadImage?: Maybe<Scalars['JSONObject']>;
+  uploadImage: Scalars['String'];
 };
 
 
 export type MutationCreateProjectArgs = {
-  input?: InputMaybe<CreateProjectInput>;
+  input: CreateProjectInput;
 };
 
 
-export type MutationDeleteManyProjectsArgs = {
-  ids: Array<Scalars['ID']>;
+export type MutationDeleteProjectsArgs = {
+  projectIds: Array<Scalars['String']>;
 };
 
 
-export type MutationDeleteProjectArgs = {
-  id: Scalars['ID'];
+export type MutationFollowUserArgs = {
+  input: FollowUserInput;
 };
 
 
 export type MutationReactToProjectArgs = {
-  input?: InputMaybe<ReactToProjectInput>;
+  input: ReactToProjectInput;
 };
 
 
@@ -71,8 +85,8 @@ export type MutationSignupArgs = {
 
 
 export type MutationUpdateProjectArgs = {
-  input?: InputMaybe<UpdateProjectInput>;
-  projectId: Scalars['ID'];
+  input: CreateProjectInput;
+  projectId: Scalars['String'];
 };
 
 
@@ -83,8 +97,7 @@ export type MutationUpdateProjectStatusArgs = {
 
 
 export type MutationUpdateUserArgs = {
-  input?: InputMaybe<UpdateUsertInput>;
-  userId: Scalars['String'];
+  data: UpdateUserInput;
 };
 
 
@@ -95,12 +108,11 @@ export type MutationUploadImageArgs = {
 export type Project = {
   __typename?: 'Project';
   author: User;
-  createdAt: Scalars['DateTime'];
+  createdAt: Scalars['Date'];
   description: Scalars['String'];
   id: Scalars['ID'];
   isApproved: Scalars['Boolean'];
-  /** If this project is liked by the current user */
-  isLiked?: Maybe<Scalars['Boolean']>;
+  isLiked: Scalars['Boolean'];
   likes: Array<User>;
   likesCount: Scalars['Int'];
   preview: Scalars['String'];
@@ -110,81 +122,100 @@ export type Project = {
   title: Scalars['String'];
 };
 
-/** Actions available to the user */
-export enum ProjectAction {
+/** Project actions */
+export enum ProjectActions {
   Dislike = 'DISLIKE',
   Like = 'LIKE'
 }
 
+/** Projects response */
 export type ProjectsResponse = {
   __typename?: 'ProjectsResponse';
   nextCursor?: Maybe<Scalars['String']>;
   prevCursor?: Maybe<Scalars['String']>;
   results: Array<Project>;
-  totalCount?: Maybe<Scalars['Int']>;
+  totalCount: Scalars['Int'];
 };
 
 export type Query = {
   __typename?: 'Query';
-  /** Get all approved projects */
+  /** Get approved projects */
   getApprovedProjects: ProjectsResponse;
-  getCurrentUser?: Maybe<User>;
-  /** Get all my projects */
+  /** Get the current user */
+  getCurrentUser: User;
+  /** Get my projects */
   getMyProjects: ProjectsResponse;
-  getProject?: Maybe<Project>;
-  /** Admin query to get projects */
+  /** Get a project by id */
+  getProject: Project;
+  /** Get projects for admin */
   getProjectsAdmin: ProjectsResponse;
-  getUser?: Maybe<User>;
-  getUsers: Array<Maybe<User>>;
+  /** Get a user by id */
+  getUser: User;
+  /** Get user projects */
+  getUserProjects: ProjectsResponse;
+  /** Get all users */
+  getUsers: Array<User>;
 };
 
 
 export type QueryGetApprovedProjectsArgs = {
-  cursor?: InputMaybe<Scalars['String']>;
+  input?: InputMaybe<SearchProjectsInput>;
 };
 
 
 export type QueryGetMyProjectsArgs = {
-  cursor?: InputMaybe<Scalars['String']>;
+  input?: InputMaybe<SearchProjectsInput>;
 };
 
 
 export type QueryGetProjectArgs = {
-  id: Scalars['ID'];
+  id: Scalars['String'];
 };
 
 
 export type QueryGetProjectsAdminArgs = {
-  cursor?: InputMaybe<Scalars['String']>;
+  input?: InputMaybe<SearchProjectsInput>;
 };
 
 
 export type QueryGetUserArgs = {
-  id: Scalars['ID'];
+  id: Scalars['String'];
 };
 
-/** Fields necessary to like or dislike a project */
+
+export type QueryGetUserProjectsArgs = {
+  input?: InputMaybe<SearchProjectsInput>;
+  userId: Scalars['String'];
+};
+
+/** React to project input */
 export type ReactToProjectInput = {
-  action: ProjectAction;
-  projectId: Scalars['ID'];
+  action: ProjectActions;
+  projectId: Scalars['String'];
 };
 
+/** User role */
 export enum Role {
   Admin = 'ADMIN',
   User = 'USER'
 }
 
-export type UpdateProjectInput = {
-  description?: InputMaybe<Scalars['String']>;
-  preview?: InputMaybe<Scalars['String']>;
-  repoLink?: InputMaybe<Scalars['String']>;
-  siteLink?: InputMaybe<Scalars['String']>;
-  tags?: InputMaybe<Array<Scalars['String']>>;
-  title?: InputMaybe<Scalars['String']>;
+/** Search order */
+export enum SearchOrder {
+  Asc = 'asc',
+  Desc = 'desc'
+}
+
+/** Search projects input */
+export type SearchProjectsInput = {
+  cursor?: InputMaybe<Scalars['String']>;
+  order?: InputMaybe<SearchOrder>;
+  orderBy?: InputMaybe<Scalars['String']>;
+  search?: InputMaybe<Scalars['String']>;
 };
 
 /** Update the user information */
-export type UpdateUsertInput = {
+export type UpdateUserInput = {
   discord: Scalars['String'];
   email: Scalars['String'];
   github: Scalars['String'];
@@ -197,22 +228,33 @@ export type User = {
   avatar?: Maybe<Scalars['String']>;
   discord?: Maybe<Scalars['String']>;
   email: Scalars['String'];
+  followerCount: Scalars['Int'];
+  followers: Array<User>;
+  following: Array<User>;
+  followingCount: Scalars['Int'];
   github?: Maybe<Scalars['String']>;
   id: Scalars['ID'];
+  isFollowing: Scalars['Boolean'];
   name: Scalars['String'];
-  projects?: Maybe<Array<Project>>;
-  projectsLiked?: Maybe<Array<Project>>;
+  projects: Array<Project>;
+  projectsLiked: Array<Project>;
   role: Role;
 };
 
-export type ProjectsResponseFragmentFragment = { __typename?: 'ProjectsResponse', nextCursor?: string | null | undefined, prevCursor?: string | null | undefined, totalCount?: number | null | undefined, results: Array<{ __typename?: 'Project', id: string, title: string, createdAt: any, isLiked?: boolean | null | undefined, likesCount: number, tags: Array<string>, preview: string, repoLink: string, siteLink: string, description: string, isApproved: boolean, author: { __typename?: 'User', id: string, avatar?: string | null | undefined, name: string } }> };
+/** Actions of follow or unfollow */
+export enum UserFollowActions {
+  Follow = 'FOLLOW',
+  Unfollow = 'UNFOLLOW'
+}
+
+export type ProjectsResponseFragmentFragment = { __typename?: 'ProjectsResponse', nextCursor?: string | null, prevCursor?: string | null, totalCount: number, results: Array<{ __typename?: 'Project', id: string, title: string, createdAt: any, isLiked: boolean, likesCount: number, tags: Array<string>, preview: string, repoLink: string, siteLink: string, description: string, isApproved: boolean, author: { __typename?: 'User', id: string, avatar?: string | null, name: string } }> };
 
 export type GetAllProjectsQueryVariables = Exact<{
-  cursor?: InputMaybe<Scalars['String']>;
+  input?: InputMaybe<SearchProjectsInput>;
 }>;
 
 
-export type GetAllProjectsQuery = { __typename?: 'Query', projects: { __typename?: 'ProjectsResponse', nextCursor?: string | null | undefined, prevCursor?: string | null | undefined, totalCount?: number | null | undefined, results: Array<{ __typename?: 'Project', id: string, title: string, createdAt: any, isLiked?: boolean | null | undefined, likesCount: number, tags: Array<string>, preview: string, repoLink: string, siteLink: string, description: string, isApproved: boolean, author: { __typename?: 'User', id: string, avatar?: string | null | undefined, name: string } }> } };
+export type GetAllProjectsQuery = { __typename?: 'Query', projects: { __typename?: 'ProjectsResponse', nextCursor?: string | null, prevCursor?: string | null, totalCount: number, results: Array<{ __typename?: 'Project', id: string, title: string, createdAt: any, isLiked: boolean, likesCount: number, tags: Array<string>, preview: string, repoLink: string, siteLink: string, description: string, isApproved: boolean, author: { __typename?: 'User', id: string, avatar?: string | null, name: string } }> } };
 
 export type SignupMutationVariables = Exact<{
   email: Scalars['String'];
@@ -221,61 +263,83 @@ export type SignupMutationVariables = Exact<{
 }>;
 
 
-export type SignupMutation = { __typename?: 'Mutation', signup: any };
+export type SignupMutation = { __typename?: 'Mutation', signup: string };
 
 export type GetApprovedProjectsQueryVariables = Exact<{
-  cursor?: InputMaybe<Scalars['String']>;
+  input?: InputMaybe<SearchProjectsInput>;
 }>;
 
 
-export type GetApprovedProjectsQuery = { __typename?: 'Query', projects: { __typename?: 'ProjectsResponse', nextCursor?: string | null | undefined, prevCursor?: string | null | undefined, totalCount?: number | null | undefined, results: Array<{ __typename?: 'Project', id: string, title: string, createdAt: any, isLiked?: boolean | null | undefined, likesCount: number, tags: Array<string>, preview: string, repoLink: string, siteLink: string, description: string, isApproved: boolean, author: { __typename?: 'User', id: string, avatar?: string | null | undefined, name: string } }> } };
+export type GetApprovedProjectsQuery = { __typename?: 'Query', projects: { __typename?: 'ProjectsResponse', nextCursor?: string | null, prevCursor?: string | null, totalCount: number, results: Array<{ __typename?: 'Project', id: string, title: string, createdAt: any, isLiked: boolean, likesCount: number, tags: Array<string>, preview: string, repoLink: string, siteLink: string, description: string, isApproved: boolean, author: { __typename?: 'User', id: string, avatar?: string | null, name: string } }> } };
 
 export type GetProjectQueryVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['String'];
 }>;
 
 
-export type GetProjectQuery = { __typename?: 'Query', project?: { __typename?: 'Project', id: string, title: string, preview: string, repoLink: string, siteLink: string, description: string, isApproved: boolean, likesCount: number, createdAt: any, tags: Array<string>, isLiked?: boolean | null | undefined, author: { __typename?: 'User', id: string, name: string, avatar?: string | null | undefined } } | null | undefined };
+export type GetProjectQuery = { __typename?: 'Query', project: { __typename?: 'Project', id: string, title: string, preview: string, repoLink: string, siteLink: string, description: string, isApproved: boolean, likesCount: number, createdAt: any, tags: Array<string>, isLiked: boolean, author: { __typename?: 'User', id: string, name: string, avatar?: string | null } } };
 
 export type GetUserForPageQueryVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['String'];
 }>;
 
 
-export type GetUserForPageQuery = { __typename?: 'Query', user?: { __typename?: 'User', id: string, name: string, email: string, github?: string | null | undefined, avatar?: string | null | undefined, projects?: Array<{ __typename?: 'Project', id: string, title: string, preview: string, likesCount: number, isLiked?: boolean | null | undefined, tags: Array<string>, description: string, siteLink: string, repoLink: string }> | null | undefined } | null | undefined };
+export type GetUserForPageQuery = { __typename?: 'Query', user: { __typename?: 'User', id: string, name: string, email: string, github?: string | null, avatar?: string | null, isFollowing: boolean, followerCount: number } };
 
 export type ReactToProjectMutationVariables = Exact<{
-  input?: InputMaybe<ReactToProjectInput>;
+  input: ReactToProjectInput;
 }>;
 
 
-export type ReactToProjectMutation = { __typename?: 'Mutation', reactToProject?: { __typename?: 'Project', id: string, likesCount: number, isLiked?: boolean | null | undefined } | null | undefined };
+export type ReactToProjectMutation = { __typename?: 'Mutation', reactToProject: { __typename?: 'Project', id: string, likesCount: number, isLiked: boolean } };
 
 export type GetCurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetCurrentUserQuery = { __typename?: 'Query', getCurrentUser?: { __typename?: 'User', id: string, name: string, email: string, github?: string | null | undefined, discord?: string | null | undefined, avatar?: string | null | undefined } | null | undefined };
+export type GetCurrentUserQuery = { __typename?: 'Query', getCurrentUser: { __typename?: 'User', id: string, name: string, email: string, github?: string | null, discord?: string | null, avatar?: string | null } };
 
 export type CreateUserProjectMutationVariables = Exact<{
-  input?: InputMaybe<CreateProjectInput>;
+  input: CreateProjectInput;
 }>;
 
 
-export type CreateUserProjectMutation = { __typename?: 'Mutation', createProject?: { __typename?: 'Project', id: string, title: string, preview: string, description: string, createdAt: any, siteLink: string, repoLink: string, isApproved: boolean, likes: Array<{ __typename?: 'User', id: string, name: string }> } | null | undefined };
+export type CreateUserProjectMutation = { __typename?: 'Mutation', createProject: { __typename?: 'Project', id: string, title: string, preview: string, description: string, createdAt: any, siteLink: string, repoLink: string, isApproved: boolean, likes: Array<{ __typename?: 'User', id: string, name: string }> } };
 
 export type UploadImageMutationVariables = Exact<{
   path: Scalars['String'];
 }>;
 
 
-export type UploadImageMutation = { __typename?: 'Mutation', image?: any | null | undefined };
+export type UploadImageMutation = { __typename?: 'Mutation', image: string };
 
 export type GetMyProjectsQueryVariables = Exact<{
-  cursor?: InputMaybe<Scalars['String']>;
+  input?: InputMaybe<SearchProjectsInput>;
 }>;
 
 
-export type GetMyProjectsQuery = { __typename?: 'Query', projects: { __typename?: 'ProjectsResponse', nextCursor?: string | null | undefined, prevCursor?: string | null | undefined, totalCount?: number | null | undefined, results: Array<{ __typename?: 'Project', id: string, title: string, createdAt: any, isLiked?: boolean | null | undefined, likesCount: number, tags: Array<string>, preview: string, repoLink: string, siteLink: string, description: string, isApproved: boolean, author: { __typename?: 'User', id: string, avatar?: string | null | undefined, name: string } }> } };
+export type GetMyProjectsQuery = { __typename?: 'Query', projects: { __typename?: 'ProjectsResponse', nextCursor?: string | null, prevCursor?: string | null, totalCount: number, results: Array<{ __typename?: 'Project', id: string, title: string, createdAt: any, isLiked: boolean, likesCount: number, tags: Array<string>, preview: string, repoLink: string, siteLink: string, description: string, isApproved: boolean, author: { __typename?: 'User', id: string, avatar?: string | null, name: string } }> } };
+
+export type SearchProjectsQueryVariables = Exact<{
+  input?: InputMaybe<SearchProjectsInput>;
+}>;
+
+
+export type SearchProjectsQuery = { __typename?: 'Query', searchProjects: { __typename?: 'ProjectsResponse', totalCount: number, nextCursor?: string | null, prevCursor?: string | null, results: Array<{ __typename?: 'Project', title: string, description: string, preview: string, id: string, likesCount: number, isLiked: boolean, author: { __typename?: 'User', id: string, name: string, avatar?: string | null } }> } };
+
+export type FollowUserMutationVariables = Exact<{
+  input: FollowUserInput;
+}>;
+
+
+export type FollowUserMutation = { __typename?: 'Mutation', followUser: { __typename?: 'User', id: string, name: string, isFollowing: boolean, followerCount: number } };
+
+export type GetUserProjectsQueryVariables = Exact<{
+  userId: Scalars['String'];
+  input?: InputMaybe<SearchProjectsInput>;
+}>;
+
+
+export type GetUserProjectsQuery = { __typename?: 'Query', getUserProjects: { __typename?: 'ProjectsResponse', nextCursor?: string | null, prevCursor?: string | null, results: Array<{ __typename?: 'Project', id: string, title: string, preview: string, likesCount: number, isLiked: boolean, author: { __typename?: 'User', id: string, name: string, avatar?: string | null } }> } };
 
 export const ProjectsResponseFragmentFragmentDoc = gql`
     fragment ProjectsResponseFragment on ProjectsResponse {
@@ -303,8 +367,8 @@ export const ProjectsResponseFragmentFragmentDoc = gql`
 }
     `;
 export const GetAllProjectsDocument = gql`
-    query GetAllProjects($cursor: String = null) {
-  projects: getApprovedProjects(cursor: $cursor) {
+    query GetAllProjects($input: SearchProjectsInput) {
+  projects: getApprovedProjects(input: $input) {
     ...ProjectsResponseFragment
   }
 }
@@ -322,7 +386,7 @@ export const GetAllProjectsDocument = gql`
  * @example
  * const { data, loading, error } = useGetAllProjectsQuery({
  *   variables: {
- *      cursor: // value for 'cursor'
+ *      input: // value for 'input'
  *   },
  * });
  */
@@ -371,8 +435,8 @@ export type SignupMutationHookResult = ReturnType<typeof useSignupMutation>;
 export type SignupMutationResult = Apollo.MutationResult<SignupMutation>;
 export type SignupMutationOptions = Apollo.BaseMutationOptions<SignupMutation, SignupMutationVariables>;
 export const GetApprovedProjectsDocument = gql`
-    query GetApprovedProjects($cursor: String = null) {
-  projects: getApprovedProjects(cursor: $cursor) {
+    query GetApprovedProjects($input: SearchProjectsInput) {
+  projects: getApprovedProjects(input: $input) {
     ...ProjectsResponseFragment
   }
 }
@@ -390,7 +454,7 @@ export const GetApprovedProjectsDocument = gql`
  * @example
  * const { data, loading, error } = useGetApprovedProjectsQuery({
  *   variables: {
- *      cursor: // value for 'cursor'
+ *      input: // value for 'input'
  *   },
  * });
  */
@@ -406,7 +470,7 @@ export type GetApprovedProjectsQueryHookResult = ReturnType<typeof useGetApprove
 export type GetApprovedProjectsLazyQueryHookResult = ReturnType<typeof useGetApprovedProjectsLazyQuery>;
 export type GetApprovedProjectsQueryResult = Apollo.QueryResult<GetApprovedProjectsQuery, GetApprovedProjectsQueryVariables>;
 export const GetProjectDocument = gql`
-    query GetProject($id: ID!) {
+    query GetProject($id: String!) {
   project: getProject(id: $id) {
     id
     title
@@ -456,24 +520,15 @@ export type GetProjectQueryHookResult = ReturnType<typeof useGetProjectQuery>;
 export type GetProjectLazyQueryHookResult = ReturnType<typeof useGetProjectLazyQuery>;
 export type GetProjectQueryResult = Apollo.QueryResult<GetProjectQuery, GetProjectQueryVariables>;
 export const GetUserForPageDocument = gql`
-    query GetUserForPage($id: ID!) {
+    query GetUserForPage($id: String!) {
   user: getUser(id: $id) {
     id
     name
     email
     github
     avatar
-    projects {
-      id
-      title
-      preview
-      likesCount
-      isLiked
-      tags
-      description
-      siteLink
-      repoLink
-    }
+    isFollowing
+    followerCount
   }
 }
     `;
@@ -506,7 +561,7 @@ export type GetUserForPageQueryHookResult = ReturnType<typeof useGetUserForPageQ
 export type GetUserForPageLazyQueryHookResult = ReturnType<typeof useGetUserForPageLazyQuery>;
 export type GetUserForPageQueryResult = Apollo.QueryResult<GetUserForPageQuery, GetUserForPageQueryVariables>;
 export const ReactToProjectDocument = gql`
-    mutation ReactToProject($input: ReactToProjectInput) {
+    mutation ReactToProject($input: ReactToProjectInput!) {
   reactToProject(input: $input) {
     id
     likesCount
@@ -580,7 +635,7 @@ export type GetCurrentUserQueryHookResult = ReturnType<typeof useGetCurrentUserQ
 export type GetCurrentUserLazyQueryHookResult = ReturnType<typeof useGetCurrentUserLazyQuery>;
 export type GetCurrentUserQueryResult = Apollo.QueryResult<GetCurrentUserQuery, GetCurrentUserQueryVariables>;
 export const CreateUserProjectDocument = gql`
-    mutation CreateUserProject($input: CreateProjectInput) {
+    mutation CreateUserProject($input: CreateProjectInput!) {
   createProject(input: $input) {
     id
     title
@@ -655,8 +710,8 @@ export type UploadImageMutationHookResult = ReturnType<typeof useUploadImageMuta
 export type UploadImageMutationResult = Apollo.MutationResult<UploadImageMutation>;
 export type UploadImageMutationOptions = Apollo.BaseMutationOptions<UploadImageMutation, UploadImageMutationVariables>;
 export const GetMyProjectsDocument = gql`
-    query GetMyProjects($cursor: String = null) {
-  projects: getMyProjects(cursor: $cursor) {
+    query GetMyProjects($input: SearchProjectsInput) {
+  projects: getMyProjects(input: $input) {
     ...ProjectsResponseFragment
   }
 }
@@ -674,7 +729,7 @@ export const GetMyProjectsDocument = gql`
  * @example
  * const { data, loading, error } = useGetMyProjectsQuery({
  *   variables: {
- *      cursor: // value for 'cursor'
+ *      input: // value for 'input'
  *   },
  * });
  */
@@ -689,3 +744,138 @@ export function useGetMyProjectsLazyQuery(baseOptions?: Apollo.LazyQueryHookOpti
 export type GetMyProjectsQueryHookResult = ReturnType<typeof useGetMyProjectsQuery>;
 export type GetMyProjectsLazyQueryHookResult = ReturnType<typeof useGetMyProjectsLazyQuery>;
 export type GetMyProjectsQueryResult = Apollo.QueryResult<GetMyProjectsQuery, GetMyProjectsQueryVariables>;
+export const SearchProjectsDocument = gql`
+    query SearchProjects($input: SearchProjectsInput) {
+  searchProjects: getApprovedProjects(input: $input) {
+    results {
+      title
+      description
+      preview
+      id
+      likesCount
+      author {
+        id
+        name
+        avatar
+      }
+      isLiked
+    }
+    totalCount
+    nextCursor
+    prevCursor
+  }
+}
+    `;
+
+/**
+ * __useSearchProjectsQuery__
+ *
+ * To run a query within a React component, call `useSearchProjectsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useSearchProjectsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSearchProjectsQuery({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useSearchProjectsQuery(baseOptions?: Apollo.QueryHookOptions<SearchProjectsQuery, SearchProjectsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<SearchProjectsQuery, SearchProjectsQueryVariables>(SearchProjectsDocument, options);
+      }
+export function useSearchProjectsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<SearchProjectsQuery, SearchProjectsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<SearchProjectsQuery, SearchProjectsQueryVariables>(SearchProjectsDocument, options);
+        }
+export type SearchProjectsQueryHookResult = ReturnType<typeof useSearchProjectsQuery>;
+export type SearchProjectsLazyQueryHookResult = ReturnType<typeof useSearchProjectsLazyQuery>;
+export type SearchProjectsQueryResult = Apollo.QueryResult<SearchProjectsQuery, SearchProjectsQueryVariables>;
+export const FollowUserDocument = gql`
+    mutation FollowUser($input: FollowUserInput!) {
+  followUser(input: $input) {
+    id
+    name
+    isFollowing
+    followerCount
+  }
+}
+    `;
+export type FollowUserMutationFn = Apollo.MutationFunction<FollowUserMutation, FollowUserMutationVariables>;
+
+/**
+ * __useFollowUserMutation__
+ *
+ * To run a mutation, you first call `useFollowUserMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useFollowUserMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [followUserMutation, { data, loading, error }] = useFollowUserMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useFollowUserMutation(baseOptions?: Apollo.MutationHookOptions<FollowUserMutation, FollowUserMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<FollowUserMutation, FollowUserMutationVariables>(FollowUserDocument, options);
+      }
+export type FollowUserMutationHookResult = ReturnType<typeof useFollowUserMutation>;
+export type FollowUserMutationResult = Apollo.MutationResult<FollowUserMutation>;
+export type FollowUserMutationOptions = Apollo.BaseMutationOptions<FollowUserMutation, FollowUserMutationVariables>;
+export const GetUserProjectsDocument = gql`
+    query GetUserProjects($userId: String!, $input: SearchProjectsInput) {
+  getUserProjects(userId: $userId, input: $input) {
+    nextCursor
+    prevCursor
+    results {
+      id
+      title
+      preview
+      likesCount
+      isLiked
+      author {
+        id
+        name
+        avatar
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetUserProjectsQuery__
+ *
+ * To run a query within a React component, call `useGetUserProjectsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetUserProjectsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetUserProjectsQuery({
+ *   variables: {
+ *      userId: // value for 'userId'
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useGetUserProjectsQuery(baseOptions: Apollo.QueryHookOptions<GetUserProjectsQuery, GetUserProjectsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetUserProjectsQuery, GetUserProjectsQueryVariables>(GetUserProjectsDocument, options);
+      }
+export function useGetUserProjectsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetUserProjectsQuery, GetUserProjectsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetUserProjectsQuery, GetUserProjectsQueryVariables>(GetUserProjectsDocument, options);
+        }
+export type GetUserProjectsQueryHookResult = ReturnType<typeof useGetUserProjectsQuery>;
+export type GetUserProjectsLazyQueryHookResult = ReturnType<typeof useGetUserProjectsLazyQuery>;
+export type GetUserProjectsQueryResult = Apollo.QueryResult<GetUserProjectsQuery, GetUserProjectsQueryVariables>;

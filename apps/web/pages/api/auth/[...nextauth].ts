@@ -34,19 +34,19 @@ export default NextAuth({
       });
 
       if (account) {
-        account.serverToken = data?.signup?.token;
+        account.serverToken = data?.signup;
       }
 
       return true;
     },
-    async jwt({ token, account }) {
+    jwt({ token, account }) {
       if (account) {
         token.serverToken = account.serverToken;
       }
 
       return token;
     },
-    async session({ session, token }: any) {
+    session({ session, token }: any) {
       session.token = token?.serverToken;
       return session;
     },

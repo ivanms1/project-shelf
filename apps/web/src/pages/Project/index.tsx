@@ -2,11 +2,15 @@ import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { NextSeo } from 'next-seo';
-import { useGetProjectQuery } from 'apollo-hooks';
+import {
+  ProjectActions,
+  useGetProjectQuery,
+  useReactToProjectMutation,
+} from 'apollo-hooks';
 import { useRouter } from 'next/router';
 import { Button, Modal, Badge } from 'ui';
 import { buildImageUrl } from 'cloudinary-build-url';
-import { ProjectAction, useReactToProjectMutation } from 'apollo-hooks';
+
 import {
   CloseButton,
   Description,
@@ -24,6 +28,7 @@ import {
   HStack,
   StyledLink,
   StyledLike,
+  TagsContainer,
 } from './styles';
 
 function Project() {
@@ -32,20 +37,20 @@ function Project() {
   const { previous } = query;
   const [reactToProject] = useReactToProjectMutation();
 
-  const { data = {} } = useGetProjectQuery({
+  const { data } = useGetProjectQuery({
     variables: {
       id: String(query?.id),
     },
     skip: !query?.id,
   });
 
-  const { project } = data;
-
   const handleClose = () => {
     if (typeof previous == 'string') {
       router.push({
         pathname: previous,
       });
+    } else {
+      router.push('/');
     }
   };
 
@@ -54,20 +59,20 @@ function Project() {
       await reactToProject({
         variables: {
           input: {
-            projectId: project.id,
-            action: project?.isLiked
-              ? ProjectAction.Dislike
-              : ProjectAction.Like,
+            projectId: data?.project?.id,
+            action: data?.project?.isLiked
+              ? ProjectActions.Dislike
+              : ProjectActions.Like,
           },
         },
         optimisticResponse: {
           reactToProject: {
-            ...project,
-            id: project?.id,
-            likesCount: project?.isLiked
-              ? project.likesCount - 1
-              : project.likesCount + 1,
-            isLiked: !project?.isLiked,
+            ...data?.project,
+            id: data?.project?.id,
+            likesCount: data?.project?.isLiked
+              ? data?.project.likesCount - 1
+              : data?.project.likesCount + 1,
+            isLiked: !data?.project?.isLiked,
           },
         },
       });
@@ -88,30 +93,32 @@ function Project() {
               <StyledAvatar
                 onClick={() => {
                   router.push({
-                    pathname: `/user/${project?.author?.id}`,
+                    pathname: `/user/${data?.project?.author?.id}`,
                   });
                 }}
                 height={40}
                 width={40}
-                src={project?.author?.avatar}
+                src={data?.project?.author?.avatar}
               />
             </Button>
 
             <InfoText>
-              <h1>{project?.title}</h1>
-              <p>{project?.author?.name}</p>
+              <h1>{data?.project?.title}</h1>
+              <Link href={`/user/${data?.project?.author?.id}`}>
+                {data?.project?.author?.name}
+              </Link>
             </InfoText>
           </InfoBox>
           <Button variant='ghost' onClick={handleLike}>
-            <StyledLike isliked={project?.isLiked}>
-              {project?.isLiked ? 'Liked' : 'Like'}
+            <StyledLike isliked={data?.project?.isLiked}>
+              {data?.project?.isLiked ? 'Liked' : 'Like'}
             </StyledLike>
           </Button>
         </Header>
         <ImageContainer>
           <Image
-            alt={project?.title}
-            src={buildImageUrl(project?.preview, {
+            alt={data?.project?.title}
+            src={buildImageUrl(data?.project?.preview, {
               transformations: {
                 resize: {
                   type: 'scale',
@@ -125,45 +132,41 @@ function Project() {
           />
         </ImageContainer>
         <DescriptionContainer>
-          <Description>{project?.description}</Description>
+          <Description>{data?.project?.description}</Description>
+          <TagsContainer>
+            {data?.project?.tags.map((tag) => (
+              <Badge key={tag}>{tag}</Badge>
+            ))}
+          </TagsContainer>
           <HStack>
-            <Link href={project?.repoLink} passHref>
+            <Link href={data?.project?.siteLink} passHref>
               <StyledLink target='_blank' rel='noopener noreferrer'>
                 <Button variant='ghost'>
                   <StyledExtLinkIcon />
                 </Button>
               </StyledLink>
             </Link>
-            <Description>{project?.repoLink}</Description>
-          </HStack>
-          <HStack>
-            <Link href={project?.siteLink} passHref>
+            <Link href={data?.project?.repoLink} passHref>
               <StyledLink target='_blank' rel='noopener noreferrer'>
                 <Button variant='ghost'>
                   <StyledGithubIcon />
                 </Button>
               </StyledLink>
             </Link>
-            <Description>{project?.siteLink}</Description>
-          </HStack>
-          <HStack>
-            {project?.tags.map((tag) => (
-              <Badge key={project?.id}>{tag}</Badge>
-            ))}
           </HStack>
         </DescriptionContainer>
       </Modal>
       <NextSeo
-        title={project?.title}
-        description={project?.description}
+        title={data?.project?.title}
+        description={data?.project?.description}
         openGraph={{
           type: 'website',
-          title: project?.title,
-          description: project?.description,
+          title: data?.project?.title,
+          description: data?.project?.description,
           site_name: 'Project Shelf',
           images: [
             {
-              url: buildImageUrl(project?.preview, {
+              url: buildImageUrl(data?.project?.preview, {
                 transformations: {
                   resize: {
                     type: 'scale',
@@ -174,7 +177,7 @@ function Project() {
               }),
               width: 800,
               height: 600,
-              alt: project?.title,
+              alt: data?.project?.title,
             },
           ],
         }}

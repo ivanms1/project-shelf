@@ -1,4 +1,3 @@
-import React from 'react';
 import { useGetApprovedProjectsQuery } from 'apollo-hooks';
 import { Button } from 'ui';
 import Image from 'next/image';
@@ -27,7 +26,9 @@ function Home() {
 
     fetchMore({
       variables: {
-        cursor: data?.projects?.nextCursor,
+        input: {
+          cursor: data?.projects?.nextCursor,
+        },
       },
     });
   };

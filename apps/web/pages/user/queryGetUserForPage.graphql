@@ -1,20 +1,11 @@
-query GetUserForPage($id: ID!) {
+query GetUserForPage($id: String!) {
   user: getUser(id: $id) {
     id
     name
     email
     github
     avatar
-    projects {
-      id
-      title
-      preview
-      likesCount
-      isLiked
-      tags
-      description
-      siteLink
-      repoLink
-    }
+    isFollowing
+    followerCount
   }
 }

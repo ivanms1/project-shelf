@@ -1,32 +1,90 @@
 import React from 'react';
 import { NextSeo } from 'next-seo';
-import { useGetUserForPageQuery } from 'apollo-hooks';
+import {
+  useFollowUserMutation,
+  useGetUserForPageQuery,
+  useGetUserProjectsQuery,
+  UserFollowActions,
+} from 'apollo-hooks';
 import { useRouter } from 'next/router';
 
-import ProjectCard from '@/components/ProjectCard';
+import ProjectsGrid from '@/components/ProjectsGrid';
 
 import { buildImageUrl } from 'cloudinary-build-url';
 
 import {
+  FollowButton,
   StyledUser,
   StyledAvatar,
   StyledUserContainer,
   StyledTitle,
   StyledProjectContainer,
-  StyledProjectsGrid,
 } from './styles';
 
 const User = () => {
   const { query } = useRouter();
 
-  const { data = {} } = useGetUserForPageQuery({
+  const { data } = useGetUserForPageQuery({
     variables: {
       id: String(query?.id),
     },
     skip: !query?.id,
   });
 
+  const {
+    data: projectsData,
+    fetchMore,
+    loading,
+  } = useGetUserProjectsQuery({
+    variables: {
+      userId: data?.user?.id,
+      input: {
+        cursor: null,
+      },
+    },
+    skip: !data?.user?.id,
+  });
+
   const { user } = data;
+
+  const [followUser] = useFollowUserMutation();
+
+  const handleFollowUser = async () => {
+    await followUser({
+      variables: {
+        input: {
+          userId: user?.id,
+          action: user.isFollowing
+            ? UserFollowActions.Unfollow
+            : UserFollowActions.Follow,
+        },
+      },
+      optimisticResponse: {
+        followUser: {
+          ...user,
+          followerCount: user.isFollowing
+            ? user.followerCount - 1
+            : user.followerCount + 1,
+          isFollowing: !user.isFollowing,
+        },
+      },
+    });
+  };
+
+  const onRefetch = () => {
+    if (!projectsData?.getUserProjects?.nextCursor) {
+      return;
+    }
+
+    fetchMore({
+      variables: {
+        userId: data?.user?.id,
+        input: {
+          cursor: projectsData?.getUserProjects?.nextCursor,
+        },
+      },
+    });
+  };
 
   return (
     <StyledUser>
@@ -41,24 +99,24 @@ const User = () => {
         )}
         <StyledTitle>{user?.name}</StyledTitle>
       </StyledUserContainer>
-
-      <StyledProjectContainer>
-        <StyledProjectsGrid>
-          {user?.projects?.map((project) => (
-            <ProjectCard
-              key={project?.id}
-              previous={`/user/${user?.id}`}
-              project={{
-                ...project,
-                author: {
-                  name: user?.name,
-                  avatar: user?.avatar,
-                },
-              }}
-            />
-          ))}
-        </StyledProjectsGrid>
-      </StyledProjectContainer>
+      {user ? (
+        <StyledProjectContainer>
+          <FollowButton onClick={handleFollowUser}>
+            {user?.isFollowing ? 'Unfollow' : 'Follow'}
+          </FollowButton>
+          <h4>{user?.followerCount} Followers</h4>
+          <ProjectsGrid
+            projects={projectsData?.getUserProjects?.results ?? []}
+            loading={loading}
+            onRefetch={onRefetch}
+            nextCursor={projectsData?.getUserProjects?.nextCursor}
+          />
+        </StyledProjectContainer>
+      ) : (
+        <StyledUserContainer>
+          <StyledTitle>User not found</StyledTitle>
+        </StyledUserContainer>
+      )}
 
       <NextSeo
         title={user?.name}

@@ -17,6 +17,7 @@ export const {
       secondary: '#F3F3F4',
       errorRed: '#d61b1b',
       default: '#dbdbde',
+      bgPrimary: '#f2f3fc',
     },
     zIndices: {
       modalOverlayIndex: 99999,

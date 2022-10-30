@@ -50,7 +50,7 @@ export const AuthorBox = styled('div', {
   display: 'flex',
   flexDirection: 'row',
   gap: '0 10',
-
+  cursor: 'pointer',
   '& > span': {
     marginLeft: 8,
   },

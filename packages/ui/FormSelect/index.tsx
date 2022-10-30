@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
-
+import React from 'react';
 import { RegisterOptions, useController } from 'react-hook-form';
+
 import Select, { SelectProps } from '../Select';
 
 interface FormSelectProps extends Omit<SelectProps, 'onChange' | 'value'> {
@@ -20,8 +20,6 @@ export const FormSelect = ({
   name,
   defaultValue = null,
   rules,
-
-  register,
   ...props
 }: FormSelectProps) => {
   const { field } = useController({

@@ -24,6 +24,21 @@ const members = [
     name: 'Jakhongir',
     username: 'jahon93',
   },
+  {
+    id: 5,
+    name: 'Joe',
+    username: 'joemcgee4151986',
+  },
+  {
+    id: 6,
+    name: 'Miroz Devkota',
+    username: 'revengemiroz',
+  },
+  {
+    id: 7,
+    name: 'Rohil Pinto',
+    username: 'rohilpinto',
+  },
 ];
 
 const Members = () => {

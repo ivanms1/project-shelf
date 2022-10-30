@@ -1,7 +1,7 @@
 #import "@/graphql/projectFragment.graphql"
 
-query GetApprovedProjects($cursor: String = null) {
-  projects: getApprovedProjects(cursor: $cursor) {
+query GetApprovedProjects($input: SearchProjectsInput) {
+  projects: getApprovedProjects(input: $input) {
     ...ProjectsResponseFragment
   }
 }

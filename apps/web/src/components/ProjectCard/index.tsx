@@ -3,7 +3,7 @@ import { Button } from 'ui';
 import Link from 'next/link';
 import { buildImageUrl } from 'cloudinary-build-url';
 
-import { ProjectAction, useReactToProjectMutation } from 'apollo-hooks';
+import { ProjectActions, useReactToProjectMutation } from 'apollo-hooks';
 
 import {
   AuthorBox,
@@ -24,6 +24,7 @@ export interface ProjectCardProps {
     title: string;
     preview: string;
     author: {
+      id: string;
       name: string;
       avatar?: string;
     };
@@ -41,8 +42,8 @@ const ProjectCard = ({ project, previous }: ProjectCardProps) => {
           input: {
             projectId: project.id,
             action: project?.isLiked
-              ? ProjectAction.Dislike
-              : ProjectAction.Like,
+              ? ProjectActions.Dislike
+              : ProjectActions.Like,
           },
         },
         optimisticResponse: {
@@ -89,17 +90,19 @@ const ProjectCard = ({ project, previous }: ProjectCardProps) => {
         </ImageContainer>
       </Link>
       <InfoBox>
-        <AuthorBox>
-          {project?.author?.avatar && (
-            <StyledAvatar
-              alt={project?.author.name}
-              src={project?.author?.avatar}
-              width={25}
-              height={25}
-            />
-          )}
-          <span>{project?.author?.name}</span>
-        </AuthorBox>
+        <Link href={`/user/${project?.author?.id}`} passHref>
+          <AuthorBox>
+            {project?.author?.avatar && (
+              <StyledAvatar
+                alt={project?.author.name}
+                src={project?.author?.avatar}
+                width={25}
+                height={25}
+              />
+            )}
+            <span>{project?.author?.name}</span>
+          </AuthorBox>
+        </Link>
 
         <LikesContainer>
           <Button variant='ghost' onClick={handleLike}>

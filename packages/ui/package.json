@@ -19,26 +19,26 @@
     "generate": "plop"
   },
   "devDependencies": {
-    "@types/jest": "^27.4.0",
+    "@types/jest": "^29.1.1",
     "@types/react": "^17.0.39",
     "@types/react-dom": "^17.0.8",
     "@types/react-modal": "^3.13.1",
     "eslint": "^8.10.0",
-    "jest": "^26.6.3",
-    "plop": "^3.0.5",
+    "jest": "^29.1.2",
+    "plop": "^3.1.0",
     "react": "^17.0.2",
     "scripts": "*",
     "tsconfig": "*",
-    "tsup": "^5.10.1",
+    "tsup": "^5.12.1",
     "typescript": "^4.5.3"
   },
   "jest": {
     "preset": "scripts/jest/node"
   },
   "dependencies": {
-    "@stitches/react": "^1.2.6",
+    "@stitches/react": "^1.2.8",
     "classnames": "^2.3.1",
-    "react-modal": "^3.14.4",
+    "react-modal": "^3.15.1",
     "react-select": "^5.2.2"
   }
 }

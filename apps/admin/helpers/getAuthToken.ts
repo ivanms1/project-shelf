@@ -5,7 +5,7 @@ import isWindowPresent from './isWindowPresent';
 async function getAuthToken() {
   const session = await getSession();
 
-  return session.token;
+  return session?.token;
 }
 
 export function setAuthToken(token: string) {

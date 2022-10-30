@@ -1,6 +1,5 @@
-import * as React from 'react';
+import React, { InputHTMLAttributes } from 'react';
 
-import { InputHTMLAttributes } from 'react';
 import { Container, Label, StyledInput } from './styles';
 
 interface Input extends InputHTMLAttributes<HTMLInputElement> {

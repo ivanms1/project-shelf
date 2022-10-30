@@ -1,6 +1,14 @@
 import Image from 'next/image';
 import { styled } from 'stitches/stitches.config';
+import { Button } from 'ui';
 export const StyledUser = styled('div', {});
+export const FollowButton = styled(Button, {
+  display: 'flex',
+  marginLeft: 'auto',
+  marginRight: 'auto',
+  marginTop: '-22px',
+  marginBottom: '1px',
+});
 
 export const StyledAvatar = styled(Image, {
   borderRadius: '50%',
@@ -18,8 +26,10 @@ export const StyledUserContainer = styled('div', {
 
 export const StyledProjectContainer = styled('div', {
   width: '100%',
-  '@desktop': {
-    padding: '40px 100px',
+  '& > h4': {
+    marginLeft: 'auto',
+    marginTop: '5px',
+    textAlign: 'center',
   },
 });
 

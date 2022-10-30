@@ -1,5 +1,5 @@
-import classNames from 'classnames';
 import React from 'react';
+import classNames from 'classnames';
 import ReactModal from 'react-modal';
 
 import { modal, overlay, StyledModal } from './styles';

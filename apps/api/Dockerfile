@@ -1,4 +1,4 @@
-FROM node:16.3.0-alpine AS build
+FROM node:16.10.0-alpine AS build
 
 # Create app directory
 RUN mkdir -p /app
@@ -16,7 +16,7 @@ RUN npx prisma generate
 COPY . /app
 RUN yarn build
 
-FROM node:16.3.0-alpine
+FROM node:16.10.0-alpine
 
 WORKDIR /app
 
