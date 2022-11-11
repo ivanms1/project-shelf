@@ -3,13 +3,14 @@ import Link from 'next/link';
 import { signIn } from 'next-auth/react';
 import Image from 'next/image';
 import { Button } from 'ui';
+import { DropDown } from 'ui/DropDown';
 
 import useIsLoggedIn from '@/hooks/useIsLoggedIn';
 
-import { RightSection, StyledNavbar } from './styles';
+import { Avatar, PopoverItem, RightSection, StyledNavbar } from './styles';
 
 const Navbar = () => {
-  const { isLoggedIn, logout } = useIsLoggedIn();
+  const { isLoggedIn, logout, data } = useIsLoggedIn();
 
   return (
     <StyledNavbar>
@@ -36,6 +37,31 @@ const Navbar = () => {
           </a>
         </Link>
 
+        {isLoggedIn && (
+          <>
+            <DropDown
+              parent={
+                <Avatar
+                  src={data?.getCurrentUser?.avatar}
+                  width={32}
+                  height={32}
+                  alt={data?.getCurrentUser?.name}
+                />
+              }
+            >
+              <PopoverItem>
+                <Link href={`/user/${data?.getCurrentUser?.id}`}>
+                  <a>
+                    <span>Profile</span>
+                  </a>
+                </Link>
+
+                <span onClick={logout}>Sign Out</span>
+              </PopoverItem>
+            </DropDown>
+          </>
+        )}
+
         {isLoggedIn ? (
           <>
             <Link href='/create-project'>
@@ -43,9 +69,6 @@ const Navbar = () => {
                 <Button>Add Project</Button>
               </a>
             </Link>
-            <Button variant='secondary' onClick={logout}>
-              Logout
-            </Button>
           </>
         ) : (
           <Button onClick={() => signIn()}>Login</Button>
