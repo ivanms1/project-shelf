@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   useFloating,
   useClick,
@@ -9,14 +10,16 @@ import {
   useDismiss,
 } from '@floating-ui/react-dom-interactions';
 
-interface DropDown {
+interface IDropDown {
   parent: JSX.Element;
   children: JSX.Element;
   open: boolean;
-  setOpen: any;
+  setOpen: (e: boolean) => void;
 }
 
-export const DropDown = ({ open, setOpen, parent, children }: DropDown) => {
+const Z_INDEX = 999;
+
+export const DropDown = ({ open, setOpen, parent, children }: IDropDown) => {
   const { x, y, reference, floating, strategy, context } =
     useFloating<HTMLButtonElement>({
       open: open,
@@ -50,8 +53,9 @@ export const DropDown = ({ open, setOpen, parent, children }: DropDown) => {
 
             style: {
               position: strategy,
-              top: y + 20 ?? 0,
+              top: y ? y + 20 : 0,
               left: x ?? 0,
+              zIndex: Z_INDEX,
             },
           })}
         >
@@ -61,4 +65,3 @@ export const DropDown = ({ open, setOpen, parent, children }: DropDown) => {
     </>
   );
 };
-export default DropDown;

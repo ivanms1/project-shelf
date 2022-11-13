@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { signIn } from 'next-auth/react';
 import Image from 'next/image';
 import { Button } from 'ui';
-import { DropDown } from 'ui/DropDown';
+import { DropDown } from 'ui';
 
 import useIsLoggedIn from '@/hooks/useIsLoggedIn';
 
@@ -11,7 +11,7 @@ import { Avatar, PopoverItem, RightSection, StyledNavbar } from './styles';
 
 const Navbar = () => {
   const { isLoggedIn, logout, currentUser } = useIsLoggedIn();
-  const [open, setOpen] = useState<boolean>(false);
+  const [open, setOpen] = useState(false);
 
   return (
     <StyledNavbar>
@@ -38,7 +38,7 @@ const Navbar = () => {
           </a>
         </Link>
 
-        {isLoggedIn && (
+        {isLoggedIn ? (
           <>
             <DropDown
               open={open}
@@ -62,11 +62,7 @@ const Navbar = () => {
                 <span onClick={logout}>Sign Out</span>
               </PopoverItem>
             </DropDown>
-          </>
-        )}
 
-        {isLoggedIn ? (
-          <>
             <Link href='/create-project'>
               <a>
                 <Button>Add Project</Button>

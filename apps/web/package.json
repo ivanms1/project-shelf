@@ -11,8 +11,6 @@
   },
   "dependencies": {
     "@apollo/client": "^3.6.6",
-    "@floating-ui/react-dom": "^1.0.0",
-    "@floating-ui/react-dom-interactions": "^0.10.3",
     "@hookform/resolvers": "^2.8.5",
     "@stitches/react": "^1.2.8",
     "apollo-hooks": "*",
