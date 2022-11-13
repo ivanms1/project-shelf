@@ -1,15 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import { signIn } from 'next-auth/react';
 import Image from 'next/image';
 import { Button } from 'ui';
+import { DropDown } from 'ui';
 
 import useIsLoggedIn from '@/hooks/useIsLoggedIn';
 
-import { RightSection, StyledNavbar } from './styles';
+import { Avatar, PopoverItem, RightSection, StyledNavbar } from './styles';
 
 const Navbar = () => {
-  const { isLoggedIn, logout } = useIsLoggedIn();
+  const { isLoggedIn, logout, currentUser } = useIsLoggedIn();
+  const [open, setOpen] = useState(false);
 
   return (
     <StyledNavbar>
@@ -38,14 +40,34 @@ const Navbar = () => {
 
         {isLoggedIn ? (
           <>
+            <DropDown
+              open={open}
+              setOpen={setOpen}
+              parent={
+                <Avatar
+                  src={currentUser?.avatar}
+                  width={32}
+                  height={32}
+                  alt={currentUser?.name}
+                />
+              }
+            >
+              <PopoverItem>
+                <Link href={`/user/${currentUser?.id}`}>
+                  <a>
+                    <span>Profile</span>
+                  </a>
+                </Link>
+
+                <span onClick={logout}>Sign Out</span>
+              </PopoverItem>
+            </DropDown>
+
             <Link href='/create-project'>
               <a>
                 <Button>Add Project</Button>
               </a>
             </Link>
-            <Button variant='secondary' onClick={logout}>
-              Logout
-            </Button>
           </>
         ) : (
           <Button onClick={() => signIn()}>Login</Button>
