@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import {
   useFloating,
   useClick,
@@ -10,13 +9,14 @@ import {
   useDismiss,
 } from '@floating-ui/react-dom-interactions';
 
-interface DropDownProps {
+interface DropDown {
   parent: JSX.Element;
   children: JSX.Element;
+  open: boolean;
+  setOpen: any;
 }
 
-export const DropDown = ({ parent, children }: DropDownProps) => {
-  const [open, setOpen] = useState(false);
+export const DropDown = ({ open, setOpen, parent, children }: DropDown) => {
   const { x, y, reference, floating, strategy, context } =
     useFloating<HTMLButtonElement>({
       open: open,
@@ -61,5 +61,4 @@ export const DropDown = ({ parent, children }: DropDownProps) => {
     </>
   );
 };
-
-export default DropDownProps;
+export default DropDown;

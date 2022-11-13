@@ -16,7 +16,7 @@ const useIsLoggedIn = () => {
     isLoggedIn: !!data?.getCurrentUser?.id,
     loading,
     logout,
-    data,
+    currentUser: data?.getCurrentUser,
   };
 };
 

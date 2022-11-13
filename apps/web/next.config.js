@@ -14,11 +14,6 @@ module.exports = withTM({
     });
     return config;
   },
-  experimental: {
-    images: {
-      allowFutureImage: true,
-    },
-  },
   images: {
     domains: [
       'res.cloudinary.com',

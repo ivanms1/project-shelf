@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import { signIn } from 'next-auth/react';
 import Image from 'next/image';
@@ -10,7 +10,8 @@ import useIsLoggedIn from '@/hooks/useIsLoggedIn';
 import { Avatar, PopoverItem, RightSection, StyledNavbar } from './styles';
 
 const Navbar = () => {
-  const { isLoggedIn, logout, data } = useIsLoggedIn();
+  const { isLoggedIn, logout, currentUser } = useIsLoggedIn();
+  const [open, setOpen] = useState<boolean>(false);
 
   return (
     <StyledNavbar>
@@ -40,17 +41,19 @@ const Navbar = () => {
         {isLoggedIn && (
           <>
             <DropDown
+              open={open}
+              setOpen={setOpen}
               parent={
                 <Avatar
-                  src={data?.getCurrentUser?.avatar}
+                  src={currentUser?.avatar}
                   width={32}
                   height={32}
-                  alt={data?.getCurrentUser?.name}
+                  alt={currentUser?.name}
                 />
               }
             >
               <PopoverItem>
-                <Link href={`/user/${data?.getCurrentUser?.id}`}>
+                <Link href={`/user/${currentUser?.id}`}>
                   <a>
                     <span>Profile</span>
                   </a>
