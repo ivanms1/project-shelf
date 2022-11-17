@@ -59,6 +59,12 @@ const Navbar = () => {
                   </a>
                 </Link>
 
+                <Link href={`/user-edit/${currentUser?.id}`}>
+                  <a>
+                    <span>Edit Profile</span>
+                  </a>
+                </Link>
+
                 <span onClick={logout}>Sign Out</span>
               </PopoverItem>
             </DropDown>
