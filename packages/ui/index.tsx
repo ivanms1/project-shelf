@@ -7,3 +7,4 @@ export * from './Select';
 export * from './FormSelect';
 export * from './Loader';
 export * from './DropDown';
+export * from './FormTextarea';
