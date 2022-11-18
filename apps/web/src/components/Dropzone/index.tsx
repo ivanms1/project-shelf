@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Image from 'next/image';
 import { DropzoneOptions, useDropzone } from 'react-dropzone';
 
@@ -9,15 +9,19 @@ interface DropzoneProps extends DropzoneOptions {
   label?: string;
   withPreview?: boolean;
   children?: React.ReactNode;
+  dropzoneRef?: React.Ref<HTMLButtonElement>;
+  editProfile?: boolean;
 }
 
 function Dropzone({
+  dropzoneRef,
   onDrop,
   children,
   currentFile,
   withPreview,
   accept,
   maxSize = null,
+  ...props
 }: DropzoneProps) {
   const { getRootProps, getInputProps } = useDropzone({
     onDrop,
@@ -26,13 +30,23 @@ function Dropzone({
     maxSize,
   });
 
+  useEffect(() => {
+    if (dropzoneRef) {
+      dropzoneRef.current = getInputProps().ref.current;
+    }
+  }, []);
+
   return (
-    <Container {...getRootProps()}>
+    <Container {...getRootProps()} {...props}>
       <input {...getInputProps()} />
       {currentFile ? (
         withPreview ? (
           <Image
-            src={URL.createObjectURL(currentFile)}
+            src={
+              typeof currentFile == 'object'
+                ? URL.createObjectURL(currentFile)
+                : currentFile
+            }
             alt={currentFile?.name}
             layout='fill'
           />
