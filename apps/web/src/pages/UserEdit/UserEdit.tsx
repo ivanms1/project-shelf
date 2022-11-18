@@ -17,7 +17,7 @@ const UserEdit = ({}) => {
       <FormProvider {...methods}>
         <EditProfileFormModal userDetails={data?.getCurrentUser} />
       </FormProvider>
-      <NextSeo title='Profile | Project-shelf'></NextSeo>
+      <NextSeo title='Edit Profile | Project-shelf'></NextSeo>
     </Container>
   );
 };
