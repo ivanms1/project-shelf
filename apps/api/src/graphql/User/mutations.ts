@@ -89,7 +89,7 @@ builder.mutationType({
           where: {
             id: String(decodeAccessToken),
           },
-          data: args.data,
+          data: args.input,
         });
       },
     }),
