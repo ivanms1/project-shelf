@@ -5,8 +5,6 @@ import db from '../../db';
 
 import decodeAccessToken from '../../helpers/decodeAccessToken';
 
-import { Role } from './queries';
-
 const UpdateUserInput = builder.inputType('UpdateUserInput', {
   description: 'Update the user information',
   fields: (t) => ({
@@ -14,7 +12,9 @@ const UpdateUserInput = builder.inputType('UpdateUserInput', {
     email: t.string({ required: true }),
     github: t.string({ required: true }),
     discord: t.string({ required: true }),
-    role: t.field({ type: Role, required: true }),
+    website: t.string({ required: true }),
+    twitter: t.string({ required: true }),
+    bio: t.string({ required: true }),
   }),
 });
 
@@ -66,7 +66,7 @@ builder.mutationType({
       type: 'User',
       description: 'Update the user information',
       args: {
-        data: t.arg({ type: UpdateUserInput, required: true }),
+        input: t.arg({ type: UpdateUserInput, required: true }),
       },
       resolve: async (query, __, args, ctx) => {
         const currentUserId = decodeAccessToken(ctx.accessToken);

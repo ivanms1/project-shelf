@@ -10,7 +10,7 @@
     "lint": "tsc --noEmit && TIMING=1 eslint src --fix",
     "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist",
     "generate": "yarn prisma generate",
-    "migrate": "yarn prisma migrate"
+    "migrate:dev": "yarn prisma migrate dev"
   },
   "devDependencies": {
     "@types/body-parser": "^1.19.0",

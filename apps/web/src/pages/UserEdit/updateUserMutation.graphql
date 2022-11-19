@@ -1,5 +1,11 @@
 mutation UpdateUser($input: UpdateUserInput!) {
   updateUser(input: $input) {
+    id
     name
+    discord
+    website
+    twitter
+    bio
+    avatar
   }
 }

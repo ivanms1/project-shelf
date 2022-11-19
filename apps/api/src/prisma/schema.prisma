@@ -24,6 +24,11 @@ model User {
   role            Role      @default(USER)
   github          String?
   discord         String?
+  website         String?
+  twitter         String?
+  bio             String?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @default(now()) @updatedAt
   projects        Project[]
   projectsLiked   Project[] @relation("ProjectstLiked")
   followers       User[]    @relation(name: "UserFollower")
@@ -49,5 +54,6 @@ model Project {
   likesCount  Int
   isApproved  Boolean  @default(false)
   createdAt   DateTime @default(now())
+  updatedAt   DateTime @default(now()) @updatedAt
   tags        String[]
 }
