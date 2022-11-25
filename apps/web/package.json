@@ -30,7 +30,7 @@
   },
   "devDependencies": {
     "@cld-apis/types": "^0.1.6",
-    "@svgr/webpack": "^6.2.1",
+    "@svgr/webpack": "^6.5.1",
     "@types/react": "17.0.39",
     "config": "*",
     "eslint": "8.10.0",
