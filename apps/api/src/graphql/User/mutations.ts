@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import fetch from 'node-fetch';
+import axios from 'axios';
 
 import builder from '../../builder';
 import db from '../../db';
@@ -43,18 +43,16 @@ builder.mutationType({
         token: t.arg.string({ required: true }),
       },
       resolve: async (_, { token: githubToken }) => {
-        const response = await fetch(GITHUB_API_URL, {
-          headers: {
-            Authorization: `Bearer ${githubToken}`,
-          },
-        });
-
-        const data = (await response.json()) as {
+        const data: {
           email: string;
           name: string;
           login: string;
           avatar_url: string;
-        };
+        } = await axios(GITHUB_API_URL, {
+          headers: {
+            Authorization: `Bearer ${githubToken}`,
+          },
+        });
 
         const user = await db.user.findFirst({
           where: {
