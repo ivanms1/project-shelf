@@ -1,5 +1,5 @@
-query GetUserForPage($id: String!) {
-  user: getUser(id: $id) {
+query GetAllUsers {
+  getUsers {
     id
     name
     email
