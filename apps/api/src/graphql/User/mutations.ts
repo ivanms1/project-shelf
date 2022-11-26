@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import axios from 'axios';
+import got from 'got';
 
 import builder from '../../builder';
 import db from '../../db';
@@ -48,11 +48,14 @@ builder.mutationType({
           name: string;
           login: string;
           avatar_url: string;
-        } = await axios(GITHUB_API_URL, {
-          headers: {
-            Authorization: `Bearer ${githubToken}`,
-          },
-        });
+        } = await got
+          .get(GITHUB_API_URL, {
+            headers: {
+              Authorization: `Bearer ${githubToken}`,
+              Accept: 'application/vnd.github+json',
+            },
+          })
+          .json();
 
         const user = await db.user.findFirst({
           where: {
