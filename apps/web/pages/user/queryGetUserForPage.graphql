@@ -5,6 +5,5 @@ query GetUserForPage($id: String!) {
     email
     github
     avatar
-    followerCount
   }
 }

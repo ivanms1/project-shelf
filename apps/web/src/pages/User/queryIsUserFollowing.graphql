@@ -2,5 +2,6 @@ query IsUserFollowing($id: String!) {
   user: getUser(id: $id) {
     id
     isFollowing
+    followerCount
   }
 }

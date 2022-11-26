@@ -5,6 +5,5 @@ query GetAllUsers {
     email
     github
     avatar
-    followerCount
   }
 }

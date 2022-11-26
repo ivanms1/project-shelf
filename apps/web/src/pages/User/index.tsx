@@ -71,8 +71,8 @@ const User = () => {
         followUser: {
           ...user,
           followerCount: isFollowingData?.user?.isFollowing
-            ? user.followerCount - 1
-            : user.followerCount + 1,
+            ? isFollowingData?.user?.followerCount - 1
+            : isFollowingData?.user?.followerCount + 1,
           isFollowing: !isFollowingData?.user?.isFollowing,
         },
       },
@@ -112,7 +112,7 @@ const User = () => {
           <FollowButton onClick={handleFollowUser}>
             {isFollowingData?.user?.isFollowing ? 'Unfollow' : 'Follow'}
           </FollowButton>
-          <h4>{user?.followerCount} Followers</h4>
+          <h4>{isFollowingData?.user?.followerCount} Followers</h4>
           <ProjectsGrid
             projects={projectsData?.getUserProjects?.results ?? []}
             loading={loading}

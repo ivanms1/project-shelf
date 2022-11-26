@@ -290,7 +290,7 @@ export type GetUserForPageQueryVariables = Exact<{
 }>;
 
 
-export type GetUserForPageQuery = { __typename?: 'Query', user: { __typename?: 'User', id: string, name: string, email: string, github?: string | null, avatar?: string | null, followerCount: number } };
+export type GetUserForPageQuery = { __typename?: 'Query', user: { __typename?: 'User', id: string, name: string, email: string, github?: string | null, avatar?: string | null } };
 
 export type ReactToProjectMutationVariables = Exact<{
   input: ReactToProjectInput;
@@ -346,7 +346,7 @@ export type IsUserFollowingQueryVariables = Exact<{
 }>;
 
 
-export type IsUserFollowingQuery = { __typename?: 'Query', user: { __typename?: 'User', id: string, isFollowing: boolean } };
+export type IsUserFollowingQuery = { __typename?: 'Query', user: { __typename?: 'User', id: string, isFollowing: boolean, followerCount: number } };
 
 export type GetUserProjectsQueryVariables = Exact<{
   userId: Scalars['String'];
@@ -617,7 +617,6 @@ export const GetUserForPageDocument = gql`
     email
     github
     avatar
-    followerCount
   }
 }
     `;
@@ -922,6 +921,7 @@ export const IsUserFollowingDocument = gql`
   user: getUser(id: $id) {
     id
     isFollowing
+    followerCount
   }
 }
     `;
