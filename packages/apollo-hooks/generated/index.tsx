@@ -78,9 +78,7 @@ export type MutationReactToProjectArgs = {
 
 
 export type MutationSignupArgs = {
-  avatar: Scalars['String'];
-  email: Scalars['String'];
-  name: Scalars['String'];
+  token: Scalars['String'];
 };
 
 
@@ -262,9 +260,7 @@ export type GetAllProjectsQueryVariables = Exact<{
 export type GetAllProjectsQuery = { __typename?: 'Query', projects: { __typename?: 'ProjectsResponse', nextCursor?: string | null, prevCursor?: string | null, totalCount: number, results: Array<{ __typename?: 'Project', id: string, title: string, createdAt: any, isLiked: boolean, likesCount: number, tags: Array<string>, preview: string, repoLink: string, siteLink: string, description: string, isApproved: boolean, author: { __typename?: 'User', id: string, avatar?: string | null, name: string } }> } };
 
 export type SignupMutationVariables = Exact<{
-  email: Scalars['String'];
-  name: Scalars['String'];
-  avatar: Scalars['String'];
+  token: Scalars['String'];
 }>;
 
 
@@ -448,8 +444,8 @@ export type GetAllProjectsQueryHookResult = ReturnType<typeof useGetAllProjectsQ
 export type GetAllProjectsLazyQueryHookResult = ReturnType<typeof useGetAllProjectsLazyQuery>;
 export type GetAllProjectsQueryResult = Apollo.QueryResult<GetAllProjectsQuery, GetAllProjectsQueryVariables>;
 export const SignupDocument = gql`
-    mutation Signup($email: String!, $name: String!, $avatar: String!) {
-  signup(email: $email, name: $name, avatar: $avatar)
+    mutation Signup($token: String!) {
+  signup(token: $token)
 }
     `;
 export type SignupMutationFn = Apollo.MutationFunction<SignupMutation, SignupMutationVariables>;
@@ -467,9 +463,7 @@ export type SignupMutationFn = Apollo.MutationFunction<SignupMutation, SignupMut
  * @example
  * const [signupMutation, { data, loading, error }] = useSignupMutation({
  *   variables: {
- *      email: // value for 'email'
- *      name: // value for 'name'
- *      avatar: // value for 'avatar'
+ *      token: // value for 'token'
  *   },
  * });
  */

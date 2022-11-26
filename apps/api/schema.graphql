@@ -38,7 +38,7 @@ type Mutation {
   reactToProject(input: ReactToProjectInput!): Project!
 
   """Create a new user"""
-  signup(avatar: String!, email: String!, name: String!): String!
+  signup(token: String!): String!
 
   """Update a project"""
   updateProject(input: CreateProjectInput!, projectId: String!): Project!

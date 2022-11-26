@@ -48,7 +48,8 @@
     "graphql-scalars": "^1.18.0",
     "jsonwebtoken": "^8.5.1",
     "logger": "*",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "node-fetch": "^3.3.0"
   },
   "prisma": {
     "schema": "src/prisma/schema.prisma"
