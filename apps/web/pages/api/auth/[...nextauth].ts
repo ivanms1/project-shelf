@@ -44,7 +44,7 @@ export default NextAuth({
 
       return token;
     },
-    session({ session, token }: any) {
+    session({ session, token }) {
       session.token = token?.serverToken;
       return session;
     },

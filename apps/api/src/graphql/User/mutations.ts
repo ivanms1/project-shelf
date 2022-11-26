@@ -49,7 +49,12 @@ builder.mutationType({
           },
         });
 
-        const data: any = await response.json();
+        const data = (await response.json()) as {
+          email: string;
+          name: string;
+          login: string;
+          avatar_url: string;
+        };
 
         const user = await db.user.findFirst({
           where: {
