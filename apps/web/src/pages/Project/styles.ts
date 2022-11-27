@@ -35,11 +35,12 @@ export const StyledGithubIcon = styled(GithubIcon, {
 });
 
 export const modalStyles = css({
-  marginTop: 30,
-  maxHeight: 'none',
   width: '100vw',
   overflowY: 'auto',
   borderRadius: 12,
+  maxHeight: 'calc(100vh - 30px)',
+  marginTop: 30,
+  paddingBottom: '2rem',
 
   '@desktop': {
     height: 'calc(100vh - 30px)',
@@ -106,7 +107,6 @@ export const StyledLike = styled('div', {
 });
 export const ImageContainer = styled('div', {
   position: 'relative',
-  width: 335,
   height: 251,
   maxHeight: 730,
   marginBottom: 40,

@@ -33,7 +33,6 @@ function Search() {
         cursor: undefined,
       },
     },
-    fetchPolicy: 'no-cache',
     skip: !search,
   });
 

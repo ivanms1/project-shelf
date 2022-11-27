@@ -14,7 +14,6 @@
     "@hookform/resolvers": "^2.8.5",
     "@stitches/react": "^1.2.8",
     "apollo-hooks": "*",
-    "cloudinary-build-url": "^0.2.4",
     "deepmerge": "^4.2.2",
     "lodash-es": "^4.17.21",
     "next": "12.3.0",

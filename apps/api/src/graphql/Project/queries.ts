@@ -143,6 +143,7 @@ builder.queryFields((t) => ({
           },
           orderBy: {
             [args?.input?.orderBy || 'createdAt']: args?.input?.order,
+            likesCount: 'desc',
           },
         });
       } else {
@@ -154,6 +155,7 @@ builder.queryFields((t) => ({
           },
           orderBy: {
             [args?.input?.orderBy || 'createdAt']: args?.input?.order,
+            likesCount: 'desc',
           },
         });
       }

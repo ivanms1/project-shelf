@@ -13,6 +13,7 @@
     "migrate": "yarn prisma migrate"
   },
   "devDependencies": {
+    "@faker-js/faker": "^7.6.0",
     "@types/body-parser": "^1.19.0",
     "@types/cors": "^2.8.10",
     "@types/express": "^4.17.12",
@@ -52,6 +53,7 @@
     "morgan": "^1.10.0"
   },
   "prisma": {
-    "schema": "src/prisma/schema.prisma"
+    "schema": "src/prisma/schema.prisma",
+    "seed": "ts-node src/prisma/seed.ts"
   }
 }
