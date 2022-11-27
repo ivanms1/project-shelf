@@ -11,8 +11,6 @@ import { useRouter } from 'next/router';
 
 import ProjectsGrid from '@/components/ProjectsGrid';
 
-import { buildImageUrl } from 'cloudinary-build-url';
-
 import {
   FollowButton,
   StyledUser,
@@ -132,19 +130,11 @@ const User = () => {
         openGraph={{
           type: 'website',
           title: user?.name,
-          description: user?.github,
+          description: user?.avatar,
           site_name: 'Project Shelf',
           images: [
             {
-              url: buildImageUrl(user?.avatar ?? '', {
-                transformations: {
-                  resize: {
-                    type: 'scale',
-                    width: 200,
-                    height: 200,
-                  },
-                },
-              }),
+              url: user?.avatar ?? '',
               width: 200,
               height: 200,
               alt: user?.name,
