@@ -1,6 +1,7 @@
 import { ApolloProvider } from '@apollo/client';
 import { AppProps } from 'next/app';
 import { SessionProvider } from 'next-auth/react';
+import { Toaster } from 'react-hot-toast';
 import { setConfig } from 'cloudinary-build-url';
 
 import AuthProvider from 'src/components/AuthProvider';
@@ -29,6 +30,7 @@ function CustomApp({
         <AuthProvider>
           <Layout>
             <Component {...pageProps} />
+            <Toaster />
           </Layout>
         </AuthProvider>
       </ApolloProvider>
