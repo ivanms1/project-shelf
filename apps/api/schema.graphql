@@ -136,13 +136,12 @@ input SearchProjectsInput {
 
 """Update the user information"""
 input UpdateUserInput {
-  bio: String!
-  discord: String!
-  email: String!
-  github: String!
-  name: String!
-  twitter: String!
-  website: String!
+  avatar: String
+  bio: String
+  discord: String
+  name: String
+  twitter: String
+  website: String
 }
 
 type User {

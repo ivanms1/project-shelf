@@ -217,13 +217,12 @@ export type SearchProjectsInput = {
 
 /** Update the user information */
 export type UpdateUserInput = {
-  bio: Scalars['String'];
-  discord: Scalars['String'];
-  email: Scalars['String'];
-  github: Scalars['String'];
-  name: Scalars['String'];
-  twitter: Scalars['String'];
-  website: Scalars['String'];
+  avatar?: InputMaybe<Scalars['String']>;
+  bio?: InputMaybe<Scalars['String']>;
+  discord?: InputMaybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
+  twitter?: InputMaybe<Scalars['String']>;
+  website?: InputMaybe<Scalars['String']>;
 };
 
 export type User = {
@@ -260,7 +259,7 @@ export type ProjectsResponseFragmentFragment = { __typename?: 'ProjectsResponse'
 export type GetCurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetCurrentUserQuery = { __typename?: 'Query', getCurrentUser: { __typename?: 'User', id: string, name: string, email: string, github?: string | null, discord?: string | null, avatar?: string | null } };
+export type GetCurrentUserQuery = { __typename?: 'Query', getCurrentUser: { __typename?: 'User', id: string, name: string, email: string, github?: string | null, discord?: string | null, avatar?: string | null, bio?: string | null } };
 
 export type GetAllProjectsQueryVariables = Exact<{
   input?: InputMaybe<SearchProjectsInput>;
@@ -397,6 +396,7 @@ export const GetCurrentUserDocument = gql`
     github
     discord
     avatar
+    bio
   }
 }
     `;

@@ -8,13 +8,12 @@ import decodeAccessToken from '../../helpers/decodeAccessToken';
 const UpdateUserInput = builder.inputType('UpdateUserInput', {
   description: 'Update the user information',
   fields: (t) => ({
-    name: t.string({ required: true }),
-    email: t.string({ required: true }),
-    github: t.string({ required: true }),
-    discord: t.string({ required: true }),
-    website: t.string({ required: true }),
-    twitter: t.string({ required: true }),
-    bio: t.string({ required: true }),
+    name: t.string(),
+    discord: t.string(),
+    website: t.string(),
+    twitter: t.string(),
+    bio: t.string(),
+    avatar: t.string(),
   }),
 });
 
@@ -87,7 +86,7 @@ builder.mutationType({
         return db.user.update({
           ...query,
           where: {
-            id: String(decodeAccessToken),
+            id: String(currentUserId),
           },
           data: args.input,
         });
