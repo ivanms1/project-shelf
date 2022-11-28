@@ -124,3 +124,9 @@ This monorepo contains
     ```
 
   - (optional) inside the apps/web, use the `yarn generate` cli command to generate templates for pages and components.
+
+## After changing schema
+
+- To update the schema on the frontend
+  `yarn generate:hooks`
+  `yarn build:hooks`
