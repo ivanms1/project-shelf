@@ -1,7 +1,6 @@
 import React from 'react';
 import { Button } from 'ui';
 import Link from 'next/link';
-import { buildImageUrl } from 'cloudinary-build-url';
 
 import { ProjectActions, useReactToProjectMutation } from 'apollo-hooks';
 
@@ -74,15 +73,7 @@ const ProjectCard = ({ project, previous }: ProjectCardProps) => {
         <ImageContainer>
           <StyledPreview
             alt={project?.title}
-            src={buildImageUrl(project?.preview, {
-              transformations: {
-                resize: {
-                  type: 'scale',
-                  height: 247,
-                  width: 330,
-                },
-              },
-            })}
+            src={project?.preview}
             width={330}
             height={247}
           />

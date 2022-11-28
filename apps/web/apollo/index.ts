@@ -41,7 +41,7 @@ const authLink = setContext(async (_, { headers }) => {
 });
 
 const projectsMergeConfig: FieldPolicy<any, any, any> = {
-  keyArgs: false,
+  keyArgs: ['input', ['search']],
   merge(existing = null, incoming) {
     if (!existing || !existing?.results?.length) {
       return incoming;
@@ -53,6 +53,10 @@ const projectsMergeConfig: FieldPolicy<any, any, any> = {
 
     if (existing.nextCursor === incoming.nextCursor) {
       return existing;
+    }
+
+    if (existing.nextCursor !== incoming.prevCursor) {
+      return incoming;
     }
 
     const existingResults = existing?.results ?? [];

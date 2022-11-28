@@ -1,0 +1,9 @@
+query GetAllUsers {
+  getUsers {
+    id
+    name
+    email
+    github
+    avatar
+  }
+}

@@ -1,9 +1,12 @@
 import jwt from 'jsonwebtoken';
+import got from 'got';
 
 import builder from '../../builder';
 import db from '../../db';
 
 import decodeAccessToken from '../../helpers/decodeAccessToken';
+
+const GITHUB_API_URL = 'https://api.github.com/user';
 
 const UpdateUserInput = builder.inputType('UpdateUserInput', {
   description: 'Update the user information',
@@ -36,14 +39,26 @@ builder.mutationType({
       type: 'String',
       description: 'Create a new user',
       args: {
-        email: t.arg.string({ required: true }),
-        name: t.arg.string({ required: true }),
-        avatar: t.arg.string({ required: true }),
+        token: t.arg.string({ required: true }),
       },
-      resolve: async (_, args) => {
+      resolve: async (_, { token: githubToken }) => {
+        const data: {
+          email: string;
+          name: string;
+          login: string;
+          avatar_url: string;
+        } = await got
+          .get(GITHUB_API_URL, {
+            headers: {
+              Authorization: `Bearer ${githubToken}`,
+              Accept: 'application/vnd.github+json',
+            },
+          })
+          .json();
+
         const user = await db.user.findFirst({
           where: {
-            email: args.email,
+            email: data?.email,
           },
         });
 
@@ -53,7 +68,12 @@ builder.mutationType({
         }
 
         const newUser = await db.user.create({
-          data: args,
+          data: {
+            name: data?.name,
+            email: data?.email,
+            github: data?.login,
+            avatar: data?.avatar_url,
+          },
         });
 
         const token = jwt.sign(newUser.id, process.env.JWT_SECRET!);

@@ -4,13 +4,12 @@ import {
   useFollowUserMutation,
   useGetUserForPageQuery,
   useGetUserProjectsQuery,
+  useIsUserFollowingQuery,
   UserFollowActions,
 } from 'apollo-hooks';
 import { useRouter } from 'next/router';
 
 import ProjectsGrid from '@/components/ProjectsGrid';
-
-import { buildImageUrl } from 'cloudinary-build-url';
 
 import {
   FollowButton,
@@ -45,6 +44,13 @@ const User = () => {
     skip: !data?.user?.id,
   });
 
+  const { data: isFollowingData } = useIsUserFollowingQuery({
+    variables: {
+      id: String(query?.id),
+    },
+    skip: !query?.id,
+  });
+
   const { user } = data;
 
   const [followUser] = useFollowUserMutation();
@@ -54,7 +60,7 @@ const User = () => {
       variables: {
         input: {
           userId: user?.id,
-          action: user.isFollowing
+          action: isFollowingData?.user?.isFollowing
             ? UserFollowActions.Unfollow
             : UserFollowActions.Follow,
         },
@@ -62,10 +68,10 @@ const User = () => {
       optimisticResponse: {
         followUser: {
           ...user,
-          followerCount: user.isFollowing
-            ? user.followerCount - 1
-            : user.followerCount + 1,
-          isFollowing: !user.isFollowing,
+          followerCount: isFollowingData?.user?.isFollowing
+            ? isFollowingData?.user?.followerCount - 1
+            : isFollowingData?.user?.followerCount + 1,
+          isFollowing: !isFollowingData?.user?.isFollowing,
         },
       },
     });
@@ -102,9 +108,9 @@ const User = () => {
       {user ? (
         <StyledProjectContainer>
           <FollowButton onClick={handleFollowUser}>
-            {user?.isFollowing ? 'Unfollow' : 'Follow'}
+            {isFollowingData?.user?.isFollowing ? 'Unfollow' : 'Follow'}
           </FollowButton>
-          <h4>{user?.followerCount} Followers</h4>
+          <h4>{isFollowingData?.user?.followerCount} Followers</h4>
           <ProjectsGrid
             projects={projectsData?.getUserProjects?.results ?? []}
             loading={loading}
@@ -128,15 +134,7 @@ const User = () => {
           site_name: 'Project Shelf',
           images: [
             {
-              url: buildImageUrl(user?.avatar ?? '', {
-                transformations: {
-                  resize: {
-                    type: 'scale',
-                    width: 200,
-                    height: 200,
-                  },
-                },
-              }),
+              url: user?.avatar ?? '',
               width: 200,
               height: 200,
               alt: user?.name,

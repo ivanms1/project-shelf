@@ -5,7 +5,6 @@ import { NextSeo } from 'next-seo';
 import { useGetProjectQuery } from 'apollo-hooks';
 import { useRouter } from 'next/router';
 import { Button, Modal, Badge } from 'ui';
-import { buildImageUrl } from 'cloudinary-build-url';
 
 import {
   CloseButton,
@@ -30,7 +29,6 @@ import LikeButton from './LikeButton/LikeButton';
 function Project() {
   const router = useRouter();
   const { query } = useRouter();
-  const { previous } = query;
 
   const { data } = useGetProjectQuery({
     variables: {
@@ -40,13 +38,7 @@ function Project() {
   });
 
   const handleClose = () => {
-    if (typeof previous == 'string') {
-      router.push({
-        pathname: previous,
-      });
-    } else {
-      router.push('/');
-    }
+    router.back();
   };
 
   return (
@@ -82,16 +74,9 @@ function Project() {
         <ImageContainer>
           <Image
             alt={data?.project?.title}
-            src={buildImageUrl(data?.project?.preview, {
-              transformations: {
-                resize: {
-                  type: 'scale',
-                  height: 558,
-                  width: 732,
-                },
-              },
-            })}
+            src={data?.project?.preview}
             layout='fill'
+            priority
             className={imageStyles()}
           />
         </ImageContainer>
@@ -130,15 +115,7 @@ function Project() {
           site_name: 'Project Shelf',
           images: [
             {
-              url: buildImageUrl(data?.project?.preview, {
-                transformations: {
-                  resize: {
-                    type: 'scale',
-                    width: 800,
-                    height: 600,
-                  },
-                },
-              }),
+              url: data?.project?.preview,
               width: 800,
               height: 600,
               alt: data?.project?.title,
