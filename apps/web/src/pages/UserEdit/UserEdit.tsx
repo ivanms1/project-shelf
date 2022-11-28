@@ -5,7 +5,7 @@ import { useGetCurrentUserQuery } from 'apollo-hooks';
 import { Container } from './style';
 import { NextSeo } from 'next-seo';
 
-import EditProfileFormModal from './EditProfileFormModal';
+import EditProfileFormModal from './EditProfileForm';
 
 const UserEdit = ({}) => {
   const { data } = useGetCurrentUserQuery();
