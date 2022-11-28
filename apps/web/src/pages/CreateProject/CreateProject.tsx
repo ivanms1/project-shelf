@@ -129,6 +129,7 @@ function CreateProject() {
             onDrop={(files) => methods.setValue('preview', files[0])}
             label='Drop your thumbnail'
             withPreview
+            editProfile={'main'}
           >
             <UploadContainer>
               <StyledImageIcon />
