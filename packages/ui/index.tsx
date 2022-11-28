@@ -8,3 +8,4 @@ export * from './FormSelect';
 export * from './Loader';
 export * from './DropDown';
 export * from './FormTextarea';
+export * from './LoaderOverlay';
