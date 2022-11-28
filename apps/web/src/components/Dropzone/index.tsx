@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import Image from 'next/image';
 import { DropzoneOptions, useDropzone } from 'react-dropzone';
 
-import { Container } from './styles';
+import { Container, Overlay } from './styles';
 
 interface DropzoneProps extends DropzoneOptions {
   currentFile?: any;
@@ -10,7 +10,7 @@ interface DropzoneProps extends DropzoneOptions {
   withPreview?: boolean;
   children?: React.ReactNode;
   dropzoneRef?: React.Ref<HTMLButtonElement>;
-  editProfile?: boolean;
+  editProfile?: 'edit' | 'main';
 }
 
 function Dropzone({
@@ -20,6 +20,7 @@ function Dropzone({
   currentFile,
   withPreview,
   accept,
+  editProfile,
   maxSize = null,
   ...props
 }: DropzoneProps) {
@@ -37,19 +38,22 @@ function Dropzone({
   }, []);
 
   return (
-    <Container {...getRootProps()} {...props}>
+    <Container editProfile={editProfile} {...getRootProps()}>
       <input {...getInputProps()} />
       {currentFile ? (
         withPreview ? (
-          <Image
-            src={
-              typeof currentFile == 'object'
-                ? URL.createObjectURL(currentFile)
-                : currentFile
-            }
-            alt={currentFile?.name}
-            layout='fill'
-          />
+          <>
+            <Image
+              src={
+                typeof currentFile == 'object'
+                  ? URL.createObjectURL(currentFile)
+                  : currentFile
+              }
+              alt={currentFile?.name}
+              layout='fill'
+            />
+            <Overlay editProfile={editProfile}>Select Image</Overlay>
+          </>
         ) : (
           <span>{currentFile?.name}</span>
         )
