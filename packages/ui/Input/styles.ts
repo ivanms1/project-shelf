@@ -29,4 +29,8 @@ export const StyledInput = styled('input', {
     borderColor: 'rgba(234,76,137,0.4)',
     boxShadow: '0 0 0 4px rgb(234 76 137 / 10%)',
   },
+
+  '&::placeholder': {
+    color: '#9e9ea7',
+  },
 });
