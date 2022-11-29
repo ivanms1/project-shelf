@@ -8,9 +8,8 @@ interface DropzoneProps extends DropzoneOptions {
   currentFile?: any;
   label?: string;
   withPreview?: boolean;
-  children?: React.ReactNode;
-  dropzoneRef?: React.Ref<HTMLButtonElement>;
-  editProfile?: 'edit' | 'main';
+  children?: JSX.Element | JSX.Element[];
+  dropzoneRef?: React.RefObject<HTMLButtonElement | null>;
 }
 
 function Dropzone({
