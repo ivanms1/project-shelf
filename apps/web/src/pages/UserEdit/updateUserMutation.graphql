@@ -6,6 +6,7 @@ mutation UpdateUser($input: UpdateUserInput!) {
     website
     twitter
     bio
+    location
     avatar
   }
 }

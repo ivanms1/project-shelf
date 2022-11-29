@@ -139,6 +139,7 @@ input UpdateUserInput {
   avatar: String
   bio: String
   discord: String
+  location: String
   name: String
   twitter: String
   website: String
@@ -157,6 +158,7 @@ type User {
   github: String
   id: ID!
   isFollowing: Boolean!
+  location: String
   name: String!
   projects: [Project!]
   projectsLiked: [Project!]!

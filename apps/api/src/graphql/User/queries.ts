@@ -24,6 +24,7 @@ builder.prismaObject('User', {
     website: t.exposeString('website', { nullable: true }),
     twitter: t.exposeString('twitter', { nullable: true }),
     bio: t.exposeString('bio', { nullable: true }),
+    location: t.exposeString('location', { nullable: true }),
     createdAt: t.expose('createdAt', { type: 'Date' }),
     updatedAt: t.expose('updatedAt', { type: 'Date' }),
     projects: t.relation('projects', { nullable: true }),

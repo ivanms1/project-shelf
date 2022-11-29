@@ -16,6 +16,7 @@ const UpdateUserInput = builder.inputType('UpdateUserInput', {
     website: t.string(),
     twitter: t.string(),
     bio: t.string(),
+    location: t.string(),
     avatar: t.string(),
   }),
 });

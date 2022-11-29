@@ -7,5 +7,8 @@ query GetCurrentUser {
     discord
     avatar
     bio
+    location
+    website
+    twitter
   }
 }
