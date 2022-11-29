@@ -17,6 +17,7 @@ import {
   FormDetails,
   SubText,
   SaveProfileWrapper,
+  FlexRowWrapper,
 } from './style';
 import { useUpdateUserMutation, useUploadImageMutation } from 'apollo-hooks';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -25,6 +26,7 @@ const validationSchema = yup
   .object()
   .shape({
     profileName: yup.string().required('This is required field'),
+    profileWebsite: yup.string().url('It must be a valid URL'),
   })
   .required();
 
@@ -47,6 +49,10 @@ function Index({ userDetails }) {
       preview: userDetails?.avatar,
       profileName: userDetails?.name,
       profileBio: userDetails?.bio,
+      profileLocation: userDetails?.location,
+      profileWebsite: userDetails?.website,
+      profileTwitter: userDetails?.twitter,
+      profileDiscord: userDetails?.discord,
     },
     resolver: yupResolver(validationSchema),
   });
@@ -92,6 +98,10 @@ function Index({ userDetails }) {
       preview: userDetails?.avatar,
       profileName: userDetails?.name,
       profileBio: userDetails?.bio,
+      profileLocation: userDetails?.location,
+      profileWebsite: userDetails?.website,
+      profileTwitter: userDetails?.twitter,
+      profileDiscord: userDetails?.discord,
     });
   }, [userDetails, reset]);
 
@@ -105,9 +115,10 @@ function Index({ userDetails }) {
         input: {
           name: getValues('profileName'),
           bio: getValues('profileBio'),
-          discord: undefined,
-          website: '',
-          twitter: '',
+          discord: getValues('profileDiscord'),
+          website: getValues('profileWebsite'),
+          twitter: getValues('profileTwitter'),
+          location: getValues('profileLocation'),
           avatar: dirtyFields.preview ? res?.data?.image : undefined,
         },
       },
@@ -170,10 +181,24 @@ function Index({ userDetails }) {
           </SubText>
         </Wrapper>
 
-        <Wrapper>
+        <FlexRowWrapper>
           <FormInput label='Location' register={register('profileLocation')} />
-        </Wrapper>
-
+          <FormInput
+            label='Website'
+            register={register('profileWebsite')}
+            error={errors.profileWebsite}
+          />
+          <FormInput
+            label='Twitter'
+            register={register('profileTwitter')}
+            placeholder='@revengeZi'
+          />
+          <FormInput
+            label='Discord'
+            register={register('profileDiscord')}
+            placeholder='uzamaki21#0951'
+          />
+        </FlexRowWrapper>
         <Wrapper>
           <FormTextArea
             label='Bio'

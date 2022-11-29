@@ -89,6 +89,12 @@ export const Wrapper = styled('div', {
   gap: '10px',
 });
 
+export const FlexRowWrapper = styled('div', {
+  display: 'grid',
+  gridTemplateColumns: '1fr 1fr',
+  gap: '20px',
+});
+
 export const SaveProfileWrapper = styled('div', {
   display: 'flex',
   width: '100%',
