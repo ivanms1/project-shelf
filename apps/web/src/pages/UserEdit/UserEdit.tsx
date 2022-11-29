@@ -7,7 +7,7 @@ import { NextSeo } from 'next-seo';
 
 import EditProfileFormModal from './EditProfileForm';
 
-const UserEdit = ({}) => {
+const UserEdit = () => {
   const { data } = useGetCurrentUserQuery();
 
   const methods = useForm();

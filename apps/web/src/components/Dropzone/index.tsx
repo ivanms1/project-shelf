@@ -22,7 +22,6 @@ function Dropzone({
   accept,
   editProfile,
   maxSize = null,
-  ...props
 }: DropzoneProps) {
   const { getRootProps, getInputProps } = useDropzone({
     onDrop,

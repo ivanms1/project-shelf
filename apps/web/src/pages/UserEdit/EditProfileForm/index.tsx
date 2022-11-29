@@ -62,7 +62,7 @@ function Index({ userDetails }) {
 
   const currentImage = watch('preview');
 
-  const onSubmit = async (e) => {
+  const onSubmit = async () => {
     let res, data;
 
     try {
