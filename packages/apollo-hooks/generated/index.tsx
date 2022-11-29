@@ -218,6 +218,7 @@ export type UpdateUserInput = {
   avatar?: InputMaybe<Scalars['String']>;
   bio?: InputMaybe<Scalars['String']>;
   discord?: InputMaybe<Scalars['String']>;
+  location?: InputMaybe<Scalars['String']>;
   name?: InputMaybe<Scalars['String']>;
   twitter?: InputMaybe<Scalars['String']>;
   website?: InputMaybe<Scalars['String']>;
@@ -237,6 +238,7 @@ export type User = {
   github?: Maybe<Scalars['String']>;
   id: Scalars['ID'];
   isFollowing: Scalars['Boolean'];
+  location?: Maybe<Scalars['String']>;
   name: Scalars['String'];
   projects?: Maybe<Array<Project>>;
   projectsLiked: Array<Project>;
@@ -264,7 +266,7 @@ export type ProjectsResponseFragmentFragment = { __typename?: 'ProjectsResponse'
 export type GetCurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetCurrentUserQuery = { __typename?: 'Query', getCurrentUser: { __typename?: 'User', id: string, name: string, email: string, github?: string | null, discord?: string | null, avatar?: string | null, bio?: string | null } };
+export type GetCurrentUserQuery = { __typename?: 'Query', getCurrentUser: { __typename?: 'User', id: string, name: string, email: string, github?: string | null, discord?: string | null, avatar?: string | null, bio?: string | null, location?: string | null, website?: string | null, twitter?: string | null } };
 
 export type GetAllProjectsQueryVariables = Exact<{
   input?: InputMaybe<SearchProjectsInput>;
@@ -290,7 +292,7 @@ export type GetProjectQuery = { __typename?: 'Query', project: { __typename?: 'P
 export type GetAllUsersQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetAllUsersQuery = { __typename?: 'Query', getUsers: Array<{ __typename?: 'User', id: string, name: string, email: string, github?: string | null, avatar?: string | null, followerCount: number }> };
+export type GetAllUsersQuery = { __typename?: 'Query', getUsers: Array<{ __typename?: 'User', id: string, name: string, email: string, github?: string | null, avatar?: string | null }> };
 
 export type GetUserForPageQueryVariables = Exact<{
   id: Scalars['String'];
@@ -368,7 +370,7 @@ export type UpdateUserMutationVariables = Exact<{
 }>;
 
 
-export type UpdateUserMutation = { __typename?: 'Mutation', updateUser: { __typename?: 'User', id: string, name: string, discord?: string | null, website?: string | null, twitter?: string | null, bio?: string | null, avatar?: string | null } };
+export type UpdateUserMutation = { __typename?: 'Mutation', updateUser: { __typename?: 'User', id: string, name: string, discord?: string | null, website?: string | null, twitter?: string | null, bio?: string | null, location?: string | null, avatar?: string | null } };
 
 export const ProjectsResponseFragmentFragmentDoc = gql`
     fragment ProjectsResponseFragment on ProjectsResponse {
@@ -436,6 +438,9 @@ export const GetCurrentUserDocument = gql`
     discord
     avatar
     bio
+    location
+    website
+    twitter
   }
 }
     `;
@@ -593,7 +598,6 @@ export const GetAllUsersDocument = gql`
     email
     github
     avatar
-    followerCount
   }
 }
     `;
@@ -1026,6 +1030,7 @@ export const UpdateUserDocument = gql`
     website
     twitter
     bio
+    location
     avatar
   }
 }

@@ -27,6 +27,7 @@ model User {
   website         String?
   twitter         String?
   bio             String?
+  location        String?
   createdAt       DateTime  @default(now())
   updatedAt       DateTime  @default(now()) @updatedAt
   projects        Project[]
