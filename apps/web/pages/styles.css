@@ -12,6 +12,7 @@ body {
   font-family: inherit;
   line-height: inherit;
   margin: 0;
+  position: relative;
 }
 h1,
 h2,

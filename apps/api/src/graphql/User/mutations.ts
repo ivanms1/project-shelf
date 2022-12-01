@@ -6,18 +6,18 @@ import db from '../../db';
 
 import decodeAccessToken from '../../helpers/decodeAccessToken';
 
-import { Role } from './queries';
-
 const GITHUB_API_URL = 'https://api.github.com/user';
 
 const UpdateUserInput = builder.inputType('UpdateUserInput', {
   description: 'Update the user information',
   fields: (t) => ({
-    name: t.string({ required: true }),
-    email: t.string({ required: true }),
-    github: t.string({ required: true }),
-    discord: t.string({ required: true }),
-    role: t.field({ type: Role, required: true }),
+    name: t.string(),
+    discord: t.string(),
+    website: t.string(),
+    twitter: t.string(),
+    bio: t.string(),
+    location: t.string(),
+    avatar: t.string(),
   }),
 });
 
@@ -86,7 +86,7 @@ builder.mutationType({
       type: 'User',
       description: 'Update the user information',
       args: {
-        data: t.arg({ type: UpdateUserInput, required: true }),
+        input: t.arg({ type: UpdateUserInput, required: true }),
       },
       resolve: async (query, __, args, ctx) => {
         const currentUserId = decodeAccessToken(ctx.accessToken);
@@ -107,9 +107,17 @@ builder.mutationType({
         return db.user.update({
           ...query,
           where: {
-            id: String(decodeAccessToken),
+            id: String(currentUserId),
           },
-          data: args.data,
+          data: {
+            name: args.input.name ?? undefined,
+            discord: args.input.discord ?? undefined,
+            website: args.input.website ?? undefined,
+            twitter: args.input.twitter ?? undefined,
+            bio: args.input.bio ?? undefined,
+            location: args.input.location ?? undefined,
+            avatar: args.input.avatar ?? undefined,
+          },
         });
       },
     }),

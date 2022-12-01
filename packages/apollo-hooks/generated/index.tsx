@@ -95,7 +95,7 @@ export type MutationUpdateProjectStatusArgs = {
 
 
 export type MutationUpdateUserArgs = {
-  data: UpdateUserInput;
+  input: UpdateUserInput;
 };
 
 
@@ -118,6 +118,7 @@ export type Project = {
   siteLink: Scalars['String'];
   tags: Array<Scalars['String']>;
   title: Scalars['String'];
+  updatedAt: Scalars['Date'];
 };
 
 /** Project actions */
@@ -214,16 +215,20 @@ export type SearchProjectsInput = {
 
 /** Update the user information */
 export type UpdateUserInput = {
-  discord: Scalars['String'];
-  email: Scalars['String'];
-  github: Scalars['String'];
-  name: Scalars['String'];
-  role: Role;
+  avatar?: InputMaybe<Scalars['String']>;
+  bio?: InputMaybe<Scalars['String']>;
+  discord?: InputMaybe<Scalars['String']>;
+  location?: InputMaybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
+  twitter?: InputMaybe<Scalars['String']>;
+  website?: InputMaybe<Scalars['String']>;
 };
 
 export type User = {
   __typename?: 'User';
   avatar?: Maybe<Scalars['String']>;
+  bio?: Maybe<Scalars['String']>;
+  createdAt: Scalars['Date'];
   discord?: Maybe<Scalars['String']>;
   email: Scalars['String'];
   followerCount: Scalars['Int'];
@@ -233,10 +238,14 @@ export type User = {
   github?: Maybe<Scalars['String']>;
   id: Scalars['ID'];
   isFollowing: Scalars['Boolean'];
+  location?: Maybe<Scalars['String']>;
   name: Scalars['String'];
   projects?: Maybe<Array<Project>>;
   projectsLiked: Array<Project>;
   role: Role;
+  twitter?: Maybe<Scalars['String']>;
+  updatedAt: Scalars['Date'];
+  website?: Maybe<Scalars['String']>;
 };
 
 /** Actions of follow or unfollow */
@@ -257,7 +266,7 @@ export type ProjectsResponseFragmentFragment = { __typename?: 'ProjectsResponse'
 export type GetCurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetCurrentUserQuery = { __typename?: 'Query', getCurrentUser: { __typename?: 'User', id: string, name: string, email: string, github?: string | null, discord?: string | null, avatar?: string | null } };
+export type GetCurrentUserQuery = { __typename?: 'Query', getCurrentUser: { __typename?: 'User', id: string, name: string, email: string, github?: string | null, discord?: string | null, avatar?: string | null, bio?: string | null, location?: string | null, website?: string | null, twitter?: string | null } };
 
 export type GetAllProjectsQueryVariables = Exact<{
   input?: InputMaybe<SearchProjectsInput>;
@@ -283,7 +292,7 @@ export type GetProjectQuery = { __typename?: 'Query', project: { __typename?: 'P
 export type GetAllUsersQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetAllUsersQuery = { __typename?: 'Query', getUsers: Array<{ __typename?: 'User', id: string, name: string, email: string, github?: string | null, avatar?: string | null, followerCount: number }> };
+export type GetAllUsersQuery = { __typename?: 'Query', getUsers: Array<{ __typename?: 'User', id: string, name: string, email: string, github?: string | null, avatar?: string | null }> };
 
 export type GetUserForPageQueryVariables = Exact<{
   id: Scalars['String'];
@@ -356,6 +365,13 @@ export type GetUserProjectsQueryVariables = Exact<{
 
 export type GetUserProjectsQuery = { __typename?: 'Query', getUserProjects: { __typename?: 'ProjectsResponse', nextCursor?: string | null, prevCursor?: string | null, results: Array<{ __typename?: 'Project', id: string, title: string, preview: string, likesCount: number, isLiked: boolean, author: { __typename?: 'User', id: string, name: string, avatar?: string | null } }> } };
 
+export type UpdateUserMutationVariables = Exact<{
+  input: UpdateUserInput;
+}>;
+
+
+export type UpdateUserMutation = { __typename?: 'Mutation', updateUser: { __typename?: 'User', id: string, name: string, discord?: string | null, website?: string | null, twitter?: string | null, bio?: string | null, location?: string | null, avatar?: string | null } };
+
 export const ProjectsResponseFragmentFragmentDoc = gql`
     fragment ProjectsResponseFragment on ProjectsResponse {
   nextCursor
@@ -421,6 +437,10 @@ export const GetCurrentUserDocument = gql`
     github
     discord
     avatar
+    bio
+    location
+    website
+    twitter
   }
 }
     `;
@@ -578,7 +598,6 @@ export const GetAllUsersDocument = gql`
     email
     github
     avatar
-    followerCount
   }
 }
     `;
@@ -1002,3 +1021,43 @@ export function useGetUserProjectsLazyQuery(baseOptions?: Apollo.LazyQueryHookOp
 export type GetUserProjectsQueryHookResult = ReturnType<typeof useGetUserProjectsQuery>;
 export type GetUserProjectsLazyQueryHookResult = ReturnType<typeof useGetUserProjectsLazyQuery>;
 export type GetUserProjectsQueryResult = Apollo.QueryResult<GetUserProjectsQuery, GetUserProjectsQueryVariables>;
+export const UpdateUserDocument = gql`
+    mutation UpdateUser($input: UpdateUserInput!) {
+  updateUser(input: $input) {
+    id
+    name
+    discord
+    website
+    twitter
+    bio
+    location
+    avatar
+  }
+}
+    `;
+export type UpdateUserMutationFn = Apollo.MutationFunction<UpdateUserMutation, UpdateUserMutationVariables>;
+
+/**
+ * __useUpdateUserMutation__
+ *
+ * To run a mutation, you first call `useUpdateUserMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateUserMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateUserMutation, { data, loading, error }] = useUpdateUserMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useUpdateUserMutation(baseOptions?: Apollo.MutationHookOptions<UpdateUserMutation, UpdateUserMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateUserMutation, UpdateUserMutationVariables>(UpdateUserDocument, options);
+      }
+export type UpdateUserMutationHookResult = ReturnType<typeof useUpdateUserMutation>;
+export type UpdateUserMutationResult = Apollo.MutationResult<UpdateUserMutation>;
+export type UpdateUserMutationOptions = Apollo.BaseMutationOptions<UpdateUserMutation, UpdateUserMutationVariables>;

@@ -15,6 +15,7 @@ const Project = builder.prismaObject('Project', {
     isApproved: t.exposeBoolean('isApproved'),
     likesCount: t.exposeInt('likesCount'),
     createdAt: t.expose('createdAt', { type: 'Date' }),
+    updatedAt: t.expose('updatedAt', { type: 'Date' }),
     tags: t.exposeStringList('tags'),
     author: t.relation('author'),
     likes: t.relation('likes'),

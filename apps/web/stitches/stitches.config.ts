@@ -21,10 +21,14 @@ export const {
     },
     zIndices: {
       modalOverlayIndex: 99999,
+      loaderOverlayIndex: 999,
     },
   },
   media: {
-    desktop: '(min-width: 769px)',
+    desktop: '(min-width: 1296px)',
+    midDesktop: '(min-width: 990px)', // size for mobile devices with screen greator less than 990px
+    ipad: '(max-width: 990px)', // size for mobile devices with screen size less than 990px
+    mobile: '(max-width: 672px)', // size for mobile devices with screen size less than 672px
   },
   utils: {
     marginHorizontal: (value: string | number) => ({

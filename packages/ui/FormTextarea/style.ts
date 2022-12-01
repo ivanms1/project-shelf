@@ -1,20 +1,8 @@
 import { styled } from '../stitches.config';
 
-export const Container = styled('div', {
-  display: 'flex',
-  flexDirection: 'column',
-  position: 'relative',
-});
-
-export const Label = styled('label', {
-  fontSize: 16,
-  fontWeight: 500,
-  marginBottom: 5,
-});
-
-export const StyledInput = styled('input', {
+export const StyledTextArea = styled('textarea', {
   backgroundColor: '#f3f3f4',
-  height: 40,
+  height: 140,
   padding: '10px 16px',
   width: '100%',
   outline: 'none',
@@ -28,9 +16,5 @@ export const StyledInput = styled('input', {
     backgroundColor: '#fff',
     borderColor: 'rgba(234,76,137,0.4)',
     boxShadow: '0 0 0 4px rgb(234 76 137 / 10%)',
-  },
-
-  '&::placeholder': {
-    color: '#9e9ea7',
   },
 });

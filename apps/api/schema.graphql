@@ -47,7 +47,7 @@ type Mutation {
   updateProjectStatus(isApproved: Boolean!, projectId: String!): Project!
 
   """Update the user information"""
-  updateUser(data: UpdateUserInput!): User!
+  updateUser(input: UpdateUserInput!): User!
   uploadImage(path: String!): String!
 }
 
@@ -65,6 +65,7 @@ type Project {
   siteLink: String!
   tags: [String!]!
   title: String!
+  updatedAt: Date!
 }
 
 """Project actions"""
@@ -135,15 +136,19 @@ input SearchProjectsInput {
 
 """Update the user information"""
 input UpdateUserInput {
-  discord: String!
-  email: String!
-  github: String!
-  name: String!
-  role: Role!
+  avatar: String
+  bio: String
+  discord: String
+  location: String
+  name: String
+  twitter: String
+  website: String
 }
 
 type User {
   avatar: String
+  bio: String
+  createdAt: Date!
   discord: String
   email: String!
   followerCount: Int!
@@ -153,10 +158,14 @@ type User {
   github: String
   id: ID!
   isFollowing: Boolean!
+  location: String
   name: String!
   projects: [Project!]
   projectsLiked: [Project!]!
   role: Role!
+  twitter: String
+  updatedAt: Date!
+  website: String
 }
 
 """Actions of follow or unfollow"""

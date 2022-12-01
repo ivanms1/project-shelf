@@ -6,5 +6,9 @@ query GetCurrentUser {
     github
     discord
     avatar
+    bio
+    location
+    website
+    twitter
   }
 }
