@@ -49,7 +49,7 @@ const UserEdit = () => {
   let showOverlay = false;
   const { data } = useGetCurrentUserQuery();
   const userDetails = data?.getCurrentUser;
-  let userId = userDetails?.id;
+  const userId = userDetails?.id;
   const notifySuccess = () => toast.success('Profile succesfully updated');
   const notifyError = () => toast.error('Something went wrong');
 
