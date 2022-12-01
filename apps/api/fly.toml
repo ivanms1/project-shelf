@@ -8,6 +8,9 @@ processes = []
 
 [env]
 
+[deploy]
+  release_command = "npx prisma migrate deploy"
+
 [experimental]
   allowed_public_ports = []
   auto_rollback = true
