@@ -13,7 +13,7 @@ export const Overlay = styled('div', {
   background: 'rgba(0,0,0,0.6)',
   fontWeight: 400,
   fontSize: '20px',
-  zIndex: '$zIndex',
+  zIndex: '$loaderOverlayIndex',
   borderRadius: '50%',
 });
 
