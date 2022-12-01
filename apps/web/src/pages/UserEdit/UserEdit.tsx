@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, SubmitHandler } from 'react-hook-form';
 import { useRouter } from 'next/router';
 import toast from 'react-hot-toast';
 import * as yup from 'yup';
@@ -27,6 +27,16 @@ import {
 import { NextSeo } from 'next-seo';
 import { yupResolver } from '@hookform/resolvers/yup';
 
+type FormTypes = {
+  preview: File | string;
+  profileName: string;
+  profileLocation: string;
+  profileDiscord: string;
+  profileWebsite: string;
+  profileBio: string;
+  profileTwitter: string;
+};
+
 const validationSchema = yup
   .object()
   .shape({
@@ -37,12 +47,14 @@ const validationSchema = yup
 
 const UserEdit = () => {
   let showOverlay = false;
-  const notify = () => toast.success('Profile succesfully updated');
-
-  const dropzoneRef = useRef<any>(null);
-  const router = useRouter();
   const { data } = useGetCurrentUserQuery();
   const userDetails = data?.getCurrentUser;
+  let userId = userDetails?.id;
+  const notifySuccess = () => toast.success('Profile succesfully updated');
+  const notifyError = () => toast.error('Something went wrong');
+
+  const dropzoneRef = useRef<null | HTMLButtonElement>(null);
+  const router = useRouter();
 
   const {
     register,
@@ -52,7 +64,7 @@ const UserEdit = () => {
     handleSubmit,
     reset,
     formState: { errors, dirtyFields },
-  } = useForm({
+  } = useForm<FormTypes>({
     defaultValues: {
       preview: userDetails?.avatar,
       profileName: userDetails?.name,
@@ -68,9 +80,7 @@ const UserEdit = () => {
   const [updateUser, { loading: updateUserLoading }] = useUpdateUserMutation();
   const [uploadImage, { loading: imageUploading }] = useUploadImageMutation();
 
-  const onSubmit = async () => {
-    let res, data;
-
+  const onSubmit: SubmitHandler<FormTypes> = async () => {
     try {
       if (JSON.stringify(dirtyFields) == '{}') {
         return;
@@ -78,25 +88,25 @@ const UserEdit = () => {
 
       if (dirtyFields.preview) {
         const reader = new FileReader();
-        reader.readAsDataURL(getValues('preview'));
+        reader.readAsDataURL(getValues('preview') as File);
         reader.onload = async () => {
-          res = await uploadImage({
+          const res = await uploadImage({
             variables: {
               path: String(reader.result),
             },
           });
           if (res) {
-            data = await updateUserVariables(res);
-            await router.push(`/user/${data?.data?.updateUser?.id}`);
-            await notify();
+            await updateUserVariables(res);
           }
         };
       } else {
-        data = await updateUserVariables(undefined);
-        await router.push(`/user/${data?.data?.updateUser?.id}`);
-        await notify();
+        await updateUserVariables(undefined);
       }
-    } catch (error) {}
+      router.push(`/user/${userId}`);
+      notifySuccess();
+    } catch (error) {
+      notifyError();
+    }
   };
 
   useEffect(() => {
@@ -109,6 +119,10 @@ const UserEdit = () => {
       profileTwitter: userDetails?.twitter,
       profileDiscord: userDetails?.discord,
     });
+
+    return () => {
+      dropzoneRef.current = null;
+    };
   }, [userDetails, reset]);
 
   if (updateUserLoading || imageUploading) {
@@ -167,7 +181,7 @@ const UserEdit = () => {
                 type='button'
                 variant='secondary'
                 onClick={() => {
-                  setValue('preview', userDetails.avatar);
+                  setValue('preview', userDetails?.avatar);
                 }}
               >
                 Delete
