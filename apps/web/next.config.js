@@ -19,7 +19,9 @@ module.exports = withTM({
       'res.cloudinary.com',
       'avatars.githubusercontent.com',
       'cloudflare-ipfs.com',
-      'loremflickr.com'
+      'loremflickr.com',
+      'github.com',
+      'github.githubassets.com'
     ],
   },
 });

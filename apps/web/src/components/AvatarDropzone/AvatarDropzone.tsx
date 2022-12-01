@@ -9,7 +9,7 @@ interface DropzoneProps extends DropzoneOptions {
   label?: string;
   withPreview?: boolean;
   children?: JSX.Element | JSX.Element[];
-  dropzoneRef?: React.RefObject<HTMLButtonElement | null>;
+  dropzoneRef?: React.MutableRefObject<HTMLInputElement>;
 }
 
 const AvatarDropzone = ({
@@ -21,7 +21,7 @@ const AvatarDropzone = ({
   accept,
   maxSize = null,
 }: DropzoneProps) => {
-  const { getRootProps, getInputProps } = useDropzone({
+  const { getRootProps, getInputProps, inputRef } = useDropzone({
     onDrop,
     multiple: false,
     accept,
@@ -30,7 +30,7 @@ const AvatarDropzone = ({
 
   useEffect(() => {
     if (dropzoneRef) {
-      dropzoneRef.current = getInputProps().ref.current;
+      dropzoneRef.current = inputRef?.current;
     }
   }, []);
 

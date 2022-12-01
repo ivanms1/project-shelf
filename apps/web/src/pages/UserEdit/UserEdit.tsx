@@ -3,6 +3,8 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { useRouter } from 'next/router';
 import toast from 'react-hot-toast';
 import * as yup from 'yup';
+import { NextSeo } from 'next-seo';
+import { yupResolver } from '@hookform/resolvers/yup';
 
 import { Button, FormInput, FormTextArea, LoaderOverlay } from 'ui';
 import AvatarDropzone from 'src/components/AvatarDropzone';
@@ -24,8 +26,6 @@ import {
   SaveProfileWrapper,
   FlexRowWrapper,
 } from './style';
-import { NextSeo } from 'next-seo';
-import { yupResolver } from '@hookform/resolvers/yup';
 
 type FormTypes = {
   preview: File | string;
@@ -46,14 +46,11 @@ const validationSchema = yup
   .required();
 
 const UserEdit = () => {
-  let showOverlay = false;
   const { data } = useGetCurrentUserQuery();
   const userDetails = data?.getCurrentUser;
   const userId = userDetails?.id;
-  const notifySuccess = () => toast.success('Profile succesfully updated');
-  const notifyError = () => toast.error('Something went wrong');
 
-  const dropzoneRef = useRef<null | HTMLButtonElement>(null);
+  const dropzoneRef = useRef<HTMLInputElement | null>(null);
   const router = useRouter();
 
   const {
@@ -63,7 +60,7 @@ const UserEdit = () => {
     setValue,
     handleSubmit,
     reset,
-    formState: { errors, dirtyFields },
+    formState: { errors, dirtyFields, isDirty },
   } = useForm<FormTypes>({
     defaultValues: {
       preview: userDetails?.avatar,
@@ -80,12 +77,31 @@ const UserEdit = () => {
   const [updateUser, { loading: updateUserLoading }] = useUpdateUserMutation();
   const [uploadImage, { loading: imageUploading }] = useUploadImageMutation();
 
-  const onSubmit: SubmitHandler<FormTypes> = async () => {
-    try {
-      if (JSON.stringify(dirtyFields) == '{}') {
-        return;
-      }
+  useEffect(() => {
+    reset({
+      preview: userDetails?.avatar,
+      profileName: userDetails?.name,
+      profileBio: userDetails?.bio,
+      profileLocation: userDetails?.location,
+      profileWebsite: userDetails?.website,
+      profileTwitter: userDetails?.twitter,
+      profileDiscord: userDetails?.discord,
+    });
 
+    return () => {
+      dropzoneRef.current = null;
+    };
+  }, [userDetails, reset]);
+
+  const notifySuccess = () => toast.success('Profile succesfully updated');
+  const notifyError = () => toast.error('Something went wrong');
+
+  const onSubmit: SubmitHandler<FormTypes> = async () => {
+    if (!isDirty) {
+      router.push(`/user/${userId}`);
+      return;
+    }
+    try {
       if (dirtyFields.preview) {
         const reader = new FileReader();
         reader.readAsDataURL(getValues('preview') as File);
@@ -109,26 +125,6 @@ const UserEdit = () => {
     }
   };
 
-  useEffect(() => {
-    reset({
-      preview: userDetails?.avatar,
-      profileName: userDetails?.name,
-      profileBio: userDetails?.bio,
-      profileLocation: userDetails?.location,
-      profileWebsite: userDetails?.website,
-      profileTwitter: userDetails?.twitter,
-      profileDiscord: userDetails?.discord,
-    });
-
-    return () => {
-      dropzoneRef.current = null;
-    };
-  }, [userDetails, reset]);
-
-  if (updateUserLoading || imageUploading) {
-    showOverlay = true;
-  }
-
   const updateUserVariables = async (res) => {
     const data = await updateUser({
       variables: {
@@ -148,10 +144,13 @@ const UserEdit = () => {
 
   const currentImage = watch('preview');
 
+  if (updateUserLoading || imageUploading) {
+    return <LoaderOverlay size='lg' />;
+  }
+
   return (
     <MainWrapper>
       <Container onSubmit={handleSubmit(onSubmit)}>
-        {showOverlay ? <LoaderOverlay size='lg' /> : null}
         <ProfileImageWrapper>
           <AvatarDropzone
             dropzoneRef={dropzoneRef}
@@ -199,7 +198,8 @@ const UserEdit = () => {
             />
 
             <SubText>
-              We’re big on real names around here, so people know who’s who.
+              We&apos;re big on real names around here, so people know
+              who&apos;s who.
             </SubText>
           </Wrapper>
 
@@ -230,9 +230,7 @@ const UserEdit = () => {
               type='text'
               register={register('profileBio')}
             />
-            <SubText>
-              Brief description for your profile. URLs are hyperlinked.
-            </SubText>
+            <SubText>Brief description for your profile.</SubText>
           </Wrapper>
 
           <SaveProfileWrapper>
@@ -242,7 +240,6 @@ const UserEdit = () => {
           </SaveProfileWrapper>
         </FormDetails>
       </Container>
-
       <NextSeo title='Edit Profile | Project-shelf'></NextSeo>
     </MainWrapper>
   );

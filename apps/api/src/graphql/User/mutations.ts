@@ -109,7 +109,15 @@ builder.mutationType({
           where: {
             id: String(currentUserId),
           },
-          data: args.input,
+          data: {
+            name: args.input.name ?? undefined,
+            discord: args.input.discord ?? undefined,
+            website: args.input.website ?? undefined,
+            twitter: args.input.twitter ?? undefined,
+            bio: args.input.bio ?? undefined,
+            location: args.input.location ?? undefined,
+            avatar: args.input.avatar ?? undefined,
+          },
         });
       },
     }),
