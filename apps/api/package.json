@@ -25,7 +25,7 @@
     "eslint": "^8.10.0",
     "jest": "^29.1.2",
     "nodemon": "^2.0.16",
-    "prisma": "^4.5.0",
+    "prisma": "4.5.0",
     "scripts": "*",
     "ts-node-dev": "^1.1.8",
     "tsconfig": "*",
@@ -48,8 +48,7 @@
     "graphql-scalars": "^1.18.0",
     "jsonwebtoken": "^8.5.1",
     "logger": "*",
-    "morgan": "^1.10.0",
-    "prisma": "4.5.0"
+    "morgan": "^1.10.0"
   },
   "prisma": {
     "schema": "src/prisma/schema.prisma",
