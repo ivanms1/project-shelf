@@ -21,6 +21,7 @@ export const {
     },
     zIndices: {
       modalOverlayIndex: 99999,
+      loaderOverlayIndex: 999,
     },
   },
   media: {

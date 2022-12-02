@@ -1,15 +1,16 @@
-# fly.toml file generated for project-shelf on 2022-01-23T18:54:21+09:00
+# fly.toml file generated for project-shelf on 2022-12-01T23:56:53+09:00
 
-app = "project-shelf-dev"
-
+app = "project-shelf"
 kill_signal = "SIGINT"
 kill_timeout = 5
 processes = []
 
-[env]
+[build]
+  [build.args]
+    NEXT_PUBLIC_EXAMPLE = "Value goes here"
 
-[deploy]
-  release_command = "npx prisma migrate deploy"
+[env]
+  PORT = "8080"
 
 [experimental]
   allowed_public_ports = []
@@ -21,13 +22,13 @@ processes = []
   processes = ["app"]
   protocol = "tcp"
   script_checks = []
-
   [services.concurrency]
     hard_limit = 25
     soft_limit = 20
     type = "connections"
 
   [[services.ports]]
+    force_https = true
     handlers = ["http"]
     port = 80
 

@@ -1,6 +1,7 @@
 import { ApolloProvider } from '@apollo/client';
 import { AppProps } from 'next/app';
 import { SessionProvider } from 'next-auth/react';
+import { Toaster } from 'react-hot-toast';
 
 import AuthProvider from 'src/components/AuthProvider';
 import Layout from 'src/components/Layout/Layout';
@@ -24,6 +25,7 @@ function CustomApp({
         <AuthProvider>
           <Layout>
             <Component {...pageProps} />
+            <Toaster />
           </Layout>
         </AuthProvider>
       </ApolloProvider>
