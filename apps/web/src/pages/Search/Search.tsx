@@ -11,6 +11,7 @@ import {
   ResultsTitle,
   SearchForm,
   SearchInput,
+  StyledProjectsGrid,
   StyledSearch,
   Subtitle,
   Title,
@@ -81,14 +82,16 @@ function Search() {
           </TotalCount>
         </>
       )}
+      <StyledProjectsGrid>
+        <ProjectsGrid
+          projects={data?.searchProjects?.results ?? []}
+          nextCursor={data?.searchProjects?.nextCursor}
+          onRefetch={onRefetch}
+          loading={loading}
+          previous={`/search/${search}`}
+        />
+      </StyledProjectsGrid>
 
-      <ProjectsGrid
-        projects={data?.searchProjects?.results ?? []}
-        nextCursor={data?.searchProjects?.nextCursor}
-        onRefetch={onRefetch}
-        loading={loading}
-        previous={`/search/${search}`}
-      />
       <NextSeo title='Search Projects' />
     </StyledSearch>
   );

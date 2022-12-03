@@ -1,7 +1,13 @@
 import Image from 'next/image';
 import { styled } from 'stitches/stitches.config';
 import { Button } from 'ui';
-export const StyledUser = styled('div', {});
+
+export const StyledUser = styled('div', {
+  '@desktop': {
+    padding: '40px 100px',
+  },
+});
+
 export const FollowButton = styled(Button, {
   display: 'flex',
   marginLeft: 'auto',

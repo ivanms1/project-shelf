@@ -5,9 +5,6 @@ export const StyledButton = styled('button', {
   borderRadius: 8,
   fontSize: 15,
   cursor: 'pointer',
-  height: '100%',
-  width: 'max-content',
-  fontFamily: 'Poppins, sans-serif',
 
   '&:disabled': {
     cursor: 'not-allowed',
