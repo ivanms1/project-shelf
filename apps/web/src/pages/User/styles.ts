@@ -36,6 +36,7 @@ export const StyledProjectContainer = styled('div', {
     marginLeft: 'auto',
     marginTop: '5px',
     textAlign: 'center',
+    marginBottom: 32,
   },
 });
 
