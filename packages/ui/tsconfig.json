@@ -1,5 +1,18 @@
 {
   "extends": "tsconfig/react-library.json",
   "include": ["."],
-  "exclude": ["dist", "build", "node_modules"]
+  "exclude": ["dist", "build", "node_modules"],
+  "Display": "Vite",
+  "compilerOptions": {
+    "allowJs": false,
+    "esModuleInterop": false,
+    "jsx": "react",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "module": "ESNext",
+    "noEmit": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": false,
+    "target": "ESNext",
+    "types": ["vite/client"]
+  }
 }

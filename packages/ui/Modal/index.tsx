@@ -1,8 +1,10 @@
-import React from 'react';
+import * as React from 'react';
+import * as ReactModal from 'react-modal';
 import classNames from 'classnames';
-import ReactModal from 'react-modal';
 
-import { modal, overlay, StyledModal } from './styles';
+import { modalStyles, overlayStyles } from './Modal.css';
+
+ReactModal.setAppElement('#__next');
 
 interface ModalProps extends ReactModal.Props {
   children: React.ReactNode;
@@ -16,15 +18,15 @@ export const Modal = ({
   ...props
 }: ModalProps) => {
   return (
-    <StyledModal
-      overlayClassName={overlay().className}
+    <ReactModal
+      overlayClassName={overlayStyles}
       onRequestClose={onClose}
-      className={classNames(modal(), className)}
+      className={classNames(modalStyles, className)}
       closeTimeoutMS={300}
       {...props}
     >
       {children}
-    </StyledModal>
+    </ReactModal>
   );
 };
 

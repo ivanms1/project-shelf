@@ -1,16 +1,15 @@
-import React from 'react';
+import * as React from 'react';
+import classNames from 'classnames';
 
-import { CSSProperties } from '@stitches/react';
-
-import { StyledLoader } from './styles';
+import { loaderStyles } from './Loader.css';
 
 export interface LoaderInterface {
   size?: 'sm' | 'md' | 'lg';
-  css?: Partial<CSSProperties>;
+  className?: string | undefined;
 }
 
-export const Loader = ({ size = 'sm', css }: LoaderInterface) => {
-  return <StyledLoader size={size} css={css} />;
+export const Loader = ({ size = 'sm', className }: LoaderInterface) => {
+  return <div className={classNames(loaderStyles[size], className)} />;
 };
 
 export default Loader;

@@ -1,6 +1,7 @@
-import { styled } from '../stitches.config';
+import { style } from '@vanilla-extract/css';
+import { vars } from '../variables.css';
 
-export const Container = styled('div', {
+export const containerStyle = style({
   display: 'flex',
   width: '100%',
   height: '100%',
@@ -10,5 +11,5 @@ export const Container = styled('div', {
   position: 'absolute',
   top: '0',
   left: '0',
-  zIndex: '$loaderOverlayIndex',
+  zIndex: vars.zIndex.loaderOverlay,
 });

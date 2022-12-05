@@ -1,9 +1,11 @@
-import React, { InputHTMLAttributes } from 'react';
+import * as React from 'react';
+import classNames from 'classnames';
 
-import { Label, Container } from '../Input/styles';
-import { StyledTextArea } from './style';
+import { containerStyle, labelStyle } from '../Input/Input.css';
 
-interface FormTextarea extends InputHTMLAttributes<HTMLTextAreaElement> {
+import { formTextArea } from './FormTextarea.css';
+
+interface FormTextarea extends React.InputHTMLAttributes<HTMLTextAreaElement> {
   register: any;
   label?: string;
   id?: string;
@@ -14,17 +16,23 @@ export const FormTextArea = ({
   id,
   name,
   register,
+  className,
   ...props
 }: FormTextarea) => {
   return (
-    <Container>
-      {!!label && <Label htmlFor={id || name}>{label}</Label>}
-      <StyledTextArea
+    <div className={containerStyle}>
+      {!!label && (
+        <label className={labelStyle} htmlFor={id || name}>
+          {label}
+        </label>
+      )}
+      <textarea
+        className={classNames(formTextArea, className)}
         id={id}
         name={name}
         {...register}
         {...props}
-      ></StyledTextArea>
-    </Container>
+      ></textarea>
+    </div>
   );
 };

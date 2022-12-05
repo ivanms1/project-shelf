@@ -1,17 +1,27 @@
-import React, { InputHTMLAttributes } from 'react';
+import * as React from 'react';
 
-import { Container, Label, StyledInput } from './styles';
+import { containerStyle, inputStyle, labelStyle } from './Input.css';
 
-interface Input extends InputHTMLAttributes<HTMLInputElement> {
+interface Input extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string;
 }
 
 export function Input({ name, id, type = 'text', label, ...props }: Input) {
   return (
-    <Container>
-      {!!label && <Label htmlFor={id || name}>{label}</Label>}
-      <StyledInput id={id} name={name} type={type} {...props} />
-    </Container>
+    <div className={containerStyle}>
+      {!!label && (
+        <label className={labelStyle} htmlFor={id || name}>
+          {label}
+        </label>
+      )}
+      <input
+        className={inputStyle}
+        id={id}
+        name={name}
+        type={type}
+        {...props}
+      />
+    </div>
   );
 }
 

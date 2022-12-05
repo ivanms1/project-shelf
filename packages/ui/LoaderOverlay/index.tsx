@@ -1,13 +1,14 @@
-import React from 'react';
-import { Container } from './style';
+import * as React from 'react';
 
 import Loader, { LoaderInterface } from '../Loader';
 
-export const LoaderOverlay = ({ size = 'sm', css }: LoaderInterface) => {
+import { containerStyle } from './LoaderOverlay.css';
+
+export const LoaderOverlay = ({ size = 'sm', className }: LoaderInterface) => {
   return (
-    <Container>
-      <Loader size={size} css={css} />
-    </Container>
+    <div className={containerStyle}>
+      <Loader size={size} className={className} />
+    </div>
   );
 };
 

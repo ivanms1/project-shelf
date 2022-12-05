@@ -1,11 +1,12 @@
-import React from 'react';
+import * as React from 'react';
+import classNames from 'classnames';
 
 import { Loader } from '../Loader';
 
-import { StyledButton } from './styles';
+import { button } from './styles.css';
 
 interface Button extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'primary' | 'secondary' | 'ghost';
+  variant?: keyof typeof button;
   isLoading?: boolean;
   url?: string;
 }
@@ -14,12 +15,13 @@ export const Button = ({
   children,
   variant = 'primary',
   isLoading,
+  className,
   ...props
 }: Button) => {
   return (
-    <StyledButton variant={variant} {...props}>
+    <button className={classNames(button[variant], className)} {...props}>
       {isLoading ? <Loader /> : children}
-    </StyledButton>
+    </button>
   );
 };
 

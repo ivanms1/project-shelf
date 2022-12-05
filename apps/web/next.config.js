@@ -1,6 +1,11 @@
 const withTM = require('next-transpile-modules')(['ui']);
+const {
+  createVanillaExtractPlugin
+} = require('@vanilla-extract/next-plugin');
 
-module.exports = withTM({
+const withVanillaExtract = createVanillaExtractPlugin();
+
+module.exports = withVanillaExtract(withTM({
   reactStrictMode: true,
   webpack(config) {
     config.module.rules.push({
@@ -24,4 +29,4 @@ module.exports = withTM({
       'github.githubassets.com'
     ],
   },
-});
+}));

@@ -1,6 +1,6 @@
-import { styled } from '../stitches.config';
+import { style } from '@vanilla-extract/css';
 
-export const StyledTextArea = styled('textarea', {
+export const formTextArea = style({
   backgroundColor: '#f3f3f4',
   height: 140,
   padding: '10px 16px',
@@ -12,7 +12,7 @@ export const StyledTextArea = styled('textarea', {
   transition:
     'background-color 200ms ease, outline 200ms ease, color 200ms ease, box-shadow 200ms ease, -webkit-box-shadow 200ms ease',
 
-  '&:focus': {
+  ':focus': {
     backgroundColor: '#fff',
     borderColor: 'rgba(234,76,137,0.4)',
     boxShadow: '0 0 0 4px rgb(234 76 137 / 10%)',
