@@ -104,13 +104,13 @@ const User = () => {
           />
         )}
         <StyledTitle>{user?.name}</StyledTitle>
+        <FollowButton onClick={handleFollowUser}>
+          {isFollowingData?.user?.isFollowing ? 'Unfollow' : 'Follow'}
+        </FollowButton>
+        <h4>{isFollowingData?.user?.followerCount} Followers</h4>
       </StyledUserContainer>
       {user ? (
         <StyledProjectContainer>
-          <FollowButton onClick={handleFollowUser}>
-            {isFollowingData?.user?.isFollowing ? 'Unfollow' : 'Follow'}
-          </FollowButton>
-          <h4>{isFollowingData?.user?.followerCount} Followers</h4>
           <ProjectsGrid
             projects={projectsData?.getUserProjects?.results ?? []}
             loading={loading}
