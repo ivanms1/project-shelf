@@ -13,8 +13,16 @@ export const overlay = css({
   position: 'fixed',
   right: 0,
   top: 0,
-  zIndex: '$modalOverlayIndex',
-
+  variants: {
+    modalzIndex: {
+      confirm: {
+        zIndex: 99999,
+      },
+      projectModal: {
+        zIndex: 9999,
+      },
+    },
+  },
   '& :global(.ReactModal__Overlay)': {
     opacity: 0,
     transition: 'opacity 0.3s ease-in-out',
