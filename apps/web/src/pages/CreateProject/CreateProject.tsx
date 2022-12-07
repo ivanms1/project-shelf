@@ -1,16 +1,19 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
-import { Button } from 'ui';
+import { Button, LoaderOverlay } from 'ui';
 import { useRouter } from 'next/router';
 import { NextSeo } from 'next-seo';
 
 import Dropzone from 'src/components/Dropzone';
 
+import toast from 'react-hot-toast';
+
 import {
   useCreateUserProjectMutation,
   useUploadImageMutation,
+  useUpdateProjectMutation,
 } from 'apollo-hooks';
 
 import {
@@ -23,8 +26,9 @@ import {
   UploadContainer,
 } from './styles';
 import DetailsFormModal from './DetailsFormModal';
+import useIsLoggedIn from '@/hooks/useIsLoggedIn';
 
-const validationSchema = yup.object().shape({
+export const validationSchema = yup.object().shape({
   title: yup.string().required('This is a required field'),
   description: yup.string().required('This is a required field'),
   repoLink: yup
@@ -48,54 +52,167 @@ export type FormTypes = {
   preview: File;
   repoLink: string;
   siteLink: string;
-  tags: { value: string }[];
+  tags: { value: string; label: string }[];
   title: string;
 };
 
-function CreateProject() {
+function CreateProject({ projectDetails }) {
   const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
-  const methods = useForm<FormTypes>({
+  const { currentUser } = useIsLoggedIn();
+
+  const {
+    getValues,
+    watch,
+    setValue,
+    register,
+    reset,
+    handleSubmit,
+    control,
+    formState: { errors, dirtyFields, isDirty },
+  } = useForm<FormTypes>({
     resolver: yupResolver(validationSchema),
+    defaultValues: {
+      preview: projectDetails?.preview,
+      title: projectDetails?.title,
+      description: projectDetails?.description,
+      repoLink: projectDetails?.repoLink,
+      siteLink: projectDetails?.siteLink,
+      tags: projectDetails?.tags?.map((tag) => {
+        return {
+          value: tag,
+          label: tag,
+        };
+      }),
+    },
   });
+
+  const spreadProps = {
+    getValues,
+    watch,
+    setValue,
+    register,
+    reset,
+    handleSubmit,
+    control,
+    formState: { errors, dirtyFields, isDirty },
+  };
 
   const router = useRouter();
 
   const [createProject, { loading }] = useCreateUserProjectMutation();
+
+  const [updateProject, { loading: updateProjectLoading }] =
+    useUpdateProjectMutation();
 
   const [uploadImage, { loading: imageLoading }] = useUploadImageMutation();
 
   const onSubmit: SubmitHandler<FormTypes> = async (values) => {
     try {
       const reader = new FileReader();
-      reader.readAsDataURL(methods.getValues('preview'));
 
-      reader.onload = async () => {
-        const res = await uploadImage({
-          variables: {
-            path: String(reader.result),
-          },
-        });
-
-        const data = await createProject({
-          variables: {
-            input: {
-              ...values,
-              tags: values.tags.map((tag) => tag.value),
-              preview: res?.data?.image,
+      if (dirtyFields.preview) {
+        reader.readAsDataURL(getValues('preview'));
+        reader.onload = async () => {
+          const res = await uploadImage({
+            variables: {
+              path: String(reader.result),
             },
-          },
-        });
+          });
 
-        router.push(`/project/${data?.data?.createProject?.id}`);
-      };
+          if (router.pathname == '/create-project') {
+            if (res) {
+              // create new project
+              await onCreateProject(values, res);
+              router.push(`/user/${currentUser.id}`);
+            }
+          } else {
+            await onUpdateProject(router.query.id, values, res?.data?.image);
+
+            router.push(`/user/${currentUser.id}`);
+          }
+        };
+      } else {
+        // image not dirty means
+        // - update project without image changed
+        await onUpdateProject(router.query.id, values, currentImage);
+        router.push(`/user/${currentUser?.id}`);
+      }
+      notifySuccess();
     } catch (error) {
-      // TODO: handle error
+      notifyError();
     }
   };
 
-  const currentImage = methods.watch('preview');
-  const currentTitle = methods.watch('title');
-  const currentDescription = methods.watch('description');
+  const onCreateProject = async (values, res) => {
+    const createdData = await createProject({
+      variables: {
+        input: {
+          ...values,
+          tags: values.tags.map((tag) => tag.value),
+          preview: res?.data?.image,
+        },
+      },
+      update: (cache, { data }) => {
+        cache.modify({
+          fields: {
+            getUserProjects(existingProjects, { toReference }) {
+              const results = existingProjects.results;
+              const reference = toReference(data.createProject);
+
+              return {
+                ...existingProjects,
+                results: [...results, reference],
+              };
+            },
+          },
+        });
+      },
+    });
+    return createdData;
+  };
+
+  const onUpdateProject = async (projectId, editedValue, res) => {
+    const data = await updateProject({
+      variables: {
+        projectId: projectId,
+        input: {
+          ...editedValue,
+          preview: res,
+          tags: editedValue?.tags.map((tag) => tag.value),
+        },
+      },
+    });
+    return data;
+  };
+
+  useEffect(() => {
+    if (router.pathname == 'project-edit') {
+      reset({
+        preview: projectDetails?.preview,
+        title: projectDetails?.title,
+        description: projectDetails?.description,
+        repoLink: projectDetails?.repoLink,
+        siteLink: projectDetails?.siteLink,
+        tags: projectDetails?.tags?.map((tag) => {
+          return {
+            value: tag,
+            label: tag,
+          };
+        }),
+      });
+    }
+  }, [reset, projectDetails, router.pathname]);
+
+  const currentImage = watch('preview');
+  const currentTitle = watch('title');
+  const currentDescription = watch('description');
+
+  const notifySuccess = () => toast.success('Project succesfully updated');
+  const notifyError = () => toast.error('Something went wrong');
+
+  if (updateProjectLoading || loading) {
+    return <LoaderOverlay size='lg' />;
+  }
 
   return (
     <Container>
@@ -110,8 +227,8 @@ function CreateProject() {
           Continue
         </Button>
       </ButtonsContainer>
-      <FormProvider {...methods}>
-        <Form onSubmit={methods.handleSubmit(onSubmit)}>
+      <FormProvider {...spreadProps}>
+        <Form onSubmit={handleSubmit(onSubmit)}>
           {!currentImage && (
             <>
               <h1>What&apos;s your project</h1>
@@ -119,14 +236,13 @@ function CreateProject() {
             </>
           )}
           {currentImage && (
-            <TitleInput
-              placeholder='Give me a name'
-              {...methods.register('title')}
-            />
+            <TitleInput placeholder='Give me a name' {...register('title')} />
           )}
           <Dropzone
             currentFile={currentImage}
-            onDrop={(files) => methods.setValue('preview', files[0])}
+            onDrop={(files) =>
+              setValue('preview', files[0], { shouldDirty: true })
+            }
             label='Drop your thumbnail'
             withPreview
           >
@@ -138,7 +254,7 @@ function CreateProject() {
           {currentImage && (
             <DescriptionInput
               placeholder='Add a brief description about your project and what went into creating it'
-              {...methods.register('description')}
+              {...register('description')}
             />
           )}
           <DetailsFormModal
