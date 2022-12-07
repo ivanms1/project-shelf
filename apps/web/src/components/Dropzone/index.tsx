@@ -32,15 +32,15 @@ function Dropzone({
       {currentFile ? (
         withPreview ? (
           <>
-            {typeof currentFile == 'string' ? (
-              <Image src={currentFile} alt={currentFile?.name} layout='fill' />
-            ) : (
-              <Image
-                src={URL.createObjectURL(currentFile)}
-                alt={currentFile?.name}
-                layout='fill'
-              />
-            )}
+            <Image
+              src={
+                typeof currentFile == 'string'
+                  ? currentFile
+                  : URL.createObjectURL(currentFile)
+              }
+              alt={currentFile?.name}
+              layout='fill'
+            />
           </>
         ) : (
           <span>{currentFile?.name}</span>
