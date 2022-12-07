@@ -155,3 +155,17 @@ export const StyledLink = styled('a', {
   display: 'flex',
   alignItems: 'center',
 });
+
+export const ProjectOptions = styled('div', {
+  display: 'flex',
+  flexDirection: 'row',
+  gap: '20px',
+  padding: '20px',
+  background: '#fafafb',
+  borderRadius: '8px',
+  color: '#3d3d4e',
+  fontSize: '14px',
+  width: 'max-content',
+  margin: '0 auto',
+  fontWeight: 400,
+});
