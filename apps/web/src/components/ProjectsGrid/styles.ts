@@ -5,6 +5,7 @@ export const StyledProjectsGrid = styled('div', {
   gap: 50,
   gridTemplateColumns: 'repeat( auto-fit, minmax(330px, 1fr) )',
   justifyItems: 'center',
+  width: '100%',
 });
 
 export const LoaderContainer = styled('div', {
