@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import * as yup from 'yup';
+import { useRouter } from 'next/router';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { Button, LoaderOverlay } from 'ui';
-import { useRouter } from 'next/router';
 import { NextSeo } from 'next-seo';
 
 import Dropzone from 'src/components/Dropzone';
@@ -59,6 +59,7 @@ export type FormTypes = {
 function CreateProject({ projectDetails }) {
   const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
   const { currentUser } = useIsLoggedIn();
+  const router = useRouter();
 
   const {
     getValues,
@@ -97,8 +98,6 @@ function CreateProject({ projectDetails }) {
     formState: { errors, dirtyFields, isDirty },
   };
 
-  const router = useRouter();
-
   const [createProject, { loading }] = useCreateUserProjectMutation();
 
   const [updateProject, { loading: updateProjectLoading }] =
@@ -122,22 +121,38 @@ function CreateProject({ projectDetails }) {
           if (router.pathname == '/create-project') {
             if (res) {
               // create new project
-              await onCreateProject(values, res);
-              router.push(`/user/${currentUser.id}`);
+              const createdProjectData = await onCreateProject(values, res);
+              if (createdProjectData) {
+                router.push(`/user/${currentUser.id}`);
+                notifySuccess('Project succesfully created');
+              }
             }
           } else {
-            await onUpdateProject(router.query.id, values, res?.data?.image);
+            const updatedProjectData = await onUpdateProject(
+              router.query.id,
+              values,
+              res?.data?.image
+            );
 
-            router.push(`/user/${currentUser.id}`);
+            if (updatedProjectData) {
+              router.push(`/user/${currentUser.id}`);
+              notifySuccess('Project succesfully updated');
+            }
           }
         };
       } else {
         // image not dirty means
         // - update project without image changed
-        await onUpdateProject(router.query.id, values, currentImage);
-        router.push(`/user/${currentUser?.id}`);
+        const updatedProjectData = await onUpdateProject(
+          router.query.id,
+          values,
+          currentImage
+        );
+        if (updatedProjectData) {
+          router.push(`/user/${currentUser?.id}`);
+          notifySuccess('Project succesfully updated');
+        }
       }
-      notifySuccess();
     } catch (error) {
       notifyError();
     }
@@ -207,7 +222,7 @@ function CreateProject({ projectDetails }) {
   const currentTitle = watch('title');
   const currentDescription = watch('description');
 
-  const notifySuccess = () => toast.success('Project succesfully updated');
+  const notifySuccess = (msg) => toast.success(msg);
   const notifyError = () => toast.error('Something went wrong');
 
   if (updateProjectLoading || loading) {
@@ -217,7 +232,7 @@ function CreateProject({ projectDetails }) {
   return (
     <Container>
       <ButtonsContainer>
-        <Button type='button' variant='secondary'>
+        <Button type='button' variant='secondary' onClick={() => router.back()}>
           Cancel
         </Button>
         <Button
@@ -265,7 +280,11 @@ function CreateProject({ projectDetails }) {
           />
         </Form>
       </FormProvider>
-      <NextSeo title='Create a Project' />
+      <NextSeo
+        title={
+          router.pathname == 'project-edit' ? 'Edit Project' : 'Create Project'
+        }
+      />
     </Container>
   );
 }
