@@ -5,6 +5,16 @@ import { schema } from './schema';
 
 const PORT = process.env.PORT || 8080;
 
+const DEV_ORIGINS = [
+  'http://localhost:3000',
+  'https://studio.apollographql.com',
+];
+
+const PROD_ORIGINS = [
+  'https://project-shelf-dev.netlify.app',
+  'https://project-shelf.fly.dev',
+];
+
 const apollo = new ApolloServer({
   schema,
   context: async ({ req }) => {
@@ -20,11 +30,8 @@ apollo.start().then(() =>
   apollo.applyMiddleware({
     app,
     cors: {
-      origin: [
-        'http://localhost:3000',
-        'https://studio.apollographql.com',
-        'https://project-shelf-dev.netlify.app',
-      ],
+      origin:
+        process.env.NODE_ENV === 'production' ? PROD_ORIGINS : DEV_ORIGINS,
       credentials: true,
     },
   })

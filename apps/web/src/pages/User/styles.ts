@@ -1,10 +1,15 @@
 import Image from 'next/image';
 import { styled } from 'stitches/stitches.config';
 import { Button } from 'ui';
+
 export const StyledUser = styled('div', {
   flex: 1,
   display: 'flex',
   flexDirection: 'column',
+
+  '@desktop': {
+    padding: '40px 100px',
+  },
 });
 
 export const FollowButton = styled(Button, {
@@ -43,6 +48,10 @@ export const StyledProjectContainer = styled('div', {
   display: 'flex',
   flex: 1,
   padding: '40px 100px',
+
+  '@mobile': {
+    padding: '40px 0px',
+  },
 });
 
 export const StyledProjectsGrid = styled('div', {

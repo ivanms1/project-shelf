@@ -65,3 +65,9 @@ export const TotalCount = styled('p', {
   textAlign: 'center',
   marginBottom: 32,
 });
+
+export const StyledProjectsGrid = styled('div', {
+  '@desktop': {
+    padding: '40px 100px',
+  },
+});

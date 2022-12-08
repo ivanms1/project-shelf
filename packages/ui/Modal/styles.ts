@@ -42,7 +42,6 @@ export const modal = css({
   border: 'none',
   borderRadius: 15,
   left: '50%',
-  maxHeight: 'calc(100vh - 100px)',
   outline: 0,
 
   position: 'absolute',
