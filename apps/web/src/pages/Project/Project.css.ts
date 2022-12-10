@@ -1,4 +1,4 @@
-import { style, styleVariants } from '@vanilla-extract/css';
+import { style } from '@vanilla-extract/css';
 import { media, vars } from 'ui/variables.css';
 
 export const closeButtonStyle = style({
@@ -84,29 +84,6 @@ export const titleStyle = style({
 export const nameLinkStyle = style({
   fontWeight: 400,
   fontSize: 14,
-});
-
-export const baseLikeButtonStyle = style({
-  padding: '10px 16px',
-  borderRadius: 8,
-});
-
-export const islikedStyle = styleVariants({
-  liked: [
-    baseLikeButtonStyle,
-    {
-      backgroundColor: vars.colors.pink,
-      color: 'white',
-    },
-  ],
-  notLiked: [
-    baseLikeButtonStyle,
-    {
-      backgroundColor: vars.colors.gray,
-      opacity: 0.5,
-      ':hover': { backgroundColor: vars.colors.pink, color: 'white' },
-    },
-  ],
 });
 
 export const imageContainerStyle = style({

@@ -3,9 +3,10 @@ import {
   useGetProjectLikedStatusQuery,
   useReactToProjectMutation,
 } from 'apollo-hooks';
+import classNames from 'classnames';
 import { Button } from 'ui';
 
-import { StyledLike } from '../styles';
+import { baseLikeButtonStyle, notLikedButtonStyle } from './LikeButton.css';
 
 function LikeButton({ projectId }: { projectId: string }) {
   const [reactToProject] = useReactToProjectMutation();
@@ -18,25 +19,25 @@ function LikeButton({ projectId }: { projectId: string }) {
     fetchPolicy: 'cache-and-network',
   });
 
+  const isLiked = data?.project?.isLiked;
+
   const handleLike = async () => {
     try {
       await reactToProject({
         variables: {
           input: {
             projectId: projectId,
-            action: data?.project?.isLiked
-              ? ProjectActions.Dislike
-              : ProjectActions.Like,
+            action: isLiked ? ProjectActions.Dislike : ProjectActions.Like,
           },
         },
         optimisticResponse: {
           reactToProject: {
             ...data?.project,
             id: data?.project?.id,
-            likesCount: data?.project?.isLiked
+            likesCount: isLiked
               ? data?.project.likesCount - 1
               : data?.project.likesCount + 1,
-            isLiked: !data?.project?.isLiked,
+            isLiked: !isLiked,
           },
         },
       });
@@ -45,10 +46,13 @@ function LikeButton({ projectId }: { projectId: string }) {
     }
   };
   return (
-    <Button variant='ghost' onClick={handleLike}>
-      <StyledLike isliked={data?.project?.isLiked}>
-        {data?.project?.isLiked ? 'Liked' : 'Like'}
-      </StyledLike>
+    <Button
+      className={classNames(baseLikeButtonStyle, {
+        [notLikedButtonStyle]: !isLiked,
+      })}
+      onClick={handleLike}
+    >
+      {isLiked ? 'Liked' : 'Like'}
     </Button>
   );
 }
