@@ -3,7 +3,7 @@ import classNames from 'classnames';
 
 import { Loader } from '../Loader';
 
-import { button } from './styles.css';
+import { button } from './Button.css';
 
 interface Button extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: keyof typeof button;
