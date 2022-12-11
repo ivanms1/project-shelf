@@ -5,10 +5,22 @@ export const projectCardStyle = style({
   width: 330,
 });
 
+export const imageContainerStyle = style({
+  width: 330,
+  height: 247,
+  position: 'relative',
+});
+
 export const previewStyle = style({
   objectFit: 'cover',
   borderRadius: 5,
-  transition: '0.2s all',
+  transition: '0.2s all ease-in-out',
+
+  selectors: {
+    [`${imageContainerStyle}:hover &`]: {
+      filter: 'brightness(70%)',
+    },
+  },
 });
 
 export const titleStyle = style({
@@ -16,23 +28,12 @@ export const titleStyle = style({
   position: 'absolute',
   bottom: 0,
   color: '#fff',
-});
+  transition: '0.2s all ease-in-out',
 
-export const imageContainerStyle = style({
-  width: 330,
-  height: 247,
-  position: 'relative',
-
-  ':hover': {
-    [`${previewStyle}`]: {
-      filter: 'brightness(70%)',
-    },
-    [`${titleStyle}`]: {
+  selectors: {
+    [`${imageContainerStyle}:hover &`]: {
       padding: 20,
-      bottom: 0,
       opacity: 1,
-      position: 'absolute',
-      color: '#fff',
     },
   },
 });
