@@ -1,8 +1,7 @@
-import { styled } from '@/stitches/stitches.config';
+import { style } from '@vanilla-extract/css';
+import { media } from 'ui/variables.css';
 
-export const StyledSearch = styled('div', {});
-
-export const Header = styled('div', {
+export const headerStyle = style({
   width: '100vw',
   height: 357,
   backgroundImage: 'url(/assets/images/search-banner.jpeg)',
@@ -14,20 +13,20 @@ export const Header = styled('div', {
   color: 'white',
 });
 
-export const Title = styled('h1', {
+export const titleStyle = style({
   fontSize: 48,
   fontWeight: 700,
   marginBottom: 16,
   textAlign: 'center',
 });
 
-export const Subtitle = styled('p', {
+export const subtitleStyle = style({
   fontSize: 20,
   fontWeight: 400,
   textAlign: 'center',
 });
 
-export const SearchForm = styled('form', {
+export const searchFormStyle = style({
   display: 'flex',
   justifyContent: 'center',
   marginTop: -32,
@@ -35,7 +34,7 @@ export const SearchForm = styled('form', {
   padding: '0 16px',
 });
 
-export const SearchInput = styled('input', {
+export const searchInputStyle = style({
   height: 64,
   borderRadius: 8,
   background: '#fff',
@@ -45,12 +44,12 @@ export const SearchInput = styled('input', {
   width: '100%',
   maxWidth: 628,
 
-  '&:focus': {
+  ':focus': {
     outline: 'none',
   },
 });
 
-export const ResultsTitle = styled('h1', {
+export const resultsTitleStyle = style({
   fontSize: 32,
   fontWeight: 700,
   marginBottom: 12,
@@ -58,7 +57,7 @@ export const ResultsTitle = styled('h1', {
   textTransform: 'capitalize',
 });
 
-export const TotalCount = styled('p', {
+export const totalCountStyle = style({
   fontSize: 16,
   fontWeight: 400,
   color: '#6e6d7a',
@@ -66,8 +65,10 @@ export const TotalCount = styled('p', {
   marginBottom: 32,
 });
 
-export const StyledProjectsGrid = styled('div', {
-  '@desktop': {
-    padding: '40px 100px',
+export const projectsGridStyle = style({
+  '@media': {
+    [media.desktop]: {
+      padding: '40px 100px',
+    },
   },
 });
