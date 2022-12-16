@@ -19,10 +19,9 @@ export const Modal = ({
 }: ModalProps) => {
   return (
     <StyledModal
-      modalzIndex={modalzIndex}
       overlayClassName={overlay().className}
       onRequestClose={onClose}
-      className={classNames(modal(), className)}
+      className={classNames(modal(), className, modalzIndex)}
       closeTimeoutMS={300}
       {...props}
     >
