@@ -3,8 +3,6 @@ import { SubmitHandler, useFormContext } from 'react-hook-form';
 import { Button, FormInput, FormSelect, Modal } from 'ui';
 import { FormTypes } from '../CreateProject';
 
-import { useRouter } from 'next/router';
-
 import {
   ButtonsContainer,
   InputsContainer,
@@ -55,8 +53,6 @@ const DetailsFormModal = ({
     handleSubmit,
   } = useFormContext();
 
-  const router = useRouter();
-
   return (
     <Modal isOpen={isOpen} onClose={onClose} className={modalStyles}>
       <Title>Final details</Title>
@@ -91,7 +87,7 @@ const DetailsFormModal = ({
           disabled={isLoading}
           onClick={handleSubmit(onSubmit)}
         >
-          {router.pathname.includes('/project-edit/') ? 'Update' : 'Publish'}
+          Submit
         </PublishButton>
       </ButtonsContainer>
     </Modal>
