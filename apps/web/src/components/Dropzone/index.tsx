@@ -31,17 +31,15 @@ function Dropzone({
       <input {...getInputProps()} />
       {currentFile ? (
         withPreview ? (
-          <>
-            <Image
-              src={
-                typeof currentFile == 'string'
-                  ? currentFile
-                  : URL.createObjectURL(currentFile)
-              }
-              alt={currentFile?.name}
-              layout='fill'
-            />
-          </>
+          <Image
+            src={
+              typeof currentFile === 'string'
+                ? currentFile
+                : URL.createObjectURL(currentFile)
+            }
+            alt={currentFile?.name}
+            layout='fill'
+          />
         ) : (
           <span>{currentFile?.name}</span>
         )
