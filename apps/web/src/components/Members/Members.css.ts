@@ -1,15 +1,13 @@
-import { styled } from 'stitches/stitches.config';
+import { style } from '@vanilla-extract/css';
 
-export const StyledMembers = styled('div', {});
-
-export const Header = styled('p', {
+export const headerStyle = style({
   fontWeight: '600',
   fontSize: '45px',
   textAlign: 'center',
   margin: '70px 0',
 });
 
-export const FlexContainer = styled('div', {
+export const flexContainerStyle = style({
   display: 'flex',
   flexDirection: 'row',
   gap: '30px',

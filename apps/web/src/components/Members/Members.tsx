@@ -1,9 +1,25 @@
 import React from 'react';
-import Member from '../Member';
-import { StyledMembers, FlexContainer, Header } from './styles';
 
-// fetch from DB later with NextJS functions? Or, just leave this array here?
-const members = [
+import Member from '../Member';
+
+import { flexContainerStyle, headerStyle } from './Members.css';
+
+const Members = () => {
+  return (
+    <div>
+      <p className={headerStyle}>Project Shelf Contributors</p>
+      <div className={flexContainerStyle}>
+        {MEMBERS.map((member) => (
+          <Member key={member?.id} {...member} />
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default Members;
+
+const MEMBERS = [
   {
     id: 1,
     name: 'Simon',
@@ -40,18 +56,3 @@ const members = [
     username: 'rohilpinto',
   },
 ];
-
-const Members = () => {
-  return (
-    <StyledMembers>
-      <Header>Project Shelf Contributors</Header>
-      <FlexContainer>
-        {members.map((member) => (
-          <Member key={member?.id} {...member} />
-        ))}
-      </FlexContainer>
-    </StyledMembers>
-  );
-};
-
-export default Members;
