@@ -1,9 +1,6 @@
-import { styled } from 'stitches/stitches.config';
-import Image from 'next/image';
+import { style } from '@vanilla-extract/css';
 
-export const StyledMember = styled('div', {});
-
-export const Card = styled('div', {
+export const cardStyle = style({
   display: 'flex',
   flexDirection: 'column',
   backgroundColor: 'white',
@@ -13,20 +10,12 @@ export const Card = styled('div', {
   color: 'black',
   boxShadow: '1px 1px 20px 0px rgba(45, 78, 255, 0.15)',
 
-  '&:hover': {
+  ':hover': {
     boxShadow: '10px 10px 40px 4px rgba(45, 78, 255, 0.15)',
   },
 });
 
-export const Wrapper = styled('div', {
-  width: '100%',
-  height: '100%',
-  display: 'flex',
-  flexDirection: 'column',
-  justifyContent: 'flex-start',
-});
-
-export const ImageContainer = styled('div', {
+export const imageContainerStyle = style({
   width: '100%',
   height: '100%',
   display: 'flex',
@@ -34,21 +23,27 @@ export const ImageContainer = styled('div', {
   alignItems: 'center',
 });
 
-export const ProfileImage = styled(Image, {
+export const profileImageStyle = style({
   display: 'block',
-  width: '100%',
-  height: '100%',
   borderRadius: '50%',
 });
 
-export const Title = styled('span', {
+export const wrapperStyle = style({
+  width: '100%',
+  height: '100%',
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'flex-start',
+});
+
+export const titleStyle = style({
   width: '100%',
   textAlign: 'center',
   display: 'block',
   fontSize: '23px',
 });
 
-export const Username = styled('span', {
+export const usernameStyle = style({
   fontSize: '15px',
   width: '100%',
   textAlign: 'center',
@@ -58,11 +53,9 @@ export const Username = styled('span', {
   justifyContent: 'center',
 });
 
-export const CardLinks = styled('div', {
+export const cardLinksStyle = style({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
   height: '100%',
 });
-
-export const StyledLink = styled('a', {});
