@@ -11,18 +11,20 @@ interface Button extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   url?: string;
 }
 
-export const Button = ({
-  children,
-  variant = 'primary',
-  isLoading,
-  className,
-  ...props
-}: Button) => {
-  return (
-    <button className={classNames(button[variant], className)} {...props}>
-      {isLoading ? <Loader /> : children}
-    </button>
-  );
-};
+export const Button = React.forwardRef<HTMLButtonElement, Button>(
+  ({ children, variant = 'primary', isLoading, className, ...props }, ref) => {
+    return (
+      <button
+        ref={ref}
+        className={classNames(button[variant], className)}
+        {...props}
+      >
+        {isLoading ? <Loader /> : children}
+      </button>
+    );
+  }
+);
+
+Button.displayName = 'Button';
 
 export default Button;

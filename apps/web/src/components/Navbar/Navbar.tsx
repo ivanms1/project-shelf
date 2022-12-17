@@ -1,32 +1,37 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { signIn } from 'next-auth/react';
-import Image from 'next/image';
-import { Button } from 'ui';
-import { DropDown } from 'ui';
+import Image from 'next/future/image';
+import { Button, DropDown } from 'ui';
 
 import useIsLoggedIn from '@/hooks/useIsLoggedIn';
 
-import { Avatar, PopoverItem, RightSection, StyledNavbar } from './styles';
+import {
+  avatarStyle,
+  logoStyle,
+  navbarStyle,
+  popoverItemsStyle,
+  popoverItemStyle,
+  rightSectionStyle,
+} from './Navbar.css';
 
 const Navbar = () => {
   const { isLoggedIn, logout, currentUser } = useIsLoggedIn();
   const [open, setOpen] = useState(false);
 
   return (
-    <StyledNavbar>
+    <div className={navbarStyle}>
       <Link href='/'>
-        <a>
-          <Image
-            src={'/assets/images/shelf.png'}
-            alt='project shelf logo'
-            height={50}
-            width={50}
-          />
-        </a>
+        <Image
+          className={logoStyle}
+          src={'/assets/images/shelf.png'}
+          alt='project shelf logo'
+          height={50}
+          width={50}
+        />
       </Link>
 
-      <RightSection>
+      <div className={rightSectionStyle}>
         <Link href='/about'>
           <a>
             <Button variant='secondary'>About</Button>
@@ -44,7 +49,8 @@ const Navbar = () => {
               open={open}
               setOpen={setOpen}
               parent={
-                <Avatar
+                <Image
+                  className={avatarStyle}
                   src={currentUser?.avatar}
                   width={32}
                   height={32}
@@ -52,34 +58,32 @@ const Navbar = () => {
                 />
               }
             >
-              <PopoverItem>
+              <div className={popoverItemsStyle}>
                 <Link href={`/user/${currentUser?.id}`}>
-                  <a>
-                    <span>Profile</span>
-                  </a>
+                  <a className={popoverItemStyle}>Profile</a>
                 </Link>
 
                 <Link href={`/user-edit/${currentUser?.id}`}>
-                  <a>
-                    <span>Edit Profile</span>
-                  </a>
+                  <a className={popoverItemStyle}>Edit Profile</a>
                 </Link>
-
-                <span onClick={logout}>Sign Out</span>
-              </PopoverItem>
+                <Button
+                  className={popoverItemStyle}
+                  variant='ghost'
+                  onClick={logout}
+                >
+                  Sign Out
+                </Button>
+              </div>
             </DropDown>
-
-            <Link href='/create-project'>
-              <a>
-                <Button>Add Project</Button>
-              </a>
+            <Link href='/create-project' passHref>
+              <Button>Add Project</Button>
             </Link>
           </>
         ) : (
           <Button onClick={() => signIn()}>Login</Button>
         )}
-      </RightSection>
-    </StyledNavbar>
+      </div>
+    </div>
   );
 };
 

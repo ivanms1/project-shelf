@@ -1,7 +1,6 @@
-import { styled } from '@/stitches/stitches.config';
-import Image from 'next/future/image';
+import { style } from '@vanilla-extract/css';
 
-export const StyledNavbar = styled('div', {
+export const navbarStyle = style({
   display: 'flex',
   flexDirection: 'row',
   justifyContent: 'space-between',
@@ -11,14 +10,18 @@ export const StyledNavbar = styled('div', {
   boxShadow: 'inset 0px -1px 0px #f3f3f4',
 });
 
-export const RightSection = styled('div', {
+export const logoStyle = style({
+  cursor: 'pointer',
+});
+
+export const rightSectionStyle = style({
   display: 'flex',
   flexDirection: 'row',
   gap: 15,
   alignItems: 'center',
 });
 
-export const PopoverItem = styled('div', {
+export const popoverItemsStyle = style({
   display: 'flex',
   flexDirection: 'column',
   padding: '12px 0',
@@ -26,24 +29,20 @@ export const PopoverItem = styled('div', {
   zIndex: '99',
   borderRadius: '7px',
   boxShadow: '0px 10px 50px rgb(0 0 0/10%)',
+});
 
-  a: {
-    display: 'flex',
-  },
+export const popoverItemStyle = style({
+  color: '#6e6d7a',
+  padding: '12px 32px',
+  width: '100%',
+  textAlign: 'center',
 
-  span: {
-    cursor: 'pointer',
-    color: '#6e6d7a',
-    padding: '12px 32px',
-    width: '100%',
-
-    '&:hover': {
-      background: 'rgba(0,0,0,0.05)',
-    },
+  ':hover': {
+    background: 'rgba(0,0,0,0.05)',
   },
 });
 
-export const Avatar = styled(Image, {
+export const avatarStyle = style({
   borderRadius: '50%',
   overflow: 'hidden',
   cursor: 'pointer',
