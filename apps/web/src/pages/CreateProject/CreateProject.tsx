@@ -6,7 +6,8 @@ import { Button } from 'ui';
 import { useRouter } from 'next/router';
 import { NextSeo } from 'next-seo';
 
-import Dropzone from 'src/components/Dropzone';
+import DetailsFormModal from './DetailsFormModal';
+import Dropzone from '@/components/Dropzone';
 
 import {
   useCreateUserProjectMutation,
@@ -22,7 +23,6 @@ import {
   TitleInput,
   UploadContainer,
 } from './styles';
-import DetailsFormModal from './DetailsFormModal';
 
 const validationSchema = yup.object().shape({
   title: yup.string().required('This is a required field'),
