@@ -1,11 +1,11 @@
 import React from "react";
 
-import { Styled{{pascalCase name}} } from "./styles";
+import { {{camelCase name}}Style } from "./{{pascalCase name}}.css";
 
 interface {{pascalCase name}}Props {}
 
-const {{pascalCase name}} = ({} : {{pascalCase name}}Props) => {
-  return <Styled{{pascalCase name}}>{{pascalCase name}}</Styled{{pascalCase name}}>;
+const {{pascalCase name}} = ({}: {{pascalCase name}}Props) => {
+  return <{{#if element}}{{element}}{{else}}div{{/if}} className={ {{~camelCase name}}Style}>{{name}}</{{#if element}}{{element}}{{else}}div{{/if}}>;
 };
 
 export default {{pascalCase name}};

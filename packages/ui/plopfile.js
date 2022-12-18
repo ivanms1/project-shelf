@@ -22,7 +22,7 @@ module.exports = function (plop) {
       },
       {
         type: 'add',
-        path: '{{pascalCase name}}/styles.ts',
+        path: '{{pascalCase name}}/{{pascalCase name}}.css.ts',
         templateFile: 'templates/styles.ts.hbs',
       },
     ],
