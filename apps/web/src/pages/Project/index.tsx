@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import toast from 'react-hot-toast';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -25,6 +25,8 @@ import {
   StyledLink,
   TagsContainer,
   ProjectOptions,
+  DeleteModalStyles,
+  ButtonContainer,
 } from './styles';
 import LikeButton from './LikeButton/LikeButton';
 import useIsLoggedIn from '@/hooks/useIsLoggedIn';
@@ -32,6 +34,7 @@ import useIsLoggedIn from '@/hooks/useIsLoggedIn';
 import { checkValidationForProjectOptions } from './helper';
 
 function Project() {
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const router = useRouter();
   const { query } = useRouter();
 
@@ -51,6 +54,8 @@ function Project() {
     useDeleteProjectsMutation();
 
   const deleteProjectClick = async (projectId) => {
+    setOpenDeleteModal(false);
+
     try {
       const deletedData = await deleteProject({
         variables: {
@@ -165,12 +170,27 @@ function Project() {
               </a>
             </Link>
 
-            <Button
-              variant='ghost'
-              onClick={() => deleteProjectClick(data?.project?.id)}
-            >
+            <Button variant='ghost' onClick={() => setOpenDeleteModal(true)}>
               Delete
             </Button>
+
+            <Modal
+              modalzIndex='projectModal'
+              isOpen={openDeleteModal}
+              onClose={() => setOpenDeleteModal(false)}
+              className={DeleteModalStyles()}
+            >
+              <span> Are you sure you want to delete this project ?</span>
+              <ButtonContainer>
+                <Button
+                  variant='secondary'
+                  onClick={() => deleteProjectClick(data?.project?.id)}
+                >
+                  Yes
+                </Button>
+                <Button onClick={() => setOpenDeleteModal(false)}>No</Button>
+              </ButtonContainer>
+            </Modal>
           </ProjectOptions>
         )}
       </Modal>

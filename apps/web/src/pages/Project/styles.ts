@@ -169,3 +169,24 @@ export const ProjectOptions = styled('div', {
   margin: '0 auto',
   fontWeight: 400,
 });
+
+export const DeleteModalStyles = css({
+  width: '600px',
+  overflowY: 'auto',
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  padding: '20px',
+  gap: '30px',
+
+  span: {
+    fontSize: '22px',
+  },
+});
+
+export const ButtonContainer = styled('div', {
+  display: 'flex',
+  flexDirection: 'row',
+  gap: '40px',
+  justifyContent: 'space-between',
+});
