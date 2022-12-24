@@ -7,6 +7,10 @@ import { useGetProjectQuery, useDeleteProjectsMutation } from 'apollo-hooks';
 import { useRouter } from 'next/router';
 import { Button, Modal, Badge, LoaderOverlay } from 'ui';
 
+import LikeButton from './LikeButton/LikeButton';
+
+import useIsProjectAuthor from '@/hooks/useIsProjectAuthor';
+
 import {
   CloseButton,
   Description,
@@ -28,27 +32,22 @@ import {
   DeleteModalStyles,
   ButtonContainer,
 } from './styles';
-import LikeButton from './LikeButton/LikeButton';
-import useIsLoggedIn from '@/hooks/useIsLoggedIn';
-
-import { checkValidationForProjectOptions } from './helper';
 
 function Project() {
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const router = useRouter();
-  const { query } = useRouter();
 
   const notifySuccess = () => toast.success('Project deleted successfully');
   const notifyFailure = () => toast.error('Project deletetion failed');
 
-  const { currentUser } = useIsLoggedIn();
-
   const { data, loading: getProjectQueryLoading } = useGetProjectQuery({
     variables: {
-      id: String(query?.id),
+      id: String(router?.query?.id),
     },
-    skip: !query?.id,
+    skip: !router?.query?.id,
   });
+
+  const isProjectOwner = useIsProjectAuthor(data?.project?.author?.id);
 
   const [deleteProject, { loading: deleteProjectLoading }] =
     useDeleteProjectsMutation();
@@ -77,7 +76,7 @@ function Project() {
         },
       });
       if (deletedData?.data?.deleteProjects?.length > 0) {
-        router.push(`/user/${currentUser?.id}`);
+        router.push(`/user/${data?.project?.author?.id}`);
       }
       notifySuccess();
     } catch (error) {
@@ -162,9 +161,9 @@ function Project() {
           </HStack>
         </DescriptionContainer>
 
-        {checkValidationForProjectOptions(currentUser, data) && (
+        {isProjectOwner && (
           <ProjectOptions>
-            <Link href={`/project-edit/${query?.id}`}>
+            <Link href={`/project-edit/${router?.query?.id}`}>
               <a>
                 <Button variant='ghost'>Edit</Button>
               </a>

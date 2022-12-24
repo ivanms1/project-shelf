@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import { useFormContext } from 'react-hook-form';
-
 import { Button } from 'ui';
 
 import Dropzone from 'src/components/Dropzone';
+import DetailsFormModal from '@/pages/CreateProject/DetailsFormModal';
+
+import { FormTypes } from '@/pages/ProjectEdit/ProjectEdit';
 
 import {
   Container,
@@ -15,17 +17,21 @@ import {
   DescriptionInput,
   TitleInput,
 } from './style';
-import DetailsFormModal from '@/pages/CreateProject/DetailsFormModal';
 
-function ProjectForm({ onSubmit, loading }) {
+interface ProjectFormProps {
+  onSubmit: (values: FormTypes) => void;
+  loading: boolean;
+}
+
+const ProjectForm = ({ onSubmit, loading }: ProjectFormProps) => {
   const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
   const router = useRouter();
 
-  const { register, getValues, setValue, watch, handleSubmit } =
-    useFormContext();
+  const { register, setValue, watch, handleSubmit } =
+    useFormContext<FormTypes>();
 
   const handleSubmitFn = (values) => {
-    onSubmit(values, getValues);
+    onSubmit(values);
   };
 
   const currentImage = watch('preview');
@@ -83,6 +89,6 @@ function ProjectForm({ onSubmit, loading }) {
       </Form>
     </Container>
   );
-}
+};
 
 export default ProjectForm;
