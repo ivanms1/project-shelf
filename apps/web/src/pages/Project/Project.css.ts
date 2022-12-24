@@ -142,3 +142,38 @@ export const linkStyle = style({
   display: 'flex',
   alignItems: 'center',
 });
+
+export const projectOptionsStyle = style({
+  display: 'flex',
+  flexDirection: 'row',
+  gap: '20px',
+  padding: '20px',
+  background: '#fafafb',
+  borderRadius: '8px',
+  color: '#3d3d4e',
+  fontSize: '14px',
+  width: 'max-content',
+  margin: '0 auto',
+  fontWeight: 400,
+});
+
+export const deleteModalStyle = style({
+  width: '600px',
+  overflowY: 'auto',
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  padding: '20px',
+  gap: '30px',
+});
+
+export const deleteModalTitleStyle = style({
+  fontSize: '24px',
+});
+
+export const buttonContainerStyle = style({
+  display: 'flex',
+  flexDirection: 'row',
+  gap: '40px',
+  justifyContent: 'space-between',
+});

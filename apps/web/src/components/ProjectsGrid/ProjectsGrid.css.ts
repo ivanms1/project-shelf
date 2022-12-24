@@ -5,6 +5,7 @@ export const projectsGridStyle = style({
   gap: 50,
   gridTemplateColumns: 'repeat( auto-fit, minmax(330px, 1fr) )',
   justifyItems: 'center',
+  width: '100%',
 });
 
 export const loaderContainerStyle = style({

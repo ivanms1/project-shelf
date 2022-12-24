@@ -1,0 +1,11 @@
+mutation UpdateProject($input: CreateProjectInput!, $projectId: String!) {
+  updateProject(input: $input, projectId: $projectId) {
+    id
+    preview
+    repoLink
+    siteLink
+    tags
+    title
+    updatedAt
+  }
+}

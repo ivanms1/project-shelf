@@ -10,6 +10,7 @@ ReactModal.setAppElement('#__next');
 interface ModalProps extends ReactModal.Props {
   children: React.ReactNode;
   onClose: () => void;
+  modalzIndex?: 'confirm' | 'projectModal' | undefined;
 }
 
 export const Modal = ({
