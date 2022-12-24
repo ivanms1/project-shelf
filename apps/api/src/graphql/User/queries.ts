@@ -1,5 +1,3 @@
-import jwt from 'jsonwebtoken';
-
 import builder from '../../builder';
 import db from '../../db';
 
@@ -85,17 +83,14 @@ builder.queryType({
       type: 'User',
       description: 'Get the current user',
       resolve: async (query, _, __, ctx) => {
-        const decodeAccessToken = jwt.verify(
-          ctx.accessToken,
-          process.env.JWT_SECRET!
-        );
-        if (!decodeAccessToken) {
+        const currentUserId = decodeAccessToken(ctx.accessToken);
+        if (!currentUserId) {
           throw new Error('Not Authorized');
         }
         const user = await db.user.findUnique({
           ...query,
           where: {
-            id: String(decodeAccessToken),
+            id: String(currentUserId),
           },
         });
         if (!user) {
