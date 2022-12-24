@@ -80,7 +80,7 @@ const Navbar = () => {
             </Link>
           </>
         ) : (
-          <Button onClick={() => signIn()}>Login</Button>
+          <Button onClick={() => signIn('github')}>Login</Button>
         )}
       </div>
     </div>

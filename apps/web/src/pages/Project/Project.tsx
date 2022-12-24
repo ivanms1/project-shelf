@@ -5,14 +5,22 @@ import { NextSeo } from 'next-seo';
 import { useDeleteProjectsMutation, useGetProjectQuery } from 'apollo-hooks';
 import { useRouter } from 'next/router';
 import { Button, Modal, Badge, LoaderOverlay } from 'ui';
+import toast from 'react-hot-toast';
 
 import LikeButton from './LikeButton/LikeButton';
+
+import useIsProjectAuthor from '@/hooks/useIsProjectAuthor';
+
+import CloseIcon from '@/assets/icons/close.svg';
+import ExtLinkIcon from '@/assets/icons/ext-link.svg';
+import GithubIcon from '@/assets/icons/github.svg';
 
 import {
   avatarStyle,
   buttonContainerStyle,
   closeButtonStyle,
   closeIconStyle,
+  deleteButtonStyle,
   deleteModalStyle,
   deleteModalTitleStyle,
   descriptionContainerStyle,
@@ -32,12 +40,6 @@ import {
   tagsContainerStyle,
   titleStyle,
 } from './Project.css';
-
-import CloseIcon from '@/assets/icons/close.svg';
-import ExtLinkIcon from '@/assets/icons/ext-link.svg';
-import GithubIcon from '@/assets/icons/github.svg';
-import toast from 'react-hot-toast';
-import useIsProjectAuthor from '@/hooks/useIsProjectAuthor';
 
 const notifySuccess = () => toast.success('Project deleted successfully');
 const notifyFailure = () => toast.error('Project deletetion failed');
@@ -188,12 +190,15 @@ function Project() {
               </a>
             </Link>
 
-            <Button variant='ghost' onClick={() => setOpenDeleteModal(true)}>
+            <Button
+              variant='ghost'
+              className={deleteButtonStyle}
+              onClick={() => setOpenDeleteModal(true)}
+            >
               Delete
             </Button>
 
             <Modal
-              modalzIndex='projectModal'
               isOpen={openDeleteModal}
               onClose={() => setOpenDeleteModal(false)}
               className={deleteModalStyle}

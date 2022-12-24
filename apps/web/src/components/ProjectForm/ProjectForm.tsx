@@ -6,17 +6,20 @@ import { Button } from 'ui';
 import Dropzone from 'src/components/Dropzone';
 import DetailsFormModal from '@/pages/CreateProject/DetailsFormModal';
 
-import { FormTypes } from '@/pages/ProjectEdit/ProjectEdit';
+import ImageIcon from '@/assets/icons/image.svg';
+
+import type { FormTypes } from '@/pages/ProjectEdit/ProjectEdit';
 
 import {
-  Container,
-  ButtonsContainer,
-  Form,
-  StyledImageIcon,
-  UploadContainer,
-  DescriptionInput,
-  TitleInput,
-} from './style';
+  buttonsContainerStyle,
+  descriptionInputStyle,
+  formDescriptionStyle,
+  formStyle,
+  formTitleStyle,
+  imageIconStyle,
+  titleInputStyle,
+  uploadContainerStyle,
+} from './ProjectForm.css';
 
 interface ProjectFormProps {
   onSubmit: (values: FormTypes) => void;
@@ -39,8 +42,8 @@ const ProjectForm = ({ onSubmit, loading }: ProjectFormProps) => {
   const currentDescription = watch('description');
 
   return (
-    <Container>
-      <ButtonsContainer>
+    <div>
+      <div className={buttonsContainerStyle}>
         <Button type='button' variant='secondary' onClick={() => router.back()}>
           Cancel
         </Button>
@@ -50,16 +53,22 @@ const ProjectForm = ({ onSubmit, loading }: ProjectFormProps) => {
         >
           Continue
         </Button>
-      </ButtonsContainer>
-      <Form onSubmit={handleSubmit(handleSubmitFn)}>
+      </div>
+      <form className={formStyle} onSubmit={handleSubmit(handleSubmitFn)}>
         {!currentImage && (
           <>
-            <h1>What&apos;s your project</h1>
-            <p>Upload a sneak peek of what you&apos;ve built</p>
+            <h1 className={formTitleStyle}>What&apos;s your project</h1>
+            <p className={formDescriptionStyle}>
+              Upload a sneak peek of what you&apos;ve built
+            </p>
           </>
         )}
         {currentImage && (
-          <TitleInput placeholder='Give me a name' {...register('title')} />
+          <input
+            className={titleInputStyle}
+            placeholder='Give me a name'
+            {...register('title')}
+          />
         )}
         <Dropzone
           currentFile={currentImage}
@@ -69,13 +78,14 @@ const ProjectForm = ({ onSubmit, loading }: ProjectFormProps) => {
           label='Drop your thumbnail'
           withPreview
         >
-          <UploadContainer>
-            <StyledImageIcon />
+          <div className={uploadContainerStyle}>
+            <ImageIcon className={imageIconStyle} />
             <p>Drag and drop an image or browse</p>
-          </UploadContainer>
+          </div>
         </Dropzone>
         {currentImage && (
-          <DescriptionInput
+          <textarea
+            className={descriptionInputStyle}
             placeholder='Add a brief description about your project and what went into creating it'
             {...register('description')}
           />
@@ -86,8 +96,8 @@ const ProjectForm = ({ onSubmit, loading }: ProjectFormProps) => {
           onSubmit={onSubmit}
           isLoading={loading}
         />
-      </Form>
-    </Container>
+      </form>
+    </div>
   );
 };
 

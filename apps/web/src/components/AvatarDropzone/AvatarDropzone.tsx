@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import Image from 'next/image';
 import { DropzoneOptions, useDropzone } from 'react-dropzone';
 
-import { Overlay, Container } from './style';
+import { containerStyle, overlayStyle } from './AvatarDropzone.css';
 
 interface DropzoneProps extends DropzoneOptions {
   currentFile?: any;
@@ -35,7 +35,7 @@ const AvatarDropzone = ({
   }, []);
 
   return (
-    <Container {...getRootProps()}>
+    <div className={containerStyle} {...getRootProps()}>
       <input {...getInputProps()} />
       {currentFile ? (
         withPreview ? (
@@ -49,7 +49,7 @@ const AvatarDropzone = ({
               alt={currentFile?.name}
               layout='fill'
             />
-            <Overlay>Select Image</Overlay>
+            <div className={overlayStyle}>Select Image</div>
           </>
         ) : (
           <span>{currentFile?.name}</span>
@@ -57,7 +57,7 @@ const AvatarDropzone = ({
       ) : (
         children
       )}
-    </Container>
+    </div>
   );
 };
 

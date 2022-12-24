@@ -5,6 +5,8 @@ import Image from 'next/image';
 
 import { ProjectActions, useReactToProjectMutation } from 'apollo-hooks';
 
+import HeartIcon from '@/assets/icons/heart.svg';
+
 import {
   authorBoxStyle,
   authorNameStyle,
@@ -18,8 +20,6 @@ import {
   projectCardStyle,
   titleStyle,
 } from './ProjectCard.css';
-
-import HeartIcon from '@/assets/icons/heart.svg';
 
 export interface ProjectCardProps {
   project: {

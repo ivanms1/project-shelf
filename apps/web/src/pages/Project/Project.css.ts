@@ -146,29 +146,34 @@ export const linkStyle = style({
 export const projectOptionsStyle = style({
   display: 'flex',
   flexDirection: 'row',
-  gap: '20px',
-  padding: '20px',
-  background: '#fafafb',
-  borderRadius: '8px',
-  color: '#3d3d4e',
-  fontSize: '14px',
-  width: 'max-content',
+  gap: 20,
+  fontSize: 14,
   margin: '0 auto',
-  fontWeight: 400,
+  justifyContent: 'center',
 });
 
 export const deleteModalStyle = style({
-  width: '600px',
   overflowY: 'auto',
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
-  padding: '20px',
-  gap: '30px',
+  width: '100%',
+  padding: 40,
+  gap: 30,
+
+  '@media': {
+    [media.midDesktop]: {
+      width: 'fit-content',
+    },
+  },
+});
+
+export const deleteButtonStyle = style({
+  color: vars.colors.errorRed,
 });
 
 export const deleteModalTitleStyle = style({
-  fontSize: '24px',
+  fontSize: 20,
 });
 
 export const buttonContainerStyle = style({
