@@ -5,7 +5,6 @@ import toast from 'react-hot-toast';
 import * as yup from 'yup';
 import { NextSeo } from 'next-seo';
 import { yupResolver } from '@hookform/resolvers/yup';
-
 import { Button, FormInput, FormTextArea, LoaderOverlay } from 'ui';
 import AvatarDropzone from 'src/components/AvatarDropzone';
 
@@ -16,16 +15,17 @@ import {
 } from 'apollo-hooks';
 
 import {
-  MainWrapper,
-  Container,
-  Wrapper,
-  ProfileImageWrapper,
-  ProfileImageButtonWrapper,
-  FormDetails,
-  SubText,
-  SaveProfileWrapper,
-  FlexRowWrapper,
-} from './style';
+  formDetailsStyle,
+  formStyle,
+  inputContainer,
+  inputsContainer,
+  mainWrapperStyle,
+  profileImageButtonWrapperStyle,
+  profileImageStyle,
+  profileImageWrapperStyle,
+  saveProfileWrapper,
+  subTextStyle,
+} from './UserEdit.css';
 
 type FormTypes = {
   preview: File | string;
@@ -149,9 +149,9 @@ const UserEdit = () => {
   }
 
   return (
-    <MainWrapper>
-      <Container onSubmit={handleSubmit(onSubmit)}>
-        <ProfileImageWrapper>
+    <div className={mainWrapperStyle}>
+      <form className={formStyle} onSubmit={handleSubmit(onSubmit)}>
+        <div className={profileImageWrapperStyle}>
           <AvatarDropzone
             dropzoneRef={dropzoneRef}
             currentFile={currentImage}
@@ -159,12 +159,13 @@ const UserEdit = () => {
               setValue('preview', files[0], { shouldDirty: true });
             }}
             label='Drop your thumbnail'
+            imageClassname={profileImageStyle}
             withPreview
           >
             <div>Drag n&apos; Drop</div>
           </AvatarDropzone>
 
-          <ProfileImageButtonWrapper>
+          <div className={profileImageButtonWrapperStyle}>
             <Button
               type='button'
               variant='primary'
@@ -186,24 +187,24 @@ const UserEdit = () => {
                 Delete
               </Button>
             )}
-          </ProfileImageButtonWrapper>
-        </ProfileImageWrapper>
+          </div>
+        </div>
 
-        <FormDetails>
-          <Wrapper>
+        <div className={formDetailsStyle}>
+          <div className={inputContainer}>
             <FormInput
               label='Name'
               register={register('profileName')}
               error={errors.profileName}
             />
 
-            <SubText>
+            <span className={subTextStyle}>
               We&apos;re big on real names around here, so people know
               who&apos;s who.
-            </SubText>
-          </Wrapper>
+            </span>
+          </div>
 
-          <FlexRowWrapper>
+          <div className={inputsContainer}>
             <FormInput
               label='Location'
               register={register('profileLocation')}
@@ -223,25 +224,27 @@ const UserEdit = () => {
               register={register('profileDiscord')}
               placeholder='uzamaki21#0951'
             />
-          </FlexRowWrapper>
-          <Wrapper>
+          </div>
+          <div className={inputContainer}>
             <FormTextArea
               label='Bio'
               type='text'
               register={register('profileBio')}
             />
-            <SubText>Brief description for your profile.</SubText>
-          </Wrapper>
+            <span className={subTextStyle}>
+              Brief description for your profile.
+            </span>
+          </div>
 
-          <SaveProfileWrapper>
+          <div className={saveProfileWrapper}>
             <Button variant='primary' type='submit'>
               Save Profile
             </Button>
-          </SaveProfileWrapper>
-        </FormDetails>
-      </Container>
+          </div>
+        </div>
+      </form>
       <NextSeo title='Edit Profile | Project-shelf'></NextSeo>
-    </MainWrapper>
+    </div>
   );
 };
 

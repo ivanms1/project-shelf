@@ -10,6 +10,7 @@ interface DropzoneProps extends DropzoneOptions {
   withPreview?: boolean;
   children?: JSX.Element | JSX.Element[];
   dropzoneRef?: React.MutableRefObject<HTMLInputElement>;
+  imageClassname?: string;
 }
 
 const AvatarDropzone = ({
@@ -20,6 +21,7 @@ const AvatarDropzone = ({
   children,
   accept,
   maxSize = null,
+  imageClassname,
 }: DropzoneProps) => {
   const { getRootProps, getInputProps, inputRef } = useDropzone({
     onDrop,
@@ -47,6 +49,7 @@ const AvatarDropzone = ({
                   : currentFile
               }
               alt={currentFile?.name}
+              className={imageClassname}
               layout='fill'
             />
             <div className={overlayStyle}>Select Image</div>
