@@ -87,7 +87,7 @@ const DetailsFormModal = ({
           disabled={isLoading}
           onClick={handleSubmit(onSubmit)}
         >
-          Publish
+          Submit
         </PublishButton>
       </ButtonsContainer>
     </Modal>

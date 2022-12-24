@@ -7,19 +7,21 @@ import { modal, overlay, StyledModal } from './styles';
 interface ModalProps extends ReactModal.Props {
   children: React.ReactNode;
   onClose: () => void;
+  modalzIndex?: 'confirm' | 'projectModal' | undefined;
 }
 
 export const Modal = ({
   children,
   onClose,
   className,
+  modalzIndex,
   ...props
 }: ModalProps) => {
   return (
     <StyledModal
       overlayClassName={overlay().className}
       onRequestClose={onClose}
-      className={classNames(modal(), className)}
+      className={classNames(modal(), className, modalzIndex)}
       closeTimeoutMS={300}
       {...props}
     >

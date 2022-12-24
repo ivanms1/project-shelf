@@ -103,7 +103,6 @@ builder.mutationFields((t) => ({
             set: tags,
           },
         },
-        include: {},
       });
     },
   }),

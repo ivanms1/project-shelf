@@ -1,10 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
+import toast from 'react-hot-toast';
 import Image from 'next/image';
 import Link from 'next/link';
 import { NextSeo } from 'next-seo';
-import { useGetProjectQuery } from 'apollo-hooks';
+import { useGetProjectQuery, useDeleteProjectsMutation } from 'apollo-hooks';
 import { useRouter } from 'next/router';
-import { Button, Modal, Badge } from 'ui';
+import { Button, Modal, Badge, LoaderOverlay } from 'ui';
+
+import LikeButton from './LikeButton/LikeButton';
+
+import useIsProjectAuthor from '@/hooks/useIsProjectAuthor';
 
 import {
   CloseButton,
@@ -23,30 +28,81 @@ import {
   HStack,
   StyledLink,
   TagsContainer,
+  ProjectOptions,
+  DeleteModalStyles,
+  ButtonContainer,
 } from './styles';
-import LikeButton from './LikeButton/LikeButton';
 
 function Project() {
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const router = useRouter();
-  const { query } = useRouter();
 
-  const { data } = useGetProjectQuery({
+  const notifySuccess = () => toast.success('Project deleted successfully');
+  const notifyFailure = () => toast.error('Project deletetion failed');
+
+  const { data, loading: getProjectQueryLoading } = useGetProjectQuery({
     variables: {
-      id: String(query?.id),
+      id: String(router?.query?.id),
     },
-    skip: !query?.id,
+    skip: !router?.query?.id,
   });
+
+  const isProjectOwner = useIsProjectAuthor(data?.project?.author?.id);
+
+  const [deleteProject, { loading: deleteProjectLoading }] =
+    useDeleteProjectsMutation();
+
+  const deleteProjectClick = async (projectId) => {
+    setOpenDeleteModal(false);
+
+    try {
+      const deletedData = await deleteProject({
+        variables: {
+          projectIds: [projectId],
+        },
+        update: (cache) => {
+          cache.modify({
+            fields: {
+              getUserProjects(existingProjects, { readField }) {
+                return {
+                  ...existingProjects,
+                  results: existingProjects.results.filter((project) => {
+                    return readField('id', project) !== projectId;
+                  }),
+                };
+              },
+            },
+          });
+        },
+      });
+      if (deletedData?.data?.deleteProjects?.length > 0) {
+        router.push(`/user/${data?.project?.author?.id}`);
+      }
+      notifySuccess();
+    } catch (error) {
+      notifyFailure();
+    }
+  };
 
   const handleClose = () => {
     router.back();
   };
+
+  if (getProjectQueryLoading || deleteProjectLoading) {
+    return <LoaderOverlay size='lg' />;
+  }
 
   return (
     <>
       <CloseButton onClick={handleClose} variant='ghost'>
         <StyledCloseIcon />
       </CloseButton>
-      <Modal isOpen onClose={handleClose} className={modalStyles()}>
+      <Modal
+        modalzIndex='projectModal'
+        isOpen
+        onClose={handleClose}
+        className={modalStyles()}
+      >
         <Header>
           <InfoBox>
             <Button variant='ghost'>
@@ -104,6 +160,38 @@ function Project() {
             </Link>
           </HStack>
         </DescriptionContainer>
+
+        {isProjectOwner && (
+          <ProjectOptions>
+            <Link href={`/project-edit/${router?.query?.id}`}>
+              <a>
+                <Button variant='ghost'>Edit</Button>
+              </a>
+            </Link>
+
+            <Button variant='ghost' onClick={() => setOpenDeleteModal(true)}>
+              Delete
+            </Button>
+
+            <Modal
+              modalzIndex='projectModal'
+              isOpen={openDeleteModal}
+              onClose={() => setOpenDeleteModal(false)}
+              className={DeleteModalStyles()}
+            >
+              <span> Are you sure you want to delete this project ?</span>
+              <ButtonContainer>
+                <Button
+                  variant='secondary'
+                  onClick={() => deleteProjectClick(data?.project?.id)}
+                >
+                  Yes
+                </Button>
+                <Button onClick={() => setOpenDeleteModal(false)}>No</Button>
+              </ButtonContainer>
+            </Modal>
+          </ProjectOptions>
+        )}
       </Modal>
       <NextSeo
         title={data?.project?.title}
