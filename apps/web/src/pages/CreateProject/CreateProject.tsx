@@ -14,7 +14,7 @@ import {
 import toast from 'react-hot-toast';
 
 import useIsLoggedIn from '@/hooks/useIsLoggedIn';
-import { validationSchema } from 'const';
+import { projectValidationSchema } from 'const';
 
 const notifySuccess = () => toast.success('Project created successfully');
 const notifyError = () => toast.error('Something went wrong');
@@ -32,7 +32,7 @@ function CreateProject() {
   const { currentUser } = useIsLoggedIn();
   const router = useRouter();
   const methods = useForm<FormTypes>({
-    resolver: yupResolver(validationSchema),
+    resolver: yupResolver(projectValidationSchema),
   });
 
   const [uploadImage] = useUploadImageMutation();

@@ -2,6 +2,11 @@ import React, { useEffect } from 'react';
 import { NextSeo } from 'next-seo';
 import { useRouter } from 'next/router';
 import toast from 'react-hot-toast';
+import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { LoaderOverlay } from 'ui';
+
+import ProjectForm from '@/components/ProjectForm';
 
 import {
   useGetProjectQuery,
@@ -9,12 +14,7 @@ import {
   useUploadImageMutation,
 } from 'apollo-hooks';
 
-import { LoaderOverlay } from 'ui';
-
-import ProjectForm from '@/components/ProjectForm';
-import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { validationSchema } from 'const';
+import { projectValidationSchema } from 'const';
 
 export type FormTypes = {
   description: string;
@@ -57,7 +57,7 @@ const ProjectEdit = () => {
   };
 
   const methods = useForm<FormTypes>({
-    resolver: yupResolver(validationSchema),
+    resolver: yupResolver(projectValidationSchema),
     defaultValues: defaultValues,
   });
 

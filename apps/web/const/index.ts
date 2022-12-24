@@ -2,7 +2,7 @@ import * as yup from 'yup';
 
 export const TOKEN_NAME = 'project-shelf';
 
-export const validationSchema = yup.object().shape({
+export const projectValidationSchema = yup.object().shape({
   title: yup.string().required('This is a required field'),
   description: yup.string().required('This is a required field'),
   repoLink: yup
