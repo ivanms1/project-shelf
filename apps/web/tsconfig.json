@@ -12,8 +12,7 @@
       "@/pages/*": ["src/pages/*"],
       "@/graphql/*": ["src/graphql/*"],
       "@/store/*": ["store/*"],
-      "@/types/*": ["src/types/*"],
-      "@/stitches/*": ["stitches/*"]
+      "@/types/*": ["src/types/*"]
     }
   }
 }

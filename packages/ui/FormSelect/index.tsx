@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { RegisterOptions, useController } from 'react-hook-form';
 
 import Select, { SelectProps } from '../Select';

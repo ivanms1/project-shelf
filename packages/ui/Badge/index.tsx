@@ -1,17 +1,24 @@
-import React from 'react';
+import classNames from 'classnames';
+import * as React from 'react';
 
-import { StyledBadge } from './styles';
+import { badgeStyle } from './Bagde.css';
 
 interface Badge {
-  variant?: 'outline' | 'solid';
+  variant?: keyof typeof badgeStyle;
+  className?: string;
   children: React.ReactNode;
 }
 
-export const Badge = ({ children, variant = 'solid', ...props }: Badge) => {
+export const Badge = ({
+  children,
+  variant = 'solid',
+  className,
+  ...props
+}: Badge) => {
   return (
-    <StyledBadge variant={variant} {...props}>
+    <button className={classNames(badgeStyle[variant], className)} {...props}>
       {children}
-    </StyledBadge>
+    </button>
   );
 };
 

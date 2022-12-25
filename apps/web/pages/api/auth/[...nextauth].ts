@@ -7,9 +7,6 @@ import MUTATION_SIGNUP from './mutationSignup.graphql';
 
 export default NextAuth({
   session: { strategy: 'jwt' },
-  pages: {
-    signIn: '/signin',
-  },
   jwt: {
     secret: process.env.JWT_SECRET,
   },

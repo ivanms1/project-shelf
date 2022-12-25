@@ -1,7 +1,0 @@
-#import "@/graphql/projectFragment.graphql"
-
-query GetMyProjects($input: SearchProjectsInput) {
-  projects: getMyProjects(input: $input) {
-    ...ProjectsResponseFragment
-  }
-}

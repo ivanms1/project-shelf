@@ -3,7 +3,11 @@ import { useRouter } from 'next/router';
 
 import useIsLoggedIn from '@/hooks/useIsLoggedIn';
 
-const PRIVATE_ROUTES = ['/create-projects'];
+const PRIVATE_ROUTES = [
+  '/create-projects',
+  '/user-edit/[id]',
+  '/project-edit/[id]',
+];
 
 interface AuthProvider {
   children: React.ReactNode;

@@ -1,32 +1,34 @@
-import React from 'react';
+import * as React from 'react';
+import * as ReactModal from 'react-modal';
 import classNames from 'classnames';
-import ReactModal from 'react-modal';
 
-import { modal, overlay, StyledModal } from './styles';
+import { modalStyles, overlayStyles } from './Modal.css';
+
+// @ts-expect-error - TODO: figure out why this fails in the CI
+ReactModal.setAppElement('#__next');
 
 interface ModalProps extends ReactModal.Props {
   children: React.ReactNode;
   onClose: () => void;
-  modalzIndex?: 'confirm' | 'projectModal' | undefined;
 }
 
 export const Modal = ({
   children,
   onClose,
   className,
-  modalzIndex,
   ...props
 }: ModalProps) => {
   return (
-    <StyledModal
-      overlayClassName={overlay().className}
+    // @ts-expect-error - TODO: figure out why this fails in the CI
+    <ReactModal
+      overlayClassName={overlayStyles}
       onRequestClose={onClose}
-      className={classNames(modal(), className, modalzIndex)}
+      className={classNames(modalStyles, className)}
       closeTimeoutMS={300}
       {...props}
     >
       {children}
-    </StyledModal>
+    </ReactModal>
   );
 };
 

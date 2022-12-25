@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { LoaderOverlay } from 'ui';
 import { NextSeo } from 'next-seo';
+import toast from 'react-hot-toast';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 
 import ProjectForm from 'src/components/ProjectForm';
@@ -11,9 +12,9 @@ import {
   useCreateUserProjectMutation,
   useUploadImageMutation,
 } from 'apollo-hooks';
-import toast from 'react-hot-toast';
 
 import useIsLoggedIn from '@/hooks/useIsLoggedIn';
+
 import { projectValidationSchema } from 'const';
 
 const notifySuccess = () => toast.success('Project created successfully');

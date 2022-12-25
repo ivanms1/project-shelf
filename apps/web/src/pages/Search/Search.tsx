@@ -7,16 +7,15 @@ import { NextSeo } from 'next-seo';
 import ProjectsGrid from '@/components/ProjectsGrid';
 
 import {
-  Header,
-  ResultsTitle,
-  SearchForm,
-  SearchInput,
-  StyledProjectsGrid,
-  StyledSearch,
-  Subtitle,
-  Title,
-  TotalCount,
-} from './styles';
+  headerStyle,
+  projectsGridStyle,
+  resultsTitleStyle,
+  searchFormStyle,
+  searchInputStyle,
+  subtitleStyle,
+  titleStyle,
+  totalCountStyle,
+} from './Search.css';
 
 function Search() {
   const { query, push } = useRouter();
@@ -59,30 +58,31 @@ function Search() {
   };
 
   return (
-    <StyledSearch>
-      <Header>
-        <Title>Search Project Shelf</Title>
-        <Subtitle>
+    <div>
+      <div className={headerStyle}>
+        <h1 className={titleStyle}>Search Project Shelf</h1>
+        <p className={subtitleStyle}>
           18,100,000+ projects from thousands of inspirational developers
-        </Subtitle>
-      </Header>
-      <SearchForm onSubmit={handleSubmit(handleSearch)}>
-        <SearchInput
+        </p>
+      </div>
+      <form className={searchFormStyle} onSubmit={handleSubmit(handleSearch)}>
+        <input
+          className={searchInputStyle}
           name='project-search'
           placeholder='Search...'
           defaultValue={search}
           {...register('search')}
         />
-      </SearchForm>
+      </form>
       {!!search && (
         <>
-          <ResultsTitle>{search}</ResultsTitle>
-          <TotalCount>
+          <h1 className={resultsTitleStyle}>{search}</h1>
+          <p className={totalCountStyle}>
             {data?.searchProjects?.totalCount ?? 0} projects
-          </TotalCount>
+          </p>
         </>
       )}
-      <StyledProjectsGrid>
+      <div className={projectsGridStyle}>
         <ProjectsGrid
           projects={data?.searchProjects?.results ?? []}
           nextCursor={data?.searchProjects?.nextCursor}
@@ -90,10 +90,9 @@ function Search() {
           loading={loading}
           previous={`/search/${search}`}
         />
-      </StyledProjectsGrid>
-
+      </div>
       <NextSeo title='Search Projects' />
-    </StyledSearch>
+    </div>
   );
 }
 
