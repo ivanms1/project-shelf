@@ -45,6 +45,10 @@ export const titleInputStyle = style({
   padding: '40px 70px',
   width: '100%',
   fontWeight: 600,
+
+  ':focus': {
+    outline: 'none',
+  },
 });
 
 export const descriptionInputStyle = style({
