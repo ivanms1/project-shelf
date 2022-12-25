@@ -39,6 +39,9 @@ export const modalStyle = style({
   marginTop: 30,
   paddingBottom: '2rem',
 
+  height: 'calc(100vh - 30px)',
+  padding: '40px 360px',
+
   '@media': {
     [media.desktop]: {
       height: 'calc(100vh - 30px)',
