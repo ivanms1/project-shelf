@@ -6,7 +6,7 @@ import { Loader } from '../Loader';
 import { button } from './Button.css';
 
 interface Button extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: keyof typeof button;
+  variant?: 'primary' | 'secondary' | 'ghost';
   isLoading?: boolean;
   url?: string;
 }
@@ -16,7 +16,12 @@ export const Button = React.forwardRef<HTMLButtonElement, Button>(
     return (
       <button
         ref={ref}
-        className={classNames(button[variant], className)}
+        className={classNames(
+          button({
+            variant,
+          }),
+          className
+        )}
         {...props}
       >
         {isLoading ? <Loader /> : children}

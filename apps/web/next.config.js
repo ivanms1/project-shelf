@@ -5,7 +5,7 @@ const {
 
 const withVanillaExtract = createVanillaExtractPlugin();
 
-module.exports = withVanillaExtract(withTM({
+module.exports = withTM(withVanillaExtract({
   reactStrictMode: true,
   webpack(config) {
     config.module.rules.push({
