@@ -1,5 +1,5 @@
 import * as React from 'react';
-import * as ReactModal from 'react-modal';
+import ReactModal from 'react-modal';
 import classNames from 'classnames';
 
 import { modalStyles, overlayStyles } from './Modal.css';
