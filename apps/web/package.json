@@ -25,7 +25,7 @@
     "react-dropzone": "^11.5.3",
     "react-hook-form": "^7.38.0",
     "react-hot-toast": "^2.4.0",
-    "react-waypoint": "^10.1.0",
+    "react-waypoint": "^10.3.0",
     "ui": "*",
     "yup": "^0.32.11"
   },
