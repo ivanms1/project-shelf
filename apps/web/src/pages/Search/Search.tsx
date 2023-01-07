@@ -3,6 +3,7 @@ import { SearchOrder, useSearchProjectsQuery } from 'apollo-hooks';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
 import { NextSeo } from 'next-seo';
+import { useTranslation } from 'next-i18next';
 
 import ProjectsGrid from '@/components/ProjectsGrid';
 
@@ -19,6 +20,8 @@ import {
 
 function Search() {
   const { query, push } = useRouter();
+
+  const { t } = useTranslation('search');
 
   const { register, handleSubmit } = useForm<{ search: string }>();
 
@@ -60,7 +63,7 @@ function Search() {
   return (
     <div>
       <div className={headerStyle}>
-        <h1 className={titleStyle}>Search Project Shelf</h1>
+        <h1 className={titleStyle}>{t('Search')}</h1>
         <p className={subtitleStyle}>
           18,100,000+ projects from thousands of inspirational developers
         </p>
@@ -69,7 +72,7 @@ function Search() {
         <input
           className={searchInputStyle}
           name='project-search'
-          placeholder='Search...'
+          placeholder={t('Search')}
           defaultValue={search}
           {...register('search')}
         />

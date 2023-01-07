@@ -20,6 +20,7 @@ import {
   titleInputStyle,
   uploadContainerStyle,
 } from './ProjectForm.css';
+import { useTranslation } from 'react-i18next';
 
 interface ProjectFormProps {
   onSubmit: (values: FormTypes) => void;
@@ -29,6 +30,8 @@ interface ProjectFormProps {
 const ProjectForm = ({ onSubmit, loading }: ProjectFormProps) => {
   const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
   const router = useRouter();
+
+  const { t } = useTranslation('create-project');
 
   const { register, setValue, watch, handleSubmit } =
     useFormContext<FormTypes>();
@@ -45,13 +48,13 @@ const ProjectForm = ({ onSubmit, loading }: ProjectFormProps) => {
     <div>
       <div className={buttonsContainerStyle}>
         <Button type='button' variant='secondary' onClick={() => router.back()}>
-          Cancel
+          {t('Cancel')}
         </Button>
         <Button
           disabled={!currentTitle || !currentDescription}
           onClick={() => setIsDetailsModalOpen(true)}
         >
-          Continue
+          {t('Continue')}
         </Button>
       </div>
       <form className={formStyle} onSubmit={handleSubmit(handleSubmitFn)}>

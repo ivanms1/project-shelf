@@ -4,6 +4,8 @@ import { Button, FormInput, FormSelect, Modal } from 'ui';
 
 import { FormTypes } from '../CreateProject';
 
+import { useTranslation } from 'next-i18next';
+
 import {
   buttonsContainerStyle,
   detailsFormModalStyle,
@@ -32,6 +34,8 @@ const DetailsFormModal = ({
     handleSubmit,
   } = useFormContext();
 
+  const { t } = useTranslation('create-project');
+
   return (
     <Modal isOpen={isOpen} onClose={onClose} className={detailsFormModalStyle}>
       <h1 className={titleStyle}>Final details</h1>
@@ -58,7 +62,7 @@ const DetailsFormModal = ({
       </div>
       <div className={buttonsContainerStyle}>
         <Button variant='secondary' onClick={onClose} type='button'>
-          Close
+          {t('Close')}
         </Button>
         <Button
           type='submit'
