@@ -2,12 +2,11 @@ import React from 'react';
 
 import Member from '../Member';
 
-import { flexContainerStyle, headerStyle } from './Members.css';
+import { flexContainerStyle } from './Members.css';
 
 const Members = () => {
   return (
     <div>
-      <p className={headerStyle}>Project Shelf Contributors</p>
       <div className={flexContainerStyle}>
         {MEMBERS.map((member) => (
           <Member key={member?.id} {...member} />

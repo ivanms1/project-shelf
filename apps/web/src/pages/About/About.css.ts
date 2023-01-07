@@ -6,3 +6,10 @@ export const aboutStyles = style({
   height: '100%',
   flex: '1',
 });
+
+export const headerStyle = style({
+  fontWeight: '600',
+  fontSize: '45px',
+  textAlign: 'center',
+  margin: '70px 0',
+});
