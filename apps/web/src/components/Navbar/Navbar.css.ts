@@ -26,8 +26,7 @@ export const popoverItemsStyle = style({
   flexDirection: 'column',
   padding: '12px 0',
   background: 'white',
-  zIndex: '99',
-  borderRadius: '7px',
+  zIndex: 99,
   boxShadow: '0px 10px 50px rgb(0 0 0/10%)',
 });
 
@@ -36,6 +35,8 @@ export const popoverItemStyle = style({
   padding: '12px 32px',
   width: '100%',
   textAlign: 'center',
+  background: 'white',
+  borderRadius: 0,
 
   ':hover': {
     background: 'rgba(0,0,0,0.05)',

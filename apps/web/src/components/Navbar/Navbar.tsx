@@ -97,8 +97,8 @@ const Navbar = () => {
                   <a className={popoverItemStyle}>{t('Edit.Profile')}</a>
                 </Link>
                 <Button
-                  className={popoverItemStyle}
                   variant='ghost'
+                  className={popoverItemStyle}
                   onClick={logout}
                 >
                   {t('Sign.Out')}
