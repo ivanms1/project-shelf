@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button } from 'ui';
 import Link from 'next/link';
 import Image from 'next/image';
+
+import useIsLoggedIn from './../../hooks/useIsLoggedIn';
 
 import { ProjectActions, useReactToProjectMutation } from 'apollo-hooks';
 
@@ -21,6 +23,8 @@ import {
   titleStyle,
 } from './ProjectCard.css';
 
+import LikeButtonModal from '../Modals/LikeButtonModal/LikeButtonModal';
+
 export interface ProjectCardProps {
   project: {
     id: string;
@@ -39,36 +43,47 @@ export interface ProjectCardProps {
 
 const ProjectCard = ({ project, previous }: ProjectCardProps) => {
   const [reactToProject] = useReactToProjectMutation();
+  const { isLoggedIn } = useIsLoggedIn();
+
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
 
   const handleLike = async () => {
-    try {
-      await reactToProject({
-        variables: {
-          input: {
-            projectId: project.id,
-            action: project?.isLiked
-              ? ProjectActions.Dislike
-              : ProjectActions.Like,
+    if (isLoggedIn) {
+      try {
+        await reactToProject({
+          variables: {
+            input: {
+              projectId: project.id,
+              action: project?.isLiked
+                ? ProjectActions.Dislike
+                : ProjectActions.Like,
+            },
           },
-        },
-        optimisticResponse: {
-          reactToProject: {
-            ...project,
-            id: project?.id,
-            likesCount: project?.isLiked
-              ? project.likesCount - 1
-              : project.likesCount + 1,
-            isLiked: !project?.isLiked,
+          optimisticResponse: {
+            reactToProject: {
+              ...project,
+              id: project?.id,
+              likesCount: project?.isLiked
+                ? project.likesCount - 1
+                : project.likesCount + 1,
+              isLiked: !project?.isLiked,
+            },
           },
-        },
-      });
-    } catch (error) {
-      // TODO: Handle error
+        });
+      } catch (error) {
+        // TODO: Handle error
+      }
+    } else {
+      setIsLoginModalOpen(true);
     }
   };
 
   return (
     <div className={projectCardStyle}>
+      <LikeButtonModal
+        isOpen={isLoginModalOpen}
+        onClose={() => setIsLoginModalOpen(false)}
+      />
       <Link
         href={{
           pathname: `/project/${project.id}`,
