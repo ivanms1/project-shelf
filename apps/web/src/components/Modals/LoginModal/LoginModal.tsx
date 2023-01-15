@@ -30,11 +30,7 @@ const LoginModal = ({ isOpen, onClose, ...others }) => {
         <div className={likeContentInnerTextContainer}>
           <div>
             <h3>Discover the coolest projects</h3>
-            <p>
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quod
-              esse corporis architecto sequi cupiditate aperiam doloremque
-              mollitia natus eveniet. Hic.
-            </p>
+            <p>Sign in to discover new projects and interact</p>
           </div>
 
           <Image
