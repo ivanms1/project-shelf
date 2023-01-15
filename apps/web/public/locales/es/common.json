@@ -1,3 +1,18 @@
 {
-  "Contributors": "Contributors"
+  "about": "Acerca",
+  "add-project": "Añadir Proyecto",
+  "profile": "Perfil",
+  "edit-profile": "Editar Perfil",
+  "sign-out": "Cerrar Sesión",
+  "search": "Buscar",
+  "login": "Iniciar Sesión",
+  "cancel": "Cancelar",
+  "close": "Cerrar",
+  "submit": "Enviar",
+  "continue": "Continuar",
+  "edit": "Editar",
+  "delete": "Eliminar",
+  "yes": "Sí",
+  "no": "No",
+  "select-image": "Seleccionar Imagen"
 }

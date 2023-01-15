@@ -63,10 +63,8 @@ function Search() {
   return (
     <div>
       <div className={headerStyle}>
-        <h1 className={titleStyle}>{t('Search')}</h1>
-        <p className={subtitleStyle}>
-          18,100,000+ projects from thousands of inspirational developers
-        </p>
+        <h1 className={titleStyle}>{t('search')}</h1>
+        <p className={subtitleStyle}>{t('subtitle')}</p>
       </div>
       <form className={searchFormStyle} onSubmit={handleSubmit(handleSearch)}>
         <input
@@ -81,7 +79,9 @@ function Search() {
         <>
           <h1 className={resultsTitleStyle}>{search}</h1>
           <p className={totalCountStyle}>
-            {data?.searchProjects?.totalCount ?? 0} projects
+            {t('search-total', {
+              count: data?.searchProjects?.totalCount ?? 0,
+            })}
           </p>
         </>
       )}
@@ -94,7 +94,7 @@ function Search() {
           previous={`/search/${search}`}
         />
       </div>
-      <NextSeo title='Search Projects' />
+      <NextSeo title={t('seo-title')} />
     </div>
   );
 }

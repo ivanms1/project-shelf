@@ -50,3 +50,7 @@ export const avatarStyle = style({
   display: 'flex',
   flexDirection: 'column',
 });
+
+export const flagStyle = style({
+  width: 25,
+});

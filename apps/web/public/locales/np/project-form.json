@@ -1,0 +1,12 @@
+{
+  "project-question": "What's your project?",
+  "project-sneak-peek": "Upload a sneak peek of what you've built",
+  "project-title-placeholder": "Give me a name",
+  "thumbnail-label": "Drop your thumbnail",
+  "drag-and-drop": "Drag and drop an image or browse",
+  "description-placeholder": "Add a brief description about your project and what went into creating it",
+  "final-details": "Final details",
+  "repo-link": "Repository Link",
+  "site-link": "Live Site Link",
+  "tags": "Tags"
+}

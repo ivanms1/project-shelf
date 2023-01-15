@@ -1,5 +1,11 @@
 import * as yup from 'yup';
 
+import IndiaFlag from '@/assets/flags/india.svg';
+import EnglishFlag from '@/assets/flags/english.svg';
+import NepalFlag from '@/assets/flags/nepal.svg';
+import KoreaFlag from '@/assets/flags/korea.svg';
+import SpainFlag from '@/assets/flags/spain.svg';
+
 export const TOKEN_NAME = 'project-shelf';
 
 export const projectValidationSchema = yup.object().shape({
@@ -20,3 +26,16 @@ export const projectValidationSchema = yup.object().shape({
     .max(5, 'Add no more than five tags'),
   preview: yup.string().required('This is a required field'),
 });
+
+export const LANG_LOCALE_STORAGE_KEY = 'project-shelf-lang';
+
+export const LOCALES = [
+  {
+    code: 'en',
+    flag: EnglishFlag,
+  },
+  { code: 'np', flag: NepalFlag },
+  { code: 'in', flag: IndiaFlag },
+  { code: 'kr', flag: KoreaFlag },
+  { code: 'es', flag: SpainFlag },
+];

@@ -34,19 +34,19 @@ const DetailsFormModal = ({
     handleSubmit,
   } = useFormContext();
 
-  const { t } = useTranslation('create-project');
+  const { t } = useTranslation('project-form');
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} className={detailsFormModalStyle}>
-      <h1 className={titleStyle}>Final details</h1>
+      <h1 className={titleStyle}>{t('final-details')}</h1>
       <div className={inputsContainerStyle}>
         <FormInput
-          label='Repository Link'
+          label={t('repo-link')}
           register={register('repoLink')}
           error={errors.repoLink}
         />
         <FormInput
-          label='Live Site Link'
+          label={t('site-link')}
           register={register('siteLink')}
           error={errors.siteLink}
         />
@@ -54,7 +54,7 @@ const DetailsFormModal = ({
           isMulti
           control={control}
           name='tags'
-          label='Tags'
+          label={t('tags')}
           options={PLACEHOLDER_OPTIONS}
           error={errors.tags}
           register={register('tags')}
@@ -62,7 +62,7 @@ const DetailsFormModal = ({
       </div>
       <div className={buttonsContainerStyle}>
         <Button variant='secondary' onClick={onClose} type='button'>
-          {t('Close')}
+          {t('common:close')}
         </Button>
         <Button
           type='submit'
@@ -71,7 +71,7 @@ const DetailsFormModal = ({
           className={publishButtonStyle}
           onClick={handleSubmit(onSubmit)}
         >
-          Submit
+          {t('common:submit')}
         </Button>
       </div>
     </Modal>

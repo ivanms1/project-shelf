@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import { useFormContext } from 'react-hook-form';
 import { Button } from 'ui';
+import { useTranslation } from 'next-i18next';
 
 import Dropzone from 'src/components/Dropzone';
 import DetailsFormModal from '@/pages/CreateProject/DetailsFormModal';
@@ -20,7 +21,6 @@ import {
   titleInputStyle,
   uploadContainerStyle,
 } from './ProjectForm.css';
-import { useTranslation } from 'react-i18next';
 
 interface ProjectFormProps {
   onSubmit: (values: FormTypes) => void;
@@ -31,7 +31,7 @@ const ProjectForm = ({ onSubmit, loading }: ProjectFormProps) => {
   const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
   const router = useRouter();
 
-  const { t } = useTranslation('create-project');
+  const { t } = useTranslation('project-form');
 
   const { register, setValue, watch, handleSubmit } =
     useFormContext<FormTypes>();
@@ -48,28 +48,27 @@ const ProjectForm = ({ onSubmit, loading }: ProjectFormProps) => {
     <div>
       <div className={buttonsContainerStyle}>
         <Button type='button' variant='secondary' onClick={() => router.back()}>
-          {t('Cancel')}
+          {t('common:cancel')}
         </Button>
         <Button
           disabled={!currentTitle || !currentDescription}
           onClick={() => setIsDetailsModalOpen(true)}
         >
-          {t('Continue')}
+          {t('common:continue')}
         </Button>
       </div>
       <form className={formStyle} onSubmit={handleSubmit(handleSubmitFn)}>
         {!currentImage && (
           <>
-            <h1 className={formTitleStyle}>What&apos;s your project</h1>
-            <p className={formDescriptionStyle}>
-              Upload a sneak peek of what you&apos;ve built
-            </p>
+            <h1 className={formTitleStyle}>{t('project-question')}</h1>
+            <p className={formDescriptionStyle}>{t('project-sneak-peek')}</p>
           </>
         )}
         {currentImage && (
           <input
+            autoFocus
             className={titleInputStyle}
-            placeholder='Give me a name'
+            placeholder={t('project-title-placeholder')}
             {...register('title')}
           />
         )}
@@ -78,18 +77,18 @@ const ProjectForm = ({ onSubmit, loading }: ProjectFormProps) => {
           onDrop={(files) =>
             setValue('preview', files[0], { shouldDirty: true })
           }
-          label='Drop your thumbnail'
+          label={t('project-image-label')}
           withPreview
         >
           <div className={uploadContainerStyle}>
             <ImageIcon className={imageIconStyle} />
-            <p>Drag and drop an image or browse</p>
+            <p>{t('drag-and-drop')}</p>
           </div>
         </Dropzone>
         {currentImage && (
           <textarea
             className={descriptionInputStyle}
-            placeholder='Add a brief description about your project and what went into creating it'
+            placeholder={t('description-placeholder')}
             {...register('description')}
           />
         )}

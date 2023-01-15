@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import Image from 'next/image';
 import { DropzoneOptions, useDropzone } from 'react-dropzone';
+import { useTranslation } from 'next-i18next';
 
 import { containerStyle, overlayStyle } from './AvatarDropzone.css';
 
@@ -30,6 +31,8 @@ const AvatarDropzone = ({
     maxSize,
   });
 
+  const { t } = useTranslation('common');
+
   useEffect(() => {
     if (dropzoneRef) {
       dropzoneRef.current = inputRef?.current;
@@ -52,7 +55,7 @@ const AvatarDropzone = ({
               className={imageClassname}
               layout='fill'
             />
-            <div className={overlayStyle}>Select Image</div>
+            <div className={overlayStyle}>{t('select-image')}</div>
           </>
         ) : (
           <span>{currentFile?.name}</span>

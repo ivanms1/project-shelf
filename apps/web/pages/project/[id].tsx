@@ -1,6 +1,7 @@
 import Project from '@/pages/Project';
 import { addApolloState, initializeApollo } from 'apollo';
 import { GetApprovedProjectsQuery, GetProjectQuery } from 'apollo-hooks';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import type { GetStaticProps } from 'next/types';
 
@@ -9,7 +10,7 @@ import QUERY_GET_APPROVED_PROJECTS from './queryGetAllApprovedProjects.graphql';
 
 export default Project;
 
-export const getStaticProps: GetStaticProps = async ({ params }) => {
+export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
   try {
     const client = initializeApollo();
 
@@ -21,12 +22,16 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     });
 
     return addApolloState(client, {
-      props: {},
+      props: {
+        ...(await serverSideTranslations(locale, ['common', 'project'])),
+      },
       revalidate: 60,
     });
   } catch (error) {
     return {
-      props: {},
+      props: {
+        ...(await serverSideTranslations(locale, ['common', 'project'])),
+      },
     };
   }
 };

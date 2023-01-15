@@ -10,9 +10,9 @@ const About = () => {
 
   return (
     <div className={aboutStyles}>
-      <p className={headerStyle}>Project Shelf {t('Contributors')}</p>
+      <p className={headerStyle}>{t('title')}</p>
       <Members />
-      <NextSeo title='About Project Shelf' />
+      <NextSeo title={t('seo-title')} />
     </div>
   );
 };

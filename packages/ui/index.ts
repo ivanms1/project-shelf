@@ -9,3 +9,4 @@ export * from './Loader';
 export * from './DropDown';
 export * from './FormTextarea';
 export * from './LoaderOverlay';
+export * from './NativeSelect';

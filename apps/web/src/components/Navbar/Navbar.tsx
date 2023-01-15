@@ -5,16 +5,16 @@ import { signIn } from 'next-auth/react';
 import Image from 'next/future/image';
 import { Button, DropDown, Select } from 'ui';
 import { useTranslation } from 'next-i18next';
-import IndiaFlag from '@/assets/flags/india.svg';
-import EnglishFlag from '@/assets/flags/english.svg';
-import NepalFlag from '@/assets/flags/nepal.svg';
-import KoreaFlag from '@/assets/flags/korea.svg';
-import SpainFlag from '@/assets/flags/spain.svg';
 
 import useIsLoggedIn from '@/hooks/useIsLoggedIn';
 
+import { getCurrentLocale, setCurrentLocale } from '@/helpers/locale';
+
+import { LOCALES } from 'const';
+
 import {
   avatarStyle,
+  flagStyle,
   logoStyle,
   navbarStyle,
   popoverItemsStyle,
@@ -22,23 +22,24 @@ import {
   rightSectionStyle,
 } from './Navbar.css';
 
-const PLACEHOLDER_OPTIONS = [
-  { value: 'en', label: <EnglishFlag /> },
-  { value: 'np', label: <NepalFlag /> },
-  { value: 'in', label: <IndiaFlag /> },
-  { value: 'kr', label: <KoreaFlag /> },
-  { value: 'es', label: <SpainFlag /> },
-];
-
 const Navbar = () => {
   const { isLoggedIn, logout, currentUser } = useIsLoggedIn();
   const [open, setOpen] = useState(false);
   const router = useRouter();
-  const { t } = useTranslation('nav');
+  const { t } = useTranslation('common');
 
   const onToggleLanguageClick = (newLocale: string) => {
     const { pathname, asPath, query } = router;
     router.push({ pathname, query }, asPath, { locale: newLocale });
+  };
+
+  const CurrentLocalFlag = LOCALES.find(
+    (locale) => locale.code === getCurrentLocale()
+  ).flag;
+
+  const currentLocale = {
+    value: LOCALES.find((locale) => locale.code === getCurrentLocale()).code,
+    label: <CurrentLocalFlag className={flagStyle} />,
   };
 
   return (
@@ -52,27 +53,33 @@ const Navbar = () => {
           width={50}
         />
       </Link>
-
       <div className={rightSectionStyle}>
-        <Select
-          options={PLACEHOLDER_OPTIONS}
-          onChange={(e) => {
-            onToggleLanguageClick(e.value);
-            window.localStorage.setItem('lang', e.value);
-          }}
-        />
-
         <Link href='/about'>
           <a>
-            <Button variant='secondary'>{t('About')}</Button>
+            <Button variant='secondary'>{t('about')}</Button>
           </a>
         </Link>
         <Link href='/search'>
           <a>
-            <Button variant='secondary'>{t('Search')}</Button>
+            <Button variant='secondary'>{t('search')}</Button>
           </a>
         </Link>
-
+        <Select
+          value={currentLocale as any}
+          options={
+            LOCALES.map((locale) => {
+              const Flag = locale.flag;
+              return {
+                value: locale.code,
+                label: <Flag className={flagStyle} />,
+              };
+            }) as any
+          }
+          onChange={(e) => {
+            onToggleLanguageClick(e.value);
+            setCurrentLocale(e.value);
+          }}
+        />
         {isLoggedIn ? (
           <>
             <DropDown
@@ -90,27 +97,27 @@ const Navbar = () => {
             >
               <div className={popoverItemsStyle}>
                 <Link href={`/user/${currentUser?.id}`}>
-                  <a className={popoverItemStyle}>{t('Profile')}</a>
+                  <a className={popoverItemStyle}>{t('profile')}</a>
                 </Link>
 
                 <Link href={`/user-edit/${currentUser?.id}`}>
-                  <a className={popoverItemStyle}>{t('Edit.Profile')}</a>
+                  <a className={popoverItemStyle}>{t('edit-profile')}</a>
                 </Link>
                 <Button
                   variant='ghost'
                   className={popoverItemStyle}
                   onClick={logout}
                 >
-                  {t('Sign.Out')}
+                  {t('sign-out')}
                 </Button>
               </div>
             </DropDown>
             <Link href='/create-project' passHref>
-              <Button>{t('Add.Project')}</Button>
+              <Button>{t('add-project')}</Button>
             </Link>
           </>
         ) : (
-          <Button onClick={() => signIn('github')}>{t('Login')}</Button>
+          <Button onClick={() => signIn('github')}>{t('login')}</Button>
         )}
       </div>
     </div>

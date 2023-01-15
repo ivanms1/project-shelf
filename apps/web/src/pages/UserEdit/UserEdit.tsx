@@ -4,15 +4,16 @@ import { useRouter } from 'next/router';
 import toast from 'react-hot-toast';
 import * as yup from 'yup';
 import { NextSeo } from 'next-seo';
+import { useTranslation } from 'next-i18next';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Button, FormInput, FormTextArea, LoaderOverlay } from 'ui';
-import AvatarDropzone from 'src/components/AvatarDropzone';
-
 import {
   useGetCurrentUserQuery,
   useUpdateUserMutation,
   useUploadImageMutation,
 } from 'apollo-hooks';
+
+import AvatarDropzone from 'src/components/AvatarDropzone';
 
 import {
   formDetailsStyle,
@@ -47,6 +48,9 @@ const validationSchema = yup
 
 const UserEdit = () => {
   const { data } = useGetCurrentUserQuery();
+
+  const { t } = useTranslation('user-edit');
+
   const userDetails = data?.getCurrentUser;
   const userId = userDetails?.id;
 
@@ -93,8 +97,8 @@ const UserEdit = () => {
     };
   }, [userDetails, reset]);
 
-  const notifySuccess = () => toast.success('Profile succesfully updated');
-  const notifyError = () => toast.error('Something went wrong');
+  const notifySuccess = () => toast.success(t('edit-success'));
+  const notifyError = () => toast.error(t('edit-failure'));
 
   const onSubmit: SubmitHandler<FormTypes> = async () => {
     if (!isDirty) {
@@ -158,11 +162,11 @@ const UserEdit = () => {
             onDrop={(files) => {
               setValue('preview', files[0], { shouldDirty: true });
             }}
-            label='Drop your thumbnail'
+            label={t('thumbnail-label')}
             imageClassname={profileImageStyle}
             withPreview
           >
-            <div>Drag n&apos; Drop</div>
+            <div>{t('drag-drop-label')}</div>
           </AvatarDropzone>
 
           <div className={profileImageButtonWrapperStyle}>
@@ -173,7 +177,7 @@ const UserEdit = () => {
                 dropzoneRef?.current?.click();
               }}
             >
-              Upload new picture
+              {t('upload-new-picture')}
             </Button>
 
             {typeof currentImage == 'object' && (
@@ -184,7 +188,7 @@ const UserEdit = () => {
                   setValue('preview', userDetails?.avatar);
                 }}
               >
-                Delete
+                {t('common:delete')}
               </Button>
             )}
           </div>
@@ -193,57 +197,52 @@ const UserEdit = () => {
         <div className={formDetailsStyle}>
           <div className={inputContainer}>
             <FormInput
-              label='Name'
+              label={t('name')}
               register={register('profileName')}
               error={errors.profileName}
             />
 
-            <span className={subTextStyle}>
-              We&apos;re big on real names around here, so people know
-              who&apos;s who.
-            </span>
+            <span className={subTextStyle}></span>
           </div>
 
           <div className={inputsContainer}>
             <FormInput
-              label='Location'
+              label={t('location')}
               register={register('profileLocation')}
             />
             <FormInput
-              label='Website'
+              label={t('website')}
               register={register('profileWebsite')}
               error={errors.profileWebsite}
             />
             <FormInput
-              label='Twitter'
+              label={t('twitter')}
               register={register('profileTwitter')}
               placeholder='@revengeZi'
             />
             <FormInput
-              label='Discord'
+              label={t('discord')}
               register={register('profileDiscord')}
               placeholder='uzamaki21#0951'
             />
           </div>
           <div className={inputContainer}>
             <FormTextArea
-              label='Bio'
+              label={t('bio')}
               type='text'
               register={register('profileBio')}
             />
-            <span className={subTextStyle}>
-              Brief description for your profile.
-            </span>
+            <span className={subTextStyle}>{t('bio-description')}</span>
           </div>
 
           <div className={saveProfileWrapper}>
             <Button variant='primary' type='submit'>
-              Save Profile
+              {t('save-profile')}
             </Button>
           </div>
         </div>
       </form>
-      <NextSeo title='Edit Profile | Project-shelf'></NextSeo>
+      <NextSeo title={t('seo-title')}></NextSeo>
     </div>
   );
 };

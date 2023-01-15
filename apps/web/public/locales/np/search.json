@@ -1,4 +1,7 @@
 {
-  "Search.Project.Shelf": "Project Shelf मा खोज्नु होस्|",
-  "Search": "खोज्नुहोस्स"
+  "seo-title": "Search Projects",
+  "subtitle": " 18,100,000+ projects from thousands of inspirational developers",
+  "search": "Search",
+  "search-total_one": "{{count}} project found",
+  "search-total_other": "{{count}} projects found"
 }
