@@ -11,7 +11,6 @@ export const likeButtonModalStyle = style({
   maxWidth: 550,
   width: '100%',
 
-  // This is for margin on small devices
   '@media': {
     [media.mobile]: {
       maxWidth: '350px',
@@ -31,7 +30,6 @@ export const likeContentContainer = style({
   borderTopRightRadius: 'inherit',
   backgroundColor: vars.colors.primaryLight,
 
-  // This is for margin on small devices
   '@media': {
     [media.mobile]: {
       flexDirection: 'column',
