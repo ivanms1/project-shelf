@@ -3,7 +3,7 @@ import { Button } from 'ui';
 import Link from 'next/link';
 import Image from 'next/image';
 
-import useIsLoggedIn from './../../hooks/useIsLoggedIn';
+import useIsLoggedIn from '@/hooks/useIsLoggedIn';
 
 import { ProjectActions, useReactToProjectMutation } from 'apollo-hooks';
 
