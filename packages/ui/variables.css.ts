@@ -11,6 +11,7 @@ export const vars = createGlobalTheme(':root', {
     modalOverlayBg: 'rgba(30,30,30,0.7)',
     pink: '#ea4c89',
     gray: '#9e9ea7',
+    black: '#000000',
   },
   zIndex: {
     modalOverlay: '99999',
