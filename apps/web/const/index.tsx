@@ -39,3 +39,5 @@ export const LOCALES = [
   { code: 'ko', flag: KoreaFlag },
   { code: 'es', flag: SpainFlag },
 ];
+
+export const NEXT_LOCALE = 'NEXT_LOCALE';

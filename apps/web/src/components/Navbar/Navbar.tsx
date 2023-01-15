@@ -5,12 +5,11 @@ import { signIn } from 'next-auth/react';
 import Image from 'next/future/image';
 import { Button, DropDown, Select } from 'ui';
 import { useTranslation } from 'next-i18next';
+import cookie from 'react-cookies';
 
 import useIsLoggedIn from '@/hooks/useIsLoggedIn';
 
-import { getCurrentLocale, setCurrentLocale } from '@/helpers/locale';
-
-import { LOCALES } from 'const';
+import { LOCALES, NEXT_LOCALE } from 'const';
 
 import {
   avatarStyle,
@@ -29,16 +28,17 @@ const Navbar = () => {
   const { t } = useTranslation('common');
 
   const onToggleLanguageClick = (newLocale: string) => {
+    cookie.save(NEXT_LOCALE, newLocale);
     const { pathname, asPath, query } = router;
     router.push({ pathname, query }, asPath, { locale: newLocale });
   };
 
   const CurrentLocalFlag = LOCALES.find(
-    (locale) => locale.code === getCurrentLocale()
+    (locale) => locale.code === router.locale
   ).flag;
 
   const currentLocale = {
-    value: LOCALES.find((locale) => locale.code === getCurrentLocale()).code,
+    value: LOCALES.find((locale) => locale.code === router.locale).code,
     label: <CurrentLocalFlag className={flagStyle} />,
   };
 
@@ -77,7 +77,6 @@ const Navbar = () => {
           }
           onChange={(e) => {
             onToggleLanguageClick(e.value);
-            setCurrentLocale(e.value);
           }}
         />
         {isLoggedIn ? (
