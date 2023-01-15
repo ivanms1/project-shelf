@@ -136,7 +136,7 @@ const ProjectEdit = () => {
         <ProjectForm onSubmit={onSubmit} loading={updateProjectLoading} />
       </FormProvider>
       <NextSeo
-        title={`Edit Project | ${data?.project.title}`}
+        title={data?.project.title}
         description={data?.project?.description}
       />
     </>

@@ -4,6 +4,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { LoaderOverlay } from 'ui';
 import { NextSeo } from 'next-seo';
 import toast from 'react-hot-toast';
+import { useTranslation } from 'next-i18next';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 
 import ProjectForm from 'src/components/ProjectForm';
@@ -32,6 +33,7 @@ export type FormTypes = {
 function CreateProject() {
   const { currentUser } = useIsLoggedIn();
   const router = useRouter();
+  const { t } = useTranslation('create-project');
   const methods = useForm<FormTypes>({
     resolver: yupResolver(projectValidationSchema),
   });
@@ -100,7 +102,7 @@ function CreateProject() {
       <FormProvider {...methods}>
         <ProjectForm onSubmit={onSubmit} loading={loading} />
       </FormProvider>
-      <NextSeo title={'Create Project'} />
+      <NextSeo title={t('seo-title')} description={t('seo-description')} />
     </>
   );
 }

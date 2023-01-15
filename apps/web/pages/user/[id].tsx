@@ -2,12 +2,13 @@ import User from '@/pages/User';
 import { addApolloState, initializeApollo } from 'apollo';
 import { GetAllUsersDocument, GetUserForPageQuery } from 'apollo-hooks';
 import type { GetStaticProps } from 'next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import QUERY_GET_USER_FOR_PAGE from './queryGetUserForPage.graphql';
 
 export default User;
 
-export const getStaticProps: GetStaticProps = async ({ params }) => {
+export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
   try {
     const client = initializeApollo();
 
@@ -19,11 +20,15 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     });
 
     return addApolloState(client, {
-      props: {},
+      props: {
+        ...(await serverSideTranslations(locale, ['user', 'common'])),
+      },
     });
   } catch (error) {
     return {
-      props: {},
+      props: {
+        ...(await serverSideTranslations(locale, ['user', 'common'])),
+      },
     };
   }
 };

@@ -1,0 +1,17 @@
+{
+  "edit-success": "Profile updated successfully.",
+  "edit-failure": "Failed to update profile.",
+  "thumbnail-label": "Drop your thumbnail",
+  "drag-drop-label": "Drag n' Drop",
+  "upload-new-picture": "Upload new picture",
+  "name-description": "We're big on real names around here, so people know who's who.",
+  "name": "Name",
+  "location": "Location",
+  "website": "Website",
+  "twitter": "Twitter",
+  "discord": "Discord",
+  "bio": "Bio",
+  "bio-description": "Brief description for your profile.",
+  "save-profile": "Save Profile",
+  "seo-title": "Edit Profile"
+}

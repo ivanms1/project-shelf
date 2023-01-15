@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { NextSeo } from 'next-seo';
+import { useTranslation } from 'next-i18next';
 import {
   useFollowUserMutation,
   useGetUserForPageQuery,
@@ -31,6 +32,8 @@ const User = () => {
   const { isLoggedIn } = useIsLoggedIn();
 
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+
+  const { t } = useTranslation('user');
 
   const { data } = useGetUserForPageQuery({
     variables: {
@@ -126,10 +129,12 @@ const User = () => {
       {user ? (
         <div className={projectContainerStyle}>
           <Button className={followButtonStyle} onClick={handleFollowUser}>
-            {isFollowingData?.user?.isFollowing ? 'Unfollow' : 'Follow'}
+            {isFollowingData?.user?.isFollowing ? t('unfollow') : t('follow')}
           </Button>
           <h4 className={followerCountStyle}>
-            {isFollowingData?.user?.followerCount} Followers
+            {t('follower_count', {
+              count: isFollowingData?.user?.followerCount,
+            })}
           </h4>
           <ProjectsGrid
             projects={projectsData?.getUserProjects?.results ?? []}
@@ -140,7 +145,7 @@ const User = () => {
         </div>
       ) : (
         <div className={userContainerStyle}>
-          <p>User not found</p>
+          <p>{t('user_not_found')}</p>
         </div>
       )}
 

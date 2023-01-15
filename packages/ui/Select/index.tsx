@@ -4,7 +4,7 @@ import { FieldError, Merge, FieldErrorsImpl } from 'react-hook-form';
 
 import { containerStyles, errorMessageStyle, labelStyles } from './Select.css';
 
-type Value = { value: string | number; label: string };
+type Value = { value: string | number; label?: string };
 
 export interface SelectProps {
   label?: string;
@@ -31,6 +31,10 @@ export const Select = ({ label, error, ...props }: SelectProps) => {
 export default Select;
 
 export const customStyles: any = {
+  singleValue: (provided: React.CSSProperties) => ({
+    ...provided,
+    display: 'flex',
+  }),
   multiValue: (provided: React.CSSProperties) => ({
     ...provided,
     backgroundColor: '#dbdbde',
@@ -46,6 +50,9 @@ export const customStyles: any = {
     paddingLeft: 10,
   }),
   dropdownIndicator: () => ({
+    display: 'none',
+  }),
+  indicatorsContainer: () => ({
     display: 'none',
   }),
   control: (provided: React.CSSProperties, state: any) => {

@@ -6,6 +6,7 @@ import { useDeleteProjectsMutation, useGetProjectQuery } from 'apollo-hooks';
 import { useRouter } from 'next/router';
 import { Button, Modal, Badge, LoaderOverlay } from 'ui';
 import toast from 'react-hot-toast';
+import { useTranslation } from 'next-i18next';
 
 import LikeButton from './LikeButton/LikeButton';
 
@@ -41,12 +42,11 @@ import {
   titleStyle,
 } from './Project.css';
 
-const notifySuccess = () => toast.success('Project deleted successfully');
-const notifyFailure = () => toast.error('Project deletetion failed');
-
 function Project() {
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const router = useRouter();
+
+  const { t } = useTranslation();
 
   const { data, loading: getProjectQueryLoading } = useGetProjectQuery({
     variables: {
@@ -86,9 +86,9 @@ function Project() {
       if (deletedData?.data?.deleteProjects?.length > 0) {
         router.push(`/user/${data?.project?.author?.id}`);
       }
-      notifySuccess();
+      toast.success(t('project:delete-success'));
     } catch (error) {
-      notifyFailure();
+      toast.error(t('project:delete-fail'));
     }
   };
 
@@ -186,7 +186,7 @@ function Project() {
           <div className={projectOptionsStyle}>
             <Link href={`/project-edit/${router?.query?.id}`}>
               <a>
-                <Button variant='ghost'>Edit</Button>
+                <Button variant='ghost'>{t('edit')}</Button>
               </a>
             </Link>
 
@@ -195,7 +195,7 @@ function Project() {
               className={deleteButtonStyle}
               onClick={() => setOpenDeleteModal(true)}
             >
-              Delete
+              {t('common:delete')}
             </Button>
 
             <Modal
@@ -204,16 +204,18 @@ function Project() {
               className={deleteModalStyle}
             >
               <span className={deleteModalTitleStyle}>
-                Are you sure you want to delete this project ?
+                {t('project:are-you-sure')}
               </span>
               <div className={buttonContainerStyle}>
                 <Button
                   variant='secondary'
                   onClick={() => deleteProjectClick(data?.project?.id)}
                 >
-                  Yes
+                  {t('common:yes')}
                 </Button>
-                <Button onClick={() => setOpenDeleteModal(false)}>No</Button>
+                <Button onClick={() => setOpenDeleteModal(false)}>
+                  {t('common:no')}
+                </Button>
               </div>
             </Modal>
           </div>
