@@ -65,16 +65,16 @@ const Navbar = () => {
           </a>
         </Link>
         <Select
-          value={currentLocale as any}
-          options={
-            LOCALES.map((locale) => {
-              const Flag = locale.flag;
-              return {
-                value: locale.code,
-                label: <Flag className={flagStyle} />,
-              };
-            }) as any
-          }
+          // @ts-expect-error TODO: add correct type
+          value={currentLocale}
+          // @ts-expect-error TODO: add correct type
+          options={LOCALES.map((locale) => {
+            const Flag = locale.flag;
+            return {
+              value: locale.code,
+              label: <Flag className={flagStyle} />,
+            };
+          })}
           onChange={(e) => {
             onToggleLanguageClick(e.value);
           }}
