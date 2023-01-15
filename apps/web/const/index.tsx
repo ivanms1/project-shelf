@@ -34,8 +34,8 @@ export const LOCALES = [
     code: 'en',
     flag: EnglishFlag,
   },
-  { code: 'np', flag: NepalFlag },
-  { code: 'in', flag: IndiaFlag },
-  { code: 'kr', flag: KoreaFlag },
+  { code: 'ne', flag: NepalFlag },
+  { code: 'hi', flag: IndiaFlag },
+  { code: 'ko', flag: KoreaFlag },
   { code: 'es', flag: SpainFlag },
 ];
