@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { NextSeo } from 'next-seo';
 import {
   useFollowUserMutation,
@@ -11,7 +11,10 @@ import { useRouter } from 'next/router';
 import { Button } from 'ui';
 import Image from 'next/image';
 
+import useIsLoggedIn from '@/hooks/useIsLoggedIn';
+
 import ProjectsGrid from '@/components/ProjectsGrid';
+import LoginModal from '@/components/Modals/LoginModal';
 
 import {
   avatarStyle,
@@ -25,6 +28,9 @@ import {
 
 const User = () => {
   const { query } = useRouter();
+  const { isLoggedIn } = useIsLoggedIn();
+
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
 
   const { data } = useGetUserForPageQuery({
     variables: {
@@ -59,25 +65,29 @@ const User = () => {
   const [followUser] = useFollowUserMutation();
 
   const handleFollowUser = async () => {
-    await followUser({
-      variables: {
-        input: {
-          userId: user?.id,
-          action: isFollowingData?.user?.isFollowing
-            ? UserFollowActions.Unfollow
-            : UserFollowActions.Follow,
+    if (isLoggedIn) {
+      await followUser({
+        variables: {
+          input: {
+            userId: user?.id,
+            action: isFollowingData?.user?.isFollowing
+              ? UserFollowActions.Unfollow
+              : UserFollowActions.Follow,
+          },
         },
-      },
-      optimisticResponse: {
-        followUser: {
-          ...user,
-          followerCount: isFollowingData?.user?.isFollowing
-            ? isFollowingData?.user?.followerCount - 1
-            : isFollowingData?.user?.followerCount + 1,
-          isFollowing: !isFollowingData?.user?.isFollowing,
+        optimisticResponse: {
+          followUser: {
+            ...user,
+            followerCount: isFollowingData?.user?.isFollowing
+              ? isFollowingData?.user?.followerCount - 1
+              : isFollowingData?.user?.followerCount + 1,
+            isFollowing: !isFollowingData?.user?.isFollowing,
+          },
         },
-      },
-    });
+      });
+    } else {
+      setIsLoginModalOpen(true);
+    }
   };
 
   const onRefetch = () => {
@@ -97,6 +107,10 @@ const User = () => {
 
   return (
     <div className={userStyle}>
+      <LoginModal
+        isOpen={isLoginModalOpen}
+        onClose={() => setIsLoginModalOpen(false)}
+      />
       <div className={userContainerStyle}>
         {user?.avatar && (
           <Image
