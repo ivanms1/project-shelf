@@ -23,7 +23,7 @@ import {
   titleStyle,
 } from './ProjectCard.css';
 
-import LikeButtonModal from '../Modals/LikeButtonModal/LikeButtonModal';
+import LoginModal from '../Modals/LoginModal';
 
 export interface ProjectCardProps {
   project: {
@@ -44,7 +44,6 @@ export interface ProjectCardProps {
 const ProjectCard = ({ project, previous }: ProjectCardProps) => {
   const [reactToProject] = useReactToProjectMutation();
   const { isLoggedIn } = useIsLoggedIn();
-
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
 
   const handleLike = async () => {
@@ -80,7 +79,7 @@ const ProjectCard = ({ project, previous }: ProjectCardProps) => {
 
   return (
     <div className={projectCardStyle}>
-      <LikeButtonModal
+      <LoginModal
         isOpen={isLoginModalOpen}
         onClose={() => setIsLoginModalOpen(false)}
       />
