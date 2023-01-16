@@ -19,7 +19,7 @@ export const signinBox = style({
 export const contentBoxStyle = style({
   '@media': {
     [media.desktop]: {
-      width: '40%',
+      width: '45%',
     },
   },
 });

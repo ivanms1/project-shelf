@@ -7,6 +7,7 @@ const PRIVATE_ROUTES = [
   '/create-projects',
   '/user-edit/[id]',
   '/project-edit/[id]',
+  '/create-project',
 ];
 
 interface AuthProvider {

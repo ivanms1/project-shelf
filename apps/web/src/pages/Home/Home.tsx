@@ -2,6 +2,7 @@ import { useGetApprovedProjectsQuery } from 'apollo-hooks';
 import { Button } from 'ui';
 import Image from 'next/image';
 import { NextSeo } from 'next-seo';
+import { signIn } from 'next-auth/react';
 
 import ProjectsGrid from '@/components/ProjectsGrid';
 
@@ -14,9 +15,12 @@ import {
   signinBox,
   titleStyle,
 } from './Home.css';
+import { useTranslation } from 'next-i18next';
+import Link from 'next/link';
 
 function Home() {
   const { data, loading, fetchMore } = useGetApprovedProjectsQuery();
+  const { t } = useTranslation('home');
 
   const { isLoggedIn } = useIsLoggedIn();
 
@@ -36,25 +40,27 @@ function Home() {
 
   return (
     <div>
-      {!isLoggedIn && (
-        <div className={signinBox}>
-          <div className={contentBoxStyle}>
-            <h1 className={titleStyle}>Discover the coolest projects</h1>
-            <p className={descriptionStyle}>
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quod
-              esse corporis architecto sequi cupiditate aperiam doloremque
-              mollitia natus eveniet. Hic.
-            </p>
-            <Button>Sign up</Button>
-          </div>
-          <Image
-            src={'/assets/images/shelf.png'}
-            alt='project shelf logo'
-            height={400}
-            width={400}
-          />
+      <div className={signinBox}>
+        <div className={contentBoxStyle}>
+          <h1 className={titleStyle}>{t('title')}</h1>
+          <p className={descriptionStyle}>{t('description')}</p>
+          {isLoggedIn ? (
+            <Link href='/create-project' passHref>
+              <Button>{t('common:add-project')}</Button>
+            </Link>
+          ) : (
+            <Button onClick={() => signIn('github')}>
+              {t('common:login')}
+            </Button>
+          )}
         </div>
-      )}
+        <Image
+          src={'/assets/images/shelf.png'}
+          alt='project shelf logo'
+          height={400}
+          width={400}
+        />
+      </div>
       <div className={gridStyle}>
         <ProjectsGrid
           loading={loading}
@@ -64,12 +70,12 @@ function Home() {
         />
       </div>
       <NextSeo
-        title='Welcome to Project Shelf'
-        description='Discover the coolest projects'
+        title={t('seo-title')}
+        description={t('description')}
         openGraph={{
           type: 'website',
-          title: 'Welcome to Project Shelf',
-          description: 'Discover the coolest projects',
+          title: t('title'),
+          description: t('description'),
           site_name: 'Project Shelf',
           images: [
             {

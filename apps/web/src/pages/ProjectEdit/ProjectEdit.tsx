@@ -143,4 +143,6 @@ const ProjectEdit = () => {
   );
 };
 
+ProjectEdit.auth = true;
+
 export default ProjectEdit;

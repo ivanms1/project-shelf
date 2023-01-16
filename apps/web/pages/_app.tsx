@@ -24,12 +24,17 @@ function CustomApp({
   return (
     <SessionProvider session={session}>
       <ApolloProvider client={client}>
-        <AuthProvider>
-          <Layout>
+        <Layout>
+          {/* @ts-expect-error TODO: fix types here */}
+          {Component.auth ? (
+            <AuthProvider>
+              <Component {...pageProps} />
+            </AuthProvider>
+          ) : (
             <Component {...pageProps} />
-            <Toaster />
-          </Layout>
-        </AuthProvider>
+          )}
+          <Toaster />
+        </Layout>
       </ApolloProvider>
     </SessionProvider>
   );

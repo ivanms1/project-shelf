@@ -107,4 +107,6 @@ function CreateProject() {
   );
 }
 
+CreateProject.auth = true;
+
 export default CreateProject;

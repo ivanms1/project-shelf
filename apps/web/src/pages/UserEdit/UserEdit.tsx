@@ -247,4 +247,6 @@ const UserEdit = () => {
   );
 };
 
+UserEdit.auth = true;
+
 export default UserEdit;
