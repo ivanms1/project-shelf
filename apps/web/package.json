@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "generate": "plop"
+    "generate": "plop",
+    "postbuild": "next-sitemap"
   },
   "dependencies": {
     "@apollo/client": "^3.6.6",
