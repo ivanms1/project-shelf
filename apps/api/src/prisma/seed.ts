@@ -5,6 +5,8 @@ const prisma = new PrismaClient();
 
 const users = Array.from({ length: 50 }).map(() => {
   return {
+    providerId: +faker.helpers.unique(() => faker.random.numeric(10)),
+    provider: 'github',
     name: faker.name.fullName(),
     email: faker.internet.email(),
     avatar: faker.image.avatar(),
@@ -43,9 +45,7 @@ async function main() {
             },
           },
           tags: {
-            set: Array.from({ length: 5 }).map(() =>
-              faker.commerce.productAdjective()
-            ),
+            set: faker.helpers.uniqueArray(faker.random.word, 5),
           },
         },
       });

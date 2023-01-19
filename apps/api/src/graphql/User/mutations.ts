@@ -8,6 +8,8 @@ import decodeAccessToken from '../../helpers/decodeAccessToken';
 
 const GITHUB_API_URL = 'https://api.github.com/user';
 
+const GITHUB = 'github';
+
 const UpdateUserInput = builder.inputType('UpdateUserInput', {
   description: 'Update the user information',
   fields: (t) => ({
@@ -48,6 +50,7 @@ builder.mutationType({
           name: string;
           login: string;
           avatar_url: string;
+          id: number;
         } = await got
           .get(GITHUB_API_URL, {
             headers: {
@@ -59,18 +62,21 @@ builder.mutationType({
 
         const user = await db.user.findFirst({
           where: {
-            email: data?.email,
+            providerId: data?.id,
           },
         });
 
         if (user) {
           const token = jwt.sign(user.id, process.env.JWT_SECRET!);
+
           return String(token);
         }
 
         const newUser = await db.user.create({
           data: {
-            name: data?.name,
+            providerId: data?.id,
+            provider: GITHUB,
+            name: data?.name || data?.login,
             email: data?.email,
             github: data?.login,
             avatar: data?.avatar_url,

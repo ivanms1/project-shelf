@@ -150,7 +150,7 @@ type User {
   bio: String
   createdAt: Date!
   discord: String
-  email: String!
+  email: String
   followerCount: Int!
   followers: [User!]!
   following: [User!]!

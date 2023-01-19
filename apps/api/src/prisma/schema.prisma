@@ -18,9 +18,11 @@ enum Role {
 
 model User {
   id              String    @id @default(cuid())
+  providerId      Int       @unique
+  provider        String
   avatar          String?
   name            String
-  email           String
+  email           String?   @unique
   role            Role      @default(USER)
   github          String?
   discord         String?
