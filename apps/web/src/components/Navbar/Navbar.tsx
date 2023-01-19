@@ -12,6 +12,7 @@ import useIsLoggedIn from '@/hooks/useIsLoggedIn';
 import { LOCALES, NEXT_LOCALE } from 'const';
 
 import {
+  aboutButtonStyle,
   avatarStyle,
   flagStyle,
   logoStyle,
@@ -56,7 +57,9 @@ const Navbar = () => {
       <div className={rightSectionStyle}>
         <Link href='/about'>
           <a>
-            <Button variant='secondary'>{t('about')}</Button>
+            <Button className={aboutButtonStyle} variant='secondary'>
+              {t('about')}
+            </Button>
           </a>
         </Link>
         <Link href='/search'>

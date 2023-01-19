@@ -1,0 +1,17 @@
+fragment ProjectCardFragment on ProjectsResponse {
+  nextCursor
+  prevCursor
+  totalCount
+  results {
+    id
+    title
+    likesCount
+    preview
+    isLiked
+    author {
+      id
+      avatar
+      name
+    }
+  }
+}

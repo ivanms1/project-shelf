@@ -91,7 +91,6 @@ function Search() {
           nextCursor={data?.searchProjects?.nextCursor}
           onRefetch={onRefetch}
           loading={loading}
-          previous={`/search/${search}`}
         />
       </div>
       <NextSeo title={t('seo-title')} />

@@ -230,7 +230,7 @@ export type User = {
   bio?: Maybe<Scalars['String']>;
   createdAt: Scalars['Date'];
   discord?: Maybe<Scalars['String']>;
-  email: Scalars['String'];
+  email?: Maybe<Scalars['String']>;
   followerCount: Scalars['Int'];
   followers: Array<User>;
   following: Array<User>;
@@ -266,7 +266,7 @@ export type ProjectsResponseFragmentFragment = { __typename?: 'ProjectsResponse'
 export type GetCurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetCurrentUserQuery = { __typename?: 'Query', getCurrentUser: { __typename?: 'User', id: string, name: string, email: string, github?: string | null, discord?: string | null, avatar?: string | null, bio?: string | null, location?: string | null, website?: string | null, twitter?: string | null } };
+export type GetCurrentUserQuery = { __typename?: 'Query', getCurrentUser: { __typename?: 'User', id: string, name: string, email?: string | null, github?: string | null, discord?: string | null, avatar?: string | null, bio?: string | null, location?: string | null, website?: string | null, twitter?: string | null } };
 
 export type GetAllProjectsQueryVariables = Exact<{
   input?: InputMaybe<SearchProjectsInput>;
@@ -280,7 +280,7 @@ export type GetApprovedProjectsQueryVariables = Exact<{
 }>;
 
 
-export type GetApprovedProjectsQuery = { __typename?: 'Query', projects: { __typename?: 'ProjectsResponse', nextCursor?: string | null, prevCursor?: string | null, totalCount: number, results: Array<{ __typename?: 'Project', id: string, title: string, createdAt: any, isLiked: boolean, likesCount: number, tags: Array<string>, preview: string, repoLink: string, siteLink: string, description: string, isApproved: boolean, author: { __typename?: 'User', id: string, avatar?: string | null, name: string } }> } };
+export type GetApprovedProjectsQuery = { __typename?: 'Query', projects: { __typename?: 'ProjectsResponse', nextCursor?: string | null, prevCursor?: string | null, totalCount: number, results: Array<{ __typename?: 'Project', id: string, title: string, likesCount: number, preview: string, isLiked: boolean, author: { __typename?: 'User', id: string, avatar?: string | null, name: string } }> } };
 
 export type GetProjectQueryVariables = Exact<{
   id: Scalars['String'];
@@ -292,14 +292,14 @@ export type GetProjectQuery = { __typename?: 'Query', project: { __typename?: 'P
 export type GetAllUsersQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetAllUsersQuery = { __typename?: 'Query', getUsers: Array<{ __typename?: 'User', id: string, name: string, email: string, github?: string | null, avatar?: string | null }> };
+export type GetAllUsersQuery = { __typename?: 'Query', getUsers: Array<{ __typename?: 'User', id: string, name: string, email?: string | null, github?: string | null, avatar?: string | null }> };
 
 export type GetUserForPageQueryVariables = Exact<{
   id: Scalars['String'];
 }>;
 
 
-export type GetUserForPageQuery = { __typename?: 'Query', user: { __typename?: 'User', id: string, name: string, email: string, github?: string | null, avatar?: string | null } };
+export type GetUserForPageQuery = { __typename?: 'Query', user: { __typename?: 'User', id: string, name: string, email?: string | null, github?: string | null, avatar?: string | null } };
 
 export type ReactToProjectMutationVariables = Exact<{
   input: ReactToProjectInput;
@@ -307,6 +307,8 @@ export type ReactToProjectMutationVariables = Exact<{
 
 
 export type ReactToProjectMutation = { __typename?: 'Mutation', reactToProject: { __typename?: 'Project', id: string, likesCount: number, isLiked: boolean } };
+
+export type ProjectCardFragmentFragment = { __typename?: 'ProjectsResponse', nextCursor?: string | null, prevCursor?: string | null, totalCount: number, results: Array<{ __typename?: 'Project', id: string, title: string, likesCount: number, preview: string, isLiked: boolean, author: { __typename?: 'User', id: string, avatar?: string | null, name: string } }> };
 
 export type CreateUserProjectMutationVariables = Exact<{
   input: CreateProjectInput;
@@ -321,13 +323,6 @@ export type UploadImageMutationVariables = Exact<{
 
 
 export type UploadImageMutation = { __typename?: 'Mutation', image: string };
-
-export type GetMyProjectsQueryVariables = Exact<{
-  input?: InputMaybe<SearchProjectsInput>;
-}>;
-
-
-export type GetMyProjectsQuery = { __typename?: 'Query', projects: { __typename?: 'ProjectsResponse', nextCursor?: string | null, prevCursor?: string | null, totalCount: number, results: Array<{ __typename?: 'Project', id: string, title: string, createdAt: any, isLiked: boolean, likesCount: number, tags: Array<string>, preview: string, repoLink: string, siteLink: string, description: string, isApproved: boolean, author: { __typename?: 'User', id: string, avatar?: string | null, name: string } }> } };
 
 export type GetProjectLikedStatusQueryVariables = Exact<{
   id: Scalars['String'];
@@ -409,6 +404,25 @@ export const ProjectsResponseFragmentFragmentDoc = gql`
     }
     description
     isApproved
+  }
+}
+    `;
+export const ProjectCardFragmentFragmentDoc = gql`
+    fragment ProjectCardFragment on ProjectsResponse {
+  nextCursor
+  prevCursor
+  totalCount
+  results {
+    id
+    title
+    likesCount
+    preview
+    isLiked
+    author {
+      id
+      avatar
+      name
+    }
   }
 }
     `;
@@ -524,10 +538,10 @@ export type GetAllProjectsQueryResult = Apollo.QueryResult<GetAllProjectsQuery, 
 export const GetApprovedProjectsDocument = gql`
     query GetApprovedProjects($input: SearchProjectsInput) {
   projects: getApprovedProjects(input: $input) {
-    ...ProjectsResponseFragment
+    ...ProjectCardFragment
   }
 }
-    ${ProjectsResponseFragmentFragmentDoc}`;
+    ${ProjectCardFragmentFragmentDoc}`;
 
 /**
  * __useGetApprovedProjectsQuery__
@@ -792,41 +806,6 @@ export function useUploadImageMutation(baseOptions?: Apollo.MutationHookOptions<
 export type UploadImageMutationHookResult = ReturnType<typeof useUploadImageMutation>;
 export type UploadImageMutationResult = Apollo.MutationResult<UploadImageMutation>;
 export type UploadImageMutationOptions = Apollo.BaseMutationOptions<UploadImageMutation, UploadImageMutationVariables>;
-export const GetMyProjectsDocument = gql`
-    query GetMyProjects($input: SearchProjectsInput) {
-  projects: getMyProjects(input: $input) {
-    ...ProjectsResponseFragment
-  }
-}
-    ${ProjectsResponseFragmentFragmentDoc}`;
-
-/**
- * __useGetMyProjectsQuery__
- *
- * To run a query within a React component, call `useGetMyProjectsQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetMyProjectsQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetMyProjectsQuery({
- *   variables: {
- *      input: // value for 'input'
- *   },
- * });
- */
-export function useGetMyProjectsQuery(baseOptions?: Apollo.QueryHookOptions<GetMyProjectsQuery, GetMyProjectsQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetMyProjectsQuery, GetMyProjectsQueryVariables>(GetMyProjectsDocument, options);
-      }
-export function useGetMyProjectsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetMyProjectsQuery, GetMyProjectsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetMyProjectsQuery, GetMyProjectsQueryVariables>(GetMyProjectsDocument, options);
-        }
-export type GetMyProjectsQueryHookResult = ReturnType<typeof useGetMyProjectsQuery>;
-export type GetMyProjectsLazyQueryHookResult = ReturnType<typeof useGetMyProjectsLazyQuery>;
-export type GetMyProjectsQueryResult = Apollo.QueryResult<GetMyProjectsQuery, GetMyProjectsQueryVariables>;
 export const GetProjectLikedStatusDocument = gql`
     query GetProjectLikedStatus($id: String!) {
   project: getProject(id: $id) {

@@ -38,10 +38,9 @@ export interface ProjectCardProps {
       avatar?: string;
     };
   };
-  previous?: string;
 }
 
-const ProjectCard = ({ project, previous }: ProjectCardProps) => {
+const ProjectCard = ({ project }: ProjectCardProps) => {
   const [reactToProject] = useReactToProjectMutation();
   const { isLoggedIn } = useIsLoggedIn();
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
@@ -86,7 +85,6 @@ const ProjectCard = ({ project, previous }: ProjectCardProps) => {
       <Link
         href={{
           pathname: `/project/${project.id}`,
-          query: { previous: previous },
         }}
         passHref
       >

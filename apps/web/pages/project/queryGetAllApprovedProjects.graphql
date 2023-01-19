@@ -1,7 +1,7 @@
-#import "@/graphql/projectFragment.graphql"
+#import "@/graphql/projectCardFragment.graphql"
 
 query GetApprovedProjects($input: SearchProjectsInput) {
   projects: getApprovedProjects(input: $input) {
-    ...ProjectsResponseFragment
+    ...ProjectCardFragment
   }
 }

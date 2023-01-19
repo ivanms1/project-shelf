@@ -3,6 +3,8 @@ import { Button } from 'ui';
 import Image from 'next/image';
 import { NextSeo } from 'next-seo';
 import { signIn } from 'next-auth/react';
+import { useTranslation } from 'next-i18next';
+import Link from 'next/link';
 
 import ProjectsGrid from '@/components/ProjectsGrid';
 
@@ -15,8 +17,6 @@ import {
   signinBox,
   titleStyle,
 } from './Home.css';
-import { useTranslation } from 'next-i18next';
-import Link from 'next/link';
 
 function Home() {
   const { data, loading, fetchMore } = useGetApprovedProjectsQuery();

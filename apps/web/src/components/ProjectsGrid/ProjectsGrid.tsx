@@ -3,6 +3,7 @@ import { Waypoint } from 'react-waypoint';
 import { Loader } from 'ui';
 
 import ProjectCard from '../ProjectCard';
+import CardSkeleton from '@/components/CardSkeleton';
 
 import type { ProjectCardProps } from '../ProjectCard/ProjectCard';
 
@@ -12,12 +13,13 @@ import {
   projectsGridStyle,
 } from './ProjectsGrid.css';
 
+const SKELTON_ARRAY = Array.from({ length: 9 });
+
 interface ProjectsGridProps {
   projects: ProjectCardProps['project'][];
   onRefetch: () => void;
   loading: boolean;
   nextCursor: string | null;
-  previous?: string;
 }
 
 const ProjectsGrid = ({
@@ -25,17 +27,15 @@ const ProjectsGrid = ({
   loading,
   onRefetch,
   nextCursor,
-  previous = '/',
 }: ProjectsGridProps) => {
   return (
     <>
       <div className={projectsGridStyle}>
+        {loading &&
+          projects?.length === 0 &&
+          SKELTON_ARRAY.map((_, index) => <CardSkeleton key={index} />)}
         {projects.map((project) => (
-          <ProjectCard
-            key={project?.id}
-            project={project}
-            previous={previous}
-          />
+          <ProjectCard key={project?.id} project={project} />
         ))}
         {!loading && nextCursor && (
           <Waypoint onEnter={onRefetch} bottomOffset='-50%' />
