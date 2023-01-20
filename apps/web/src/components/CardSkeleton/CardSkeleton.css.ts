@@ -18,7 +18,7 @@ export const cardSkeletonStyle = style({
 });
 
 export const cardSkeletonImageStyle = style({
-  backgroundColor: '#e2e5e7',
+  backgroundColor: '#F9F8FD',
   backgroundImage:
     'linear-gradient(90deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0))',
   backgroundSize: '40px 100%',
