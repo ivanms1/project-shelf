@@ -34,6 +34,7 @@ export const descriptionStyle = style({
 });
 
 export const gridStyle = style({
+  padding: '40px 0',
   '@media': {
     [media.desktop]: {
       padding: '40px 100px',
