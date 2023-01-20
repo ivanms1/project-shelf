@@ -69,7 +69,7 @@ export const customStyles: any = {
       border,
       borderRadius: 8,
       height: 40,
-
+      cursor: 'pointer',
       boxShadow,
       '&:hover': {
         border: '1px solid transparent',
