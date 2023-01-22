@@ -8,6 +8,7 @@ function Home() {
   return (
     <div>
       <h2>Projects</h2>
+
       <div>
         {data?.projects.results?.map((project) => (
           <div key={project.id}>
