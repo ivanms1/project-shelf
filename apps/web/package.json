@@ -40,10 +40,13 @@
     "@svgr/webpack": "^6.5.1",
     "@types/react": "17.0.39",
     "@vanilla-extract/next-plugin": "^2.1.1",
+    "autoprefixer": "^10.4.13",
     "config": "*",
     "eslint": "8.10.0",
     "next-transpile-modules": "9.0.0",
     "plop": "^3.1.0",
+    "postcss": "^8.4.21",
+    "tailwindcss": "^3.2.4",
     "tsconfig": "*",
     "typescript": "^4.9.3"
   }
