@@ -236,7 +236,7 @@ const UserEdit = () => {
           </div>
 
           <div className={saveProfileWrapper}>
-            <Button variant='primary' type='submit'>
+            <Button variant='primary' isLoading type='submit'>
               {t('save-profile')}
             </Button>
           </div>

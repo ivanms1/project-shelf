@@ -1,11 +1,10 @@
 import { style } from '@vanilla-extract/css';
-import { media, vars } from 'ui/variables.css';
 
 export const closeButtonStyle = style({
   position: 'absolute',
   right: 15,
   top: 15,
-  zIndex: `calc(${vars.zIndex.modalOverlay} + 1)`,
+  zIndex: `calc(9999 + 1)`,
 });
 
 export const closeIconStyle = style({
@@ -40,7 +39,7 @@ export const modalStyle = style({
   paddingBottom: '2rem',
 
   '@media': {
-    [media.desktop]: {
+    'screen and (min-width: 1296px)': {
       height: 'calc(100vh - 30px)',
       padding: '40px 360px',
       borderRadius: '12px 12px 0 0',
@@ -56,7 +55,7 @@ export const headerStyle = style({
   marginBottom: 40,
 
   '@media': {
-    [media.desktop]: {
+    'screen and (min-width: 1296px)': {
       padding: '0 100px',
     },
   },
@@ -93,7 +92,7 @@ export const imageContainerStyle = style({
   marginBottom: 40,
 
   '@media': {
-    [media.desktop]: {
+    'screen and (min-width: 1296px)': {
       width: '100%',
       height: '85%',
       padding: '0 60px',
@@ -111,7 +110,7 @@ export const descriptionContainerStyle = style({
   alignItems: 'flex-start',
   gap: 25,
   '@media': {
-    [media.desktop]: {
+    'screen and (min-width: 1296px)': {
       padding: '0 60px',
     },
   },
@@ -119,7 +118,7 @@ export const descriptionContainerStyle = style({
 
 export const descriptionStyle = style({
   '@media': {
-    [media.desktop]: {
+    'screen and (min-width: 1296px)': {
       padding: '5px 0px',
     },
   },
@@ -162,14 +161,14 @@ export const deleteModalStyle = style({
   gap: 30,
 
   '@media': {
-    [media.midDesktop]: {
+    'screen and (min-width: 990px)': {
       width: 'fit-content',
     },
   },
 });
 
 export const deleteButtonStyle = style({
-  color: vars.colors.errorRed,
+  color: 'red',
 });
 
 export const deleteModalTitleStyle = style({

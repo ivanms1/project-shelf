@@ -1,5 +1,4 @@
 import { style } from '@vanilla-extract/css';
-import { media } from 'ui/variables.css';
 
 export const buttonsContainerStyle = style({
   display: 'flex',
@@ -10,7 +9,7 @@ export const buttonsContainerStyle = style({
   position: 'sticky',
 
   '@media': {
-    [media.desktop]: {
+    'screen and (min-width: 1296px)': {
       paddingBottom: 0,
     },
   },
@@ -21,7 +20,7 @@ export const formStyle = style({
   flexDirection: 'column',
   alignItems: 'center',
   '@media': {
-    [media.desktop]: {
+    'screen and (min-width: 1296px)': {
       padding: '0 410px',
     },
   },
@@ -69,7 +68,7 @@ export const uploadContainerStyle = style({
   justifyContent: 'center',
 
   '@media': {
-    [media.desktop]: {
+    'screen and (min-width: 1296px)': {
       padding: 60,
       height: '100%',
     },

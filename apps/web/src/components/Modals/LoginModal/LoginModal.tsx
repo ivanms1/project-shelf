@@ -18,7 +18,7 @@ import {
 const LoginModal = ({ isOpen, onClose, ...others }) => {
   return (
     <Modal
-      isOpen={isOpen}
+      open={isOpen}
       onClose={onClose}
       className={likeButtonModalStyle}
       {...others}

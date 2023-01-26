@@ -1,5 +1,4 @@
 import { style } from '@vanilla-extract/css';
-import { media } from 'ui/variables.css';
 
 export const headerStyle = style({
   width: '100vw',
@@ -67,7 +66,7 @@ export const totalCountStyle = style({
 
 export const projectsGridStyle = style({
   '@media': {
-    [media.desktop]: {
+    'screen and (min-width: 1296px)': {
       padding: '40px 100px',
     },
   },

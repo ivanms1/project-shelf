@@ -1,4 +1,3 @@
-import 'ui/dist/index.css';
 import { ApolloProvider } from '@apollo/client';
 import { AppProps } from 'next/app';
 import { SessionProvider } from 'next-auth/react';

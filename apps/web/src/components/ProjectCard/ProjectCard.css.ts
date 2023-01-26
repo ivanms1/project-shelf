@@ -1,5 +1,4 @@
 import { style, styleVariants } from '@vanilla-extract/css';
-import { vars } from 'ui/variables.css';
 
 export const projectCardStyle = style({
   width: 330,
@@ -69,16 +68,16 @@ export const heartStyleBase = style({
   marginRight: 5,
   transition: 'fill .4s ease',
   ':hover': {
-    fill: vars.colors.pink,
+    fill: '#ea4c89',
   },
 });
 
 export const heartStyleVariants = styleVariants({
-  liked: [heartStyleBase, { fill: vars.colors.pink }],
+  liked: [heartStyleBase, { fill: '#ea4c89' }],
   unliked: [
     heartStyleBase,
     {
-      fill: vars.colors.gray,
+      fill: '#9e9ea7',
     },
   ],
 });

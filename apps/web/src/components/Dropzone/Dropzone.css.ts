@@ -1,5 +1,4 @@
 import { style } from '@vanilla-extract/css';
-import { media } from 'ui/variables.css';
 
 export const containerStyle = style({
   position: 'relative',
@@ -10,7 +9,7 @@ export const containerStyle = style({
   display: 'flex',
   justifyContent: 'center',
   '@media': {
-    [media.desktop]: {
+    'screen and (min-width: 1296px)': {
       width: 800,
       height: 600,
     },

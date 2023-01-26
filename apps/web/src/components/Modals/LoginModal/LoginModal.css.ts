@@ -1,5 +1,4 @@
 import { style } from '@vanilla-extract/css';
-import { vars, media } from 'ui/variables.css';
 
 export const likeButtonModalStyle = style({
   display: 'flex',
@@ -12,7 +11,7 @@ export const likeButtonModalStyle = style({
   width: '100%',
 
   '@media': {
-    [media.mobile]: {
+    'screen and (max-width: 672px)': {
       maxWidth: '350px',
     },
   },
@@ -28,10 +27,10 @@ export const likeContentContainer = style({
 
   borderTopLeftRadius: 'inherit',
   borderTopRightRadius: 'inherit',
-  backgroundColor: vars.colors.primaryLight,
+  backgroundColor: '#f082ac',
 
   '@media': {
-    [media.mobile]: {
+    'screen and (max-width: 672px)': {
       flexDirection: 'column',
       gap: 20,
     },
@@ -47,7 +46,7 @@ export const likeContentInnerTextContainer = style({
   gap: 10,
 
   '@media': {
-    [media.mobile]: {
+    'screen and (max-width: 672px)': {
       flexDirection: 'column',
     },
   },
@@ -58,7 +57,7 @@ export const projectShelfImage = style({
   height: 150,
 
   '@media': {
-    [media.mobile]: {
+    'screen and (max-width: 672px)': {
       width: 150,
       height: 150,
     },
@@ -69,7 +68,7 @@ export const likeTextContent = style({
   display: 'block',
   width: '100%',
   fontSize: 15,
-  border: `2px solid ${vars.colors.bgPrimary}`,
+  border: `2px solid #f2f3fc`,
   padding: 10,
   borderRadius: 5,
 });

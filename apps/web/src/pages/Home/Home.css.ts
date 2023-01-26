@@ -1,5 +1,4 @@
 import { style } from '@vanilla-extract/css';
-import { media } from 'ui/variables.css';
 
 export const signinBox = style({
   display: 'flex',
@@ -9,7 +8,7 @@ export const signinBox = style({
   justifyContent: 'space-between',
   padding: 26,
   '@media': {
-    [media.desktop]: {
+    'screen and (min-width: 1296px)': {
       flexDirection: 'row',
       padding: '50px 100px',
     },
@@ -18,7 +17,7 @@ export const signinBox = style({
 
 export const contentBoxStyle = style({
   '@media': {
-    [media.desktop]: {
+    'screen and (min-width: 1296px)': {
       width: '45%',
     },
   },
@@ -36,7 +35,7 @@ export const descriptionStyle = style({
 export const gridStyle = style({
   padding: '40px 0',
   '@media': {
-    [media.desktop]: {
+    'screen and (min-width: 1296px)': {
       padding: '40px 100px',
     },
   },
