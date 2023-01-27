@@ -1,10 +1,9 @@
 import { style } from '@vanilla-extract/css';
-import { media } from 'ui/variables.css';
 
 export const detailsFormModalStyle = style({
   minWidth: '100%',
   '@media': {
-    [media.desktop]: {
+    'screen and (min-width: 1296px)': {
       padding: 50,
       minWidth: 600,
     },

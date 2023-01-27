@@ -1,8 +1,6 @@
 import * as React from 'react';
-import { default as RSelect } from 'react-select';
+import { default as RSelect, GroupBase, StylesConfig } from 'react-select';
 import { FieldError, Merge, FieldErrorsImpl } from 'react-hook-form';
-
-import { containerStyles, errorMessageStyle, labelStyles } from './Select.css';
 
 type Value = { value: string | number; label?: string };
 
@@ -17,12 +15,16 @@ export interface SelectProps {
 
 export const Select = ({ label, error, ...props }: SelectProps) => {
   return (
-    <div className={containerStyles}>
-      {label && <label className={labelStyles}>{label}</label>}
+    <div className='flex flex-col relative'>
+      {label && (
+        <label className='font-semibold mb-1 text-white'>{label}</label>
+      )}
 
       <RSelect styles={customStyles} {...props} />
       {error?.message && (
-        <div className={errorMessageStyle}>{error.message}</div>
+        <div className='absolute bottom-[-23px] text-sm r-0 text-red-600'>
+          {error.message}
+        </div>
       )}
     </div>
   );
@@ -30,20 +32,20 @@ export const Select = ({ label, error, ...props }: SelectProps) => {
 
 export default Select;
 
-export const customStyles: any = {
-  singleValue: (provided: React.CSSProperties) => ({
+export const customStyles: StylesConfig<Value, boolean, GroupBase<Value>> = {
+  singleValue: (provided) => ({
     ...provided,
     display: 'flex',
   }),
-  multiValue: (provided: React.CSSProperties) => ({
+  multiValue: (provided) => ({
     ...provided,
-    backgroundColor: '#dbdbde',
+    backgroundColor: 'white',
     borderRadius: 4,
     color: '#0d0c22',
-    fontSize: 14,
-    height: 24,
+    fontSize: 16,
+    height: 60,
   }),
-  multiValueLabel: (provided: React.CSSProperties) => ({
+  multiValueLabel: (provided) => ({
     ...provided,
     fontWeight: 500,
     color: '#0d0c22',
@@ -55,25 +57,15 @@ export const customStyles: any = {
   indicatorsContainer: () => ({
     display: 'none',
   }),
-  control: (provided: React.CSSProperties, state: any) => {
-    const backgroundColor = state.isFocused ? '#fff' : '#f3f3f4';
-    const boxShadow = state.isFocused
-      ? '0 0 0 4px rgb(234 76 137 / 10%)'
-      : 'none';
-    const border = state.isFocused
-      ? '1px solid rgba(234,76,137,0.4)'
-      : '1px solid transparent';
+  control: (provided) => {
     return {
       ...provided,
-      backgroundColor,
-      border,
-      borderRadius: 8,
-      height: 40,
+      backgroundColor: '#FFF',
+      border: '1px solid rgb(133 133 132)',
+      borderRadius: 20,
+      height: 60,
       cursor: 'pointer',
-      boxShadow,
-      '&:hover': {
-        border: '1px solid transparent',
-      },
+
       transition:
         'background-color 200ms ease, outline 200ms ease, color 200ms ease, box-shadow 200ms ease, -webkit-box-shadow 200ms ease',
     };

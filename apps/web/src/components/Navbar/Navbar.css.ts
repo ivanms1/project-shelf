@@ -1,5 +1,4 @@
 import { style } from '@vanilla-extract/css';
-import { media } from 'ui/variables.css';
 
 export const navbarStyle = style({
   display: 'flex',
@@ -58,7 +57,7 @@ export const flagStyle = style({
 
 export const aboutButtonStyle = style({
   '@media': {
-    [media.mobile]: {
+    'screen and (max-width: 768px)': {
       display: 'none',
     },
   },

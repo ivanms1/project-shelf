@@ -1,9 +1,8 @@
 import { style } from '@vanilla-extract/css';
-import { media } from 'ui/variables.css';
 
 export const userStyle = style({
   '@media': {
-    [media.desktop]: {
+    'screen and (min-width: 1296px)': {
       padding: '40px 100px',
     },
   },

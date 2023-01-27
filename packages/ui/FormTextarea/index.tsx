@@ -1,9 +1,11 @@
 import * as React from 'react';
 import classNames from 'classnames';
 
-import { containerStyle, labelStyle } from '../Input/Input.css';
-
-import { formTextArea } from './FormTextarea.css';
+import {
+  INPUT_CLASS,
+  INPUT_CONTAINER_CLASS,
+  INPUT_LABEL_CLASS,
+} from '../Input';
 
 interface FormTextarea extends React.InputHTMLAttributes<HTMLTextAreaElement> {
   register: any;
@@ -20,19 +22,19 @@ export const FormTextArea = ({
   ...props
 }: FormTextarea) => {
   return (
-    <div className={containerStyle}>
+    <div className={INPUT_CONTAINER_CLASS}>
       {!!label && (
-        <label className={labelStyle} htmlFor={id || name}>
+        <label className={INPUT_LABEL_CLASS} htmlFor={id || name}>
           {label}
         </label>
       )}
       <textarea
-        className={classNames(formTextArea, className)}
+        className={classNames(INPUT_CLASS, 'h-36', className)}
         id={id}
         name={name}
         {...register}
         {...props}
-      ></textarea>
+      />
     </div>
   );
 };

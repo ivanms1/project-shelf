@@ -1,5 +1,4 @@
 import { style } from '@vanilla-extract/css';
-import { media, vars } from 'ui/variables.css';
 
 export const containerStyle = style({
   position: 'relative',
@@ -13,19 +12,19 @@ export const containerStyle = style({
   cursor: 'pointer',
 
   '@media': {
-    [media.desktop]: {
+    'screen and (min-width: 1296px)': {
       width: 200,
       height: 200,
     },
-    [media.midDesktop]: {
+    'screen and (min-width: 990px)': {
       width: 200,
       height: 200,
     },
-    [media.ipad]: {
+    'screen and (max-width: 990px)': {
       width: 160,
       height: 160,
     },
-    [media.mobile]: {
+    'screen and (max-width: 672px)': {
       width: 160,
       height: 160,
     },
@@ -45,7 +44,7 @@ export const overlayStyle = style({
   background: 'rgba(0,0,0,0.6)',
   fontWeight: 400,
   fontSize: '20px',
-  zIndex: vars.zIndex.loaderOverlay,
+  zIndex: '999',
   borderRadius: '50%',
 
   selectors: {

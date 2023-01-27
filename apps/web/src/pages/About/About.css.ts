@@ -1,8 +1,7 @@
 import { style } from '@vanilla-extract/css';
-import { vars } from 'ui/variables.css';
 
 export const aboutStyles = style({
-  backgroundColor: vars.colors.bgPrimary,
+  backgroundColor: '#F9F8FD',
   height: '100%',
   flex: '1',
 });

@@ -1,5 +1,4 @@
 import { style } from '@vanilla-extract/css';
-import { media } from 'ui/variables.css';
 
 export const mainWrapperStyle = style({
   display: 'flex',
@@ -17,12 +16,12 @@ export const profileImageWrapperStyle = style({
   padding: 20,
 
   '@media': {
-    [media.desktop]: {
+    'screen and (min-width: 1296px)': {
       display: 'flex',
       flexDirection: 'row',
     },
 
-    [media.ipad]: {
+    'screen and (max-width: 990px)': {
       display: 'flex',
       width: '100%',
       flexDirection: 'column',
@@ -41,13 +40,13 @@ export const profileImageButtonWrapperStyle = style({
   width: 'max-content',
 
   '@media': {
-    [media.desktop]: {
+    'screen and (min-width: 1296px)': {
       gap: 20,
     },
-    [media.midDesktop]: {
+    'screen and (min-width: 990px)': {
       gap: 20,
     },
-    [media.ipad]: {
+    'screen and (max-width: 990px)': {
       gap: 20,
       justifyContent: 'space-between',
     },
@@ -61,19 +60,19 @@ export const formStyle = style({
   width: '100%',
 
   '@media': {
-    [media.desktop]: {
+    'screen and (min-width: 1296px)': {
       maxWidth: '800px',
     },
 
-    [media.midDesktop]: {
+    'screen and (min-width: 990px)': {
       maxWidth: '800px',
     },
 
-    [media.ipad]: {
+    'screen and (max-width: 990px)': {
       maxWidth: '80%',
     },
 
-    [media.mobile]: {
+    'screen and (max-width: 672px)': {
       maxWidth: '100%',
     },
   },

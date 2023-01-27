@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { NextSeo } from 'next-seo';
 import { useDeleteProjectsMutation, useGetProjectQuery } from 'apollo-hooks';
 import { useRouter } from 'next/router';
-import { Button, Modal, Badge, LoaderOverlay } from 'ui';
+import { Button, Modal, LoaderOverlay } from 'ui';
 import toast from 'react-hot-toast';
 import { useTranslation } from 'next-i18next';
 
@@ -109,7 +109,7 @@ function Project() {
       >
         <CloseIcon className={closeIconStyle} />
       </Button>
-      <Modal isOpen onClose={handleClose} className={modalStyle}>
+      <Modal open onClose={handleClose} className={modalStyle}>
         <div className={headerStyle}>
           <div className={infoBoxStyle}>
             <Button
@@ -154,7 +154,7 @@ function Project() {
           <p className={descriptionStyle}>{data?.project?.description}</p>
           <div className={tagsContainerStyle}>
             {data?.project?.tags.map((tag) => (
-              <Badge key={tag}>{tag}</Badge>
+              <p key={tag}>{tag}</p>
             ))}
           </div>
           <div className={hStackStyle}>
@@ -199,7 +199,7 @@ function Project() {
             </Button>
 
             <Modal
-              isOpen={openDeleteModal}
+              open={openDeleteModal}
               onClose={() => setOpenDeleteModal(false)}
               className={deleteModalStyle}
             >

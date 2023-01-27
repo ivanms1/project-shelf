@@ -37,7 +37,7 @@ const DetailsFormModal = ({
   const { t } = useTranslation('project-form');
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} className={detailsFormModalStyle}>
+    <Modal open={isOpen} onClose={onClose} className={detailsFormModalStyle}>
       <h1 className={titleStyle}>{t('final-details')}</h1>
       <div className={inputsContainerStyle}>
         <FormInput
