@@ -11,16 +11,22 @@ export interface SelectProps {
   onChange: (value: any) => void;
   isMulti?: boolean;
   error?: FieldError | Merge<FieldError, FieldErrorsImpl<any>>;
+  customStyles?: StylesConfig<Value, boolean, GroupBase<Value>>;
 }
 
-export const Select = ({ label, error, ...props }: SelectProps) => {
+export const Select = ({
+  label,
+  error,
+  customStyles,
+  ...props
+}: SelectProps) => {
   return (
     <div className='flex flex-col relative'>
       {label && (
         <label className='font-semibold mb-1 text-white'>{label}</label>
       )}
 
-      <RSelect styles={customStyles} {...props} />
+      <RSelect styles={{ ...styles, ...customStyles }} {...props} />
       {error?.message && (
         <div className='absolute bottom-[-23px] text-sm r-0 text-red-600'>
           {error.message}
@@ -32,7 +38,7 @@ export const Select = ({ label, error, ...props }: SelectProps) => {
 
 export default Select;
 
-export const customStyles: StylesConfig<Value, boolean, GroupBase<Value>> = {
+export const styles: StylesConfig<Value, boolean, GroupBase<Value>> = {
   singleValue: (provided) => ({
     ...provided,
     display: 'flex',

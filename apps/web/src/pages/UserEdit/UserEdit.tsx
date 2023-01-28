@@ -236,7 +236,12 @@ const UserEdit = () => {
           </div>
 
           <div className={saveProfileWrapper}>
-            <Button variant='primary' isLoading type='submit'>
+            <Button
+              variant='primary'
+              isLoading={updateUserLoading || imageUploading}
+              className='min-w-[200px] flex justify-center'
+              type='submit'
+            >
               {t('save-profile')}
             </Button>
           </div>

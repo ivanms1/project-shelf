@@ -7,20 +7,11 @@ import { Button, DropDown, Select } from 'ui';
 import { useTranslation } from 'next-i18next';
 import cookie from 'react-cookies';
 
+import MobileMenu from '../MobileMenu';
+
 import useIsLoggedIn from '@/hooks/useIsLoggedIn';
 
 import { LOCALES, NEXT_LOCALE } from 'const';
-
-import {
-  aboutButtonStyle,
-  avatarStyle,
-  flagStyle,
-  logoStyle,
-  navbarStyle,
-  popoverItemsStyle,
-  popoverItemStyle,
-  rightSectionStyle,
-} from './Navbar.css';
 
 const Navbar = () => {
   const { isLoggedIn, logout, currentUser } = useIsLoggedIn();
@@ -40,88 +31,117 @@ const Navbar = () => {
 
   const currentLocale = {
     value: LOCALES.find((locale) => locale.code === router.locale).code,
-    label: <CurrentLocalFlag className={flagStyle} />,
+    label: <CurrentLocalFlag className='w-6' />,
   };
 
   return (
-    <div className={navbarStyle}>
+    <div className='bg-black flex text-white flex-row py-5 px-12 justify-between max-lg:py-3 max-lg:px-7'>
       <Link href='/'>
-        <Image
-          className={logoStyle}
-          src={'/assets/images/shelf.png'}
-          alt='project shelf logo'
-          height={50}
-          width={50}
-        />
+        <a className='flex flex-row items-center gap-3'>
+          <Image
+            className='cursor-pointer'
+            src={'/assets/images/shelf.png'}
+            alt='project shelf logo'
+            height={50}
+            width={50}
+          />
+          <p className='lg:text-2xl font-bold font-mono text-xl'>
+            {t('project-shelf')}
+          </p>
+        </a>
       </Link>
-      <div className={rightSectionStyle}>
+      <div className='flex flex-row gap-[10px] items-center max-lg:hidden'>
         <Link href='/about'>
-          <a>
-            <Button className={aboutButtonStyle} variant='secondary'>
-              {t('about')}
-            </Button>
-          </a>
+          <a className='py-5 px-3'>{t('about')}</a>
         </Link>
         <Link href='/search'>
-          <a>
-            <Button variant='secondary'>{t('search')}</Button>
-          </a>
+          <a className='py-5 px-3'>{t('search')}</a>
         </Link>
         <Select
           // @ts-expect-error TODO: add correct type
           value={currentLocale}
-          // @ts-expect-error TODO: add correct type
           options={LOCALES.map((locale) => {
             const Flag = locale.flag;
             return {
               value: locale.code,
-              label: <Flag className={flagStyle} />,
+              label: (<Flag className='w-6' />) as unknown as string,
             };
           })}
+          customStyles={{
+            control: (provided) => ({
+              ...provided,
+              cursor: 'pointer',
+              minHeight: 'auto',
+              marginRight: '0.75rem',
+            }),
+            valueContainer: (provided) => ({
+              ...provided,
+              padding: '0 0.2rem',
+            }),
+            option: (provided) => ({
+              ...provided,
+              padding: '0.4rem',
+            }),
+          }}
           onChange={(e) => {
             onToggleLanguageClick(e.value);
           }}
         />
         {isLoggedIn ? (
           <>
+            <Link href='/create-project' passHref>
+              <Button className='px-7' size='small'>
+                {t('add-project')}
+              </Button>
+            </Link>
             <DropDown
               open={open}
               setOpen={setOpen}
               parent={
                 <Image
-                  className={avatarStyle}
+                  className='cursor-pointer rounded-full'
                   src={currentUser?.avatar}
-                  width={32}
-                  height={32}
+                  width={40}
+                  height={40}
                   alt={currentUser?.name}
                 />
               }
             >
-              <div className={popoverItemsStyle}>
-                <Link href={`/user/${currentUser?.id}`}>
-                  <a className={popoverItemStyle}>{t('profile')}</a>
+              <div className='bg-white flex flex-col rounded-sm'>
+                <Link
+                  href={`/user/${currentUser?.id}`}
+                  className='py-3 px-8 text-black text-center hover:bg-slate-100 w-full'
+                >
+                  {t('profile')}
                 </Link>
 
-                <Link href={`/user-edit/${currentUser?.id}`}>
-                  <a className={popoverItemStyle}>{t('edit-profile')}</a>
+                <Link
+                  href={`/user-edit/${currentUser?.id}`}
+                  className='py-3 px-8 text-black text-center hover:bg-slate-100 w-full'
+                >
+                  {t('edit-profile')}
                 </Link>
                 <Button
                   variant='ghost'
-                  className={popoverItemStyle}
+                  className='py-3 px-8 text-black text-center hover:bg-slate-100 w-full'
                   onClick={logout}
                 >
                   {t('sign-out')}
                 </Button>
               </div>
             </DropDown>
-            <Link href='/create-project' passHref>
-              <Button>{t('add-project')}</Button>
-            </Link>
           </>
         ) : (
-          <Button onClick={() => signIn('github')}>{t('login')}</Button>
+          <Button
+            className='px-7'
+            size='small'
+            onClick={() => signIn('github')}
+          >
+            {t('login')}
+          </Button>
         )}
       </div>
+      <MobileMenu />
     </div>
   );
 };

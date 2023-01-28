@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import * as React from 'react';
 
 export const INPUT_CONTAINER_CLASS = 'flex flex-col relative';
@@ -9,11 +10,19 @@ export const INPUT_LABEL_CLASS = 'font-semibold mb-1 text-white';
 
 interface Input extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string;
+  containerClassName?: string;
 }
 
-export function Input({ name, id, type = 'text', label, ...props }: Input) {
+export function Input({
+  name,
+  id,
+  type = 'text',
+  label,
+  containerClassName,
+  ...props
+}: Input) {
   return (
-    <div className={INPUT_CONTAINER_CLASS}>
+    <div className={classNames(INPUT_CONTAINER_CLASS, containerClassName)}>
       {!!label && (
         <label className={INPUT_LABEL_CLASS} htmlFor={id || name}>
           {label}

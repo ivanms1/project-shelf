@@ -11,6 +11,7 @@ module.exports = {
         'grey-light': '#858584',
         white: '#FFFFFF',
         'red-light': '#FF6250',
+        'silver': '#CCCCCC'
       },
       backgroundImage: {
         'gradient-primary': 'linear-gradient(128.15deg, #A259FF 49.75%, #377DF7 136.56%);',
@@ -19,6 +20,9 @@ module.exports = {
       zIndex: {
         'loading-overlay': '999',
         'modal-overlay': '99999',
+      },
+      fontFamily: {
+        mono: ['"Space Mono"', 'monospace'],
       }
     },
   },
