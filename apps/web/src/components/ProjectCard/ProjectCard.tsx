@@ -97,7 +97,7 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
                   src={project?.author?.avatar}
                   width={35}
                   height={35}
-                  className='rounded-circle border-2 transition duration-400 ease-in border-transparent group-hover:border-primary '
+                  className='rounded-circle border-2 transition duration-400 ease-in border-transparent group-hover:border-primary'
                 />
               )}
               <span className='font-light'>{project?.author?.name}</span>
