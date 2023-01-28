@@ -12,7 +12,7 @@ module.exports = {
         'grey-light': '#858584',
         white: '#FFFFFF',
         'red-light': '#FF6250',
-        'silver': '#CCCCCC'
+        silver: '#CCCCCC',
         'pink-light': '#ea4c89',
       },
       backgroundImage: {
@@ -25,7 +25,7 @@ module.exports = {
       },
       fontFamily: {
         mono: ['"Space Mono"', 'monospace'],
-      }
+      },
       borderRadius: {
         sm: '8px',
         md: '12px',
