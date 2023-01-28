@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button } from 'ui';
 import Link from 'next/link';
-import Image from 'next/image';
+import Image from 'next/future/image';
 
 import useIsLoggedIn from '@/hooks/useIsLoggedIn';
 
@@ -70,53 +70,53 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
         isOpen={isLoginModalOpen}
         onClose={() => setIsLoginModalOpen(false)}
       />
-      <Link
-        href={{
-          pathname: `/project/${project.id}`,
-        }}
-        passHref
-      >
-        <a className='group/imageContainer w-[330px] h-[247px] relative'>
+      <div className='flex cursor-pointer'>
+        <Link
+          href={{
+            pathname: `/project/${project.id}`,
+          }}
+          passHref
+        >
           <Image
-            className='object-cover rounded-md transition ease-in-out duration-300 hover:brightness-75 hover:opacity-100 hover:p-1 '
+            className='rounded-t-lg object-cover transition ease-in-out duration-300 hover:brightness-75 hover:opacity-100  '
             alt={project?.title}
             src={project?.preview}
             width={330}
             height={247}
           />
-          <p className='invisible text-white p-4 absolute bottom-0 transition ease-in-out duration-90 group-hover/imageContainer:visible'>
-            {project.title}
-          </p>
-        </a>
-      </Link>
-      <div className='flex flex-row justify-between items-center mt-1'>
-        <Link href={`/user/${project?.author?.id}`} passHref>
-          <div className='flex flex-row items-center gap-x-2'>
-            {project?.author?.avatar && (
-              <Image
-                className='rounded-circle'
-                alt={project?.author.name}
-                src={project?.author?.avatar}
-                width={25}
-                height={25}
-              />
-            )}
-            <span>{project?.author?.name}</span>
-          </div>
         </Link>
+      </div>
+      <div className='rounded-b-lg bg-black text-white p-[20px] flex flex-col justify-between h-[160px]'>
+        <div className='flex flex-col items-start gap-y-3 cursor-pointer'>
+          <p className='text-lg font-medium'>{project.title}</p>
+          <Link href={`/user/${project?.author?.id}`} passHref>
+            <div className='group flex items-center gap-x-2 '>
+              {project?.author?.avatar && (
+                <Image
+                  alt={project?.author.name}
+                  src={project?.author?.avatar}
+                  width={35}
+                  height={35}
+                  className='rounded-circle border-2 transition duration-400 ease-in border-transparent group-hover:border-primary '
+                />
+              )}
+              <span className='font-light'>{project?.author?.name}</span>
+            </div>
+          </Link>
+        </div>
 
-        <div className='flex flex-row items-center justify-between '>
+        <div className='flex flex-row items-center place-self-end gap-x-2'>
+          <p className='w-[10px] mr-2 text-right'>{project.likesCount}</p>
           <Button variant='ghost' onClick={handleLike}>
             <HeartIcon
               className={classNames(
-                'w-[15px] fill-grey-lighter scale-105 transition ease-in-out duration-200 hover:fill-pink-light active:scale-75',
+                'w-[25px] fill-grey-lighter scale-105 transition ease-out duration-100 hover:fill-pink-light active:scale-75',
                 {
                   'fill-pink-light': project?.isLiked,
                 }
               )}
             />
           </Button>
-          <p className='w-[10px] ml-2 text-right'>{project.likesCount}</p>
         </div>
       </div>
     </div>
