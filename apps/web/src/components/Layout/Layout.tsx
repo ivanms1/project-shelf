@@ -1,8 +1,7 @@
 import React from 'react';
+import Footer from '../Footer';
 
 import Navbar from '../Navbar';
-
-import { layoutStyle } from './Layout.css';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -10,9 +9,10 @@ interface LayoutProps {
 
 const Layout = ({ children }: LayoutProps) => {
   return (
-    <div className={layoutStyle}>
+    <div className='grid min-h-screen grid-rows-[auto_1fr_auto]'>
       <Navbar />
       {children}
+      <Footer />
     </div>
   );
 };

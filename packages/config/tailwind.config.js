@@ -12,6 +12,7 @@ module.exports = {
         'grey-light': '#858584',
         white: '#FFFFFF',
         'red-light': '#FF6250',
+        'silver': '#CCCCCC'
         'pink-light': '#ea4c89',
       },
       backgroundImage: {
@@ -22,6 +23,9 @@ module.exports = {
         'loading-overlay': '999',
         'modal-overlay': '99999',
       },
+      fontFamily: {
+        mono: ['"Space Mono"', 'monospace'],
+      }
       borderRadius: {
         sm: '8px',
         md: '12px',

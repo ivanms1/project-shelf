@@ -1,4 +1,5 @@
 import { defineConfig } from 'tsup';
+import svgrPlugin from 'esbuild-plugin-svgr';
 
 export default defineConfig({
   entry: ['index.ts'],
@@ -9,5 +10,5 @@ export default defineConfig({
 
   external: ['react', 'react-dom'],
   format: ['esm', 'cjs'],
-  esbuildPlugins: [],
+  esbuildPlugins: [svgrPlugin()],
 });
