@@ -8,10 +8,12 @@ module.exports = {
         'blue-light': '#377DF7',
         black: '#2B2B2B',
         'grey-dark': '#3B3B3B',
+        'grey-lighter': '#9e9ea7',
         'grey-light': '#858584',
         white: '#FFFFFF',
         'red-light': '#FF6250',
         'silver': '#CCCCCC'
+        'pink-light': '#ea4c89',
       },
       backgroundImage: {
         'gradient-primary': 'linear-gradient(128.15deg, #A259FF 49.75%, #377DF7 136.56%);',
@@ -24,6 +26,13 @@ module.exports = {
       fontFamily: {
         mono: ['"Space Mono"', 'monospace'],
       }
+      borderRadius: {
+        sm: '8px',
+        md: '12px',
+        lg: '20px',
+        xl: '30px',
+        circle: '50%',
+      },
     },
   },
   content: ['../../packages/ui/**/*.{js,ts,jsx,tsx}', './pages/**/*.{js,ts,jsx,tsx}', './src/**/*.{js,ts,jsx,tsx}'],
