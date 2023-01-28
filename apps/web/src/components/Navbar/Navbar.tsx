@@ -36,8 +36,8 @@ const Navbar = () => {
 
   return (
     <div className='bg-black flex text-white flex-row py-5 px-12 justify-between max-lg:py-3 max-lg:px-7'>
-      <Link href='/'>
-        <a className='flex flex-row items-center gap-3'>
+      <Link className='flex flex-row items-center gap-3' href='/'>
+        <>
           <Image
             className='cursor-pointer'
             src={'/assets/images/shelf.png'}
@@ -48,14 +48,14 @@ const Navbar = () => {
           <p className='lg:text-2xl font-bold font-mono text-xl'>
             {t('project-shelf')}
           </p>
-        </a>
+        </>
       </Link>
       <div className='flex flex-row gap-[10px] items-center max-lg:hidden'>
-        <Link href='/about'>
-          <a className='py-5 px-3'>{t('about')}</a>
+        <Link href='/about' className='py-5 px-3'>
+          {t('about')}
         </Link>
-        <Link href='/search'>
-          <a className='py-5 px-3'>{t('search')}</a>
+        <Link href='/search' className='py-5 px-3'>
+          {t('search')}
         </Link>
         <Select
           // @ts-expect-error TODO: add correct type
