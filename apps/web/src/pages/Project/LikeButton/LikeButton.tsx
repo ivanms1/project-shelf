@@ -4,18 +4,20 @@ import {
   useGetProjectLikedStatusQuery,
   useReactToProjectMutation,
 } from 'apollo-hooks';
+import { useTranslation } from 'next-i18next';
 import classNames from 'classnames';
 import { Button } from 'ui';
 
-import useIsLoggedIn from './../../../hooks/useIsLoggedIn';
-
-import { baseLikeButtonStyle, notLikedButtonStyle } from './LikeButton.css';
 import LoginModal from '@/components/Modals/LoginModal';
+
+import useIsLoggedIn from '@/hooks/useIsLoggedIn';
 
 function LikeButton({ projectId }: { projectId: string }) {
   const [reactToProject] = useReactToProjectMutation();
   const { isLoggedIn } = useIsLoggedIn();
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+
+  const { t } = useTranslation('project');
 
   const { data } = useGetProjectLikedStatusQuery({
     variables: {
@@ -61,14 +63,19 @@ function LikeButton({ projectId }: { projectId: string }) {
         isOpen={isLoginModalOpen}
         onClose={() => setIsLoginModalOpen(false)}
       />
-      <Button
-        className={classNames(baseLikeButtonStyle, {
-          [notLikedButtonStyle]: !isLiked,
-        })}
-        onClick={handleLike}
-      >
-        {isLiked ? 'Liked' : 'Like'}
-      </Button>
+      <div className='bg-grey-dark rounded-[20px] w-fit p-[30px] h-fit max-xl:mb-8'>
+        <p className='text-4xl font-mono text-center'>
+          {data?.project?.likesCount}
+        </p>
+        <p className='text-xs font-mono mb-4 text-center'>{t('likes')}</p>
+        <Button
+          className={classNames('min-w-[200px]')}
+          variant={isLiked ? 'primary' : 'secondary'}
+          onClick={handleLike}
+        >
+          {isLiked ? t('liked') : t('like')}
+        </Button>
+      </div>
     </>
   );
 }

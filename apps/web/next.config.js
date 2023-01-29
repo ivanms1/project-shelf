@@ -12,7 +12,8 @@ module.exports = withTM(
   withVanillaExtract({
     reactStrictMode: true,
     experimental: {
-      newNextLinkBehavior: true
+      newNextLinkBehavior: true,
+      scrollRestoration: true
     },
     i18n,
     webpack(config) {
