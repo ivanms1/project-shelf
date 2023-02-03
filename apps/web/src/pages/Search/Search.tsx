@@ -50,7 +50,7 @@ function Search() {
   };
 
   return (
-    <div className='bg-black flex flex-col px-28 pt-10 pb-[3px] max-lg:px-[30px]'>
+    <div className='bg-black flex flex-col px-28 pt-20 pb-[3px] max-lg:px-[30px]'>
       <div className='flex flex-col gap-3 mb-8'>
         <h1 className='font-semibold text-5xl'>{t('title')}</h1>
         <p className='text-[22px]'>{t('subtitle')}</p>
