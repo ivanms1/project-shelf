@@ -7,13 +7,7 @@ import CardSkeleton from '@/components/CardSkeleton';
 
 import type { ProjectCardProps } from '../ProjectCard/ProjectCard';
 
-import {
-  loaderContainerStyle,
-  loaderStyles,
-  projectsGridStyle,
-} from './ProjectsGrid.css';
-
-const SKELTON_ARRAY = Array.from({ length: 9 });
+const SKELETON_ARRAY = Array.from({ length: 9 });
 
 interface ProjectsGridProps {
   projects: ProjectCardProps['project'][];
@@ -30,10 +24,10 @@ const ProjectsGrid = ({
 }: ProjectsGridProps) => {
   return (
     <>
-      <div className={projectsGridStyle}>
+      <div className='grid gap-[30px] grid-cols-[repeat(auto-fit,_minmax(330px,_1fr))] max-lg:justify-items-center'>
         {loading &&
           projects?.length === 0 &&
-          SKELTON_ARRAY.map((_, index) => <CardSkeleton key={index} />)}
+          SKELETON_ARRAY.map((_, index) => <CardSkeleton key={index} />)}
         {projects.map((project) => (
           <ProjectCard key={project?.id} project={project} />
         ))}
@@ -42,8 +36,8 @@ const ProjectsGrid = ({
         )}
       </div>
       {loading && nextCursor && (
-        <div className={loaderContainerStyle}>
-          <Loader size='lg' className={loaderStyles} />
+        <div className='flex justify-center items-center'>
+          <Loader size='lg' />
         </div>
       )}
     </>
