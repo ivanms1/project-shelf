@@ -9,6 +9,7 @@ export interface SelectProps {
   options: Value[];
   value: Value | [] | null;
   onChange: (value: any) => void;
+  placeholder?: string;
   isMulti?: boolean;
   error?: FieldError | Merge<FieldError, FieldErrorsImpl<any>>;
   customStyles?: StylesConfig<Value, boolean, GroupBase<Value>>;
@@ -28,7 +29,7 @@ export const Select = ({
 
       <RSelect styles={{ ...styles, ...customStyles }} {...props} />
       {error?.message && (
-        <div className='absolute bottom-[-23px] text-sm r-0 text-red-600'>
+        <div className='absolute bottom-[-20px] text-sm r-0 text-red-400'>
           {error.message}
         </div>
       )}
@@ -45,17 +46,16 @@ export const styles: StylesConfig<Value, boolean, GroupBase<Value>> = {
   }),
   multiValue: (provided) => ({
     ...provided,
-    backgroundColor: 'white',
-    borderRadius: 4,
-    color: '#0d0c22',
+    backgroundColor: '#3B3B3B',
+    borderRadius: 20,
     fontSize: 16,
-    height: 60,
   }),
   multiValueLabel: (provided) => ({
     ...provided,
     fontWeight: 500,
-    color: '#0d0c22',
+    color: 'white',
     paddingLeft: 10,
+    textTransform: 'uppercase',
   }),
   dropdownIndicator: () => ({
     display: 'none',
@@ -63,15 +63,26 @@ export const styles: StylesConfig<Value, boolean, GroupBase<Value>> = {
   indicatorsContainer: () => ({
     display: 'none',
   }),
+  option: (provided) => ({
+    ...provided,
+    backgroundColor: '#FFF',
+    color: '#2B2B2B',
+    cursor: 'pointer',
+    transition:
+      'background-color 200ms ease, outline 200ms ease, color 200ms ease, box-shadow 200ms ease, -webkit-box-shadow 200ms ease',
+    ':hover': {
+      backgroundColor: '#F2F2F2',
+    },
+  }),
   control: (provided) => {
     return {
       ...provided,
       backgroundColor: '#FFF',
       border: '1px solid rgb(133 133 132)',
       borderRadius: 20,
-      height: 60,
-      cursor: 'pointer',
+      height: 46,
 
+      cursor: 'pointer',
       transition:
         'background-color 200ms ease, outline 200ms ease, color 200ms ease, box-shadow 200ms ease, -webkit-box-shadow 200ms ease',
     };

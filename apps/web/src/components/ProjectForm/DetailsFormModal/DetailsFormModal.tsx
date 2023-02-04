@@ -2,17 +2,9 @@ import React from 'react';
 import { SubmitHandler, useFormContext } from 'react-hook-form';
 import { Button, FormInput, FormSelect, Modal } from 'ui';
 
-import { FormTypes } from '../CreateProject';
+import { FormTypes } from '../../../pages/CreateProject/CreateProject';
 
 import { useTranslation } from 'next-i18next';
-
-import {
-  buttonsContainerStyle,
-  detailsFormModalStyle,
-  inputsContainerStyle,
-  publishButtonStyle,
-  titleStyle,
-} from './DetailsFormModal.css';
 
 interface DetailsFormModalProps {
   isOpen: boolean;
@@ -37,16 +29,23 @@ const DetailsFormModal = ({
   const { t } = useTranslation('project-form');
 
   return (
-    <Modal open={isOpen} onClose={onClose} className={detailsFormModalStyle}>
-      <h1 className={titleStyle}>{t('final-details')}</h1>
-      <div className={inputsContainerStyle}>
+    <Modal
+      open={isOpen}
+      onClose={isLoading ? () => {} : onClose}
+      modalClassName='bg-grey-dark'
+      contentClassName='p-12 min-w-[600px] max-lg:min-w-0 max-lg:w-screen max-lg:px-4'
+    >
+      <h1 className='text-2xl font-semibold mb-[30px]'>{t('final-details')}</h1>
+      <div className='flex flex-col gap-8 mb-11'>
         <FormInput
-          label={t('repo-link')}
+          type='url'
+          placeholder={t('repo-link')}
           register={register('repoLink')}
           error={errors.repoLink}
         />
         <FormInput
-          label={t('site-link')}
+          type='url'
+          placeholder={t('site-link')}
           register={register('siteLink')}
           error={errors.siteLink}
         />
@@ -54,21 +53,20 @@ const DetailsFormModal = ({
           isMulti
           control={control}
           name='tags'
-          label={t('tags')}
+          placeholder={t('tags')}
           options={PLACEHOLDER_OPTIONS}
           error={errors.tags}
           register={register('tags')}
         />
       </div>
-      <div className={buttonsContainerStyle}>
+      <div className='flex justify-between'>
         <Button variant='secondary' onClick={onClose} type='button'>
           {t('common:close')}
         </Button>
         <Button
           type='submit'
           isLoading={isLoading}
-          disabled={isLoading}
-          className={publishButtonStyle}
+          className='min-w-[150px]'
           onClick={handleSubmit(onSubmit)}
         >
           {t('common:submit')}
