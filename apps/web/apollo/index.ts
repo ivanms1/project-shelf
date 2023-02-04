@@ -83,7 +83,7 @@ function createApolloClient() {
         Query: {
           fields: {
             getApprovedProjects: projectsMergeConfig,
-            getMyProjects: projectsMergeConfig,
+            getUserProjects: projectsMergeConfig,
             adminGetNotApprovedProjects: projectsMergeConfig,
           },
         },
