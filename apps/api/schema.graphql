@@ -138,6 +138,7 @@ input SearchProjectsInput {
 input UpdateUserInput {
   avatar: String
   bio: String
+  cover: String
   discord: String
   location: String
   name: String
@@ -148,6 +149,7 @@ input UpdateUserInput {
 type User {
   avatar: String
   bio: String
+  cover: String
   createdAt: Date!
   discord: String
   email: String

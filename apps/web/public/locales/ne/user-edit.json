@@ -1,9 +1,8 @@
 {
   "edit-success": "Profile updated successfully.",
   "edit-failure": "Failed to update profile.",
-  "thumbnail-label": "Drop your thumbnail",
-  "drag-drop-label": "Drag n' Drop",
-  "upload-new-picture": "Upload new picture",
+  "avatar-label": "Drop your avatar",
+  "cover-label": "Drop your cover",
   "name-description": "We're big on real names around here, so people know who's who.",
   "name": "Name",
   "location": "Location",
