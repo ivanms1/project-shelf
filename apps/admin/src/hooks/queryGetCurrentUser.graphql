@@ -6,6 +6,7 @@ query GetCurrentUser {
     github
     discord
     avatar
+    cover
     bio
     location
     website

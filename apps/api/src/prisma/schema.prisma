@@ -21,6 +21,7 @@ model User {
   providerId      Int       @unique
   provider        String
   avatar          String?
+  cover           String?
   name            String
   email           String?   @unique
   role            Role      @default(USER)

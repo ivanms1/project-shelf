@@ -16,6 +16,7 @@ builder.prismaObject('User', {
     email: t.exposeString('email', { nullable: true }),
     role: t.expose('role', { type: Role }),
     avatar: t.exposeString('avatar', { nullable: true }),
+    cover: t.exposeString('cover', { nullable: true }),
     followerCount: t.exposeInt('followerCount'),
     github: t.exposeString('github', { nullable: true }),
     discord: t.exposeString('discord', { nullable: true }),

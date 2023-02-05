@@ -99,7 +99,7 @@ const Navbar = () => {
               setOpen={setOpen}
               parent={
                 <Image
-                  className='cursor-pointer rounded-full'
+                  className='cursor-pointer rounded-full h-10 w-10 object-cover'
                   src={currentUser?.avatar}
                   width={40}
                   height={40}
