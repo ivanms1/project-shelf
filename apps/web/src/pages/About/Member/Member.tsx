@@ -11,7 +11,7 @@ export const Member = ({ member }: MemberProps) => {
   const { t } = useTranslation('about');
   return (
     <a target='_blank' href={member.html_url} rel='noreferrer'>
-      <div className='flex flex-col items-center bg-grey-dark rounded-sm h-[300px] w-[250px] shadow-md hover:shadow-2xl transition-shadow'>
+      <div className='flex flex-col items-center bg-grey-dark rounded-sm h-[300px] w-[250px] hover:shadow-xl transition-shadow'>
         <Image
           className='h-[200px] object-cover rounded-t-sm'
           src={member.avatar_url}
@@ -20,6 +20,7 @@ export const Member = ({ member }: MemberProps) => {
           height={200}
         />
         <div className='flex justify-center gap-1 flex-col items-center h-full'>
+          <p className='text-xs font-mono text-center'>@{member.login}</p>
           <p className='text-4xl font-mono text-center'>
             {member.contributions}
           </p>
