@@ -61,7 +61,7 @@ const AvatarDropzone = ({
                   ? URL.createObjectURL(currentFile)
                   : currentFile
               }
-              alt={currentFile?.name}
+              alt={currentFile?.name || currentFile}
               className={imageClassname}
               fill
             />

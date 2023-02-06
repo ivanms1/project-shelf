@@ -1,7 +1,12 @@
+import { Prisma } from '@prisma/client';
+
 import decodeAccessToken from '../../helpers/decodeAccessToken';
 import builder from '../../builder';
 import db from '../../db';
-import { Prisma } from '@prisma/client';
+
+import getPaginationArgs, {
+  type SearchArgs,
+} from '../../helpers/getPaginationArgs';
 
 const Project = builder.prismaObject('Project', {
   name: 'Project',
@@ -132,35 +137,16 @@ builder.queryFields((t) => ({
       });
 
       if (incomingCursor) {
-        results = await db.project.findMany({
-          take: 9,
-          skip: 1,
-          cursor: {
-            id: incomingCursor,
-          },
-          where: filter,
-          include: {
-            author: true,
-          },
-          orderBy: {
-            [args?.input?.orderBy || 'createdAt']: args?.input?.order,
-          },
-        });
+        results = await db.project.findMany(
+          getPaginationArgs(args as SearchArgs, filter, false)
+        );
       } else {
-        results = await db.project.findMany({
-          take: 9,
-          where: filter,
-          include: {
-            author: true,
-          },
-          orderBy: {
-            [args?.input?.orderBy || 'createdAt']: args?.input?.order,
-          },
-        });
+        results = await db.project.findMany(
+          getPaginationArgs(args as SearchArgs, filter, true)
+        );
       }
 
-      const lastResult = results[8];
-      const cursor = lastResult?.id;
+      const cursor = results[9]?.id;
 
       return {
         prevCursor: args?.input?.cursor ?? '',
@@ -181,38 +167,16 @@ builder.queryFields((t) => ({
       const totalCount = await db.project.count();
 
       if (incomingCursor) {
-        results = await db.project.findMany({
-          take: 9,
-          skip: 1,
-          cursor: {
-            id: incomingCursor,
-          },
-          include: {
-            likes: true,
-            author: true,
-          },
-          orderBy: {
-            createdAt: 'desc',
-          },
-        });
+        results = await db.project.findMany(
+          getPaginationArgs(args as SearchArgs, undefined, false)
+        );
       } else {
-        results = await db.project.findMany({
-          take: 9,
-          where: {
-            isApproved: true,
-          },
-          include: {
-            likes: true,
-            author: true,
-          },
-          orderBy: {
-            createdAt: 'desc',
-          },
-        });
+        results = await db.project.findMany(
+          getPaginationArgs(args as SearchArgs, undefined, true)
+        );
       }
 
-      const lastResult = results[8];
-      const cursor = lastResult?.id;
+      const cursor = results[9]?.id;
 
       return {
         prevCursor: args?.input?.cursor ?? '',
@@ -262,37 +226,16 @@ builder.queryFields((t) => ({
       });
 
       if (incomingCursor) {
-        results = await db.project.findMany({
-          take: 9,
-          skip: 1,
-          cursor: {
-            id: incomingCursor,
-          },
-          where: filter,
-          include: {
-            likes: true,
-            author: true,
-          },
-          orderBy: {
-            createdAt: 'desc',
-          },
-        });
+        results = await db.project.findMany(
+          getPaginationArgs(args as SearchArgs, filter, false)
+        );
       } else {
-        results = await db.project.findMany({
-          take: 9,
-          where: filter,
-          include: {
-            likes: true,
-            author: true,
-          },
-          orderBy: {
-            createdAt: 'desc',
-          },
-        });
+        results = await db.project.findMany(
+          getPaginationArgs(args as SearchArgs, filter, true)
+        );
       }
 
-      const lastResult = results[8];
-      const cursor = lastResult?.id;
+      const cursor = results[9]?.id;
 
       return {
         prevCursor: args?.input?.cursor ?? '',
@@ -338,37 +281,16 @@ builder.queryFields((t) => ({
       });
 
       if (incomingCursor) {
-        results = await db.project.findMany({
-          take: 9,
-          skip: 1,
-          cursor: {
-            id: incomingCursor,
-          },
-          where: filter,
-          include: {
-            likes: true,
-            author: true,
-          },
-          orderBy: {
-            [args?.input?.orderBy || 'createdAt']: args?.input?.order,
-          },
-        });
+        results = await db.project.findMany(
+          getPaginationArgs(args as SearchArgs, filter, false)
+        );
       } else {
-        results = await db.project.findMany({
-          take: 9,
-          where: filter,
-          include: {
-            likes: true,
-            author: true,
-          },
-          orderBy: {
-            [args?.input?.orderBy || 'createdAt']: args?.input?.order,
-          },
-        });
+        results = await db.project.findMany(
+          getPaginationArgs(args as SearchArgs, filter, true)
+        );
       }
 
-      const lastResult = results[8];
-      const cursor = lastResult?.id;
+      const cursor = results[9]?.id;
 
       return {
         prevCursor: args?.input?.cursor ?? '',

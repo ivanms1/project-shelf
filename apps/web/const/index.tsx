@@ -41,3 +41,8 @@ export const LOCALES = [
 ];
 
 export const NEXT_LOCALE = 'NEXT_LOCALE';
+
+export const IMGBOT_ID = 31427850;
+
+export const PROJECT_SHELF_CONTRIBUTORS_API =
+  'https://api.github.com/repos/project-shelf/project-shelf/contributors';

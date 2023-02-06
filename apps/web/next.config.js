@@ -31,11 +31,9 @@ module.exports = withTM(
     images: {
       domains: [
         'res.cloudinary.com',
-        'avatars.githubusercontent.com',
         'cloudflare-ipfs.com',
+        'avatars.githubusercontent.com',
         'loremflickr.com',
-        'github.com',
-        'github.githubassets.com',
         'via.placeholder.com'
       ],
     },
