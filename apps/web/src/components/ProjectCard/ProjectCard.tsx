@@ -78,11 +78,11 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
           passHref
         >
           <Image
-            className='rounded-t-lg h-[295px] object-cover transition ease-in-out duration-300 hover:brightness-75 hover:opacity-100  '
+            className='rounded-t-lg object-cover transition ease-in-out duration-300 hover:brightness-75 hover:opacity-100 w-[330px] h-[295px]'
             alt={project?.title}
             src={project?.preview}
             width={330}
-            height={247}
+            height={295}
           />
         </Link>
       </div>
