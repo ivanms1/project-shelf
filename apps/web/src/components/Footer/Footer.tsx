@@ -75,7 +75,7 @@ const Footer = ({}: FooterProps) => {
         </div>
       </div>
       <p className='text-silver text-sm mt-5'>
-        © 2021 Project Shelf. All rights reserved.
+        © {new Date().getFullYear()} Project Shelf. All rights reserved.
       </p>
     </div>
   );

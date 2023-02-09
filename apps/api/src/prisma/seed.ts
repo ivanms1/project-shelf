@@ -37,7 +37,6 @@ async function main() {
           preview: faker.image.abstract(800, 600, true),
           repoLink: faker.internet.url(),
           siteLink: faker.internet.url(),
-          likesCount: 0,
           isApproved: true,
           author: {
             connect: {
@@ -61,17 +60,21 @@ async function main() {
             console.log(
               `Creating ${numberOfLikes} likes for project ${projectCreated.id}`
             );
-            await prisma.project.update({
-              where: {
-                id: projectCreated?.id,
-              },
+            await prisma.like.create({
               data: {
-                likesCount: {
-                  increment: 1,
+                project: {
+                  connect: {
+                    id: projectCreated.id,
+                  },
                 },
-                likes: {
+                user: {
                   connect: {
                     id: user.id,
+                  },
+                },
+                author: {
+                  connect: {
+                    id: String(projectCreated.authorId),
                   },
                 },
               },

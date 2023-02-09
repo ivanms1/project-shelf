@@ -1,0 +1,10 @@
+mutation CreateLike($authorId: String!, $projectId: String!) {
+  createLike(authorId: $authorId, projectId: $projectId) {
+    id
+    project {
+      id
+      likesCount
+      isLiked
+    }
+  }
+}

@@ -17,7 +17,6 @@ builder.prismaObject('User', {
     role: t.expose('role', { type: Role }),
     avatar: t.exposeString('avatar', { nullable: true }),
     cover: t.exposeString('cover', { nullable: true }),
-    followerCount: t.exposeInt('followerCount'),
     github: t.exposeString('github', { nullable: true }),
     discord: t.exposeString('discord', { nullable: true }),
     website: t.exposeString('website', { nullable: true }),
@@ -29,8 +28,8 @@ builder.prismaObject('User', {
     projects: t.relation('projects', { nullable: true }),
     followers: t.relation('followers'),
     following: t.relation('following'),
-    followingCount: t.exposeInt('followingCount'),
-    projectsLiked: t.relation('projectsLiked'),
+    followingCount: t.relationCount('following'),
+    followersCount: t.relationCount('followers'),
     isFollowing: t.boolean({
       resolve: async (parent, _, ctx) => {
         try {

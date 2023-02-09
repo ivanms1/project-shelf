@@ -18,12 +18,12 @@ const Project = builder.prismaObject('Project', {
     siteLink: t.exposeString('siteLink'),
     description: t.exposeString('description'),
     isApproved: t.exposeBoolean('isApproved'),
-    likesCount: t.exposeInt('likesCount'),
     createdAt: t.expose('createdAt', { type: 'Date' }),
     updatedAt: t.expose('updatedAt', { type: 'Date' }),
     tags: t.exposeStringList('tags'),
     author: t.relation('author'),
-    likes: t.relation('likes'),
+    likes: t.relation('Like'),
+    likesCount: t.relationCount('Like'),
     isLiked: t.boolean({
       resolve: async (parent, _, ctx) => {
         try {
@@ -32,14 +32,10 @@ const Project = builder.prismaObject('Project', {
             return false;
           }
 
-          const isUserLike = await db.project.findFirst({
+          const isUserLike = await db.like.findFirst({
             where: {
-              id: parent.id,
-              likes: {
-                some: {
-                  id: String(currentUserId),
-                },
-              },
+              projectId: parent.id,
+              userId: String(currentUserId),
             },
           });
 
@@ -278,6 +274,75 @@ builder.queryFields((t) => ({
 
       const totalCount = await db.project.count({
         where: filter,
+      });
+
+      if (incomingCursor) {
+        results = await db.project.findMany({
+          ...getPaginationArgs(args as SearchArgs, filter, false),
+          include: {
+            _count: {
+              select: {
+                Like: true,
+              },
+            },
+          },
+        });
+      } else {
+        results = await db.project.findMany({
+          ...getPaginationArgs(args as SearchArgs, filter, true),
+          include: {
+            _count: {
+              select: {
+                Like: true,
+              },
+            },
+          },
+        });
+      }
+
+      const cursor = results[9]?.id;
+
+      return {
+        prevCursor: args?.input?.cursor ?? '',
+        nextCursor: cursor,
+        results,
+        totalCount,
+      };
+    },
+  }),
+  getMostLikedProjects: t.field({
+    description: 'Get most liked projects',
+    type: ProjectsResponse,
+    args: { input: t.arg({ type: SearchProjectsInput }) },
+    resolve: async (_, args) => {
+      const incomingCursor = args?.input?.cursor;
+      let results;
+
+      const filter: Prisma.ProjectWhereInput | undefined = {
+        isApproved: true,
+        OR: [
+          {
+            title: {
+              contains: args?.input?.search || '',
+              mode: 'insensitive',
+            },
+          },
+          {
+            description: {
+              contains: args?.input?.search || '',
+              mode: 'insensitive',
+            },
+          },
+        ],
+      };
+
+      const totalCount = await db.project.count({
+        where: filter,
+        orderBy: {
+          Like: {
+            _count: 'desc',
+          },
+        },
       });
 
       if (incomingCursor) {

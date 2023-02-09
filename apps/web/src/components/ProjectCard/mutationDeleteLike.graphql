@@ -1,0 +1,10 @@
+mutation DeleteLike($projectId: String!) {
+  deleteLike(projectId: $projectId) {
+    id
+    project {
+      id
+      likesCount
+      isLiked
+    }
+  }
+}

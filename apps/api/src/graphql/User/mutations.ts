@@ -152,9 +152,6 @@ builder.mutationType({
             id: String(args?.input?.userId),
           },
           data: {
-            followerCount: {
-              [isFollowing ? 'increment' : 'decrement']: 1,
-            },
             followers: {
               [action]: {
                 id: currentUserId,
@@ -170,9 +167,6 @@ builder.mutationType({
             id: String(currentUserId),
           },
           data: {
-            followingCount: {
-              [isFollowing ? 'increment' : 'decrement']: 1,
-            },
             following: {
               [action]: {
                 id: args?.input?.userId,
