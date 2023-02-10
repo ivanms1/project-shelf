@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import {
-  ProjectActions,
+  useCreateLikeMutation,
+  useDeleteLikeMutation,
   useGetProjectLikedStatusQuery,
-  useReactToProjectMutation,
 } from 'apollo-hooks';
 import { useTranslation } from 'next-i18next';
 import classNames from 'classnames';
@@ -12,8 +12,13 @@ import LoginModal from '@/components/Modals/LoginModal';
 
 import useIsLoggedIn from '@/hooks/useIsLoggedIn';
 
-function LikeButton({ projectId }: { projectId: string }) {
-  const [reactToProject] = useReactToProjectMutation();
+interface LikeButtonProps {
+  project: { id: string; author: { id: string } };
+}
+
+function LikeButton({ project }: LikeButtonProps) {
+  const [likeProject] = useCreateLikeMutation();
+  const [removeLikeProject] = useDeleteLikeMutation();
   const { isLoggedIn } = useIsLoggedIn();
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
 
@@ -21,9 +26,9 @@ function LikeButton({ projectId }: { projectId: string }) {
 
   const { data } = useGetProjectLikedStatusQuery({
     variables: {
-      id: projectId,
+      id: project.id,
     },
-    skip: !projectId,
+    skip: !project.id,
     fetchPolicy: 'cache-and-network',
   });
 
@@ -32,24 +37,59 @@ function LikeButton({ projectId }: { projectId: string }) {
   const handleLike = async () => {
     if (isLoggedIn) {
       try {
-        await reactToProject({
-          variables: {
-            input: {
-              projectId: projectId,
-              action: isLiked ? ProjectActions.Dislike : ProjectActions.Like,
+        if (isLiked) {
+          removeLikeProject({
+            variables: {
+              projectId: project.id,
             },
+            optimisticResponse: {
+              deleteLike: {
+                __typename: 'Like',
+                id: 'temp',
+                project: {
+                  __typename: 'Project',
+                  id: project.id,
+                  likesCount: data?.project?.likesCount,
+                  isLiked: false,
+                },
+              },
+            },
+            update: (cache) => {
+              cache.modify({
+                id: cache.identify({
+                  __typename: 'Project',
+                  id: project.id,
+                }),
+                fields: {
+                  likesCount: (value) => value - 1,
+                  isLiked: () => false,
+                },
+              });
+            },
+          });
+
+          return;
+        }
+        await likeProject({
+          variables: {
+            authorId: project.author.id,
+            projectId: project.id,
           },
           optimisticResponse: {
-            reactToProject: {
-              ...data?.project,
-              id: data?.project?.id,
-              likesCount: isLiked
-                ? data?.project.likesCount - 1
-                : data?.project.likesCount + 1,
-              isLiked: !isLiked,
+            createLike: {
+              __typename: 'Like',
+              id: 'temp',
+              project: {
+                __typename: 'Project',
+                id: project.id,
+                likesCount: data?.project?.likesCount + 1,
+                isLiked: true,
+              },
             },
           },
         });
+
+        return;
       } catch (error) {
         // TODO: Handle error
       }
@@ -57,6 +97,7 @@ function LikeButton({ projectId }: { projectId: string }) {
       setIsLoginModalOpen(true);
     }
   };
+
   return (
     <>
       <LoginModal

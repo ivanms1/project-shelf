@@ -163,7 +163,7 @@ function Project() {
               </div>
             </div>
           </div>
-          <LikeButton projectId={data?.project?.id} />
+          <LikeButton project={data?.project} />
         </div>
         {isProjectOwner && (
           <div className='flex gap-5 mr-0 ml-auto'>

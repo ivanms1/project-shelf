@@ -35,16 +35,27 @@ export type FollowUserInput = {
   userId?: InputMaybe<Scalars['ID']>;
 };
 
+export type Like = {
+  __typename?: 'Like';
+  author: User;
+  createdAt: Scalars['Date'];
+  id: Scalars['ID'];
+  project: Project;
+  user: User;
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
+  /** Create a new like */
+  createLike: Like;
   /** Create a new project */
   createProject: Project;
+  /** Delete a like */
+  deleteLike: Like;
   /** Delete projects */
   deleteProjects: Array<Scalars['String']>;
   /** Follow or unfollow a user */
   followUser: User;
-  /** Like or remove like from a project */
-  reactToProject: Project;
   /** Create a new user */
   signup: Scalars['String'];
   /** Update a project */
@@ -57,8 +68,19 @@ export type Mutation = {
 };
 
 
+export type MutationCreateLikeArgs = {
+  authorId: Scalars['String'];
+  projectId: Scalars['String'];
+};
+
+
 export type MutationCreateProjectArgs = {
   input: CreateProjectInput;
+};
+
+
+export type MutationDeleteLikeArgs = {
+  projectId: Scalars['String'];
 };
 
 
@@ -69,11 +91,6 @@ export type MutationDeleteProjectsArgs = {
 
 export type MutationFollowUserArgs = {
   input: FollowUserInput;
-};
-
-
-export type MutationReactToProjectArgs = {
-  input: ReactToProjectInput;
 };
 
 
@@ -111,7 +128,7 @@ export type Project = {
   id: Scalars['ID'];
   isApproved: Scalars['Boolean'];
   isLiked: Scalars['Boolean'];
-  likes: Array<User>;
+  likes: Array<Like>;
   likesCount: Scalars['Int'];
   preview: Scalars['String'];
   repoLink: Scalars['String'];
@@ -120,12 +137,6 @@ export type Project = {
   title: Scalars['String'];
   updatedAt: Scalars['Date'];
 };
-
-/** Project actions */
-export enum ProjectActions {
-  Dislike = 'DISLIKE',
-  Like = 'LIKE'
-}
 
 /** Projects response */
 export type ProjectsResponse = {
@@ -142,6 +153,8 @@ export type Query = {
   getApprovedProjects: ProjectsResponse;
   /** Get the current user */
   getCurrentUser: User;
+  /** Get most liked projects */
+  getMostLikedProjects: ProjectsResponse;
   /** Get my projects */
   getMyProjects: ProjectsResponse;
   /** Get a project by id */
@@ -158,6 +171,11 @@ export type Query = {
 
 
 export type QueryGetApprovedProjectsArgs = {
+  input?: InputMaybe<SearchProjectsInput>;
+};
+
+
+export type QueryGetMostLikedProjectsArgs = {
   input?: InputMaybe<SearchProjectsInput>;
 };
 
@@ -185,12 +203,6 @@ export type QueryGetUserArgs = {
 export type QueryGetUserProjectsArgs = {
   input?: InputMaybe<SearchProjectsInput>;
   userId: Scalars['String'];
-};
-
-/** React to project input */
-export type ReactToProjectInput = {
-  action: ProjectActions;
-  projectId: Scalars['String'];
 };
 
 /** User role */
@@ -233,8 +245,8 @@ export type User = {
   createdAt: Scalars['Date'];
   discord?: Maybe<Scalars['String']>;
   email?: Maybe<Scalars['String']>;
-  followerCount: Scalars['Int'];
   followers: Array<User>;
+  followersCount: Scalars['Int'];
   following: Array<User>;
   followingCount: Scalars['Int'];
   github?: Maybe<Scalars['String']>;
@@ -243,7 +255,6 @@ export type User = {
   location?: Maybe<Scalars['String']>;
   name: Scalars['String'];
   projects?: Maybe<Array<Project>>;
-  projectsLiked: Array<Project>;
   role: Role;
   twitter?: Maybe<Scalars['String']>;
   updatedAt: Scalars['Date'];
@@ -303,12 +314,20 @@ export type GetUserForPageQueryVariables = Exact<{
 
 export type GetUserForPageQuery = { __typename?: 'Query', user: { __typename?: 'User', id: string, name: string, email?: string | null, github?: string | null, avatar?: string | null } };
 
-export type ReactToProjectMutationVariables = Exact<{
-  input: ReactToProjectInput;
+export type CreateLikeMutationVariables = Exact<{
+  authorId: Scalars['String'];
+  projectId: Scalars['String'];
 }>;
 
 
-export type ReactToProjectMutation = { __typename?: 'Mutation', reactToProject: { __typename?: 'Project', id: string, likesCount: number, isLiked: boolean } };
+export type CreateLikeMutation = { __typename?: 'Mutation', createLike: { __typename?: 'Like', id: string, project: { __typename?: 'Project', id: string, likesCount: number, isLiked: boolean } } };
+
+export type DeleteLikeMutationVariables = Exact<{
+  projectId: Scalars['String'];
+}>;
+
+
+export type DeleteLikeMutation = { __typename?: 'Mutation', deleteLike: { __typename?: 'Like', id: string, project: { __typename?: 'Project', id: string, likesCount: number, isLiked: boolean } } };
 
 export type ProjectCardFragmentFragment = { __typename?: 'ProjectsResponse', nextCursor?: string | null, prevCursor?: string | null, totalCount: number, results: Array<{ __typename?: 'Project', id: string, title: string, likesCount: number, preview: string, isLiked: boolean, author: { __typename?: 'User', id: string, avatar?: string | null, name: string } }> };
 
@@ -317,7 +336,7 @@ export type CreateUserProjectMutationVariables = Exact<{
 }>;
 
 
-export type CreateUserProjectMutation = { __typename?: 'Mutation', createProject: { __typename?: 'Project', id: string, title: string, preview: string, description: string, createdAt: any, siteLink: string, repoLink: string, isApproved: boolean, likes: Array<{ __typename?: 'User', id: string, name: string }> } };
+export type CreateUserProjectMutation = { __typename?: 'Mutation', createProject: { __typename?: 'Project', id: string, title: string, preview: string, description: string, createdAt: any, siteLink: string, repoLink: string, isApproved: boolean } };
 
 export type UploadImageMutationVariables = Exact<{
   path: Scalars['String'];
@@ -360,14 +379,14 @@ export type FollowUserMutationVariables = Exact<{
 }>;
 
 
-export type FollowUserMutation = { __typename?: 'Mutation', followUser: { __typename?: 'User', id: string, name: string, isFollowing: boolean, followerCount: number } };
+export type FollowUserMutation = { __typename?: 'Mutation', followUser: { __typename?: 'User', id: string, name: string, isFollowing: boolean, followersCount: number } };
 
 export type IsUserFollowingQueryVariables = Exact<{
   id: Scalars['String'];
 }>;
 
 
-export type IsUserFollowingQuery = { __typename?: 'Query', user: { __typename?: 'User', id: string, isFollowing: boolean, followerCount: number } };
+export type IsUserFollowingQuery = { __typename?: 'Query', user: { __typename?: 'User', id: string, isFollowing: boolean, followersCount: number } };
 
 export type GetUserProjectsQueryVariables = Exact<{
   userId: Scalars['String'];
@@ -699,41 +718,83 @@ export function useGetUserForPageLazyQuery(baseOptions?: Apollo.LazyQueryHookOpt
 export type GetUserForPageQueryHookResult = ReturnType<typeof useGetUserForPageQuery>;
 export type GetUserForPageLazyQueryHookResult = ReturnType<typeof useGetUserForPageLazyQuery>;
 export type GetUserForPageQueryResult = Apollo.QueryResult<GetUserForPageQuery, GetUserForPageQueryVariables>;
-export const ReactToProjectDocument = gql`
-    mutation ReactToProject($input: ReactToProjectInput!) {
-  reactToProject(input: $input) {
+export const CreateLikeDocument = gql`
+    mutation CreateLike($authorId: String!, $projectId: String!) {
+  createLike(authorId: $authorId, projectId: $projectId) {
     id
-    likesCount
-    isLiked
+    project {
+      id
+      likesCount
+      isLiked
+    }
   }
 }
     `;
-export type ReactToProjectMutationFn = Apollo.MutationFunction<ReactToProjectMutation, ReactToProjectMutationVariables>;
+export type CreateLikeMutationFn = Apollo.MutationFunction<CreateLikeMutation, CreateLikeMutationVariables>;
 
 /**
- * __useReactToProjectMutation__
+ * __useCreateLikeMutation__
  *
- * To run a mutation, you first call `useReactToProjectMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useReactToProjectMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useCreateLikeMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateLikeMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [reactToProjectMutation, { data, loading, error }] = useReactToProjectMutation({
+ * const [createLikeMutation, { data, loading, error }] = useCreateLikeMutation({
  *   variables: {
- *      input: // value for 'input'
+ *      authorId: // value for 'authorId'
+ *      projectId: // value for 'projectId'
  *   },
  * });
  */
-export function useReactToProjectMutation(baseOptions?: Apollo.MutationHookOptions<ReactToProjectMutation, ReactToProjectMutationVariables>) {
+export function useCreateLikeMutation(baseOptions?: Apollo.MutationHookOptions<CreateLikeMutation, CreateLikeMutationVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<ReactToProjectMutation, ReactToProjectMutationVariables>(ReactToProjectDocument, options);
+        return Apollo.useMutation<CreateLikeMutation, CreateLikeMutationVariables>(CreateLikeDocument, options);
       }
-export type ReactToProjectMutationHookResult = ReturnType<typeof useReactToProjectMutation>;
-export type ReactToProjectMutationResult = Apollo.MutationResult<ReactToProjectMutation>;
-export type ReactToProjectMutationOptions = Apollo.BaseMutationOptions<ReactToProjectMutation, ReactToProjectMutationVariables>;
+export type CreateLikeMutationHookResult = ReturnType<typeof useCreateLikeMutation>;
+export type CreateLikeMutationResult = Apollo.MutationResult<CreateLikeMutation>;
+export type CreateLikeMutationOptions = Apollo.BaseMutationOptions<CreateLikeMutation, CreateLikeMutationVariables>;
+export const DeleteLikeDocument = gql`
+    mutation DeleteLike($projectId: String!) {
+  deleteLike(projectId: $projectId) {
+    id
+    project {
+      id
+      likesCount
+      isLiked
+    }
+  }
+}
+    `;
+export type DeleteLikeMutationFn = Apollo.MutationFunction<DeleteLikeMutation, DeleteLikeMutationVariables>;
+
+/**
+ * __useDeleteLikeMutation__
+ *
+ * To run a mutation, you first call `useDeleteLikeMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteLikeMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteLikeMutation, { data, loading, error }] = useDeleteLikeMutation({
+ *   variables: {
+ *      projectId: // value for 'projectId'
+ *   },
+ * });
+ */
+export function useDeleteLikeMutation(baseOptions?: Apollo.MutationHookOptions<DeleteLikeMutation, DeleteLikeMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteLikeMutation, DeleteLikeMutationVariables>(DeleteLikeDocument, options);
+      }
+export type DeleteLikeMutationHookResult = ReturnType<typeof useDeleteLikeMutation>;
+export type DeleteLikeMutationResult = Apollo.MutationResult<DeleteLikeMutation>;
+export type DeleteLikeMutationOptions = Apollo.BaseMutationOptions<DeleteLikeMutation, DeleteLikeMutationVariables>;
 export const CreateUserProjectDocument = gql`
     mutation CreateUserProject($input: CreateProjectInput!) {
   createProject(input: $input) {
@@ -745,10 +806,6 @@ export const CreateUserProjectDocument = gql`
     siteLink
     repoLink
     isApproved
-    likes {
-      id
-      name
-    }
   }
 }
     `;
@@ -973,7 +1030,7 @@ export const FollowUserDocument = gql`
     id
     name
     isFollowing
-    followerCount
+    followersCount
   }
 }
     `;
@@ -1008,7 +1065,7 @@ export const IsUserFollowingDocument = gql`
   user: getUser(id: $id) {
     id
     isFollowing
-    followerCount
+    followersCount
   }
 }
     `;

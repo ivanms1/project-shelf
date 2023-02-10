@@ -2,12 +2,10 @@ import React, { useState } from 'react';
 import { Button } from 'ui';
 import Link from 'next/link';
 import Image from 'next/future/image';
+import { useCreateLikeMutation, useDeleteLikeMutation } from 'apollo-hooks';
+import classNames from 'classnames';
 
 import useIsLoggedIn from '@/hooks/useIsLoggedIn';
-
-import { ProjectActions, useReactToProjectMutation } from 'apollo-hooks';
-
-import classNames from 'classnames';
 
 import HeartIcon from '@/assets/icons/heart.svg';
 
@@ -29,30 +27,60 @@ export interface ProjectCardProps {
 }
 
 const ProjectCard = ({ project }: ProjectCardProps) => {
-  const [reactToProject] = useReactToProjectMutation();
+  const [likeProject] = useCreateLikeMutation();
+  const [removeLikeProject] = useDeleteLikeMutation();
   const { isLoggedIn } = useIsLoggedIn();
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
 
   const handleLike = async () => {
     if (isLoggedIn) {
       try {
-        await reactToProject({
-          variables: {
-            input: {
+        if (project.isLiked) {
+          return removeLikeProject({
+            variables: {
               projectId: project.id,
-              action: project?.isLiked
-                ? ProjectActions.Dislike
-                : ProjectActions.Like,
             },
+            optimisticResponse: {
+              deleteLike: {
+                __typename: 'Like',
+                id: 'temp',
+                project: {
+                  __typename: 'Project',
+                  id: project.id,
+                  likesCount: project.likesCount,
+                  isLiked: false,
+                },
+              },
+            },
+            update: (cache) => {
+              cache.modify({
+                id: cache.identify({
+                  __typename: 'Project',
+                  id: project.id,
+                }),
+                fields: {
+                  likesCount: (value) => value - 1,
+                  isLiked: () => false,
+                },
+              });
+            },
+          });
+        }
+        return likeProject({
+          variables: {
+            authorId: project.author.id,
+            projectId: project.id,
           },
           optimisticResponse: {
-            reactToProject: {
-              ...project,
-              id: project?.id,
-              likesCount: project?.isLiked
-                ? project.likesCount - 1
-                : project.likesCount + 1,
-              isLiked: !project?.isLiked,
+            createLike: {
+              __typename: 'Like',
+              id: 'temp',
+              project: {
+                __typename: 'Project',
+                id: project.id,
+                likesCount: project.likesCount + 1,
+                isLiked: true,
+              },
             },
           },
         });

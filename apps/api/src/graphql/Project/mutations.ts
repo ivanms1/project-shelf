@@ -14,19 +14,6 @@ const ProjectInput = builder.inputType('CreateProjectInput', {
   }),
 });
 
-const ProjectActions = builder.enumType('ProjectActions', {
-  description: 'Project actions',
-  values: ['LIKE', 'DISLIKE'] as const,
-});
-
-const ReactToProjectInput = builder.inputType('ReactToProjectInput', {
-  description: 'React to project input',
-  fields: (t) => ({
-    projectId: t.string({ required: true }),
-    action: t.field({ type: ProjectActions, required: true }),
-  }),
-});
-
 builder.mutationFields((t) => ({
   createProject: t.prismaField({
     type: 'Project',
@@ -51,7 +38,6 @@ builder.mutationFields((t) => ({
           tags: {
             set: tags,
           },
-          likesCount: 0,
           isApproved: true,
           author: {
             connect: {
@@ -150,47 +136,6 @@ builder.mutationFields((t) => ({
       });
 
       return args.projectIds;
-    },
-  }),
-  reactToProject: t.prismaField({
-    type: 'Project',
-    description: 'Like or remove like from a project',
-    args: {
-      input: t.arg({ type: ReactToProjectInput, required: true }),
-    },
-    resolve: async (query, _, args, ctx) => {
-      const authorId = decodeAccessToken(ctx.accessToken);
-      const { input } = args;
-      if (!input) {
-        throw new Error('Invalid action');
-      }
-
-      if (!input.projectId || !authorId) {
-        throw new Error('Missing project id');
-      }
-      let action;
-      if (input.action === 'LIKE') {
-        action = 'connect';
-      } else {
-        action = 'disconnect';
-      }
-
-      return db.project.update({
-        ...query,
-        where: {
-          id: input.projectId,
-        },
-        data: {
-          likesCount: {
-            [input?.action === 'LIKE' ? 'increment' : 'decrement']: 1,
-          },
-          likes: {
-            [action]: {
-              id: authorId,
-            },
-          },
-        },
-      });
     },
   }),
   updateProjectStatus: t.prismaField({

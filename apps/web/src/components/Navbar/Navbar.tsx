@@ -60,6 +60,8 @@ const Navbar = () => {
         <Select
           // @ts-expect-error TODO: add correct type
           value={currentLocale}
+          id='language-select'
+          instanceId='language-select'
           options={LOCALES.map((locale) => {
             const Flag = locale.flag;
             return {
@@ -80,7 +82,6 @@ const Navbar = () => {
             }),
             option: (provided) => ({
               ...provided,
-              padding: '0.4rem',
             }),
           }}
           onChange={(e) => {
@@ -107,23 +108,23 @@ const Navbar = () => {
                 />
               }
             >
-              <div className='bg-white flex flex-col rounded-sm'>
+              <div className='bg-grey-dark flex w-40 flex-col rounded-sm'>
                 <Link
                   href={`/user/${currentUser?.id}`}
-                  className='py-3 px-8 text-black text-center hover:bg-slate-100 w-full'
+                  className='py-3 px-8 text-center hover:bg-grey-light w-full rounded-t-sm'
                 >
                   {t('profile')}
                 </Link>
 
                 <Link
                   href={`/user-edit/${currentUser?.id}`}
-                  className='py-3 px-8 text-black text-center hover:bg-slate-100 w-full'
+                  className='py-3 px-8 text-center hover:bg-grey-light w-full'
                 >
                   {t('edit-profile')}
                 </Link>
                 <Button
                   variant='ghost'
-                  className='py-3 px-8 text-black text-center hover:bg-slate-100 w-full'
+                  className='py-3 px-8 text-center hover:bg-grey-light w-full rounded-b-sm'
                   onClick={logout}
                 >
                   {t('sign-out')}

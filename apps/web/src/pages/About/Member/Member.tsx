@@ -11,9 +11,9 @@ export const Member = ({ member }: MemberProps) => {
   const { t } = useTranslation('about');
   return (
     <a target='_blank' href={member.html_url} rel='noreferrer'>
-      <div className='flex flex-col items-center bg-grey-dark rounded-sm h-[300px] w-[250px] hover:shadow-xl transition-shadow'>
+      <div className='flex flex-col items-center bg-grey-dark rounded-lg h-[300px] w-[250px] hover:shadow-xl transition-shadow'>
         <Image
-          className='h-[200px] object-cover rounded-t-sm'
+          className='h-[200px] object-cover rounded-t-lg'
           src={member.avatar_url}
           alt='github-profile'
           width={250}
