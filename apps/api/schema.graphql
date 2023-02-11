@@ -106,6 +106,12 @@ type Query {
   """Get projects for admin"""
   getProjectsAdmin(input: SearchProjectsInput): ProjectsResponse!
 
+  """Get top projects"""
+  getTopProjects(interval: String): TopProjectsResponse!
+
+  """Get top users"""
+  getTopUsers(interval: String): TopCreatorsResponse!
+
   """Get a user by id"""
   getUser(id: String!): User!
 
@@ -136,6 +142,16 @@ input SearchProjectsInput {
   search: String
 }
 
+"""Top users response"""
+type TopCreatorsResponse {
+  results: [User!]!
+}
+
+"""Top projects response"""
+type TopProjectsResponse {
+  results: [Project!]!
+}
+
 """Update the user information"""
 input UpdateUserInput {
   avatar: String
@@ -162,6 +178,7 @@ type User {
   github: String
   id: ID!
   isFollowing: Boolean!
+  likesReceived: Int!
   location: String
   name: String!
   projects: [Project!]

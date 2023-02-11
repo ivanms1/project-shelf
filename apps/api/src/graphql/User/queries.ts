@@ -8,7 +8,7 @@ export const Role = builder.enumType('Role', {
   description: 'User role',
 });
 
-builder.prismaObject('User', {
+export const User = builder.prismaObject('User', {
   name: 'User',
   fields: (t) => ({
     id: t.exposeID('id'),
@@ -26,6 +26,7 @@ builder.prismaObject('User', {
     createdAt: t.expose('createdAt', { type: 'Date' }),
     updatedAt: t.expose('updatedAt', { type: 'Date' }),
     projects: t.relation('projects', { nullable: true }),
+    likesReceived: t.relationCount('AuthorLike'),
     followers: t.relation('followers'),
     following: t.relation('following'),
     followingCount: t.relationCount('following'),

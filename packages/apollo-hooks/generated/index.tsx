@@ -161,6 +161,10 @@ export type Query = {
   getProject: Project;
   /** Get projects for admin */
   getProjectsAdmin: ProjectsResponse;
+  /** Get top projects */
+  getTopProjects: TopProjectsResponse;
+  /** Get top users */
+  getTopUsers: TopCreatorsResponse;
   /** Get a user by id */
   getUser: User;
   /** Get user projects */
@@ -195,6 +199,16 @@ export type QueryGetProjectsAdminArgs = {
 };
 
 
+export type QueryGetTopProjectsArgs = {
+  interval?: InputMaybe<Scalars['String']>;
+};
+
+
+export type QueryGetTopUsersArgs = {
+  interval?: InputMaybe<Scalars['String']>;
+};
+
+
 export type QueryGetUserArgs = {
   id: Scalars['String'];
 };
@@ -225,6 +239,18 @@ export type SearchProjectsInput = {
   search?: InputMaybe<Scalars['String']>;
 };
 
+/** Top users response */
+export type TopCreatorsResponse = {
+  __typename?: 'TopCreatorsResponse';
+  results: Array<User>;
+};
+
+/** Top projects response */
+export type TopProjectsResponse = {
+  __typename?: 'TopProjectsResponse';
+  results: Array<Project>;
+};
+
 /** Update the user information */
 export type UpdateUserInput = {
   avatar?: InputMaybe<Scalars['String']>;
@@ -252,6 +278,7 @@ export type User = {
   github?: Maybe<Scalars['String']>;
   id: Scalars['ID'];
   isFollowing: Scalars['Boolean'];
+  likesReceived: Scalars['Int'];
   location?: Maybe<Scalars['String']>;
   name: Scalars['String'];
   projects?: Maybe<Array<Project>>;
@@ -373,6 +400,20 @@ export type SearchProjectsQueryVariables = Exact<{
 
 
 export type SearchProjectsQuery = { __typename?: 'Query', searchProjects: { __typename?: 'ProjectsResponse', totalCount: number, nextCursor?: string | null, prevCursor?: string | null, results: Array<{ __typename?: 'Project', title: string, description: string, preview: string, id: string, likesCount: number, isLiked: boolean, author: { __typename?: 'User', id: string, name: string, avatar?: string | null } }> } };
+
+export type GetTopUsersQueryVariables = Exact<{
+  interval?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type GetTopUsersQuery = { __typename?: 'Query', getTopUsers: { __typename?: 'TopCreatorsResponse', results: Array<{ __typename?: 'User', id: string, name: string, avatar?: string | null, likesReceived: number, followersCount: number }> } };
+
+export type GetTopProjectsQueryVariables = Exact<{
+  interval?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type GetTopProjectsQuery = { __typename?: 'Query', getTopProjects: { __typename?: 'TopProjectsResponse', results: Array<{ __typename?: 'Project', title: string, likesCount: number, id: string, preview: string, tags: Array<string> }> } };
 
 export type FollowUserMutationVariables = Exact<{
   input: FollowUserInput;
@@ -1024,6 +1065,88 @@ export function useSearchProjectsLazyQuery(baseOptions?: Apollo.LazyQueryHookOpt
 export type SearchProjectsQueryHookResult = ReturnType<typeof useSearchProjectsQuery>;
 export type SearchProjectsLazyQueryHookResult = ReturnType<typeof useSearchProjectsLazyQuery>;
 export type SearchProjectsQueryResult = Apollo.QueryResult<SearchProjectsQuery, SearchProjectsQueryVariables>;
+export const GetTopUsersDocument = gql`
+    query GetTopUsers($interval: String) {
+  getTopUsers(interval: $interval) {
+    results {
+      id
+      name
+      avatar
+      likesReceived
+      followersCount
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetTopUsersQuery__
+ *
+ * To run a query within a React component, call `useGetTopUsersQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetTopUsersQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetTopUsersQuery({
+ *   variables: {
+ *      interval: // value for 'interval'
+ *   },
+ * });
+ */
+export function useGetTopUsersQuery(baseOptions?: Apollo.QueryHookOptions<GetTopUsersQuery, GetTopUsersQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetTopUsersQuery, GetTopUsersQueryVariables>(GetTopUsersDocument, options);
+      }
+export function useGetTopUsersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetTopUsersQuery, GetTopUsersQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetTopUsersQuery, GetTopUsersQueryVariables>(GetTopUsersDocument, options);
+        }
+export type GetTopUsersQueryHookResult = ReturnType<typeof useGetTopUsersQuery>;
+export type GetTopUsersLazyQueryHookResult = ReturnType<typeof useGetTopUsersLazyQuery>;
+export type GetTopUsersQueryResult = Apollo.QueryResult<GetTopUsersQuery, GetTopUsersQueryVariables>;
+export const GetTopProjectsDocument = gql`
+    query GetTopProjects($interval: String) {
+  getTopProjects(interval: $interval) {
+    results {
+      title
+      likesCount
+      id
+      preview
+      tags
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetTopProjectsQuery__
+ *
+ * To run a query within a React component, call `useGetTopProjectsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetTopProjectsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetTopProjectsQuery({
+ *   variables: {
+ *      interval: // value for 'interval'
+ *   },
+ * });
+ */
+export function useGetTopProjectsQuery(baseOptions?: Apollo.QueryHookOptions<GetTopProjectsQuery, GetTopProjectsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetTopProjectsQuery, GetTopProjectsQueryVariables>(GetTopProjectsDocument, options);
+      }
+export function useGetTopProjectsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetTopProjectsQuery, GetTopProjectsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetTopProjectsQuery, GetTopProjectsQueryVariables>(GetTopProjectsDocument, options);
+        }
+export type GetTopProjectsQueryHookResult = ReturnType<typeof useGetTopProjectsQuery>;
+export type GetTopProjectsLazyQueryHookResult = ReturnType<typeof useGetTopProjectsLazyQuery>;
+export type GetTopProjectsQueryResult = Apollo.QueryResult<GetTopProjectsQuery, GetTopProjectsQueryVariables>;
 export const FollowUserDocument = gql`
     mutation FollowUser($input: FollowUserInput!) {
   followUser(input: $input) {

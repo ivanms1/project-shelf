@@ -1,38 +1,19 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
 import { signIn } from 'next-auth/react';
 import Image from 'next/future/image';
-import { Button, DropDown, Select } from 'ui';
+import { Button, DropDown } from 'ui';
 import { useTranslation } from 'next-i18next';
-import cookie from 'react-cookies';
 
 import MobileMenu from '../MobileMenu';
 
 import useIsLoggedIn from '@/hooks/useIsLoggedIn';
 
-import { LOCALES, NEXT_LOCALE } from 'const';
-
 const Navbar = () => {
   const { isLoggedIn, logout, currentUser } = useIsLoggedIn();
   const [open, setOpen] = useState(false);
-  const router = useRouter();
+  const [isTopOpen, setIsTopOpen] = useState(false);
   const { t } = useTranslation('common');
-
-  const onToggleLanguageClick = (newLocale: string) => {
-    cookie.save(NEXT_LOCALE, newLocale);
-    const { pathname, asPath, query } = router;
-    router.push({ pathname, query }, asPath, { locale: newLocale });
-  };
-
-  const CurrentLocalFlag = LOCALES.find(
-    (locale) => locale.code === router.locale
-  ).flag;
-
-  const currentLocale = {
-    value: LOCALES.find((locale) => locale.code === router.locale).code,
-    label: <CurrentLocalFlag className='w-6' />,
-  };
 
   return (
     <div className='bg-black flex text-white flex-row py-5 px-12 justify-between max-lg:py-3 max-lg:px-7'>
@@ -51,47 +32,40 @@ const Navbar = () => {
         </>
       </Link>
       <div className='flex flex-row gap-[10px] items-center max-lg:hidden'>
-        <Link href='/about' className='py-5 px-3'>
-          {t('about')}
-        </Link>
         <Link href='/search' className='py-5 px-3'>
           {t('search')}
         </Link>
-        <Select
-          // @ts-expect-error TODO: add correct type
-          value={currentLocale}
-          id='language-select'
-          instanceId='language-select'
-          options={LOCALES.map((locale) => {
-            const Flag = locale.flag;
-            return {
-              value: locale.code,
-              label: (<Flag className='w-6' />) as unknown as string,
-            };
-          })}
-          customStyles={{
-            control: (provided) => ({
-              ...provided,
-              cursor: 'pointer',
-              minHeight: 'auto',
-              marginRight: '0.75rem',
-            }),
-            valueContainer: (provided) => ({
-              ...provided,
-              padding: '0 0.2rem',
-            }),
-            option: (provided) => ({
-              ...provided,
-            }),
-          }}
-          onChange={(e) => {
-            onToggleLanguageClick(e.value);
-          }}
-        />
+
+        <DropDown
+          open={isTopOpen}
+          setOpen={setIsTopOpen}
+          parent={
+            <Button variant='ghost' className='px-3'>
+              {t('top')}
+            </Button>
+          }
+        >
+          <div className='bg-grey-dark flex w-40 flex-col rounded-sm'>
+            <Link
+              href='/top-projects'
+              className='py-3 px-8 text-center hover:bg-grey-light w-full rounded-t-sm'
+            >
+              {t('projects')}
+            </Link>
+
+            <Link
+              href='/top-creators'
+              className='py-3 px-8 text-center hover:bg-grey-light w-full rounded-b-sm'
+            >
+              {t('creators')}
+            </Link>
+          </div>
+        </DropDown>
+
         {isLoggedIn ? (
           <>
             <Link href='/create-project' passHref>
-              <Button className='px-7' size='small'>
+              <Button className='px-7 mr-1' size='small'>
                 {t('add-project')}
               </Button>
             </Link>

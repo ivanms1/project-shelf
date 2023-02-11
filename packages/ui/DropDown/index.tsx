@@ -1,14 +1,13 @@
 import * as React from 'react';
-
 import {
   useFloating,
-  useClick,
   useInteractions,
   autoUpdate,
   offset,
   flip,
   shift,
-  useDismiss,
+  useHover,
+  safePolygon,
 } from '@floating-ui/react-dom-interactions';
 
 interface IDropDown {
@@ -29,10 +28,12 @@ export const DropDown = ({ open, setOpen, parent, children }: IDropDown) => {
       whileElementsMounted: autoUpdate,
       strategy: 'fixed',
     });
-  const { getReferenceProps, getFloatingProps } = useInteractions([
-    useClick(context),
-    useDismiss(context),
-  ]);
+
+  const hover = useHover(context, {
+    handleClose: safePolygon(),
+  });
+
+  const { getReferenceProps, getFloatingProps } = useInteractions([hover]);
 
   return (
     <>
@@ -47,9 +48,6 @@ export const DropDown = ({ open, setOpen, parent, children }: IDropDown) => {
       {open && (
         <div
           {...getFloatingProps({
-            onClick() {
-              setOpen(false);
-            },
             ref: floating,
 
             style: {

@@ -1,0 +1,11 @@
+query GetTopProjects($interval: String) {
+  getTopProjects(interval: $interval) {
+    results {
+      title
+      likesCount
+      id
+      preview
+      tags
+    }
+  }
+}

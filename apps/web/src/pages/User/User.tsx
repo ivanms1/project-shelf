@@ -81,9 +81,9 @@ const User = () => {
         optimisticResponse: {
           followUser: {
             ...user,
-            followerCount: isFollowingData?.user?.isFollowing
-              ? isFollowingData?.user?.followerCount - 1
-              : isFollowingData?.user?.followerCount + 1,
+            followersCount: isFollowingData?.user?.isFollowing
+              ? isFollowingData?.user?.followersCount - 1
+              : isFollowingData?.user?.followersCount + 1,
             isFollowing: !isFollowingData?.user?.isFollowing,
           },
         },
@@ -133,7 +133,7 @@ const User = () => {
           </Button>
           <h4 className={followerCountStyle}>
             {t('follower_count', {
-              count: isFollowingData?.user?.followerCount,
+              count: isFollowingData?.user?.followersCount,
             })}
           </h4>
           <ProjectsGrid
