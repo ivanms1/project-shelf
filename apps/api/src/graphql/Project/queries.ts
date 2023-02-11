@@ -8,7 +8,7 @@ import getPaginationArgs, {
   type SearchArgs,
 } from '../../helpers/getPaginationArgs';
 
-const Project = builder.prismaObject('Project', {
+export const Project = builder.prismaObject('Project', {
   name: 'Project',
   fields: (t) => ({
     id: t.exposeID('id'),

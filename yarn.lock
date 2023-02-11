@@ -2660,6 +2660,11 @@
     "@jridgewell/resolve-uri" "^3.0.3"
     "@jridgewell/sourcemap-codec" "^1.4.10"
 
+"@mantine/hooks@^5.10.3":
+  version "5.10.3"
+  resolved "https://registry.yarnpkg.com/@mantine/hooks/-/hooks-5.10.3.tgz#1a80a53d8f4e2ddf7da7b0912dcec6a51b55c1ae"
+  integrity sha512-fFDXF0A596z10QKeWAGtTZJ4QotsMxhhbjfWWRHMogY/hXHQ2S+7+GFotpF2JbzefYztpawHEJevy3eYF8cQmQ==
+
 "@n1ru4l/graphql-live-query@^0.9.0":
   version "0.9.0"
   resolved "https://registry.yarnpkg.com/@n1ru4l/graphql-live-query/-/graphql-live-query-0.9.0.tgz#defaebdd31f625bee49e6745934f36312532b2bc"

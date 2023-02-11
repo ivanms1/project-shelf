@@ -17,11 +17,11 @@ const builder = new SchemaBuilder<{
       totalCount: number;
       results: PrismaTypes['Project']['Shape'][];
     };
-    LikesResponse: {
-      nextCursor: string;
-      prevCursor: string;
-      totalCount: number;
-      results: PrismaTypes['Like']['Shape'][];
+    TopCreatorsResponse: {
+      results: PrismaTypes['User']['Shape'][];
+    };
+    TopProjectsResponse: {
+      results: PrismaTypes['Project']['Shape'][];
     };
   };
   Scalars: {
