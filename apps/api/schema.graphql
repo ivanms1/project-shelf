@@ -106,8 +106,14 @@ type Query {
   """Get projects for admin"""
   getProjectsAdmin(input: SearchProjectsInput): ProjectsResponse!
 
+  """Get top creators for home page"""
+  getTopCreatorsForHomePage: TopCreatorsResponse!
+
   """Get top projects"""
   getTopProjects(interval: String): TopProjectsResponse!
+
+  """Get top projects for home page"""
+  getTopProjectsForHomePage: TopProjectsResponse!
 
   """Get top users"""
   getTopUsers(interval: String): TopCreatorsResponse!

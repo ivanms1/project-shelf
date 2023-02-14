@@ -9,10 +9,11 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { Button, FormInput, FormTextArea } from 'ui';
 import {
   UploadImageMutation,
-  useGetCurrentUserQuery,
   useUpdateUserMutation,
   useUploadImageMutation,
 } from 'apollo-hooks';
+
+import useIsLoggedIn from '@/hooks/useIsLoggedIn';
 
 import AvatarDropzone from 'src/components/AvatarDropzone';
 
@@ -46,11 +47,11 @@ const validationSchema = yup
   .required();
 
 const UserEdit = () => {
-  const { data } = useGetCurrentUserQuery();
+  const { currentUser } = useIsLoggedIn();
 
   const { t } = useTranslation('user-edit');
 
-  const userDetails = data?.getCurrentUser;
+  const userDetails = currentUser;
   const userId = userDetails?.id;
 
   const router = useRouter();

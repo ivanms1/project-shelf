@@ -89,6 +89,114 @@ builder.queryFields((t) => ({
       };
     },
   }),
+  getTopCreatorsForHomePage: t.field({
+    type: TopCreatorsResponse,
+    description: 'Get top creators for home page',
+    // @ts-expect-error TODO: fix type
+    resolve: async () => {
+      const monthAgo = new Date();
+      monthAgo.setMonth(monthAgo.getMonth() - 1);
+
+      const aggregatedData = await db.like.groupBy({
+        by: ['authorId'],
+        where: {
+          createdAt: {
+            gte: monthAgo.toISOString(),
+          },
+        },
+        _count: {
+          _all: true,
+        },
+        orderBy: {
+          _count: {
+            createdAt: 'desc',
+          },
+        },
+
+        take: 10,
+      });
+
+      const topCreatorsIds = aggregatedData.map((creator) => creator.authorId);
+
+      const topCreators = await db.user.findMany({
+        where: {
+          id: {
+            in: topCreatorsIds,
+          },
+        },
+        select: {
+          id: true,
+          name: true,
+          avatar: true,
+        },
+      });
+
+      const sortedTopCreators = topCreatorsIds.map((id) => {
+        const creator = topCreators.find((creator) => creator.id === id);
+        return creator;
+      });
+
+      return {
+        results: sortedTopCreators,
+      };
+    },
+  }),
+  getTopProjectsForHomePage: t.field({
+    type: TopProjectsResponse,
+    description: 'Get top projects for home page',
+    // @ts-expect-error TODO: fix type
+    resolve: async () => {
+      const monthAgo = new Date();
+      monthAgo.setMonth(monthAgo.getMonth() - 1);
+
+      const aggregatedData = await db.like.groupBy({
+        by: ['projectId'],
+        where: {
+          createdAt: {
+            gte: monthAgo.toISOString(),
+          },
+        },
+        _count: {
+          _all: true,
+        },
+        orderBy: {
+          _count: {
+            createdAt: 'desc',
+          },
+        },
+
+        take: 10,
+      });
+
+      const topProjectsIds = aggregatedData.map((project) => project.projectId);
+
+      const topProjects = await db.project.findMany({
+        where: {
+          id: {
+            in: topProjectsIds,
+          },
+        },
+        include: {
+          author: {
+            select: {
+              id: true,
+              name: true,
+              avatar: true,
+            },
+          },
+        },
+      });
+
+      const sortedTopProjects = topProjectsIds.map((id) => {
+        const project = topProjects.find((project) => project.id === id);
+        return project;
+      });
+
+      return {
+        results: sortedTopProjects,
+      };
+    },
+  }),
   getTopProjects: t.field({
     type: TopProjectsResponse,
     description: 'Get top projects',

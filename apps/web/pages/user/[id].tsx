@@ -14,6 +14,7 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
 
     await client.query<GetUserForPageQuery>({
       query: QUERY_GET_USER_FOR_PAGE,
+
       variables: {
         id: params?.id,
       },

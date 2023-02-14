@@ -161,8 +161,12 @@ export type Query = {
   getProject: Project;
   /** Get projects for admin */
   getProjectsAdmin: ProjectsResponse;
+  /** Get top creators for home page */
+  getTopCreatorsForHomePage: TopCreatorsResponse;
   /** Get top projects */
   getTopProjects: TopProjectsResponse;
+  /** Get top projects for home page */
+  getTopProjectsForHomePage: TopProjectsResponse;
   /** Get top users */
   getTopUsers: TopCreatorsResponse;
   /** Get a user by id */
@@ -315,6 +319,11 @@ export type GetAllProjectsQueryVariables = Exact<{
 
 export type GetAllProjectsQuery = { __typename?: 'Query', projects: { __typename?: 'ProjectsResponse', nextCursor?: string | null, prevCursor?: string | null, totalCount: number, results: Array<{ __typename?: 'Project', id: string, title: string, createdAt: any, isLiked: boolean, likesCount: number, tags: Array<string>, preview: string, repoLink: string, siteLink: string, description: string, isApproved: boolean, author: { __typename?: 'User', id: string, avatar?: string | null, name: string } }> } };
 
+export type GetTopProjectsForHomePageQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetTopProjectsForHomePageQuery = { __typename?: 'Query', getTopProjectsForHomePage: { __typename?: 'TopProjectsResponse', results: Array<{ __typename?: 'Project', id: string, preview: string, title: string, likesCount: number, author: { __typename?: 'User', avatar?: string | null, id: string, name: string } }> } };
+
 export type GetApprovedProjectsQueryVariables = Exact<{
   input?: InputMaybe<SearchProjectsInput>;
 }>;
@@ -371,6 +380,11 @@ export type UploadImageMutationVariables = Exact<{
 
 
 export type UploadImageMutation = { __typename?: 'Mutation', image: string };
+
+export type GetTopCreatorsForHomePageQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetTopCreatorsForHomePageQuery = { __typename?: 'Query', getTopCreatorsForHomePage: { __typename?: 'TopCreatorsResponse', results: Array<{ __typename?: 'User', id: string, likesReceived: number, name: string, avatar?: string | null }> } };
 
 export type GetProjectLikedStatusQueryVariables = Exact<{
   id: Scalars['String'];
@@ -598,6 +612,50 @@ export function useGetAllProjectsLazyQuery(baseOptions?: Apollo.LazyQueryHookOpt
 export type GetAllProjectsQueryHookResult = ReturnType<typeof useGetAllProjectsQuery>;
 export type GetAllProjectsLazyQueryHookResult = ReturnType<typeof useGetAllProjectsLazyQuery>;
 export type GetAllProjectsQueryResult = Apollo.QueryResult<GetAllProjectsQuery, GetAllProjectsQueryVariables>;
+export const GetTopProjectsForHomePageDocument = gql`
+    query GetTopProjectsForHomePage {
+  getTopProjectsForHomePage {
+    results {
+      id
+      author {
+        avatar
+        id
+        name
+      }
+      preview
+      title
+      likesCount
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetTopProjectsForHomePageQuery__
+ *
+ * To run a query within a React component, call `useGetTopProjectsForHomePageQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetTopProjectsForHomePageQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetTopProjectsForHomePageQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetTopProjectsForHomePageQuery(baseOptions?: Apollo.QueryHookOptions<GetTopProjectsForHomePageQuery, GetTopProjectsForHomePageQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetTopProjectsForHomePageQuery, GetTopProjectsForHomePageQueryVariables>(GetTopProjectsForHomePageDocument, options);
+      }
+export function useGetTopProjectsForHomePageLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetTopProjectsForHomePageQuery, GetTopProjectsForHomePageQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetTopProjectsForHomePageQuery, GetTopProjectsForHomePageQueryVariables>(GetTopProjectsForHomePageDocument, options);
+        }
+export type GetTopProjectsForHomePageQueryHookResult = ReturnType<typeof useGetTopProjectsForHomePageQuery>;
+export type GetTopProjectsForHomePageLazyQueryHookResult = ReturnType<typeof useGetTopProjectsForHomePageLazyQuery>;
+export type GetTopProjectsForHomePageQueryResult = Apollo.QueryResult<GetTopProjectsForHomePageQuery, GetTopProjectsForHomePageQueryVariables>;
 export const GetApprovedProjectsDocument = gql`
     query GetApprovedProjects($input: SearchProjectsInput) {
   projects: getApprovedProjects(input: $input) {
@@ -907,6 +965,45 @@ export function useUploadImageMutation(baseOptions?: Apollo.MutationHookOptions<
 export type UploadImageMutationHookResult = ReturnType<typeof useUploadImageMutation>;
 export type UploadImageMutationResult = Apollo.MutationResult<UploadImageMutation>;
 export type UploadImageMutationOptions = Apollo.BaseMutationOptions<UploadImageMutation, UploadImageMutationVariables>;
+export const GetTopCreatorsForHomePageDocument = gql`
+    query GetTopCreatorsForHomePage {
+  getTopCreatorsForHomePage {
+    results {
+      id
+      likesReceived
+      name
+      avatar
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetTopCreatorsForHomePageQuery__
+ *
+ * To run a query within a React component, call `useGetTopCreatorsForHomePageQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetTopCreatorsForHomePageQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetTopCreatorsForHomePageQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetTopCreatorsForHomePageQuery(baseOptions?: Apollo.QueryHookOptions<GetTopCreatorsForHomePageQuery, GetTopCreatorsForHomePageQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetTopCreatorsForHomePageQuery, GetTopCreatorsForHomePageQueryVariables>(GetTopCreatorsForHomePageDocument, options);
+      }
+export function useGetTopCreatorsForHomePageLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetTopCreatorsForHomePageQuery, GetTopCreatorsForHomePageQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetTopCreatorsForHomePageQuery, GetTopCreatorsForHomePageQueryVariables>(GetTopCreatorsForHomePageDocument, options);
+        }
+export type GetTopCreatorsForHomePageQueryHookResult = ReturnType<typeof useGetTopCreatorsForHomePageQuery>;
+export type GetTopCreatorsForHomePageLazyQueryHookResult = ReturnType<typeof useGetTopCreatorsForHomePageLazyQuery>;
+export type GetTopCreatorsForHomePageQueryResult = Apollo.QueryResult<GetTopCreatorsForHomePageQuery, GetTopCreatorsForHomePageQueryVariables>;
 export const GetProjectLikedStatusDocument = gql`
     query GetProjectLikedStatus($id: String!) {
   project: getProject(id: $id) {
