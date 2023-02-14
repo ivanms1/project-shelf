@@ -24,9 +24,10 @@ export interface ProjectCardProps {
       avatar?: string;
     };
   };
+  light?: boolean;
 }
 
-const ProjectCard = ({ project }: ProjectCardProps) => {
+const ProjectCard = ({ project, light }: ProjectCardProps) => {
   const [likeProject] = useCreateLikeMutation();
   const [removeLikeProject] = useDeleteLikeMutation();
   const { isLoggedIn } = useIsLoggedIn();
@@ -114,7 +115,13 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
           />
         </Link>
       </div>
-      <div className='rounded-b-lg bg-black text-white p-[20px] flex flex-col justify-between h-[160px]'>
+      <div
+        className={classNames(
+          'rounded-b-lg text-white p-[20px] flex flex-col justify-between h-[160px]',
+          { ['bg-black']: !light },
+          { ['bg-grey-dark']: light }
+        )}
+      >
         <div className='flex flex-col items-start gap-y-3 cursor-pointer'>
           <p className='text-lg font-medium'>{project.title}</p>
           <Link href={`/user/${project?.author?.id}`} passHref>
