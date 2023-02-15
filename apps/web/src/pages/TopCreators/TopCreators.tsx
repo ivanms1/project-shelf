@@ -52,7 +52,7 @@ const TopCreators = () => {
   ];
 
   const handleTabChange = (index: number) => {
-    push('/top-creators', {
+    push(`/top-creators/?interval=${TOP_CREATOR_INTERVALS[index]}`, {
       query: {
         interval: TOP_CREATOR_INTERVALS[index],
       },

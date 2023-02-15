@@ -1,6 +1,7 @@
 import React from 'react';
 import Image from 'next/future/image';
 import { useTranslation } from 'react-i18next';
+import Link from 'next/link';
 
 interface TopCreatorProps {
   creator: {
@@ -14,7 +15,10 @@ interface TopCreatorProps {
 const TopCreator = ({ creator }: TopCreatorProps) => {
   const { t } = useTranslation('home');
   return (
-    <div className='bg-grey-dark p-5 flex flex-col gap-5 justify-center items-center rounded-lg w-[260px] h-[260px]'>
+    <Link
+      href={`/user/${creator.id}`}
+      className='bg-grey-dark p-5 flex flex-col gap-5 justify-center items-center rounded-lg w-[260px] h-[260px]'
+    >
       <Image
         src={creator?.avatar}
         alt={creator.name}
@@ -29,7 +33,7 @@ const TopCreator = ({ creator }: TopCreatorProps) => {
           <p className='font-mono '>{creator.likesReceived}</p>
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
 

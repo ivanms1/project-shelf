@@ -82,7 +82,10 @@ function Home() {
           <p className='text-[22px] max-lg:text-base'>{t('description')}</p>
           {!isMobile && homeButtonAndActionButtons}
         </div>
-        <div className='rounded-lg bg-grey-dark flex flex-col max-lg:mb-10'>
+        <Link
+          href={`/project/${firstProject?.id}`}
+          className='rounded-lg bg-grey-dark flex flex-col max-lg:mb-10'
+        >
           <Image
             src={firstProject?.preview ?? ''}
             priority
@@ -104,7 +107,7 @@ function Home() {
               <p>{firstProject?.author.name}</p>
             </div>
           </div>
-        </div>
+        </Link>
         {isMobile && homeButtonAndActionButtons}
       </div>
       <div className='py-20'>

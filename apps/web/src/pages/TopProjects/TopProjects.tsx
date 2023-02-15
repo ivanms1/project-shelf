@@ -51,7 +51,7 @@ const TopProjects = () => {
   ];
 
   const handleTabChange = (index: number) => {
-    push('/top-projects', {
+    push(`/top-projects?interval=${TOP_CREATOR_INTERVALS[index]}`, {
       query: {
         interval: TOP_CREATOR_INTERVALS[index],
       },
