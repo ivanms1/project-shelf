@@ -339,7 +339,7 @@ export type GetUserForPageQueryVariables = Exact<{
 }>;
 
 
-export type GetUserForPageQuery = { __typename?: 'Query', user: { __typename?: 'User', id: string, name: string, email?: string | null, github?: string | null, avatar?: string | null } };
+export type GetUserForPageQuery = { __typename?: 'Query', user: { __typename?: 'User', id: string, name: string, email?: string | null, github?: string | null, avatar?: string | null, cover?: string | null } };
 
 export type CreateLikeMutationVariables = Exact<{
   authorId: Scalars['String'];
@@ -728,6 +728,7 @@ export const GetUserForPageDocument = gql`
     email
     github
     avatar
+    cover
   }
 }
     `;
