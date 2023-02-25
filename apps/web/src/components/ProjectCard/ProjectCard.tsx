@@ -25,9 +25,10 @@ export interface ProjectCardProps {
     };
   };
   light?: boolean;
+  noLike?: boolean;
 }
 
-const ProjectCard = ({ project, light }: ProjectCardProps) => {
+const ProjectCard = ({ project, light, noLike }: ProjectCardProps) => {
   const [likeProject] = useCreateLikeMutation();
   const [removeLikeProject] = useDeleteLikeMutation();
   const { isLoggedIn } = useIsLoggedIn();
@@ -119,7 +120,8 @@ const ProjectCard = ({ project, light }: ProjectCardProps) => {
         className={classNames(
           'rounded-b-lg text-white p-[20px] flex flex-col justify-between h-[160px]',
           { ['bg-black']: !light },
-          { ['bg-grey-dark']: light }
+          { ['bg-grey-dark']: light },
+          { ['h-auto']: noLike }
         )}
       >
         <div className='flex flex-col items-start gap-y-3 cursor-pointer'>
@@ -140,19 +142,21 @@ const ProjectCard = ({ project, light }: ProjectCardProps) => {
           </Link>
         </div>
 
-        <div className='flex flex-row items-center place-self-end gap-x-2'>
-          <p className='w-[10px] mr-2 text-right'>{project.likesCount}</p>
-          <Button variant='ghost' onClick={handleLike}>
-            <HeartIcon
-              className={classNames(
-                'w-[25px] fill-grey-lighter scale-105 transition ease-out duration-100 hover:fill-pink-light active:scale-75',
-                {
-                  'fill-pink-light': project?.isLiked,
-                }
-              )}
-            />
-          </Button>
-        </div>
+        {!noLike && (
+          <div className='flex flex-row items-center place-self-end gap-x-2'>
+            <p className='w-[10px] mr-2 text-right'>{project.likesCount}</p>
+            <Button variant='ghost' onClick={handleLike}>
+              <HeartIcon
+                className={classNames(
+                  'w-[25px] fill-grey-lighter scale-105 transition ease-out duration-100 hover:fill-pink-light active:scale-75',
+                  {
+                    'fill-pink-light': project?.isLiked,
+                  }
+                )}
+              />
+            </Button>
+          </div>
+        )}
       </div>
     </div>
   );

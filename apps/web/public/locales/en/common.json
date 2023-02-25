@@ -25,5 +25,7 @@
   "delete": "Delete",
   "yes": "Yes",
   "no": "No",
-  "select-image": "Select Image"
+  "select-image": "Select Image",
+  "create-account-or-login": "Please create an account or login for this action",
+  "sign-in-to-discover": "Sign in to discover new projects and interact"
 }

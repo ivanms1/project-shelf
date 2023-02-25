@@ -23,5 +23,7 @@
   "delete": "Eliminar",
   "yes": "Sí",
   "no": "No",
-  "select-image": "Seleccionar Imagen"
+  "select-image": "Seleccionar Imagen",
+  "create-account-or-login": "Please create an account or login for this action",
+  "sign-in-to-discover": "Sign in to discover new projects and interact"
 }

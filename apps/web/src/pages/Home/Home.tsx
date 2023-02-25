@@ -49,7 +49,7 @@ function Home() {
         </Link>
       ) : (
         <Button
-          className='max-lg:w-full max-lg:mb-10'
+          className='max-lg:mb-10 w-fit max-lg:w-full'
           onClick={() => signIn('github')}
         >
           {t('common:login')}
@@ -158,7 +158,7 @@ function Home() {
         </div>
         <div className='flex gap-8 justify-between max-lg:flex-col max-lg:mb-10'>
           {restProjects.map((project) => (
-            <ProjectCard key={project.id} light project={project} />
+            <ProjectCard key={project.id} light project={project} noLike />
           ))}
         </div>
         <Button className='hidden w-full text-center max-lg:block'>
@@ -185,9 +185,11 @@ function Home() {
           <h3 className='text-[51px] font-semibold max-lg:text-[38px]'>
             {coverProject?.title}
           </h3>
-          <Button variant='secondary' className='w-fit max-lg:w-full'>
-            {t('see-project')}
-          </Button>
+          <Link href={`/project/${coverProject.id}`}>
+            <Button variant='secondary' className='w-fit max-lg:w-full'>
+              {t('see-project')}
+            </Button>
+          </Link>
         </div>
       </div>
       <div className='py-20 max-lg:pt-10'>
