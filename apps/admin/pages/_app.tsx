@@ -10,6 +10,8 @@ import type { Session } from 'next-auth';
 
 import './styles.css';
 
+import Layout from '../src/components/Layout';
+
 function CustomApp({
   Component,
   pageProps: { session, ...pageProps },
@@ -20,9 +22,11 @@ function CustomApp({
   return (
     <SessionProvider session={session}>
       <ApolloProvider client={client}>
-        <AuthProvider>
-          <Component {...pageProps} />
-        </AuthProvider>
+        <Layout>
+          <AuthProvider>
+            <Component {...pageProps} />
+          </AuthProvider>
+        </Layout>
       </ApolloProvider>
     </SessionProvider>
   );
