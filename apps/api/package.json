@@ -37,7 +37,7 @@
   "dependencies": {
     "@pothos/core": "^3.22.8",
     "@pothos/plugin-prisma": "^3.35.8",
-    "@prisma/client": "4.5.0",
+    "@prisma/client": "4.11.0",
     "apollo-server-express": "^3.6.7",
     "body-parser": "^1.19.2",
     "cloudinary": "^1.28.1",
