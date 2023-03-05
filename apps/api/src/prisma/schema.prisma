@@ -21,6 +21,7 @@ model User {
   providerId      Int       @unique
   provider        String
   avatar          String?
+  cover           String?
   name            String
   email           String?   @unique
   role            Role      @default(USER)
@@ -33,15 +34,14 @@ model User {
   createdAt       DateTime  @default(now())
   updatedAt       DateTime  @default(now()) @updatedAt
   projects        Project[]
-  projectsLiked   Project[] @relation("ProjectstLiked")
   followers       User[]    @relation(name: "UserFollower")
   following       User[]    @relation(name: "UserFollowing")
-  followerCount   Int       @default(0)
-  followingCount  Int       @default(0)
   UserFollower    User?     @relation("UserFollower", fields: [userFollowerId], references: [id])
   UserFollowing   User?     @relation("UserFollowing", fields: [userFollowingId], references: [id])
   userFollowerId  String?
   userFollowingId String?
+  Like            Like[]    @relation("UserLikeId")
+  AuthorLike      Like[]    @relation("AuthorLikeId")
 }
 
 model Project {
@@ -53,10 +53,22 @@ model Project {
   author      User     @relation(fields: [authorId], references: [id])
   authorId    String
   description String
-  likes       User[]   @relation(name: "ProjectstLiked")
-  likesCount  Int
   isApproved  Boolean  @default(false)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @default(now()) @updatedAt
   tags        String[]
+  Like        Like[]
+}
+
+model Like {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  user      User     @relation("UserLikeId", fields: [userId], references: [id])
+  userId    String
+  project   Project  @relation(fields: [projectId], references: [id])
+  projectId String
+  author    User     @relation("AuthorLikeId", fields: [authorId], references: [id])
+  authorId  String
+
+  @@unique([userId, projectId])
 }

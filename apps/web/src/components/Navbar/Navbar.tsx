@@ -1,127 +1,122 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
 import { signIn } from 'next-auth/react';
 import Image from 'next/future/image';
-import { Button, DropDown, Select } from 'ui';
+import { Button, DropDown } from 'ui';
 import { useTranslation } from 'next-i18next';
-import cookie from 'react-cookies';
+
+import MobileMenu from '../MobileMenu';
 
 import useIsLoggedIn from '@/hooks/useIsLoggedIn';
-
-import { LOCALES, NEXT_LOCALE } from 'const';
-
-import {
-  aboutButtonStyle,
-  avatarStyle,
-  flagStyle,
-  logoStyle,
-  navbarStyle,
-  popoverItemsStyle,
-  popoverItemStyle,
-  rightSectionStyle,
-} from './Navbar.css';
 
 const Navbar = () => {
   const { isLoggedIn, logout, currentUser } = useIsLoggedIn();
   const [open, setOpen] = useState(false);
-  const router = useRouter();
+  const [isTopOpen, setIsTopOpen] = useState(false);
   const { t } = useTranslation('common');
 
-  const onToggleLanguageClick = (newLocale: string) => {
-    cookie.save(NEXT_LOCALE, newLocale);
-    const { pathname, asPath, query } = router;
-    router.push({ pathname, query }, asPath, { locale: newLocale });
-  };
-
-  const CurrentLocalFlag = LOCALES.find(
-    (locale) => locale.code === router.locale
-  ).flag;
-
-  const currentLocale = {
-    value: LOCALES.find((locale) => locale.code === router.locale).code,
-    label: <CurrentLocalFlag className={flagStyle} />,
-  };
-
   return (
-    <div className={navbarStyle}>
-      <Link href='/'>
-        <Image
-          className={logoStyle}
-          src={'/assets/images/shelf.png'}
-          alt='project shelf logo'
-          height={50}
-          width={50}
-        />
+    <div className='bg-black flex text-white flex-row py-5 px-12 justify-between max-lg:py-3 max-lg:px-7'>
+      <Link className='flex flex-row items-center gap-3' href='/'>
+        <>
+          <Image
+            className='cursor-pointer'
+            src={'/assets/images/shelf.png'}
+            alt='project shelf logo'
+            height={50}
+            width={50}
+          />
+          <p className='lg:text-2xl font-bold font-mono text-xl'>
+            {t('project-shelf')}
+          </p>
+        </>
       </Link>
-      <div className={rightSectionStyle}>
-        <Link href='/about'>
-          <a>
-            <Button className={aboutButtonStyle} variant='secondary'>
-              {t('about')}
+      <div className='flex flex-row gap-[10px] items-center max-lg:hidden'>
+        <Link href='/search' className='py-5 px-3'>
+          {t('search')}
+        </Link>
+
+        <DropDown
+          open={isTopOpen}
+          setOpen={setIsTopOpen}
+          parent={
+            <Button variant='ghost' className='px-3'>
+              {t('top')}
             </Button>
-          </a>
-        </Link>
-        <Link href='/search'>
-          <a>
-            <Button variant='secondary'>{t('search')}</Button>
-          </a>
-        </Link>
-        <Select
-          // @ts-expect-error TODO: add correct type
-          value={currentLocale}
-          // @ts-expect-error TODO: add correct type
-          options={LOCALES.map((locale) => {
-            const Flag = locale.flag;
-            return {
-              value: locale.code,
-              label: <Flag className={flagStyle} />,
-            };
-          })}
-          onChange={(e) => {
-            onToggleLanguageClick(e.value);
-          }}
-        />
+          }
+        >
+          <div className='bg-grey-dark flex w-40 flex-col rounded-sm'>
+            <Link
+              href='/top-projects'
+              className='py-3 px-8 text-center hover:bg-grey-light w-full rounded-t-sm'
+            >
+              {t('projects')}
+            </Link>
+
+            <Link
+              href='/top-creators'
+              className='py-3 px-8 text-center hover:bg-grey-light w-full rounded-b-sm'
+            >
+              {t('creators')}
+            </Link>
+          </div>
+        </DropDown>
+
         {isLoggedIn ? (
           <>
+            <Link href='/create-project' passHref>
+              <Button className='px-7 mr-1' size='small'>
+                {t('add-project')}
+              </Button>
+            </Link>
             <DropDown
               open={open}
               setOpen={setOpen}
               parent={
                 <Image
-                  className={avatarStyle}
+                  className='cursor-pointer rounded-full h-10 w-10 object-cover'
                   src={currentUser?.avatar}
-                  width={32}
-                  height={32}
+                  width={40}
+                  height={40}
                   alt={currentUser?.name}
                 />
               }
             >
-              <div className={popoverItemsStyle}>
-                <Link href={`/user/${currentUser?.id}`}>
-                  <a className={popoverItemStyle}>{t('profile')}</a>
+              <div className='bg-grey-dark flex w-40 flex-col rounded-sm'>
+                <Link
+                  href={`/user/${currentUser?.id}`}
+                  className='py-3 px-8 text-center hover:bg-grey-light w-full rounded-t-sm'
+                >
+                  {t('profile')}
                 </Link>
 
-                <Link href={`/user-edit/${currentUser?.id}`}>
-                  <a className={popoverItemStyle}>{t('edit-profile')}</a>
+                <Link
+                  href={`/user-edit/${currentUser?.id}`}
+                  className='py-3 px-8 text-center hover:bg-grey-light w-full'
+                >
+                  {t('edit-profile')}
                 </Link>
                 <Button
                   variant='ghost'
-                  className={popoverItemStyle}
+                  className='py-3 px-8 text-center hover:bg-grey-light w-full rounded-b-sm'
                   onClick={logout}
                 >
                   {t('sign-out')}
                 </Button>
               </div>
             </DropDown>
-            <Link href='/create-project' passHref>
-              <Button>{t('add-project')}</Button>
-            </Link>
           </>
         ) : (
-          <Button onClick={() => signIn('github')}>{t('login')}</Button>
+          <Button
+            className='px-7'
+            size='small'
+            onClick={() => signIn('github')}
+          >
+            {t('login')}
+          </Button>
         )}
       </div>
+      <MobileMenu />
     </div>
   );
 };

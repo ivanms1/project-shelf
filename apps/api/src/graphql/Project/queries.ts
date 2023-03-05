@@ -1,9 +1,14 @@
+import { Prisma } from '@prisma/client';
+
 import decodeAccessToken from '../../helpers/decodeAccessToken';
 import builder from '../../builder';
 import db from '../../db';
-import { Prisma } from '@prisma/client';
 
-const Project = builder.prismaObject('Project', {
+import getPaginationArgs, {
+  type SearchArgs,
+} from '../../helpers/getPaginationArgs';
+
+export const Project = builder.prismaObject('Project', {
   name: 'Project',
   fields: (t) => ({
     id: t.exposeID('id'),
@@ -13,12 +18,12 @@ const Project = builder.prismaObject('Project', {
     siteLink: t.exposeString('siteLink'),
     description: t.exposeString('description'),
     isApproved: t.exposeBoolean('isApproved'),
-    likesCount: t.exposeInt('likesCount'),
     createdAt: t.expose('createdAt', { type: 'Date' }),
     updatedAt: t.expose('updatedAt', { type: 'Date' }),
     tags: t.exposeStringList('tags'),
     author: t.relation('author'),
-    likes: t.relation('likes'),
+    likes: t.relation('Like'),
+    likesCount: t.relationCount('Like'),
     isLiked: t.boolean({
       resolve: async (parent, _, ctx) => {
         try {
@@ -27,14 +32,10 @@ const Project = builder.prismaObject('Project', {
             return false;
           }
 
-          const isUserLike = await db.project.findFirst({
+          const isUserLike = await db.like.findFirst({
             where: {
-              id: parent.id,
-              likes: {
-                some: {
-                  id: String(currentUserId),
-                },
-              },
+              projectId: parent.id,
+              userId: String(currentUserId),
             },
           });
 
@@ -132,35 +133,16 @@ builder.queryFields((t) => ({
       });
 
       if (incomingCursor) {
-        results = await db.project.findMany({
-          take: 9,
-          skip: 1,
-          cursor: {
-            id: incomingCursor,
-          },
-          where: filter,
-          include: {
-            author: true,
-          },
-          orderBy: {
-            [args?.input?.orderBy || 'createdAt']: args?.input?.order,
-          },
-        });
+        results = await db.project.findMany(
+          getPaginationArgs(args as SearchArgs, filter, false)
+        );
       } else {
-        results = await db.project.findMany({
-          take: 9,
-          where: filter,
-          include: {
-            author: true,
-          },
-          orderBy: {
-            [args?.input?.orderBy || 'createdAt']: args?.input?.order,
-          },
-        });
+        results = await db.project.findMany(
+          getPaginationArgs(args as SearchArgs, filter, true)
+        );
       }
 
-      const lastResult = results[8];
-      const cursor = lastResult?.id;
+      const cursor = results[9]?.id;
 
       return {
         prevCursor: args?.input?.cursor ?? '',
@@ -181,38 +163,16 @@ builder.queryFields((t) => ({
       const totalCount = await db.project.count();
 
       if (incomingCursor) {
-        results = await db.project.findMany({
-          take: 9,
-          skip: 1,
-          cursor: {
-            id: incomingCursor,
-          },
-          include: {
-            likes: true,
-            author: true,
-          },
-          orderBy: {
-            createdAt: 'desc',
-          },
-        });
+        results = await db.project.findMany(
+          getPaginationArgs(args as SearchArgs, undefined, false)
+        );
       } else {
-        results = await db.project.findMany({
-          take: 9,
-          where: {
-            isApproved: true,
-          },
-          include: {
-            likes: true,
-            author: true,
-          },
-          orderBy: {
-            createdAt: 'desc',
-          },
-        });
+        results = await db.project.findMany(
+          getPaginationArgs(args as SearchArgs, undefined, true)
+        );
       }
 
-      const lastResult = results[8];
-      const cursor = lastResult?.id;
+      const cursor = results[9]?.id;
 
       return {
         prevCursor: args?.input?.cursor ?? '',
@@ -262,37 +222,16 @@ builder.queryFields((t) => ({
       });
 
       if (incomingCursor) {
-        results = await db.project.findMany({
-          take: 9,
-          skip: 1,
-          cursor: {
-            id: incomingCursor,
-          },
-          where: filter,
-          include: {
-            likes: true,
-            author: true,
-          },
-          orderBy: {
-            createdAt: 'desc',
-          },
-        });
+        results = await db.project.findMany(
+          getPaginationArgs(args as SearchArgs, filter, false)
+        );
       } else {
-        results = await db.project.findMany({
-          take: 9,
-          where: filter,
-          include: {
-            likes: true,
-            author: true,
-          },
-          orderBy: {
-            createdAt: 'desc',
-          },
-        });
+        results = await db.project.findMany(
+          getPaginationArgs(args as SearchArgs, filter, true)
+        );
       }
 
-      const lastResult = results[8];
-      const cursor = lastResult?.id;
+      const cursor = results[9]?.id;
 
       return {
         prevCursor: args?.input?.cursor ?? '',
@@ -339,36 +278,84 @@ builder.queryFields((t) => ({
 
       if (incomingCursor) {
         results = await db.project.findMany({
-          take: 9,
-          skip: 1,
-          cursor: {
-            id: incomingCursor,
-          },
-          where: filter,
+          ...getPaginationArgs(args as SearchArgs, filter, false),
           include: {
-            likes: true,
-            author: true,
-          },
-          orderBy: {
-            [args?.input?.orderBy || 'createdAt']: args?.input?.order,
+            _count: {
+              select: {
+                Like: true,
+              },
+            },
           },
         });
       } else {
         results = await db.project.findMany({
-          take: 9,
-          where: filter,
+          ...getPaginationArgs(args as SearchArgs, filter, true),
           include: {
-            likes: true,
-            author: true,
-          },
-          orderBy: {
-            [args?.input?.orderBy || 'createdAt']: args?.input?.order,
+            _count: {
+              select: {
+                Like: true,
+              },
+            },
           },
         });
       }
 
-      const lastResult = results[8];
-      const cursor = lastResult?.id;
+      const cursor = results[9]?.id;
+
+      return {
+        prevCursor: args?.input?.cursor ?? '',
+        nextCursor: cursor,
+        results,
+        totalCount,
+      };
+    },
+  }),
+  getMostLikedProjects: t.field({
+    description: 'Get most liked projects',
+    type: ProjectsResponse,
+    args: { input: t.arg({ type: SearchProjectsInput }) },
+    resolve: async (_, args) => {
+      const incomingCursor = args?.input?.cursor;
+      let results;
+
+      const filter: Prisma.ProjectWhereInput | undefined = {
+        isApproved: true,
+        OR: [
+          {
+            title: {
+              contains: args?.input?.search || '',
+              mode: 'insensitive',
+            },
+          },
+          {
+            description: {
+              contains: args?.input?.search || '',
+              mode: 'insensitive',
+            },
+          },
+        ],
+      };
+
+      const totalCount = await db.project.count({
+        where: filter,
+        orderBy: {
+          Like: {
+            _count: 'desc',
+          },
+        },
+      });
+
+      if (incomingCursor) {
+        results = await db.project.findMany(
+          getPaginationArgs(args as SearchArgs, filter, false)
+        );
+      } else {
+        results = await db.project.findMany(
+          getPaginationArgs(args as SearchArgs, filter, true)
+        );
+      }
+
+      const cursor = results[9]?.id;
 
       return {
         prevCursor: args?.input?.cursor ?? '',

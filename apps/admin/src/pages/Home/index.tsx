@@ -1,20 +1,11 @@
 import React from 'react';
 
-import { useGetAllProjectsQuery } from 'apollo-hooks';
+import { NextSeo } from 'next-seo';
 
 function Home() {
-  const { data } = useGetAllProjectsQuery();
-
   return (
-    <div>
-      <h2>Projects</h2>
-      <div>
-        {data?.projects.results?.map((project) => (
-          <div key={project.id}>
-            <p>{project.title}</p>
-          </div>
-        ))}
-      </div>
+    <div className='bg-gray-200'>
+      <NextSeo title='Admin | Home' />
     </div>
   );
 }

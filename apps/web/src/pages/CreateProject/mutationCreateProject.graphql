@@ -8,9 +8,5 @@ mutation CreateUserProject($input: CreateProjectInput!) {
     siteLink
     repoLink
     isApproved
-    likes {
-      id
-      name
-    }
   }
 }

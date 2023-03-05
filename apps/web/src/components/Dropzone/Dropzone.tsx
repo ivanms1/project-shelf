@@ -2,8 +2,6 @@ import React from 'react';
 import Image from 'next/image';
 import { DropzoneOptions, useDropzone } from 'react-dropzone';
 
-import { containerStyle } from './Dropzone.css';
-
 interface DropzoneProps extends DropzoneOptions {
   currentFile?: any;
   label?: string;
@@ -27,7 +25,10 @@ function Dropzone({
   });
 
   return (
-    <div className={containerStyle} {...getRootProps()}>
+    <div
+      className='relative border-2 border-dashed border-grey-light w-[800px] h-[600px] rounded max-lg:w-[335px] max-lg:h-[251px] flex justify-center cursor-pointer'
+      {...getRootProps()}
+    >
       <input {...getInputProps()} />
       {currentFile ? (
         withPreview ? (

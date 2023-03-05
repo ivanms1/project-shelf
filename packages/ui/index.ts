@@ -1,5 +1,4 @@
 export * from './Button';
-export * from './Badge';
 export * from './Input';
 export * from './FormInput';
 export * from './Modal';
@@ -10,3 +9,5 @@ export * from './DropDown';
 export * from './FormTextarea';
 export * from './LoaderOverlay';
 export * from './NativeSelect';
+export * from './Drawer';
+export * from './Tabs';

@@ -8,7 +8,7 @@ export const Role = builder.enumType('Role', {
   description: 'User role',
 });
 
-builder.prismaObject('User', {
+export const User = builder.prismaObject('User', {
   name: 'User',
   fields: (t) => ({
     id: t.exposeID('id'),
@@ -16,7 +16,7 @@ builder.prismaObject('User', {
     email: t.exposeString('email', { nullable: true }),
     role: t.expose('role', { type: Role }),
     avatar: t.exposeString('avatar', { nullable: true }),
-    followerCount: t.exposeInt('followerCount'),
+    cover: t.exposeString('cover', { nullable: true }),
     github: t.exposeString('github', { nullable: true }),
     discord: t.exposeString('discord', { nullable: true }),
     website: t.exposeString('website', { nullable: true }),
@@ -26,10 +26,11 @@ builder.prismaObject('User', {
     createdAt: t.expose('createdAt', { type: 'Date' }),
     updatedAt: t.expose('updatedAt', { type: 'Date' }),
     projects: t.relation('projects', { nullable: true }),
+    likesReceived: t.relationCount('AuthorLike'),
     followers: t.relation('followers'),
     following: t.relation('following'),
-    followingCount: t.exposeInt('followingCount'),
-    projectsLiked: t.relation('projectsLiked'),
+    followingCount: t.relationCount('following'),
+    followersCount: t.relationCount('followers'),
     isFollowing: t.boolean({
       resolve: async (parent, _, ctx) => {
         try {

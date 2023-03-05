@@ -1,10 +1,12 @@
 import * as React from 'react';
 import { InputHTMLAttributes } from 'react';
-
 import type { FieldError, FieldErrorsImpl, Merge } from 'react-hook-form';
 
-import { containerStyle, inputStyle, labelStyle } from '../Input/Input.css';
-import { errorMessageStyle } from '../Select/Select.css';
+import {
+  INPUT_CLASS,
+  INPUT_CONTAINER_CLASS,
+  INPUT_LABEL_CLASS,
+} from '../Input';
 
 interface FormInput extends InputHTMLAttributes<HTMLInputElement> {
   register: any;
@@ -24,14 +26,14 @@ export function FormInput({
   ...props
 }: FormInput) {
   return (
-    <div className={containerStyle}>
+    <div className={INPUT_CONTAINER_CLASS}>
       {!!label && (
-        <label className={labelStyle} htmlFor={id || name}>
+        <label className={INPUT_LABEL_CLASS} htmlFor={id || name}>
           {label}
         </label>
       )}
       <input
-        className={inputStyle}
+        className={INPUT_CLASS}
         error={error}
         id={id}
         name={name}
@@ -40,7 +42,9 @@ export function FormInput({
         {...props}
       />
       {error?.message && (
-        <div className={errorMessageStyle}>{error?.message}</div>
+        <div className='absolute bottom-[-20px] text-sm r-0 text-red-400'>
+          {error?.message}
+        </div>
       )}
     </div>
   );

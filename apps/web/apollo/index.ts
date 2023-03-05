@@ -13,6 +13,11 @@ import getAuthToken from '@/helpers/getAuthToken';
 
 import { setContext } from '@apollo/client/link/context';
 
+import type {
+  KeyArgsFunction,
+  KeySpecifier,
+} from '@apollo/client/cache/inmemory/policies';
+
 import { onError } from '@apollo/client/link/error';
 
 export const APOLLO_STATE_PROP_NAME = '__APOLLO_STATE__';
@@ -40,31 +45,35 @@ const authLink = setContext(async (_, { headers }) => {
   };
 });
 
-const projectsMergeConfig: FieldPolicy<any, any, any> = {
-  keyArgs: ['input', ['search']],
-  merge(existing = null, incoming) {
-    if (!existing || !existing?.results?.length) {
-      return incoming;
-    }
+const getProjectsMergeConfig = (
+  keyArgs: false | KeySpecifier | KeyArgsFunction
+): FieldPolicy<any, any, any> => {
+  return {
+    keyArgs,
+    merge(existing = null, incoming) {
+      if (!existing || !existing?.results?.length) {
+        return incoming;
+      }
 
-    if (!incoming.prevCursor) {
-      return existing;
-    }
+      if (!incoming.prevCursor) {
+        return existing;
+      }
 
-    if (existing.nextCursor === incoming.nextCursor) {
-      return existing;
-    }
+      if (existing.nextCursor === incoming.nextCursor) {
+        return existing;
+      }
 
-    if (existing.nextCursor !== incoming.prevCursor) {
-      return incoming;
-    }
+      if (existing.nextCursor !== incoming.prevCursor) {
+        return incoming;
+      }
 
-    const existingResults = existing?.results ?? [];
-    return {
-      ...incoming,
-      results: [...existingResults, ...incoming.results],
-    };
-  },
+      const existingResults = existing?.results ?? [];
+      return {
+        ...incoming,
+        results: [...existingResults, ...incoming.results],
+      };
+    },
+  };
 };
 
 function createApolloClient() {
@@ -82,9 +91,16 @@ function createApolloClient() {
       typePolicies: {
         Query: {
           fields: {
-            getApprovedProjects: projectsMergeConfig,
-            getUserProjects: projectsMergeConfig,
-            adminGetNotApprovedProjects: projectsMergeConfig,
+            getApprovedProjects: getProjectsMergeConfig(['input', ['search']]),
+            getUserProjects: getProjectsMergeConfig([
+              'userId',
+              'input',
+              ['search'],
+            ]),
+            adminGetNotApprovedProjects: getProjectsMergeConfig([
+              'input',
+              ['search'],
+            ]),
           },
         },
       },

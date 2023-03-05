@@ -1,0 +1,15 @@
+query GetTopProjectsForHomePage {
+  getTopProjectsForHomePage {
+    results {
+      id
+      author {
+        avatar
+        id
+        name
+      }
+      preview
+      title
+      likesCount
+    }
+  }
+}

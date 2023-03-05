@@ -1,9 +1,16 @@
 query GetUserForPage($id: String!) {
   user: getUser(id: $id) {
     id
+    bio
     name
     email
     github
     avatar
+    cover
+    website
+    twitter
+    discord
+    likesReceived
+    location
   }
 }
