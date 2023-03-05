@@ -1,28 +1,15 @@
-import React from 'react';
-
-import { useTranslation } from 'next-i18next';
-
-import {
-  useFollowUserMutation,
-  useGetUserForPageQuery,
-  useGetUserProjectsQuery,
-  useIsUserFollowingQuery,
-  UserFollowActions,
-} from 'apollo-hooks';
+import { useGetUserForPageQuery, useGetUserProjectsQuery } from 'apollo-hooks';
 import { useRouter } from 'next/router';
 
 import Image from 'next/future/image';
 
-import useIsLoggedIn from '@/hooks/useIsLoggedIn';
-
-import ProfileInfo from './ProfileInfo';
 import ProjectsGrid from '@/components/ProjectsGrid';
+import UserInfo from './UserInfo';
+
+const COVER_PLACEHOLDER = 'https://via.placeholder.com/1665x288';
 
 const User = () => {
   const { query } = useRouter();
-  const { isLoggedIn } = useIsLoggedIn();
-
-  const { t } = useTranslation('user');
 
   const { data } = useGetUserForPageQuery({
     variables: {
@@ -45,46 +32,7 @@ const User = () => {
     skip: !data?.user?.id,
   });
 
-  console.log('pronjectsData', projectsData);
-
-  const { data: isFollowingData } = useIsUserFollowingQuery({
-    variables: {
-      id: String(query?.id),
-    },
-    skip: !query?.id,
-  });
-
   const { user } = data;
-
-  console.log('user data', data);
-
-  const [followUser] = useFollowUserMutation();
-
-  const handleFollowUser = async () => {
-    if (isLoggedIn) {
-      await followUser({
-        variables: {
-          input: {
-            userId: user?.id,
-            action: isFollowingData?.user?.isFollowing
-              ? UserFollowActions.Unfollow
-              : UserFollowActions.Follow,
-          },
-        },
-        optimisticResponse: {
-          followUser: {
-            ...user,
-            followersCount: isFollowingData?.user?.isFollowing
-              ? isFollowingData?.user?.followersCount - 1
-              : isFollowingData?.user?.followersCount + 1,
-            isFollowing: !isFollowingData?.user?.isFollowing,
-          },
-        },
-      });
-    } else {
-      setIsLoginModalOpen(true);
-    }
-  };
 
   const onRefetch = () => {
     if (!projectsData?.getUserProjects?.nextCursor) {
@@ -106,7 +54,7 @@ const User = () => {
       <div className='relative flex flex-col items-center lg:items-start'>
         <Image
           className='w-full h-[320px] object-cover'
-          src={data?.user?.cover}
+          src={data?.user?.cover ?? COVER_PLACEHOLDER}
           alt={user?.name}
           width={1000}
           height={1000}
@@ -124,10 +72,15 @@ const User = () => {
       </div>
 
       <div className='mt-8 lg:mt-16 py-[40px] px-10 lg:px-[155px]'>
-        <ProfileInfo />
+        <UserInfo />
       </div>
       <div className='bg-grey-dark py-[40px] px-10 lg:px-[155px]'>
-        <ProjectsGrid projects={projectsData?.getUserProjects?.results} />
+        <ProjectsGrid
+          projects={projectsData?.getUserProjects?.results}
+          onRefetch={onRefetch}
+          loading={loading}
+          nextCursor={projectsData?.getUserProjects?.nextCursor}
+        />
       </div>
     </div>
   );

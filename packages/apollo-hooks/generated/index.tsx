@@ -339,7 +339,7 @@ export type GetUserForPageQueryVariables = Exact<{
 }>;
 
 
-export type GetUserForPageQuery = { __typename?: 'Query', user: { __typename?: 'User', id: string, name: string, email?: string | null, github?: string | null, avatar?: string | null, cover?: string | null } };
+export type GetUserForPageQuery = { __typename?: 'Query', user: { __typename?: 'User', id: string, bio?: string | null, name: string, email?: string | null, github?: string | null, avatar?: string | null, cover?: string | null, website?: string | null, twitter?: string | null, discord?: string | null, likesReceived: number, location?: string | null } };
 
 export type CreateLikeMutationVariables = Exact<{
   authorId: Scalars['String'];
@@ -435,7 +435,7 @@ export type GetUserProjectsQueryVariables = Exact<{
 }>;
 
 
-export type GetUserProjectsQuery = { __typename?: 'Query', getUserProjects: { __typename?: 'ProjectsResponse', nextCursor?: string | null, prevCursor?: string | null, results: Array<{ __typename?: 'Project', id: string, title: string, preview: string, likesCount: number, isLiked: boolean, author: { __typename?: 'User', id: string, name: string, avatar?: string | null } }> } };
+export type GetUserProjectsQuery = { __typename?: 'Query', getUserProjects: { __typename?: 'ProjectsResponse', nextCursor?: string | null, prevCursor?: string | null, totalCount: number, results: Array<{ __typename?: 'Project', id: string, title: string, preview: string, likesCount: number, isLiked: boolean, author: { __typename?: 'User', id: string, name: string, avatar?: string | null } }> } };
 
 export type UpdateUserMutationVariables = Exact<{
   input: UpdateUserInput;
@@ -724,11 +724,17 @@ export const GetUserForPageDocument = gql`
     query GetUserForPage($id: String!) {
   user: getUser(id: $id) {
     id
+    bio
     name
     email
     github
     avatar
     cover
+    website
+    twitter
+    discord
+    likesReceived
+    location
   }
 }
     `;
@@ -1238,6 +1244,7 @@ export const GetUserProjectsDocument = gql`
         avatar
       }
     }
+    totalCount
   }
 }
     `;
