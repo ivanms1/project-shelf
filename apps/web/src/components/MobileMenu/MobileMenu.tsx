@@ -2,15 +2,13 @@ import React, { useState } from 'react';
 import { Button, Drawer } from 'ui';
 import { useTranslation } from 'react-i18next';
 import Link from 'next/link';
+import { signIn } from 'next-auth/react';
 
 import useIsLoggedIn from '@/hooks/useIsLoggedIn';
 
 import MenuIcon from '@/assets/icons/menu-icon.svg';
-import { signIn } from 'next-auth/react';
 
-interface MobileMenuProps {}
-
-const MobileMenu = ({}: MobileMenuProps) => {
+const MobileMenu = () => {
   const [open, setOpen] = useState(false);
   const { isLoggedIn, logout, currentUser } = useIsLoggedIn();
 

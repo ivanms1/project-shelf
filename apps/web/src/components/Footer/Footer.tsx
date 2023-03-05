@@ -25,9 +25,7 @@ const SOCIALS = [
   },
 ];
 
-interface FooterProps {}
-
-const Footer = ({}: FooterProps) => {
+const Footer = () => {
   const { t } = useTranslation('common');
   return (
     <div className='bg-grey-dark px-28 py-10 text-white max-lg:px-[30px]'>

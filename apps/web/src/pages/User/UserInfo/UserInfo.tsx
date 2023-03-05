@@ -137,7 +137,7 @@ const UserInfo = () => {
         >
           <div className='flex flex-row items-center justify-center gap-3'>
             <PlusIcon />
-            {isFollowingData?.user?.isFollowing ? 'Unfollow' : 'Follow'}
+            {t(isFollowingData?.user?.isFollowing ? 'unfollow' : 'follow')}
           </div>
         </Button>
       </div>
