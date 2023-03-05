@@ -4,12 +4,11 @@
 
 const withTM = require('next-transpile-modules')(['ui']);
 const { i18n } = require('./next-i18next.config.js');
-const { createVanillaExtractPlugin } = require('@vanilla-extract/next-plugin');
 
-const withVanillaExtract = createVanillaExtractPlugin();
+
 
 module.exports = withTM(
-  withVanillaExtract({
+  {
     reactStrictMode: true,
     experimental: {
       newNextLinkBehavior: true,
@@ -37,5 +36,5 @@ module.exports = withTM(
         'via.placeholder.com'
       ],
     },
-  })
+  }
 );

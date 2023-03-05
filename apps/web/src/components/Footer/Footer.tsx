@@ -68,7 +68,7 @@ const Footer = ({}: FooterProps) => {
           <p className='text-silver'>{t('get-promotions')}</p>
           <div className='flex flex-row relative'>
             <Input containerClassName='w-full' />
-            <Button className='absolute right-0' size='small'>
+            <Button className='absolute right-0' size='small' noAnimation>
               {t('subscribe')}
             </Button>
           </div>

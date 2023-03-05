@@ -185,7 +185,7 @@ function Home() {
           <h3 className='text-[51px] font-semibold max-lg:text-[38px]'>
             {coverProject?.title}
           </h3>
-          <Link href={`/project/${coverProject.id}`}>
+          <Link href={`/project/${coverProject?.id}`}>
             <Button variant='secondary' className='w-fit max-lg:w-full'>
               {t('see-project')}
             </Button>
@@ -238,7 +238,7 @@ function Home() {
           </p>
           <div className='flex flex-row relative'>
             <Input placeholder={t('enter-email')} containerClassName='w-full' />
-            <Button className='absolute right-0' size='small'>
+            <Button className='absolute right-0' size='small' noAnimation>
               {t('subscribe')}
             </Button>
           </div>

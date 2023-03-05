@@ -8,6 +8,7 @@ interface Button extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   isLoading?: boolean;
   size?: 'small' | 'medium' | 'large';
   url?: string;
+  noAnimation?: boolean;
 }
 
 export const Button = React.forwardRef<HTMLButtonElement, Button>(
@@ -19,6 +20,7 @@ export const Button = React.forwardRef<HTMLButtonElement, Button>(
       size = 'medium',
       className,
       onClick,
+      noAnimation,
       ...props
     },
     ref
@@ -35,9 +37,10 @@ export const Button = React.forwardRef<HTMLButtonElement, Button>(
       <button
         ref={ref}
         className={classNames(
-          'px-12 font-semibold rounded-[20px] disabled:cursor-not-allowed disabled:opacity-50 active:translate-y-0.5',
+          'px-12 font-semibold rounded-[20px] disabled:cursor-not-allowed disabled:opacity-50',
           BUTTON_SIZES[size],
           BUTON_VARIANTS[variant],
+          { 'active:translate-y-0.5': !noAnimation },
           className
         )}
         {...props}
