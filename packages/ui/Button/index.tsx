@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import { Loader } from '../Loader';
 
 interface Button extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'primary' | 'secondary' | 'ghost';
+  variant?: 'primary' | 'secondary' | 'outlined' | 'ghost';
   isLoading?: boolean;
   size?: 'small' | 'medium' | 'large';
   url?: string;
@@ -54,6 +54,7 @@ Button.displayName = 'Button';
 const BUTON_VARIANTS = {
   primary: 'bg-primary text-white hover:bg-primary-dark',
   secondary: 'bg-gray-200 text-gray-700 hover:bg-gray-300',
+  outlined: 'text-white border border-primary border-2 bg-transparent ',
 };
 
 const BUTTON_SIZES = {

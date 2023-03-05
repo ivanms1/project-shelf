@@ -28,7 +28,7 @@ const ProjectsGrid = ({
         {loading &&
           projects?.length === 0 &&
           SKELETON_ARRAY.map((_, index) => <CardSkeleton key={index} />)}
-        {projects.map((project) => (
+        {projects?.map((project) => (
           <ProjectCard key={project?.id} project={project} />
         ))}
         {!loading && nextCursor && (

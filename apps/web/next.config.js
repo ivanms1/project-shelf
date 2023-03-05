@@ -13,7 +13,7 @@ module.exports = withTM(
     reactStrictMode: true,
     experimental: {
       newNextLinkBehavior: true,
-      scrollRestoration: true
+      scrollRestoration: true,
     },
     i18n,
     webpack(config) {

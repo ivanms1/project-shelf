@@ -14,5 +14,6 @@ query GetUserProjects($userId: String!, $input: SearchProjectsInput) {
         avatar
       }
     }
+    totalCount
   }
 }

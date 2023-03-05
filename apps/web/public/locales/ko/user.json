@@ -1,4 +1,6 @@
 {
+  "bio": "Bio",
+  "location": "Location",
   "follow": "Follow",
   "unfollow": "Unfollow",
   "follower_count_one": "{{count}} Follower",
