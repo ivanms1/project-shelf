@@ -4,12 +4,15 @@ import { useRouter } from 'next/router';
 import Image from 'next/future/image';
 
 import ProjectsGrid from '@/components/ProjectsGrid';
+import { NextSeo } from 'next-seo';
+import { useTranslation } from 'react-i18next';
 import UserInfo from './UserInfo';
 
 const COVER_PLACEHOLDER = 'https://via.placeholder.com/1665x288';
 
 const User = () => {
   const { query } = useRouter();
+  const { t } = useTranslation('user');
 
   const { data } = useGetUserForPageQuery({
     variables: {
@@ -32,7 +35,7 @@ const User = () => {
     skip: !data?.user?.id,
   });
 
-  const { user } = data;
+  const { user } = data ?? {};
 
   const onRefetch = () => {
     if (!projectsData?.getUserProjects?.nextCursor) {
@@ -48,6 +51,14 @@ const User = () => {
       },
     });
   };
+
+  if (!user) {
+    return (
+      <div className='w-full h-full flex justify-center items-center bg-black'>
+        <p className='text-white'>{t('user_not_found')}</p>
+      </div>
+    );
+  }
 
   return (
     <div className='bg-black'>
@@ -82,6 +93,25 @@ const User = () => {
           nextCursor={projectsData?.getUserProjects?.nextCursor}
         />
       </div>
+
+      <NextSeo
+        title={user?.name}
+        description={user?.name}
+        openGraph={{
+          type: 'website',
+          title: user?.name,
+          description: user?.bio,
+          site_name: 'Project Shelf',
+          images: [
+            {
+              url: user?.avatar ?? '',
+              width: 200,
+              height: 200,
+              alt: user?.name,
+            },
+          ],
+        }}
+      />
     </div>
   );
 };

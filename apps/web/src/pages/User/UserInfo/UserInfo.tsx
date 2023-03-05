@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 
 import { useRouter } from 'next/router';
 
@@ -21,12 +21,7 @@ import DiscordIcon from '@/assets/icons/discord-icon.svg';
 import PlusIcon from '@/assets/icons/plus-icon.svg';
 import TwitterIcon from '@/assets/icons/twitter-icon.svg';
 import WorldIcon from '@/assets/icons/world-icon.svg';
-
-function kFormatter(num: number) {
-  return Math.abs(num) > 999
-    ? Math.sign(num) * ((Math.abs(num) / 1000) as any).toFixed(1) + 'k'
-    : Math.sign(num) * Math.abs(num);
-}
+import kFormatter from '@/helpers/kFormater';
 
 const UserInfo = () => {
   const { query } = useRouter();
@@ -98,23 +93,30 @@ const UserInfo = () => {
     },
   ];
 
-  const arrOfStats = [
-    {
-      id: '1',
-      stats: kFormatter(projectsData?.getUserProjects?.totalCount),
-      title: 'Projects',
-    },
-    {
-      id: '2',
-      stats: kFormatter(user?.likesReceived),
-      title: 'Likes',
-    },
-    {
-      id: '3',
-      stats: kFormatter(isFollowingData?.user?.followersCount),
-      title: 'Followers',
-    },
-  ];
+  const arrOfStats = useMemo(
+    () => [
+      {
+        id: '1',
+        stats: kFormatter(projectsData?.getUserProjects?.totalCount),
+        title: 'Projects',
+      },
+      {
+        id: '2',
+        stats: kFormatter(user?.likesReceived),
+        title: 'Likes',
+      },
+      {
+        id: '3',
+        stats: kFormatter(isFollowingData?.user?.followersCount),
+        title: 'Followers',
+      },
+    ],
+    [
+      projectsData?.getUserProjects?.totalCount,
+      user?.likesReceived,
+      isFollowingData?.user?.followersCount,
+    ]
+  );
 
   return (
     <div className='mt-5'>
@@ -172,20 +174,20 @@ const UserInfo = () => {
           {SOCIALS.map((social) => {
             const Icon = social.icon;
 
-            if (social.link) {
-              return (
-                <a
-                  key={social.id}
-                  href={social.link}
-                  target='_blank'
-                  rel='noreferrer'
-                >
-                  <Icon className='w-8 h-8' />
-                </a>
-              );
+            if (!social.link) {
+              return null;
             }
 
-            return null;
+            return (
+              <a
+                key={social.id}
+                href={social.link}
+                target='_blank'
+                rel='noreferrer'
+              >
+                <Icon className='w-8 h-8' />
+              </a>
+            );
           })}
         </div>
       </div>
