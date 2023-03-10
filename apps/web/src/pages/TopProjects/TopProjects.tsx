@@ -2,15 +2,13 @@ import React from 'react';
 import { useTranslation } from 'next-i18next';
 import { useRouter } from 'next/router';
 import { Tabs } from 'ui';
+import { NextSeo } from 'next-seo';
 
 import useIsMobile from '@/hooks/useIsMobile';
 
 import ProjectsTable from './ProjectsTable';
-import { NextSeo } from 'next-seo';
 
-const YESTERDAY = Math.floor(Date.now() / 1000) - 24 * 60 * 60;
-const A_WEEK_AGO = Math.floor(Date.now() / 1000) - 7 * 24 * 60 * 60;
-const A_MONTH_AGO = Math.floor(Date.now() / 1000) - 30 * 24 * 60 * 60;
+import { YESTERDAY, A_WEEK_AGO, A_MONTH_AGO } from 'const';
 
 const TOP_CREATOR_INTERVALS = {
   0: 'today',
