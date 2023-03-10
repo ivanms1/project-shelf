@@ -19,7 +19,7 @@
     "@types/express": "^4.17.12",
     "@types/jest": "^29.1.1",
     "@types/jsonwebtoken": "^8.5.8",
-    "@types/morgan": "^1.9.2",
+    "@types/morgan": "^1.9.4",
     "@types/node": "^17.0.15",
     "esbuild-register": "^3.4.2",
     "eslint": "^8.10.0",
