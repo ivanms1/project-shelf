@@ -46,3 +46,13 @@ export const IMGBOT_ID = 31427850;
 
 export const PROJECT_SHELF_CONTRIBUTORS_API =
   'https://api.github.com/repos/project-shelf/project-shelf/contributors';
+
+export const YESTERDAY = Math.floor(Date.now() / 1000) - 24 * 60 * 60;
+export const A_WEEK_AGO = Math.floor(Date.now() / 1000) - 7 * 24 * 60 * 60;
+export const A_MONTH_AGO = Math.floor(Date.now() / 1000) - 30 * 24 * 60 * 60;
+
+export const INTERVALS = {
+  today: new Date(YESTERDAY * 1000).toISOString(),
+  'this-week': new Date(A_WEEK_AGO * 1000).toISOString(),
+  'this-month': new Date(A_MONTH_AGO * 1000).toISOString(),
+};
