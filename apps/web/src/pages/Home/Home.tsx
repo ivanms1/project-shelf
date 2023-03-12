@@ -156,7 +156,7 @@ function Home() {
             </Link>
           </Button>
         </div>
-        <div className='flex gap-8 justify-between max-lg:flex-col max-lg:mb-10'>
+        <div className='flex gap-8 items-center lg:justify-between max-lg:flex-col max-lg:mb-10'>
           {restProjects.map((project) => (
             <ProjectCard key={project.id} light project={project} noLike />
           ))}
