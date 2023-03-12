@@ -199,13 +199,13 @@ function Home() {
           </h2>
           <p className='text-[22px] max-lg:text-base'>{t('find-out')}</p>
         </div>
-        <div className='flex justify-between max-lg:flex-col gap-5'>
+        <div className='flex items-center lg:justify-between max-lg:flex-col gap-5'>
           {PROJECT_SHELF_STEPS.map((step) => {
             const Icon = step.icon;
             return (
               <div
                 key={step.title}
-                className='flex h-[440px] w-[330px] flex-col gap-10 bg-grey-dark rounded-lg justify-center items-center p-8 flex-wrap'
+                className='flex h-[440px] w-full lg:w-[330px] flex-col gap-10 bg-grey-dark rounded-lg justify-center items-center p-8 flex-wrap'
               >
                 <div className='bg-step-icon p-10 rounded-full'>
                   <Icon className='w-28 h-28' />

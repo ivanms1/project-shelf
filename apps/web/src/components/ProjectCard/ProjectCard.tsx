@@ -95,12 +95,12 @@ const ProjectCard = ({ project, light, noLike }: ProjectCardProps) => {
   };
 
   return (
-    <div className='w-[330px]'>
+    <div className='w-full lg:w-[330px]'>
       <LoginModal
         isOpen={isLoginModalOpen}
         onClose={() => setIsLoginModalOpen(false)}
       />
-      <div className='flex cursor-pointer'>
+      <div className='flex-1 cursor-pointer'>
         <Link
           href={{
             pathname: `/project/${project.id}`,
@@ -108,7 +108,7 @@ const ProjectCard = ({ project, light, noLike }: ProjectCardProps) => {
           passHref
         >
           <Image
-            className='rounded-t-lg object-cover transition ease-in-out duration-300 hover:brightness-75 hover:opacity-100 w-[330px] h-[295px]'
+            className='rounded-t-lg object-cover transition ease-in-out duration-300 hover:brightness-75 hover:opacity-100 w-full lg:w-[330px] h-[295px]'
             alt={project?.title}
             src={project?.preview}
             width={330}

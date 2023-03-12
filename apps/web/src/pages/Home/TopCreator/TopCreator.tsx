@@ -17,7 +17,7 @@ const TopCreator = ({ creator }: TopCreatorProps) => {
   return (
     <Link
       href={`/user/${creator.id}`}
-      className='bg-grey-dark p-5 flex flex-col gap-5 justify-center items-center rounded-lg w-[260px] h-[260px]'
+      className='bg-grey-dark p-5 flex flex-col gap-5 justify-center items-center rounded-lg w-full lg:w-[260px] h-[260px]'
     >
       <Image
         src={creator?.avatar}
