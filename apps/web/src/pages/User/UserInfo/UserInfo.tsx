@@ -97,17 +97,21 @@ const UserInfo = () => {
     () => [
       {
         id: '1',
-        stats: kFormatter(projectsData?.getUserProjects?.totalCount),
+        stats: projectsData?.getUserProjects?.totalCount
+          ? kFormatter(projectsData?.getUserProjects?.totalCount)
+          : 0,
         title: 'Projects',
       },
       {
         id: '2',
-        stats: kFormatter(user?.likesReceived),
+        stats: user?.likesReceived ? kFormatter(user?.likesReceived) : 0,
         title: 'Likes',
       },
       {
         id: '3',
-        stats: kFormatter(isFollowingData?.user?.followersCount),
+        stats: isFollowingData?.user?.followersCount
+          ? kFormatter(isFollowingData?.user?.followersCount)
+          : 0,
         title: 'Followers',
       },
     ],
