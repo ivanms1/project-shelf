@@ -130,23 +130,21 @@ const UserInfo = () => {
           {data?.user?.name}
         </h4>
 
-        <Button
-          variant='primary'
-          onClick={handleFollowUser}
-          disabled={user?.id === currentUser?.id}
-        >
-          <div className='flex flex-row items-center justify-center gap-3'>
-            <PlusIcon />
-            {t(isFollowingData?.user?.isFollowing ? 'unfollow' : 'follow')}
-          </div>
-        </Button>
+        {user?.id !== currentUser?.id && (
+          <Button variant='primary' onClick={handleFollowUser}>
+            <div className='flex flex-row items-center justify-center gap-3'>
+              <PlusIcon />
+              {t(isFollowingData?.user?.isFollowing ? 'unfollow' : 'follow')}
+            </div>
+          </Button>
+        )}
       </div>
 
       <div className='flex flex-col gap-10 mt-5'>
         <div className='mt-5 lg:mt-0 flex flex-row gap-20'>
           {arrOfStats.map(({ id, stats, title }) => (
             <div key={id} className='flex flex-col gap-0'>
-              <h4 className='text-[28px] font-bold'>{stats}</h4>
+              <h4 className='text-[28px] h-10 font-bold'>{stats}</h4>
               <p className='text-[22px] font-normal'>{title}</p>
             </div>
           ))}
