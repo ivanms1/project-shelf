@@ -8,6 +8,7 @@ const PORT = process.env.PORT || 8080;
 const DEV_ORIGINS = [
   'http://localhost:3000',
   'https://studio.apollographql.com',
+  'http://localhost:4000',
 ];
 
 const PROD_ORIGINS = [
