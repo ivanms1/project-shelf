@@ -34,6 +34,9 @@ type Mutation {
   """Follow or unfollow a user"""
   followUser(input: FollowUserInput!): User!
 
+  """Login in as a admin"""
+  loginAsAdmin(token: String!): String!
+
   """Like or remove like from a project"""
   reactToProject(input: ReactToProjectInput!): Project!
 
