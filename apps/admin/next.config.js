@@ -18,8 +18,11 @@ module.exports = withTM({
     domains: [
       'res.cloudinary.com',
       'avatars.githubusercontent.com',
+      'cloudflare-ipfs.com',
+      'loremflickr.com',
       'github.com',
       'github.githubassets.com',
+      'loremflickr.com',
     ],
   },
 });
