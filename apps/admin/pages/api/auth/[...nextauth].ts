@@ -3,7 +3,7 @@ import { SignupMutation } from 'apollo-hooks';
 import NextAuth from 'next-auth';
 import GithubProvider from 'next-auth/providers/github';
 
-import MUTATION_SIGNUP from './mutationSignup.graphql';
+import MUTATION_LOGIN_AS_ADMIN from './mutationLoginAsAdmin.graphql';
 
 export default NextAuth({
   session: { strategy: 'jwt' },
@@ -22,7 +22,7 @@ export default NextAuth({
       const apolloClient = initializeApollo();
 
       const { data } = await apolloClient.mutate<SignupMutation>({
-        mutation: MUTATION_SIGNUP,
+        mutation: MUTATION_LOGIN_AS_ADMIN,
         variables: {
           token: account.access_token,
         },
