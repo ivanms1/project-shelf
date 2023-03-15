@@ -1,0 +1,16 @@
+query GetUser {
+  getUsers {
+    avatar
+    createdAt
+    email
+    followerCount
+    role
+    website
+    name
+    location
+    github
+    projects {
+      preview
+    }
+  }
+}
