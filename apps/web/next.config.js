@@ -12,7 +12,7 @@ module.exports = withTM(
   withVanillaExtract({
     reactStrictMode: true,
     experimental: {
-      newNextLinkBehavior: true
+      newNextLinkBehavior: true,
     },
     i18n,
     webpack(config) {
@@ -35,6 +35,7 @@ module.exports = withTM(
         'loremflickr.com',
         'github.com',
         'github.githubassets.com',
+        'loremflickr.com',
       ],
     },
   })
