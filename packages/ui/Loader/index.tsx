@@ -12,7 +12,7 @@ export const Loader = ({ size = 'md', className }: LoaderInterface) => {
       <svg
         aria-hidden='true'
         className={classNames(
-          'text-gray-200 animate-spin dark:text-primary fill-white',
+          'animate-spin text-white fill-primary',
           LODADER_SIZES[size],
           className
         )}

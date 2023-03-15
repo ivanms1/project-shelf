@@ -13,3 +13,5 @@ node_modules/
 
 #ignore all handlebars files
 *.hbs
+
+apps/api/schema.graphql

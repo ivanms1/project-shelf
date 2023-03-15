@@ -1,0 +1,11 @@
+query GetTopUsers($interval: String) {
+  getTopUsers(interval: $interval) {
+    results {
+      id
+      name
+      avatar
+      likesReceived
+      followersCount
+    }
+  }
+}

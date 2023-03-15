@@ -20,6 +20,7 @@ const UpdateUserInput = builder.inputType('UpdateUserInput', {
     bio: t.string(),
     location: t.string(),
     avatar: t.string(),
+    cover: t.string(),
   }),
 });
 
@@ -161,6 +162,7 @@ builder.mutationType({
             bio: args.input.bio ?? undefined,
             location: args.input.location ?? undefined,
             avatar: args.input.avatar ?? undefined,
+            cover: args.input.cover ?? undefined,
           },
         });
       },
@@ -177,15 +179,9 @@ builder.mutationType({
           throw new Error('Data not found');
         }
 
-        let action;
-
         const isFollowing = args?.input?.action === 'FOLLOW';
 
-        if (isFollowing) {
-          action = 'connect';
-        } else {
-          action = 'disconnect';
-        }
+        const action = isFollowing ? 'connect' : 'disconnect';
 
         // Update target user
         const targetUser = await db.user.update({
@@ -194,9 +190,6 @@ builder.mutationType({
             id: String(args?.input?.userId),
           },
           data: {
-            followerCount: {
-              [isFollowing ? 'increment' : 'decrement']: 1,
-            },
             followers: {
               [action]: {
                 id: currentUserId,
@@ -212,9 +205,6 @@ builder.mutationType({
             id: String(currentUserId),
           },
           data: {
-            followingCount: {
-              [isFollowing ? 'increment' : 'decrement']: 1,
-            },
             following: {
               [action]: {
                 id: args?.input?.userId,

@@ -5,22 +5,11 @@ import { Button } from 'ui';
 import { useTranslation } from 'next-i18next';
 
 import Dropzone from 'src/components/Dropzone';
-import DetailsFormModal from '@/pages/CreateProject/DetailsFormModal';
+import DetailsFormModal from '@/components/ProjectForm/DetailsFormModal';
 
 import ImageIcon from '@/assets/icons/image.svg';
 
 import type { FormTypes } from '@/pages/ProjectEdit/ProjectEdit';
-
-import {
-  buttonsContainerStyle,
-  descriptionInputStyle,
-  formDescriptionStyle,
-  formStyle,
-  formTitleStyle,
-  imageIconStyle,
-  titleInputStyle,
-  uploadContainerStyle,
-} from './ProjectForm.css';
 
 interface ProjectFormProps {
   onSubmit: (values: FormTypes) => void;
@@ -45,8 +34,8 @@ const ProjectForm = ({ onSubmit, loading }: ProjectFormProps) => {
   const currentDescription = watch('description');
 
   return (
-    <div>
-      <div className={buttonsContainerStyle}>
+    <div className='bg-black flex flex-col px-28 pb-20 max-lg:px-[30px] max-lg:pb-10 max-lg:pt-10 max-lg:flex-col-reverse'>
+      <div className='flex justify-between sticky top-0 pt-10 w-full'>
         <Button type='button' variant='secondary' onClick={() => router.back()}>
           {t('common:cancel')}
         </Button>
@@ -57,17 +46,24 @@ const ProjectForm = ({ onSubmit, loading }: ProjectFormProps) => {
           {t('common:continue')}
         </Button>
       </div>
-      <form className={formStyle} onSubmit={handleSubmit(handleSubmitFn)}>
+      <form
+        className='flex flex-col justify-center items-center'
+        onSubmit={handleSubmit(handleSubmitFn)}
+      >
         {!currentImage && (
           <>
-            <h1 className={formTitleStyle}>{t('project-question')}</h1>
-            <p className={formDescriptionStyle}>{t('project-sneak-peek')}</p>
+            <h1 className='text-4xl font-semibold mb-4'>
+              {t('project-question')}
+            </h1>
+            <p className='text-grey-light text-xl font-mono mb-10'>
+              {t('project-sneak-peek')}
+            </p>
           </>
         )}
         {currentImage && (
           <input
             autoFocus
-            className={titleInputStyle}
+            className='bg-black text-3xl max-w-[800px] mb-5 w-full font-semibold focus:outline-none'
             placeholder={t('project-title-placeholder')}
             {...register('title')}
           />
@@ -78,16 +74,17 @@ const ProjectForm = ({ onSubmit, loading }: ProjectFormProps) => {
             setValue('preview', files[0], { shouldDirty: true })
           }
           label={t('project-image-label')}
+          accept='image/*'
           withPreview
         >
-          <div className={uploadContainerStyle}>
-            <ImageIcon className={imageIconStyle} />
+          <div className='flex flex-col justify-center items-center'>
+            <ImageIcon className='w-20' />
             <p>{t('drag-and-drop')}</p>
           </div>
         </Dropzone>
         {currentImage && (
           <textarea
-            className={descriptionInputStyle}
+            className='bg-black max-w-[800px] w-full min-h-[100px] mt-5 text-xl font-mono focus:outline-none'
             placeholder={t('description-placeholder')}
             {...register('description')}
           />

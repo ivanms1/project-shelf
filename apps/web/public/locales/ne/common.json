@@ -1,6 +1,6 @@
 {
   "project-shelf": "Project Shelf",
-  "discover-projects": "Discover Projects",
+  "discover-projects": "Discover the coolest projects",
   "join-community": "Join the Community",
   "rankings": "Rankings",
   "explore": "Explore",
@@ -8,6 +8,9 @@
   "get-promotions": "Get exclusive promotions & updates straight to your inbox.",
   "subscribe": "Subscribe",
   "about": "About",
+  "top": "Top",
+  "projects": "Projects",
+  "creators": "Creators",
   "add-project": "Add Project",
   "profile": "Profile",
   "edit-profile": "Edit Profile",
@@ -22,5 +25,7 @@
   "delete": "Delete",
   "yes": "Yes",
   "no": "No",
-  "select-image": "Select Image"
+  "select-image": "Select Image",
+  "create-account-or-login": "Please create an account or login for this action",
+  "sign-in-to-discover": "Sign in to discover new projects and interact"
 }

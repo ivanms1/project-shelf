@@ -1,16 +1,17 @@
 import React, { useEffect } from 'react';
-import Image from 'next/image';
+import classNames from 'classnames';
+import Image from 'next/future/image';
 import { DropzoneOptions, useDropzone } from 'react-dropzone';
 import { useTranslation } from 'next-i18next';
 
-import { containerStyle, overlayStyle } from './AvatarDropzone.css';
-
 interface DropzoneProps extends DropzoneOptions {
   currentFile?: any;
-  label?: string;
   withPreview?: boolean;
   children?: JSX.Element | JSX.Element[];
   dropzoneRef?: React.MutableRefObject<HTMLInputElement>;
+  overlayClassName?: string;
+  className?: string;
+  overlayText?: string;
   imageClassname?: string;
 }
 
@@ -23,6 +24,9 @@ const AvatarDropzone = ({
   accept,
   maxSize = null,
   imageClassname,
+  overlayClassName,
+  overlayText,
+  className,
 }: DropzoneProps) => {
   const { getRootProps, getInputProps, inputRef } = useDropzone({
     onDrop,
@@ -40,7 +44,13 @@ const AvatarDropzone = ({
   }, []);
 
   return (
-    <div className={containerStyle} {...getRootProps()}>
+    <div
+      className={classNames(
+        'group relative border-none flex justify-center items-center cursor-pointer',
+        className
+      )}
+      {...getRootProps()}
+    >
       <input {...getInputProps()} />
       {currentFile ? (
         withPreview ? (
@@ -51,11 +61,18 @@ const AvatarDropzone = ({
                   ? URL.createObjectURL(currentFile)
                   : currentFile
               }
-              alt={currentFile?.name}
+              alt={currentFile?.name || currentFile}
               className={imageClassname}
-              layout='fill'
+              fill
             />
-            <div className={overlayStyle}>{t('select-image')}</div>
+            <div
+              className={classNames(
+                'w-full h-full flex justify-center items-center opacity-0 absolute bottom-0 bg-[rgba(0,0,0,0.6)] text-xl group-hover:opacity-100 transition-opacity',
+                overlayClassName
+              )}
+            >
+              {overlayText || t('select-image')}
+            </div>
           </>
         ) : (
           <span>{currentFile?.name}</span>

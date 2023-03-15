@@ -24,9 +24,23 @@ The `JSONObject` scalar type represents JSON objects as specified by [ECMA-404](
 """
 scalar JSON
 
+type Like {
+  author: User!
+  createdAt: Date!
+  id: ID!
+  project: Project!
+  user: User!
+}
+
 type Mutation {
+  """Create a new like"""
+  createLike(authorId: String!, projectId: String!): Like!
+
   """Create a new project"""
   createProject(input: CreateProjectInput!): Project!
+
+  """Delete a like"""
+  deleteLike(projectId: String!): Like!
 
   """Delete projects"""
   deleteProjects(projectIds: [String!]!): [String!]!
@@ -36,9 +50,6 @@ type Mutation {
 
   """Login in as a admin"""
   loginAsAdmin(token: String!): String!
-
-  """Like or remove like from a project"""
-  reactToProject(input: ReactToProjectInput!): Project!
 
   """Create a new user"""
   signup(token: String!): String!
@@ -61,7 +72,7 @@ type Project {
   id: ID!
   isApproved: Boolean!
   isLiked: Boolean!
-  likes: [User!]!
+  likes: [Like!]!
   likesCount: Int!
   preview: String!
   repoLink: String!
@@ -69,12 +80,6 @@ type Project {
   tags: [String!]!
   title: String!
   updatedAt: Date!
-}
-
-"""Project actions"""
-enum ProjectActions {
-  DISLIKE
-  LIKE
 }
 
 """Projects response"""
@@ -92,6 +97,9 @@ type Query {
   """Get the current user"""
   getCurrentUser: User!
 
+  """Get most liked projects"""
+  getMostLikedProjects(input: SearchProjectsInput): ProjectsResponse!
+
   """Get my projects"""
   getMyProjects(input: SearchProjectsInput): ProjectsResponse!
 
@@ -101,6 +109,18 @@ type Query {
   """Get projects for admin"""
   getProjectsAdmin(input: SearchProjectsInput): ProjectsResponse!
 
+  """Get top creators for home page"""
+  getTopCreatorsForHomePage: TopCreatorsResponse!
+
+  """Get top projects"""
+  getTopProjects(interval: String): TopProjectsResponse!
+
+  """Get top projects for home page"""
+  getTopProjectsForHomePage: TopProjectsResponse!
+
+  """Get top users"""
+  getTopUsers(interval: String): TopCreatorsResponse!
+
   """Get a user by id"""
   getUser(id: String!): User!
 
@@ -109,12 +129,6 @@ type Query {
 
   """Get all users"""
   getUsers: [User!]!
-}
-
-"""React to project input"""
-input ReactToProjectInput {
-  action: ProjectActions!
-  projectId: String!
 }
 
 """User role"""
@@ -137,10 +151,21 @@ input SearchProjectsInput {
   search: String
 }
 
+"""Top users response"""
+type TopCreatorsResponse {
+  results: [User!]!
+}
+
+"""Top projects response"""
+type TopProjectsResponse {
+  results: [Project!]!
+}
+
 """Update the user information"""
 input UpdateUserInput {
   avatar: String
   bio: String
+  cover: String
   discord: String
   location: String
   name: String
@@ -151,20 +176,21 @@ input UpdateUserInput {
 type User {
   avatar: String
   bio: String
+  cover: String
   createdAt: Date!
   discord: String
   email: String
-  followerCount: Int!
   followers: [User!]!
+  followersCount: Int!
   following: [User!]!
   followingCount: Int!
   github: String
   id: ID!
   isFollowing: Boolean!
+  likesReceived: Int!
   location: String
   name: String!
   projects: [Project!]
-  projectsLiked: [Project!]!
   role: Role!
   twitter: String
   updatedAt: Date!

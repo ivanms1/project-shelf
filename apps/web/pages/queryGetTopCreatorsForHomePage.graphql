@@ -1,0 +1,10 @@
+query GetTopCreatorsForHomePage {
+  getTopCreatorsForHomePage {
+    results {
+      id
+      likesReceived
+      name
+      avatar
+    }
+  }
+}

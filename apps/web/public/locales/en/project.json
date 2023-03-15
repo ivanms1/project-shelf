@@ -1,5 +1,15 @@
 {
   "delete-success": "Project deleted successfully",
   "delete-fail": "Project deletion failed",
-  "are-you-sure": "Are you sure you want to delete this project?"
+  "are-you-sure": "Are you sure you want to delete this project?",
+  "created-at": "Created on {{date}}",
+  "created-by": "Created by",
+  "description": "Description",
+  "details": "Details",
+  "view-website": "View Website",
+  "view-github": "View on GitHub",
+  "tags": "Tags",
+  "likes": "Likes",
+  "like": "Like",
+  "liked": "Liked"
 }

@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useRouter } from 'next/router';
 import toast from 'react-hot-toast';
@@ -6,30 +6,30 @@ import * as yup from 'yup';
 import { NextSeo } from 'next-seo';
 import { useTranslation } from 'next-i18next';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Button, FormInput, FormTextArea, LoaderOverlay } from 'ui';
+import { Button, FormInput, FormTextArea } from 'ui';
 import {
-  useGetCurrentUserQuery,
+  UploadImageMutation,
   useUpdateUserMutation,
   useUploadImageMutation,
 } from 'apollo-hooks';
 
+import useIsLoggedIn from '@/hooks/useIsLoggedIn';
+
 import AvatarDropzone from 'src/components/AvatarDropzone';
 
-import {
-  formDetailsStyle,
-  formStyle,
-  inputContainer,
-  inputsContainer,
-  mainWrapperStyle,
-  profileImageButtonWrapperStyle,
-  profileImageStyle,
-  profileImageWrapperStyle,
-  saveProfileWrapper,
-  subTextStyle,
-} from './UserEdit.css';
+import fileReader from '@/helpers/fileReader';
+
+import type { FetchResult } from '@apollo/client';
+
+const COVER_PLACEHOLDER = 'https://via.placeholder.com/1665x288';
+
+type ImageResultType =
+  | FetchResult<UploadImageMutation, Record<string, any>, Record<string, any>>
+  | string;
 
 type FormTypes = {
   preview: File | string;
+  cover: File | string;
   profileName: string;
   profileLocation: string;
   profileDiscord: string;
@@ -47,15 +47,24 @@ const validationSchema = yup
   .required();
 
 const UserEdit = () => {
-  const { data } = useGetCurrentUserQuery();
+  const { currentUser } = useIsLoggedIn();
 
   const { t } = useTranslation('user-edit');
 
-  const userDetails = data?.getCurrentUser;
+  const userDetails = currentUser;
   const userId = userDetails?.id;
 
-  const dropzoneRef = useRef<HTMLInputElement | null>(null);
   const router = useRouter();
+  const defaultValues = {
+    preview: userDetails?.avatar ?? '',
+    cover: userDetails?.cover ?? '',
+    profileName: userDetails?.name ?? '',
+    profileBio: userDetails?.bio ?? '',
+    profileLocation: userDetails?.location ?? '',
+    profileWebsite: userDetails?.website ?? '',
+    profileTwitter: userDetails?.twitter ?? '',
+    profileDiscord: userDetails?.discord ?? '',
+  };
 
   const {
     register,
@@ -66,15 +75,7 @@ const UserEdit = () => {
     reset,
     formState: { errors, dirtyFields, isDirty },
   } = useForm<FormTypes>({
-    defaultValues: {
-      preview: userDetails?.avatar,
-      profileName: userDetails?.name,
-      profileBio: userDetails?.bio,
-      profileLocation: userDetails?.location,
-      profileWebsite: userDetails?.website,
-      profileTwitter: userDetails?.twitter,
-      profileDiscord: userDetails?.discord,
-    },
+    defaultValues,
     resolver: yupResolver(validationSchema),
   });
 
@@ -82,19 +83,7 @@ const UserEdit = () => {
   const [uploadImage, { loading: imageUploading }] = useUploadImageMutation();
 
   useEffect(() => {
-    reset({
-      preview: userDetails?.avatar,
-      profileName: userDetails?.name,
-      profileBio: userDetails?.bio,
-      profileLocation: userDetails?.location,
-      profileWebsite: userDetails?.website,
-      profileTwitter: userDetails?.twitter,
-      profileDiscord: userDetails?.discord,
-    });
-
-    return () => {
-      dropzoneRef.current = null;
-    };
+    reset(defaultValues);
   }, [userDetails, reset]);
 
   const notifySuccess = () => toast.success(t('edit-success'));
@@ -105,107 +94,107 @@ const UserEdit = () => {
       router.push(`/user/${userId}`);
       return;
     }
+
+    if (!dirtyFields.cover && !dirtyFields.preview) {
+      return updateUserVariables([
+        getValues('preview') as string,
+        getValues('cover') as string,
+      ]);
+    }
+
+    // Use Promise.all and map to upload both images at the same time.
+    const urls = await Promise.all(
+      [getValues('preview'), getValues('cover')].map(async (file) => {
+        if (typeof file === 'string') return file;
+        const reader = await fileReader(file as File);
+        if (!reader) return;
+        const res = await uploadImage({
+          variables: {
+            path: String(reader),
+          },
+        });
+
+        return res;
+      })
+    );
+
+    return updateUserVariables(urls);
+  };
+
+  const updateUserVariables = async (urls: ImageResultType[]) => {
     try {
-      if (dirtyFields.preview) {
-        const reader = new FileReader();
-        reader.readAsDataURL(getValues('preview') as File);
-        reader.onload = async () => {
-          const res = await uploadImage({
-            variables: {
-              path: String(reader.result),
-            },
-          });
-          if (res) {
-            await updateUserVariables(res);
-          }
-        };
-      } else {
-        await updateUserVariables(undefined);
-      }
-      router.push(`/user/${userId}`);
+      const {
+        profileName: name,
+        profileBio: bio,
+        profileDiscord: discord,
+        profileWebsite: website,
+        profileTwitter: twitter,
+        profileLocation: location,
+      } = getValues();
+
+      await updateUser({
+        variables: {
+          input: {
+            name,
+            bio,
+            discord,
+            website,
+            twitter,
+            location,
+            avatar:
+              typeof urls[0] === 'string' ? urls[0] : urls[0]?.data?.image,
+            cover: typeof urls[1] === 'string' ? urls[1] : urls[1]?.data?.image,
+          },
+        },
+      });
+
       notifySuccess();
-    } catch (error) {
+      router.push(`/user/${userId}`);
+    } catch {
       notifyError();
     }
   };
 
-  const updateUserVariables = async (res) => {
-    const data = await updateUser({
-      variables: {
-        input: {
-          name: getValues('profileName'),
-          bio: getValues('profileBio'),
-          discord: getValues('profileDiscord'),
-          website: getValues('profileWebsite'),
-          twitter: getValues('profileTwitter'),
-          location: getValues('profileLocation'),
-          avatar: dirtyFields.preview ? res?.data?.image : undefined,
-        },
-      },
-    });
-    return data;
-  };
-
   const currentImage = watch('preview');
-
-  if (updateUserLoading || imageUploading) {
-    return <LoaderOverlay size='lg' />;
-  }
+  const currentCover = watch('cover');
 
   return (
-    <div className={mainWrapperStyle}>
-      <form className={formStyle} onSubmit={handleSubmit(onSubmit)}>
-        <div className={profileImageWrapperStyle}>
-          <AvatarDropzone
-            dropzoneRef={dropzoneRef}
-            currentFile={currentImage}
-            onDrop={(files) => {
-              setValue('preview', files[0], { shouldDirty: true });
-            }}
-            label={t('thumbnail-label')}
-            imageClassname={profileImageStyle}
-            withPreview
-          >
-            <div>{t('drag-drop-label')}</div>
-          </AvatarDropzone>
+    <div className='bg-black flex justify-center items-center '>
+      <form
+        className='flex flex-col w-full items-center mb-10'
+        onSubmit={handleSubmit(onSubmit)}
+      >
+        <AvatarDropzone
+          currentFile={currentCover || COVER_PLACEHOLDER}
+          onDrop={(files) => {
+            setValue('cover', files[0], { shouldDirty: true });
+          }}
+          overlayText={t('cover-label')}
+          accept='image/*'
+          className='relative w-full h-72'
+          imageClassname='object-cover'
+          withPreview
+        />
+        <AvatarDropzone
+          accept='image/*'
+          overlayText={t('avatar-label')}
+          currentFile={currentImage}
+          onDrop={(files) => {
+            setValue('preview', files[0], { shouldDirty: true });
+          }}
+          className='-mt-[100px] w-[200px] h-[200px] z-10'
+          imageClassname='object-cover rounded-full'
+          overlayClassName='rounded-full'
+          withPreview
+        />
 
-          <div className={profileImageButtonWrapperStyle}>
-            <Button
-              type='button'
-              variant='primary'
-              onClick={() => {
-                dropzoneRef?.current?.click();
-              }}
-            >
-              {t('upload-new-picture')}
-            </Button>
-
-            {typeof currentImage == 'object' && (
-              <Button
-                type='button'
-                variant='secondary'
-                onClick={() => {
-                  setValue('preview', userDetails?.avatar);
-                }}
-              >
-                {t('common:delete')}
-              </Button>
-            )}
-          </div>
-        </div>
-
-        <div className={formDetailsStyle}>
-          <div className={inputContainer}>
-            <FormInput
-              label={t('name')}
-              register={register('profileName')}
-              error={errors.profileName}
-            />
-
-            <span className={subTextStyle}></span>
-          </div>
-
-          <div className={inputsContainer}>
+        <div className='flex flex-col gap-5 w-full max-w-4xl px-[30px]'>
+          <FormInput
+            label={t('name')}
+            register={register('profileName')}
+            error={errors.profileName}
+          />
+          <div className='grid gap-5 grid-cols-2 max-lg:grid-cols-1'>
             <FormInput
               label={t('location')}
               register={register('profileLocation')}
@@ -226,16 +215,16 @@ const UserEdit = () => {
               placeholder='uzamaki21#0951'
             />
           </div>
-          <div className={inputContainer}>
-            <FormTextArea
-              label={t('bio')}
-              type='text'
-              register={register('profileBio')}
-            />
-            <span className={subTextStyle}>{t('bio-description')}</span>
-          </div>
 
-          <div className={saveProfileWrapper}>
+          <FormTextArea
+            label={t('bio')}
+            type='text'
+            register={register('profileBio')}
+          />
+          <span className='text-grey-light text-sm'>
+            {t('bio-description')}
+          </span>
+          <div className='flex justify-end'>
             <Button
               variant='primary'
               isLoading={updateUserLoading || imageUploading}

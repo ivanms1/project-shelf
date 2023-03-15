@@ -1,41 +1,20 @@
-import React, { useState } from 'react';
-import { NextSeo } from 'next-seo';
-import { useTranslation } from 'next-i18next';
-import {
-  useFollowUserMutation,
-  useGetUserForPageQuery,
-  useGetUserProjectsQuery,
-  useIsUserFollowingQuery,
-  UserFollowActions,
-} from 'apollo-hooks';
+import { useGetUserForPageQuery, useGetUserProjectsQuery } from 'apollo-hooks';
 import { useRouter } from 'next/router';
-import { Button } from 'ui';
-import Image from 'next/image';
-
-import useIsLoggedIn from '@/hooks/useIsLoggedIn';
+import { NextSeo } from 'next-seo';
+import { useTranslation } from 'react-i18next';
+import Image from 'next/future/image';
+import { Loader } from 'ui';
 
 import ProjectsGrid from '@/components/ProjectsGrid';
-import LoginModal from '@/components/Modals/LoginModal';
+import UserInfo from './UserInfo';
 
-import {
-  avatarStyle,
-  followButtonStyle,
-  followerCountStyle,
-  projectContainerStyle,
-  titleStyle,
-  userContainerStyle,
-  userStyle,
-} from './User.css';
+const COVER_PLACEHOLDER = 'https://via.placeholder.com/1665x288';
 
 const User = () => {
   const { query } = useRouter();
-  const { isLoggedIn } = useIsLoggedIn();
-
-  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
-
   const { t } = useTranslation('user');
 
-  const { data } = useGetUserForPageQuery({
+  const { data, loading: userLoading } = useGetUserForPageQuery({
     variables: {
       id: String(query?.id),
     },
@@ -56,42 +35,7 @@ const User = () => {
     skip: !data?.user?.id,
   });
 
-  const { data: isFollowingData } = useIsUserFollowingQuery({
-    variables: {
-      id: String(query?.id),
-    },
-    skip: !query?.id,
-  });
-
-  const { user } = data;
-
-  const [followUser] = useFollowUserMutation();
-
-  const handleFollowUser = async () => {
-    if (isLoggedIn) {
-      await followUser({
-        variables: {
-          input: {
-            userId: user?.id,
-            action: isFollowingData?.user?.isFollowing
-              ? UserFollowActions.Unfollow
-              : UserFollowActions.Follow,
-          },
-        },
-        optimisticResponse: {
-          followUser: {
-            ...user,
-            followerCount: isFollowingData?.user?.isFollowing
-              ? isFollowingData?.user?.followerCount - 1
-              : isFollowingData?.user?.followerCount + 1,
-            isFollowing: !isFollowingData?.user?.isFollowing,
-          },
-        },
-      });
-    } else {
-      setIsLoginModalOpen(true);
-    }
-  };
+  const { user } = data ?? {};
 
   const onRefetch = () => {
     if (!projectsData?.getUserProjects?.nextCursor) {
@@ -108,46 +52,55 @@ const User = () => {
     });
   };
 
+  if (userLoading) {
+    return (
+      <div className='flex justify-center items-center bg-black'>
+        <Loader size='lg' />
+      </div>
+    );
+  }
+
+  if (!user) {
+    return (
+      <div className='w-full h-full flex justify-center items-center bg-black'>
+        <p className='text-white'>{t('user_not_found')}</p>
+      </div>
+    );
+  }
+
   return (
-    <div className={userStyle}>
-      <LoginModal
-        isOpen={isLoginModalOpen}
-        onClose={() => setIsLoginModalOpen(false)}
-      />
-      <div className={userContainerStyle}>
+    <div className='bg-black'>
+      <div className='relative flex flex-col items-center lg:items-start'>
+        <Image
+          className='w-full h-[320px] object-cover'
+          src={data?.user?.cover ?? COVER_PLACEHOLDER}
+          alt={user?.name}
+          width={1000}
+          height={1000}
+        />
+
         {user?.avatar && (
           <Image
-            className={avatarStyle}
+            className='absolute top-[250px] left-none lg:left-[150px]  rounded-lg border-2 border-black'
             src={user?.avatar}
             alt={user?.name}
-            height={200}
-            width={200}
+            height={320}
+            width={150}
           />
         )}
-        <p className={titleStyle}>{user?.name}</p>
       </div>
-      {user ? (
-        <div className={projectContainerStyle}>
-          <Button className={followButtonStyle} onClick={handleFollowUser}>
-            {isFollowingData?.user?.isFollowing ? t('unfollow') : t('follow')}
-          </Button>
-          <h4 className={followerCountStyle}>
-            {t('follower_count', {
-              count: isFollowingData?.user?.followerCount,
-            })}
-          </h4>
-          <ProjectsGrid
-            projects={projectsData?.getUserProjects?.results ?? []}
-            loading={loading}
-            onRefetch={onRefetch}
-            nextCursor={projectsData?.getUserProjects?.nextCursor}
-          />
-        </div>
-      ) : (
-        <div className={userContainerStyle}>
-          <p>{t('user_not_found')}</p>
-        </div>
-      )}
+
+      <div className='mt-8 lg:mt-16 py-[40px] px-10 lg:px-[155px]'>
+        <UserInfo />
+      </div>
+      <div className='bg-grey-dark py-[40px] px-10 lg:px-[155px]'>
+        <ProjectsGrid
+          projects={projectsData?.getUserProjects?.results}
+          onRefetch={onRefetch}
+          loading={loading}
+          nextCursor={projectsData?.getUserProjects?.nextCursor}
+        />
+      </div>
 
       <NextSeo
         title={user?.name}
@@ -155,7 +108,7 @@ const User = () => {
         openGraph={{
           type: 'website',
           title: user?.name,
-          description: user?.github,
+          description: user?.bio,
           site_name: 'Project Shelf',
           images: [
             {

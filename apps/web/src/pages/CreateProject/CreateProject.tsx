@@ -1,7 +1,6 @@
 import React from 'react';
 import { useRouter } from 'next/router';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { LoaderOverlay } from 'ui';
 import { NextSeo } from 'next-seo';
 import toast from 'react-hot-toast';
 import { useTranslation } from 'next-i18next';
@@ -38,7 +37,7 @@ function CreateProject() {
     resolver: yupResolver(projectValidationSchema),
   });
 
-  const [uploadImage] = useUploadImageMutation();
+  const [uploadImage, { loading: imageLoading }] = useUploadImageMutation();
   const [createProject, { loading }] = useCreateUserProjectMutation();
 
   const onSubmit: SubmitHandler<FormTypes> = async (values) => {
@@ -93,14 +92,10 @@ function CreateProject() {
     return createdData;
   };
 
-  if (loading) {
-    return <LoaderOverlay size='lg' />;
-  }
-
   return (
     <>
       <FormProvider {...methods}>
-        <ProjectForm onSubmit={onSubmit} loading={loading} />
+        <ProjectForm onSubmit={onSubmit} loading={loading || imageLoading} />
       </FormProvider>
       <NextSeo title={t('seo-title')} description={t('seo-description')} />
     </>

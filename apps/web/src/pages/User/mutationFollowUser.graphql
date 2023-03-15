@@ -3,6 +3,6 @@ mutation FollowUser($input: FollowUserInput!) {
     id
     name
     isFollowing
-    followerCount
+    followersCount
   }
 }

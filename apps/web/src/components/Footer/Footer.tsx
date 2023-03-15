@@ -25,12 +25,10 @@ const SOCIALS = [
   },
 ];
 
-interface FooterProps {}
-
-const Footer = ({}: FooterProps) => {
+const Footer = () => {
   const { t } = useTranslation('common');
   return (
-    <div className='bg-black py-10 px-48 text-white max-lg:px-[30px]'>
+    <div className='bg-grey-dark px-28 py-10 text-white max-lg:px-[30px]'>
       <div className='flex flex-row border-b-[1px] border-b-grey-light pb-12 justify-between max-lg:flex-col max-lg:gap-[30px]'>
         <div>
           <p className='text-2xl mb-6 font-bold font-mono'>
@@ -68,14 +66,14 @@ const Footer = ({}: FooterProps) => {
           <p className='text-silver'>{t('get-promotions')}</p>
           <div className='flex flex-row relative'>
             <Input containerClassName='w-full' />
-            <Button className='absolute right-0' size='small'>
+            <Button className='absolute right-0' size='small' noAnimation>
               {t('subscribe')}
             </Button>
           </div>
         </div>
       </div>
-      <p className='text-silver text-sm mt-5 text-xs'>
-        © 2021 Project Shelf. All rights reserved.
+      <p className='text-silver text-sm mt-5'>
+        © {new Date().getFullYear()} Project Shelf. All rights reserved.
       </p>
     </div>
   );
