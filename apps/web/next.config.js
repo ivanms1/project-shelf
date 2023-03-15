@@ -33,8 +33,6 @@ module.exports = withTM(
         'cloudflare-ipfs.com',
         'avatars.githubusercontent.com',
         'loremflickr.com',
-        'github.com',
-        'github.githubassets.com',
         'via.placeholder.com'
       ],
     },
