@@ -35,7 +35,6 @@ module.exports = withTM(
         'loremflickr.com',
         'github.com',
         'github.githubassets.com',
-        'loremflickr.com',
         'via.placeholder.com'
       ],
     },
