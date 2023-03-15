@@ -11,6 +11,8 @@
   "dependencies": {
     "@apollo/client": "^3.6.6",
     "@hookform/resolvers": "^2.8.5",
+    "@tanstack/match-sorter-utils": "^8.7.6",
+    "@tanstack/react-table": "^8.7.9",
     "@vanilla-extract/css": "^1.9.2",
     "add": "^2.0.6",
     "apollo-hooks": "*",
