@@ -88,6 +88,44 @@ builder.mutationType({
         return String(token);
       },
     }),
+    loginAsAdmin: t.field({
+      type: 'String',
+      description: 'Login in as a admin',
+      args: {
+        token: t.arg.string({ required: true }),
+      },
+      resolve: async (_, { token: githubToken }) => {
+        const data: {
+          email: string;
+          name: string;
+          login: string;
+          avatar_url: string;
+          id: number;
+        } = await got
+          .get(GITHUB_API_URL, {
+            headers: {
+              Authorization: `Bearer ${githubToken}`,
+              Accept: 'application/vnd.github+json',
+            },
+          })
+          .json();
+
+        const user = await db.user.findFirst({
+          where: {
+            providerId: data?.id,
+            role: 'ADMIN',
+          },
+        });
+
+        if (!user) {
+          throw new Error('User not found');
+        }
+
+        const token = jwt.sign(user.id, process.env.JWT_SECRET!);
+
+        return String(token);
+      },
+    }),
     updateUser: t.prismaField({
       type: 'User',
       description: 'Update the user information',
