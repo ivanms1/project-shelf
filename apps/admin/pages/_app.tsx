@@ -22,11 +22,11 @@ function CustomApp({
   return (
     <SessionProvider session={session}>
       <ApolloProvider client={client}>
-        <Layout>
-          <AuthProvider>
+        <AuthProvider>
+          <Layout>
             <Component {...pageProps} />
-          </AuthProvider>
-        </Layout>
+          </Layout>
+        </AuthProvider>
       </ApolloProvider>
     </SessionProvider>
   );
