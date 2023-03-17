@@ -1,11 +1,44 @@
+import React from 'react';
 import { NextSeo } from 'next-seo';
 import Image from 'next/image';
-import React from 'react';
+import Link from 'next/link';
+import Select from 'react-select';
+
 import Table from 'src/components/Table';
 
 import classNames from 'classnames';
 
 import GithubIcon from '../../../public/assets/github.svg';
+
+const styles = {
+  indicatorSeparator: () => null,
+  control: (provided) => {
+    return {
+      ...provided,
+      width: '100%',
+      minWidth: '50px',
+      maxWidth: '120px',
+    };
+  },
+  menu: (base, { isDisabled }) => ({
+    ...base,
+    width: '100%',
+    minWidth: '50px',
+    maxWidth: '120px',
+    cursor: isDisabled ? 'not-allowed' : 'default',
+    background: isDisabled ? '#fff' : 'pointer',
+  }),
+  option: (provided, { isDisabled }) => {
+    return {
+      ...provided,
+      width: '100%',
+      minWidth: '50px',
+      maxWidth: '120px',
+      cursor: isDisabled ? 'not-allowed' : 'pointer',
+      background: isDisabled ? '#fff' : 'pointer',
+    };
+  },
+};
 
 const columns = [
   {
@@ -37,14 +70,22 @@ const columns = [
               <span className='w-full text-gray-700 font-medium text-[15px]'>
                 {info?.row?.original?.email}
               </span>
-              <span className='w-full flex flex-row items-center gap-[5px]'>
-                <i className='w-[20px] h-[20px]'>
-                  <GithubIcon className='fill-[#a3aed0]' />
-                </i>
-                <span className='text-gray-700 font-bold text-[14px]'>
-                  {info?.row?.original?.github}
-                </span>
-              </span>
+
+              <Link
+                href={`https://github.com/` + info?.row?.original?.github}
+                passHref
+              >
+                <a target='_blank' rel='noopener noreferrer'>
+                  <span className='w-full flex flex-row items-center gap-[5px]'>
+                    <i className='w-[20px] h-[20px]'>
+                      <GithubIcon className='fill-[#a3aed0]' />
+                    </i>
+                    <span className='text-gray-700 font-bold text-[14px]'>
+                      {info?.row?.original?.github}
+                    </span>
+                  </span>
+                </a>
+              </Link>
             </div>
           </div>
         </div>
@@ -79,9 +120,32 @@ const columns = [
     accessorKey: 'role',
     header: () => <span>Role</span>,
     cell: (info) => {
+      const selectedValue = {
+        value: info.getValue(),
+        label: info.getValue(),
+        isDisabled: true,
+      };
+
+      const options = [
+        {
+          value: 'USER',
+          label: 'USER',
+          isDisabled: info.getValue() == 'USER' ? true : false,
+        },
+        {
+          value: 'ADMIN',
+          label: 'ADMIN',
+          isDisabled: info.getValue() == 'ADMIN' ? true : false,
+        },
+      ];
       return (
         <span className='text-gray-700 font-bold text-[14px]'>
-          {info?.getValue()}
+          <Select
+            isSearchable={false}
+            options={options}
+            value={selectedValue}
+            styles={styles}
+          />
         </span>
       );
     },
@@ -107,8 +171,7 @@ const columns = [
   },
 ];
 
-function Index({ users }) {
-  console.log('what is props', users);
+function Index({ users }, props) {
   return (
     <div className='w-full h-full bg-white p-[30px] flex flex-col gap-[20px]'>
       <p className='text-gray-900 text-3xl font-bold'>Users</p>
