@@ -27,9 +27,8 @@ export default NextAuth({
           token: account.access_token,
         },
       });
-
       if (account) {
-        account.serverToken = data?.signup;
+        account.serverToken = data?.loginAsAdmin;
       }
 
       return true;
