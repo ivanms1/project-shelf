@@ -12,7 +12,6 @@ export async function getStaticProps() {
     const data = await client.query({
       query: QUERY_GET_USERS_ADMIN,
     });
-    console.log('what is here', data);
 
     return addApolloState(client, {
       props: {
