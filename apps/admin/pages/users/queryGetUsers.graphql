@@ -3,7 +3,6 @@ query GetUser {
     avatar
     createdAt
     email
-    followerCount
     role
     website
     name
