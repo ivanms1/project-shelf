@@ -5,6 +5,10 @@ import { NextSeo } from 'next-seo';
 import Table from '../../components/Table';
 import classNames from 'classnames';
 
+import GithubIcon from '../../../public/assets/github.svg';
+import ExternalLink from '../../../public/assets/external-link.svg';
+import Link from 'next/link';
+
 type Person = {
   projectName: string;
   preview: string;
@@ -103,20 +107,37 @@ const columns = [
   {
     accessorKey: 'action',
     header: () => <span>Action</span>,
-    width: 'auto',
+    maxWidth: '100px',
     cell: (info) => {
       return (
-        <button
-          className={classNames(
-            'text-[14px] text-white font-bold py-[5px] px-[20px] rounded-full',
-            {
-              'bg-red-600': true,
-            }
-          )}
-          onClick={() => alert('delete button clicked')}
-        >
-          Delete
-        </button>
+        <div className='flex flex-row items-center gap-[20px] '>
+          <button
+            className={classNames(
+              'text-[14px] text-white font-bold py-[5px] px-[20px] rounded-full',
+              {
+                'bg-red-600': true,
+              }
+            )}
+            onClick={() => alert('delete button clicked')}
+          >
+            Delete
+          </button>
+          <Link href={info?.row?.original?.repoLink} passHref>
+            <a target='_blank' rel='noopener noreferrer'>
+              <i className='w-[20px] h-[20px] flex justify-center items-center '>
+                <GithubIcon className='fill-[#a3aed0]' />
+              </i>
+            </a>
+          </Link>
+
+          <Link href={info?.row?.original?.siteLink} passHref>
+            <a target='_blank' rel='noopener noreferrer'>
+              <i className='w-[20px] h-[20px] flex justify-center items-center'>
+                <ExternalLink />
+              </i>
+            </a>
+          </Link>
+        </div>
       );
     },
   },
@@ -127,7 +148,7 @@ function Index({ projects }) {
     <div className='w-full h-full bg-white p-[30px] flex flex-col'>
       <p className='text-gray-900 text-3xl font-bold'>Projects</p>
 
-      <div className='flex h-full w-full '>
+      <div className='flex h-full w-full h-[600px]'>
         <Table tableData={projects} columns={columns} />
       </div>
       <NextSeo title='Projects' />
