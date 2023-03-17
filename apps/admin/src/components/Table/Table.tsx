@@ -29,15 +29,6 @@ function Table({ tableData, columns }) {
       itemRank,
     });
 
-    console.log(
-      'what is itemRank',
-      itemRank,
-      { row },
-      { columnId },
-      { value },
-      { addMeta }
-    );
-
     // Return if the item should be filtered in/out
     return itemRank.passed;
   };
@@ -73,54 +64,64 @@ function Table({ tableData, columns }) {
           placeholder='Search all columns'
         />
       </div>
-      <div className='h-full w-full'>
-        <table className='w-full relative'>
-          <thead className=''>
-            {table.getHeaderGroups().map((headerGroup) => (
-              <tr key={headerGroup.id}>
-                {headerGroup.headers.map((header) => (
-                  <th
-                    className='border-b border-gray-200 pr-14 pb-[10px] text-start sticky'
-                    key={header.id}
-                    colSpan={header.colSpan}
-                    style={{
-                      width: header.getSize() ? header.getSize() : undefined,
-                    }}
-                  >
-                    <div
-                      className='flex w-full justify-between pr-10 text-[14px] tracking-wide text-[#aab4d3] pt-[14px]'
-                      {...{ onClick: header.column.getToggleSortingHandler() }}
+      <div className='h-full w-full max-w-full overflow-auto'>
+        {table.getRowModel().rows.length !== 0 && (
+          <table className='w-full relative'>
+            <thead className=''>
+              {table.getHeaderGroups().map((headerGroup) => (
+                <tr key={headerGroup.id}>
+                  {headerGroup.headers.map((header) => (
+                    <th
+                      className='border-b border-gray-200 pr-14 pb-[10px] text-start sticky'
+                      key={header.id}
+                      colSpan={header.colSpan}
+                      style={{
+                        width: header.getSize() ? header.getSize() : undefined,
+                      }}
                     >
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
-                      {{ asc: '🔼', desc: '🔽' }[
-                        header.column.getIsSorted() as string
-                      ] ?? null}
-                    </div>
-                  </th>
-                ))}
-              </tr>
-            ))}
-          </thead>
-          <tbody className=''>
-            {table.getRowModel().rows.map((row) => (
-              <tr key={row.id}>
-                {row.getVisibleCells().map((cell) => (
-                  <td
-                    key={cell.id}
-                    className='pt-[20px] border-red-200 border-2'
-                  >
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </td>
-                ))}
-              </tr>
-            ))}
-          </tbody>
-        </table>
+                      <div
+                        className='flex w-full justify-between pr-10 text-[14px] tracking-wide text-[#aab4d3] pt-[14px]'
+                        {...{
+                          onClick: header.column.getToggleSortingHandler(),
+                        }}
+                      >
+                        {header.isPlaceholder
+                          ? null
+                          : flexRender(
+                              header.column.columnDef.header,
+                              header.getContext()
+                            )}
+                        {{ asc: '🔼', desc: '🔽' }[
+                          header.column.getIsSorted() as string
+                        ] ?? null}
+                      </div>
+                    </th>
+                  ))}
+                </tr>
+              ))}
+            </thead>
+            <tbody className=''>
+              {table.getRowModel().rows.map((row) => (
+                <tr key={row.id}>
+                  {row.getVisibleCells().map((cell) => (
+                    <td key={cell.id} className='pt-[20px]'>
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext()
+                      )}
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
+
+        {table.getRowModel().rows.length == 0 && (
+          <div className='h-[100%] max-h-[400px] flex items-center justify-center text-gray-700 font-bold text-[25px]'>
+            No Data
+          </div>
+        )}
       </div>
       {/* <Pagination table={table} /> */}
     </div>
