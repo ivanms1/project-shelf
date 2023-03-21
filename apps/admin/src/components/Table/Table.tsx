@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 import {
   flexRender,
@@ -12,8 +12,6 @@ import {
 import { rankItem } from '@tanstack/match-sorter-utils';
 
 import DebouncedInput from './DebouncedInput';
-
-import Pagination from './Pagination';
 
 function Table({ tableData, columns }) {
   const [data, setData] = useState(() => [...tableData]);
@@ -51,10 +49,6 @@ function Table({ tableData, columns }) {
     columnResizeMode: 'onChange',
   });
 
-  useEffect(() => {
-    // table.setState(5);
-  }, []);
-  // overflow-x-scroll xl:overflow-x-hidden
   return (
     <div className='w-full flex flex-col overflow-hidden'>
       <div className='flex flex-row justify-end mb-[10px]'>
@@ -76,7 +70,7 @@ function Table({ tableData, columns }) {
                       key={header.id}
                       colSpan={header.colSpan}
                       style={{
-                        width: header.getSize() ? header.getSize() : undefined,
+                        width: header.getSize() || undefined,
                       }}
                     >
                       <div
@@ -123,7 +117,6 @@ function Table({ tableData, columns }) {
           </div>
         )}
       </div>
-      {/* <Pagination table={table} /> */}
     </div>
   );
 }
