@@ -56,6 +56,8 @@ export type Mutation = {
   deleteProjects: Array<Scalars['String']>;
   /** Follow or unfollow a user */
   followUser: User;
+  /** Login in as a admin */
+  loginAsAdmin: Scalars['String'];
   /** Create a new user */
   signup: Scalars['String'];
   /** Update a project */
@@ -64,6 +66,8 @@ export type Mutation = {
   updateProjectStatus: Project;
   /** Update the user information */
   updateUser: User;
+  /** Update the user information as an admin */
+  updateUserAsAdmin: User;
   uploadImage: Scalars['String'];
 };
 
@@ -94,6 +98,11 @@ export type MutationFollowUserArgs = {
 };
 
 
+export type MutationLoginAsAdminArgs = {
+  token: Scalars['String'];
+};
+
+
 export type MutationSignupArgs = {
   token: Scalars['String'];
 };
@@ -113,6 +122,11 @@ export type MutationUpdateProjectStatusArgs = {
 
 export type MutationUpdateUserArgs = {
   input: UpdateUserInput;
+};
+
+
+export type MutationUpdateUserAsAdminArgs = {
+  input: UpdateUserInputAsAdmin;
 };
 
 
@@ -258,6 +272,7 @@ export type TopProjectsResponse = {
 /** Update the user information */
 export type UpdateUserInput = {
   avatar?: InputMaybe<Scalars['String']>;
+  banned?: InputMaybe<Scalars['Boolean']>;
   bio?: InputMaybe<Scalars['String']>;
   cover?: InputMaybe<Scalars['String']>;
   discord?: InputMaybe<Scalars['String']>;
@@ -267,9 +282,25 @@ export type UpdateUserInput = {
   website?: InputMaybe<Scalars['String']>;
 };
 
+/** Update the user information as an admin */
+export type UpdateUserInputAsAdmin = {
+  avatar?: InputMaybe<Scalars['String']>;
+  banned?: InputMaybe<Scalars['Boolean']>;
+  bio?: InputMaybe<Scalars['String']>;
+  cover?: InputMaybe<Scalars['String']>;
+  discord?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['String']>;
+  location?: InputMaybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
+  role?: InputMaybe<Scalars['String']>;
+  twitter?: InputMaybe<Scalars['String']>;
+  website?: InputMaybe<Scalars['String']>;
+};
+
 export type User = {
   __typename?: 'User';
   avatar?: Maybe<Scalars['String']>;
+  banned: Scalars['Boolean'];
   bio?: Maybe<Scalars['String']>;
   cover?: Maybe<Scalars['String']>;
   createdAt: Scalars['Date'];
@@ -298,12 +329,22 @@ export enum UserFollowActions {
   Unfollow = 'UNFOLLOW'
 }
 
-export type SignupMutationVariables = Exact<{
+export type LoginAsAdminMutationVariables = Exact<{
   token: Scalars['String'];
 }>;
 
 
-export type SignupMutation = { __typename?: 'Mutation', signup: string };
+export type LoginAsAdminMutation = { __typename?: 'Mutation', loginAsAdmin: string };
+
+export type GetProjectsAdminQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetProjectsAdminQuery = { __typename?: 'Query', getProjectsAdmin: { __typename?: 'ProjectsResponse', results: Array<{ __typename?: 'Project', isApproved: boolean, title: string, preview: string, description: string, createdAt: any, repoLink: string, siteLink: string, tags: Array<string>, author: { __typename?: 'User', name: string, avatar?: string | null, email?: string | null } }> } };
+
+export type GetUserQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetUserQuery = { __typename?: 'Query', getUsers: Array<{ __typename?: 'User', id: string, avatar?: string | null, createdAt: any, email?: string | null, role: Role, website?: string | null, name: string, location?: string | null, github?: string | null, banned: boolean, projects?: Array<{ __typename?: 'Project', preview: string }> | null }> };
 
 export type ProjectsResponseFragmentFragment = { __typename?: 'ProjectsResponse', nextCursor?: string | null, prevCursor?: string | null, totalCount: number, results: Array<{ __typename?: 'Project', id: string, title: string, createdAt: any, isLiked: boolean, likesCount: number, tags: Array<string>, preview: string, repoLink: string, siteLink: string, description: string, isApproved: boolean, author: { __typename?: 'User', id: string, avatar?: string | null, name: string } }> };
 
@@ -319,10 +360,19 @@ export type GetAllProjectsQueryVariables = Exact<{
 
 export type GetAllProjectsQuery = { __typename?: 'Query', projects: { __typename?: 'ProjectsResponse', nextCursor?: string | null, prevCursor?: string | null, totalCount: number, results: Array<{ __typename?: 'Project', id: string, title: string, createdAt: any, isLiked: boolean, likesCount: number, tags: Array<string>, preview: string, repoLink: string, siteLink: string, description: string, isApproved: boolean, author: { __typename?: 'User', id: string, avatar?: string | null, name: string } }> } };
 
-export type GetTopProjectsForHomePageQueryVariables = Exact<{ [key: string]: never; }>;
+export type UpdateUserAsAdminMutationVariables = Exact<{
+  input: UpdateUserInputAsAdmin;
+}>;
 
 
-export type GetTopProjectsForHomePageQuery = { __typename?: 'Query', getTopProjectsForHomePage: { __typename?: 'TopProjectsResponse', results: Array<{ __typename?: 'Project', id: string, preview: string, title: string, likesCount: number, author: { __typename?: 'User', avatar?: string | null, id: string, name: string } }> } };
+export type UpdateUserAsAdminMutation = { __typename?: 'Mutation', updateUserAsAdmin: { __typename?: 'User', id: string, banned: boolean, role: Role } };
+
+export type SignupMutationVariables = Exact<{
+  token: Scalars['String'];
+}>;
+
+
+export type SignupMutation = { __typename?: 'Mutation', signup: string };
 
 export type GetApprovedProjectsQueryVariables = Exact<{
   input?: InputMaybe<SearchProjectsInput>;
@@ -337,6 +387,16 @@ export type GetProjectQueryVariables = Exact<{
 
 
 export type GetProjectQuery = { __typename?: 'Query', project: { __typename?: 'Project', id: string, title: string, preview: string, repoLink: string, siteLink: string, description: string, isApproved: boolean, likesCount: number, createdAt: any, tags: Array<string>, author: { __typename?: 'User', id: string, name: string, avatar?: string | null } } };
+
+export type GetTopCreatorsForHomePageQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetTopCreatorsForHomePageQuery = { __typename?: 'Query', getTopCreatorsForHomePage: { __typename?: 'TopCreatorsResponse', results: Array<{ __typename?: 'User', id: string, likesReceived: number, name: string, avatar?: string | null }> } };
+
+export type GetTopProjectsForHomePageQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetTopProjectsForHomePageQuery = { __typename?: 'Query', getTopProjectsForHomePage: { __typename?: 'TopProjectsResponse', results: Array<{ __typename?: 'Project', id: string, preview: string, title: string, likesCount: number, author: { __typename?: 'User', avatar?: string | null, id: string, name: string } }> } };
 
 export type GetAllUsersQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -380,11 +440,6 @@ export type UploadImageMutationVariables = Exact<{
 
 
 export type UploadImageMutation = { __typename?: 'Mutation', image: string };
-
-export type GetTopCreatorsForHomePageQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type GetTopCreatorsForHomePageQuery = { __typename?: 'Query', getTopCreatorsForHomePage: { __typename?: 'TopCreatorsResponse', results: Array<{ __typename?: 'User', id: string, likesReceived: number, name: string, avatar?: string | null }> } };
 
 export type GetProjectLikedStatusQueryVariables = Exact<{
   id: Scalars['String'];
@@ -502,37 +557,131 @@ export const ProjectCardFragmentFragmentDoc = gql`
   }
 }
     `;
-export const SignupDocument = gql`
-    mutation Signup($token: String!) {
-  signup(token: $token)
+export const LoginAsAdminDocument = gql`
+    mutation LoginAsAdmin($token: String!) {
+  loginAsAdmin(token: $token)
 }
     `;
-export type SignupMutationFn = Apollo.MutationFunction<SignupMutation, SignupMutationVariables>;
+export type LoginAsAdminMutationFn = Apollo.MutationFunction<LoginAsAdminMutation, LoginAsAdminMutationVariables>;
 
 /**
- * __useSignupMutation__
+ * __useLoginAsAdminMutation__
  *
- * To run a mutation, you first call `useSignupMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useSignupMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useLoginAsAdminMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useLoginAsAdminMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [signupMutation, { data, loading, error }] = useSignupMutation({
+ * const [loginAsAdminMutation, { data, loading, error }] = useLoginAsAdminMutation({
  *   variables: {
  *      token: // value for 'token'
  *   },
  * });
  */
-export function useSignupMutation(baseOptions?: Apollo.MutationHookOptions<SignupMutation, SignupMutationVariables>) {
+export function useLoginAsAdminMutation(baseOptions?: Apollo.MutationHookOptions<LoginAsAdminMutation, LoginAsAdminMutationVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<SignupMutation, SignupMutationVariables>(SignupDocument, options);
+        return Apollo.useMutation<LoginAsAdminMutation, LoginAsAdminMutationVariables>(LoginAsAdminDocument, options);
       }
-export type SignupMutationHookResult = ReturnType<typeof useSignupMutation>;
-export type SignupMutationResult = Apollo.MutationResult<SignupMutation>;
-export type SignupMutationOptions = Apollo.BaseMutationOptions<SignupMutation, SignupMutationVariables>;
+export type LoginAsAdminMutationHookResult = ReturnType<typeof useLoginAsAdminMutation>;
+export type LoginAsAdminMutationResult = Apollo.MutationResult<LoginAsAdminMutation>;
+export type LoginAsAdminMutationOptions = Apollo.BaseMutationOptions<LoginAsAdminMutation, LoginAsAdminMutationVariables>;
+export const GetProjectsAdminDocument = gql`
+    query GetProjectsAdmin {
+  getProjectsAdmin {
+    results {
+      isApproved
+      title
+      author {
+        name
+        avatar
+        email
+      }
+      preview
+      description
+      createdAt
+      repoLink
+      siteLink
+      tags
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetProjectsAdminQuery__
+ *
+ * To run a query within a React component, call `useGetProjectsAdminQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetProjectsAdminQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetProjectsAdminQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetProjectsAdminQuery(baseOptions?: Apollo.QueryHookOptions<GetProjectsAdminQuery, GetProjectsAdminQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetProjectsAdminQuery, GetProjectsAdminQueryVariables>(GetProjectsAdminDocument, options);
+      }
+export function useGetProjectsAdminLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetProjectsAdminQuery, GetProjectsAdminQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetProjectsAdminQuery, GetProjectsAdminQueryVariables>(GetProjectsAdminDocument, options);
+        }
+export type GetProjectsAdminQueryHookResult = ReturnType<typeof useGetProjectsAdminQuery>;
+export type GetProjectsAdminLazyQueryHookResult = ReturnType<typeof useGetProjectsAdminLazyQuery>;
+export type GetProjectsAdminQueryResult = Apollo.QueryResult<GetProjectsAdminQuery, GetProjectsAdminQueryVariables>;
+export const GetUserDocument = gql`
+    query GetUser {
+  getUsers {
+    id
+    avatar
+    createdAt
+    email
+    role
+    website
+    name
+    location
+    github
+    projects {
+      preview
+    }
+    banned
+  }
+}
+    `;
+
+/**
+ * __useGetUserQuery__
+ *
+ * To run a query within a React component, call `useGetUserQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetUserQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetUserQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetUserQuery(baseOptions?: Apollo.QueryHookOptions<GetUserQuery, GetUserQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetUserQuery, GetUserQueryVariables>(GetUserDocument, options);
+      }
+export function useGetUserLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetUserQuery, GetUserQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetUserQuery, GetUserQueryVariables>(GetUserDocument, options);
+        }
+export type GetUserQueryHookResult = ReturnType<typeof useGetUserQuery>;
+export type GetUserLazyQueryHookResult = ReturnType<typeof useGetUserLazyQuery>;
+export type GetUserQueryResult = Apollo.QueryResult<GetUserQuery, GetUserQueryVariables>;
 export const GetCurrentUserDocument = gql`
     query GetCurrentUser {
   getCurrentUser {
@@ -612,50 +761,72 @@ export function useGetAllProjectsLazyQuery(baseOptions?: Apollo.LazyQueryHookOpt
 export type GetAllProjectsQueryHookResult = ReturnType<typeof useGetAllProjectsQuery>;
 export type GetAllProjectsLazyQueryHookResult = ReturnType<typeof useGetAllProjectsLazyQuery>;
 export type GetAllProjectsQueryResult = Apollo.QueryResult<GetAllProjectsQuery, GetAllProjectsQueryVariables>;
-export const GetTopProjectsForHomePageDocument = gql`
-    query GetTopProjectsForHomePage {
-  getTopProjectsForHomePage {
-    results {
-      id
-      author {
-        avatar
-        id
-        name
-      }
-      preview
-      title
-      likesCount
-    }
+export const UpdateUserAsAdminDocument = gql`
+    mutation UpdateUserAsAdmin($input: UpdateUserInputAsAdmin!) {
+  updateUserAsAdmin(input: $input) {
+    id
+    banned
+    role
   }
 }
     `;
+export type UpdateUserAsAdminMutationFn = Apollo.MutationFunction<UpdateUserAsAdminMutation, UpdateUserAsAdminMutationVariables>;
 
 /**
- * __useGetTopProjectsForHomePageQuery__
+ * __useUpdateUserAsAdminMutation__
  *
- * To run a query within a React component, call `useGetTopProjectsForHomePageQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetTopProjectsForHomePageQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
+ * To run a mutation, you first call `useUpdateUserAsAdminMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateUserAsAdminMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
  *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const { data, loading, error } = useGetTopProjectsForHomePageQuery({
+ * const [updateUserAsAdminMutation, { data, loading, error }] = useUpdateUserAsAdminMutation({
  *   variables: {
+ *      input: // value for 'input'
  *   },
  * });
  */
-export function useGetTopProjectsForHomePageQuery(baseOptions?: Apollo.QueryHookOptions<GetTopProjectsForHomePageQuery, GetTopProjectsForHomePageQueryVariables>) {
+export function useUpdateUserAsAdminMutation(baseOptions?: Apollo.MutationHookOptions<UpdateUserAsAdminMutation, UpdateUserAsAdminMutationVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetTopProjectsForHomePageQuery, GetTopProjectsForHomePageQueryVariables>(GetTopProjectsForHomePageDocument, options);
+        return Apollo.useMutation<UpdateUserAsAdminMutation, UpdateUserAsAdminMutationVariables>(UpdateUserAsAdminDocument, options);
       }
-export function useGetTopProjectsForHomePageLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetTopProjectsForHomePageQuery, GetTopProjectsForHomePageQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetTopProjectsForHomePageQuery, GetTopProjectsForHomePageQueryVariables>(GetTopProjectsForHomePageDocument, options);
-        }
-export type GetTopProjectsForHomePageQueryHookResult = ReturnType<typeof useGetTopProjectsForHomePageQuery>;
-export type GetTopProjectsForHomePageLazyQueryHookResult = ReturnType<typeof useGetTopProjectsForHomePageLazyQuery>;
-export type GetTopProjectsForHomePageQueryResult = Apollo.QueryResult<GetTopProjectsForHomePageQuery, GetTopProjectsForHomePageQueryVariables>;
+export type UpdateUserAsAdminMutationHookResult = ReturnType<typeof useUpdateUserAsAdminMutation>;
+export type UpdateUserAsAdminMutationResult = Apollo.MutationResult<UpdateUserAsAdminMutation>;
+export type UpdateUserAsAdminMutationOptions = Apollo.BaseMutationOptions<UpdateUserAsAdminMutation, UpdateUserAsAdminMutationVariables>;
+export const SignupDocument = gql`
+    mutation Signup($token: String!) {
+  signup(token: $token)
+}
+    `;
+export type SignupMutationFn = Apollo.MutationFunction<SignupMutation, SignupMutationVariables>;
+
+/**
+ * __useSignupMutation__
+ *
+ * To run a mutation, you first call `useSignupMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useSignupMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [signupMutation, { data, loading, error }] = useSignupMutation({
+ *   variables: {
+ *      token: // value for 'token'
+ *   },
+ * });
+ */
+export function useSignupMutation(baseOptions?: Apollo.MutationHookOptions<SignupMutation, SignupMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<SignupMutation, SignupMutationVariables>(SignupDocument, options);
+      }
+export type SignupMutationHookResult = ReturnType<typeof useSignupMutation>;
+export type SignupMutationResult = Apollo.MutationResult<SignupMutation>;
+export type SignupMutationOptions = Apollo.BaseMutationOptions<SignupMutation, SignupMutationVariables>;
 export const GetApprovedProjectsDocument = gql`
     query GetApprovedProjects($input: SearchProjectsInput) {
   projects: getApprovedProjects(input: $input) {
@@ -740,6 +911,89 @@ export function useGetProjectLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions
 export type GetProjectQueryHookResult = ReturnType<typeof useGetProjectQuery>;
 export type GetProjectLazyQueryHookResult = ReturnType<typeof useGetProjectLazyQuery>;
 export type GetProjectQueryResult = Apollo.QueryResult<GetProjectQuery, GetProjectQueryVariables>;
+export const GetTopCreatorsForHomePageDocument = gql`
+    query GetTopCreatorsForHomePage {
+  getTopCreatorsForHomePage {
+    results {
+      id
+      likesReceived
+      name
+      avatar
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetTopCreatorsForHomePageQuery__
+ *
+ * To run a query within a React component, call `useGetTopCreatorsForHomePageQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetTopCreatorsForHomePageQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetTopCreatorsForHomePageQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetTopCreatorsForHomePageQuery(baseOptions?: Apollo.QueryHookOptions<GetTopCreatorsForHomePageQuery, GetTopCreatorsForHomePageQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetTopCreatorsForHomePageQuery, GetTopCreatorsForHomePageQueryVariables>(GetTopCreatorsForHomePageDocument, options);
+      }
+export function useGetTopCreatorsForHomePageLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetTopCreatorsForHomePageQuery, GetTopCreatorsForHomePageQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetTopCreatorsForHomePageQuery, GetTopCreatorsForHomePageQueryVariables>(GetTopCreatorsForHomePageDocument, options);
+        }
+export type GetTopCreatorsForHomePageQueryHookResult = ReturnType<typeof useGetTopCreatorsForHomePageQuery>;
+export type GetTopCreatorsForHomePageLazyQueryHookResult = ReturnType<typeof useGetTopCreatorsForHomePageLazyQuery>;
+export type GetTopCreatorsForHomePageQueryResult = Apollo.QueryResult<GetTopCreatorsForHomePageQuery, GetTopCreatorsForHomePageQueryVariables>;
+export const GetTopProjectsForHomePageDocument = gql`
+    query GetTopProjectsForHomePage {
+  getTopProjectsForHomePage {
+    results {
+      id
+      author {
+        avatar
+        id
+        name
+      }
+      preview
+      title
+      likesCount
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetTopProjectsForHomePageQuery__
+ *
+ * To run a query within a React component, call `useGetTopProjectsForHomePageQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetTopProjectsForHomePageQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetTopProjectsForHomePageQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetTopProjectsForHomePageQuery(baseOptions?: Apollo.QueryHookOptions<GetTopProjectsForHomePageQuery, GetTopProjectsForHomePageQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetTopProjectsForHomePageQuery, GetTopProjectsForHomePageQueryVariables>(GetTopProjectsForHomePageDocument, options);
+      }
+export function useGetTopProjectsForHomePageLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetTopProjectsForHomePageQuery, GetTopProjectsForHomePageQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetTopProjectsForHomePageQuery, GetTopProjectsForHomePageQueryVariables>(GetTopProjectsForHomePageDocument, options);
+        }
+export type GetTopProjectsForHomePageQueryHookResult = ReturnType<typeof useGetTopProjectsForHomePageQuery>;
+export type GetTopProjectsForHomePageLazyQueryHookResult = ReturnType<typeof useGetTopProjectsForHomePageLazyQuery>;
+export type GetTopProjectsForHomePageQueryResult = Apollo.QueryResult<GetTopProjectsForHomePageQuery, GetTopProjectsForHomePageQueryVariables>;
 export const GetAllUsersDocument = gql`
     query GetAllUsers {
   getUsers {
@@ -972,45 +1226,6 @@ export function useUploadImageMutation(baseOptions?: Apollo.MutationHookOptions<
 export type UploadImageMutationHookResult = ReturnType<typeof useUploadImageMutation>;
 export type UploadImageMutationResult = Apollo.MutationResult<UploadImageMutation>;
 export type UploadImageMutationOptions = Apollo.BaseMutationOptions<UploadImageMutation, UploadImageMutationVariables>;
-export const GetTopCreatorsForHomePageDocument = gql`
-    query GetTopCreatorsForHomePage {
-  getTopCreatorsForHomePage {
-    results {
-      id
-      likesReceived
-      name
-      avatar
-    }
-  }
-}
-    `;
-
-/**
- * __useGetTopCreatorsForHomePageQuery__
- *
- * To run a query within a React component, call `useGetTopCreatorsForHomePageQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetTopCreatorsForHomePageQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetTopCreatorsForHomePageQuery({
- *   variables: {
- *   },
- * });
- */
-export function useGetTopCreatorsForHomePageQuery(baseOptions?: Apollo.QueryHookOptions<GetTopCreatorsForHomePageQuery, GetTopCreatorsForHomePageQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetTopCreatorsForHomePageQuery, GetTopCreatorsForHomePageQueryVariables>(GetTopCreatorsForHomePageDocument, options);
-      }
-export function useGetTopCreatorsForHomePageLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetTopCreatorsForHomePageQuery, GetTopCreatorsForHomePageQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetTopCreatorsForHomePageQuery, GetTopCreatorsForHomePageQueryVariables>(GetTopCreatorsForHomePageDocument, options);
-        }
-export type GetTopCreatorsForHomePageQueryHookResult = ReturnType<typeof useGetTopCreatorsForHomePageQuery>;
-export type GetTopCreatorsForHomePageLazyQueryHookResult = ReturnType<typeof useGetTopCreatorsForHomePageLazyQuery>;
-export type GetTopCreatorsForHomePageQueryResult = Apollo.QueryResult<GetTopCreatorsForHomePageQuery, GetTopCreatorsForHomePageQueryVariables>;
 export const GetProjectLikedStatusDocument = gql`
     query GetProjectLikedStatus($id: String!) {
   project: getProject(id: $id) {

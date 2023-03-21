@@ -62,6 +62,9 @@ type Mutation {
 
   """Update the user information"""
   updateUser(input: UpdateUserInput!): User!
+
+  """Update the user information as an admin"""
+  updateUserAsAdmin(input: UpdateUserInputAsAdmin!): User!
   uploadImage(path: String!): String!
 }
 
@@ -164,6 +167,7 @@ type TopProjectsResponse {
 """Update the user information"""
 input UpdateUserInput {
   avatar: String
+  banned: Boolean
   bio: String
   cover: String
   discord: String
@@ -173,8 +177,24 @@ input UpdateUserInput {
   website: String
 }
 
+"""Update the user information as an admin"""
+input UpdateUserInputAsAdmin {
+  avatar: String
+  banned: Boolean
+  bio: String
+  cover: String
+  discord: String
+  id: String
+  location: String
+  name: String
+  role: String
+  twitter: String
+  website: String
+}
+
 type User {
   avatar: String
+  banned: Boolean!
   bio: String
   cover: String
   createdAt: Date!
