@@ -1,0 +1,20 @@
+query GetProjectsAdmin {
+  getProjectsAdmin {
+    results {
+      id
+      isApproved
+      title
+      author {
+        name
+        avatar
+        email
+      }
+      preview
+      description
+      createdAt
+      repoLink
+      siteLink
+      tags
+    }
+  }
+}
