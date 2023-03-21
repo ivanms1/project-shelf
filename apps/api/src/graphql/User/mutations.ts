@@ -21,6 +21,24 @@ const UpdateUserInput = builder.inputType('UpdateUserInput', {
     location: t.string(),
     avatar: t.string(),
     cover: t.string(),
+    banned: t.boolean(),
+  }),
+});
+
+const UpdateUserInputAsAdmin = builder.inputType('UpdateUserInputAsAdmin', {
+  description: 'Update the user information as an admin',
+  fields: (t) => ({
+    id: t.string(),
+    name: t.string(),
+    discord: t.string(),
+    website: t.string(),
+    twitter: t.string(),
+    bio: t.string(),
+    location: t.string(),
+    avatar: t.string(),
+    cover: t.string(),
+    banned: t.boolean(),
+    role: t.string(),
   }),
 });
 
@@ -165,6 +183,42 @@ builder.mutationType({
             cover: args.input.cover ?? undefined,
           },
         });
+      },
+    }),
+    updateUserAsAdmin: t.prismaField({
+      type: 'User',
+      description: 'Update the user information as an admin',
+      args: {
+        input: t.arg({ type: UpdateUserInputAsAdmin, required: true }),
+      },
+      resolve: async (query, __, args, ctx) => {
+        const currentUserId = decodeAccessToken(ctx.accessToken);
+        if (!decodeAccessToken) {
+          throw new Error('Not Authorized');
+        }
+        const user = await db.user.findUnique({
+          ...query,
+          where: {
+            id: String(currentUserId),
+          },
+        });
+
+        if (!user) {
+          throw new Error('User not found');
+        }
+
+        if (user?.role == 'ADMIN') {
+          return db.user.update({
+            ...query,
+            where: {
+              id: String(args.input.id),
+            },
+            data: {
+              role: args?.input?.role ?? undefined,
+              banned: args?.input?.banned ?? undefined,
+            },
+          });
+        }
       },
     }),
     followUser: t.prismaField({
