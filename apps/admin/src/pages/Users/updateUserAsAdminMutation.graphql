@@ -1,0 +1,7 @@
+mutation UpdateUserAsAdmin($input: UpdateUserInputAsAdmin!) {
+  updateUserAsAdmin(input: $input) {
+    id
+    banned
+    role
+  }
+}
