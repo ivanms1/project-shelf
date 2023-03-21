@@ -27,6 +27,7 @@ export const User = builder.prismaObject('User', {
     updatedAt: t.expose('updatedAt', { type: 'Date' }),
     projects: t.relation('projects', { nullable: true }),
     likesReceived: t.relationCount('AuthorLike'),
+    banned: t.exposeBoolean('banned'),
     followers: t.relation('followers'),
     following: t.relation('following'),
     followingCount: t.relationCount('following'),
