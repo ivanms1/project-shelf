@@ -4,10 +4,10 @@ import { useRouter } from 'next/router';
 
 import Button from '../../components/Button';
 
-import Settings from '../../../public/assets/settings.svg';
-import LogOut from '../../../public/assets/log-out.svg';
-import Dashboard from '../../../public/assets/dashboard.svg';
-import Users from '../../../public/assets/users.svg';
+import Settings from '@/public/assets/settings.svg';
+import LogOut from '@/public/assets/log-out.svg';
+import Dashboard from '@/public/assets/dashboard.svg';
+import Users from '@/public/assets/users.svg';
 
 const SideNav = () => {
   const router = useRouter();
