@@ -10,7 +10,7 @@ import ProjectsTable from './ProjectsTable';
 
 import { YESTERDAY, A_WEEK_AGO, A_MONTH_AGO } from 'const';
 
-const TOP_CREATOR_INTERVALS = {
+const TOP_CREATOR_INTERVALS: Record<number, string> = {
   0: 'today',
   1: 'this-week',
   2: 'this-month',

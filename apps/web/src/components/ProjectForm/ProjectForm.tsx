@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
-import { useFormContext } from 'react-hook-form';
+import { type SubmitHandler, useFormContext } from 'react-hook-form';
 import { Button } from 'ui';
 import { useTranslation } from 'next-i18next';
 
@@ -25,7 +25,7 @@ const ProjectForm = ({ onSubmit, loading }: ProjectFormProps) => {
   const { register, setValue, watch, handleSubmit } =
     useFormContext<FormTypes>();
 
-  const handleSubmitFn = (values) => {
+  const handleSubmitFn: SubmitHandler<FormTypes> = (values) => {
     onSubmit(values);
   };
 

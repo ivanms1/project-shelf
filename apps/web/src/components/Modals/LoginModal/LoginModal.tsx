@@ -5,7 +5,12 @@ import Image from 'next/future/image';
 
 import { Modal, Button } from 'ui';
 
-const LoginModal = ({ isOpen, onClose, ...others }) => {
+interface LoginModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+const LoginModal = ({ isOpen, onClose, ...props }: LoginModalProps) => {
   const { t } = useTranslation('common');
   return (
     <Modal
@@ -13,7 +18,7 @@ const LoginModal = ({ isOpen, onClose, ...others }) => {
       onClose={onClose}
       modalClassName='bg-grey-dark'
       contentClassName='p-12 min-w-[600px] flex flex-col gap-3 max-lg:min-w-0 max-lg:w-screen max-lg:px-4'
-      {...others}
+      {...props}
     >
       <p className='border-2 border-grey-lighter p-2.5 rounded-sm'>
         {t('create-account-or-login')}

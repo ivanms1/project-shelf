@@ -9,6 +9,7 @@ import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import ProjectForm from 'src/components/ProjectForm';
 
 import {
+  UploadImageMutation,
   useCreateUserProjectMutation,
   useUploadImageMutation,
 } from 'apollo-hooks';
@@ -16,6 +17,7 @@ import {
 import useIsLoggedIn from '@/hooks/useIsLoggedIn';
 
 import { projectValidationSchema } from 'const';
+import { FetchResult } from '@apollo/client';
 
 const notifySuccess = () => toast.success('Project created successfully');
 const notifyError = () => toast.error('Something went wrong');
@@ -64,7 +66,14 @@ function CreateProject() {
     }
   };
 
-  const onCreateProject = async (values, res) => {
+  const onCreateProject = async (
+    values: FormTypes,
+    res: FetchResult<
+      UploadImageMutation,
+      Record<string, any>,
+      Record<string, any>
+    >
+  ) => {
     const createdData = await createProject({
       variables: {
         input: {
