@@ -5,6 +5,7 @@ import { NextSeo } from 'next-seo';
 import toast from 'react-hot-toast';
 import { useTranslation } from 'next-i18next';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
+import type { FetchResult } from '@apollo/client';
 
 import ProjectForm from 'src/components/ProjectForm';
 
@@ -17,7 +18,6 @@ import {
 import useIsLoggedIn from '@/hooks/useIsLoggedIn';
 
 import { projectValidationSchema } from 'const';
-import { FetchResult } from '@apollo/client';
 
 const notifySuccess = () => toast.success('Project created successfully');
 const notifyError = () => toast.error('Something went wrong');
@@ -68,11 +68,7 @@ function CreateProject() {
 
   const onCreateProject = async (
     values: FormTypes,
-    res: FetchResult<
-      UploadImageMutation,
-      Record<string, any>,
-      Record<string, any>
-    >
+    res: FetchResult<UploadImageMutation>
   ) => {
     const createdData = await createProject({
       variables: {
