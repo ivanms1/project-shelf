@@ -8,7 +8,7 @@ import {
   GetTopUsersQuery,
   GetTopUsersQueryVariables,
 } from 'apollo-hooks';
-import { INTERVALS } from 'const';
+import { IntervalLabels, INTERVALS } from 'const';
 
 export default TopCreators;
 
@@ -28,7 +28,7 @@ export const getServerSideProps: GetServerSideProps = async ({
     query: GetTopUsersDocument,
 
     variables: {
-      interval: INTERVALS[query.interval as string] ?? '',
+      interval: INTERVALS[query.interval as IntervalLabels] ?? '',
     },
   });
 

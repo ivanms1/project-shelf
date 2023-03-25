@@ -4,14 +4,16 @@ import axios from 'redaxios';
 import About from '@/pages/About';
 
 import { IMGBOT_ID, PROJECT_SHELF_CONTRIBUTORS_API } from 'const';
+import { GetStaticProps } from 'next';
 
 export default About;
 
-export async function getStaticProps({ locale }) {
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
   const res = await axios.get(PROJECT_SHELF_CONTRIBUTORS_API);
 
   const members = res.data.filter(
-    (member) => member.type === 'User' && member.id !== IMGBOT_ID
+    (member: { type: string; id: number }) =>
+      member.type === 'User' && member.id !== IMGBOT_ID
   );
 
   return {
@@ -20,4 +22,4 @@ export async function getStaticProps({ locale }) {
       ...(await serverSideTranslations(locale, ['about', 'common'])),
     },
   };
-}
+};
