@@ -6,12 +6,14 @@ import Image from 'next/image';
 import Link from 'next/link';
 import classNames from 'classnames';
 
-import { useUpdateUserAsAdminMutation, useGetUserQuery } from 'apollo-hooks';
+import {
+  useUpdateUserAsAdminMutation,
+  useGetAllUsersQuery,
+} from 'apollo-hooks';
 
 import Table from 'src/components/Table';
 
 import GithubIcon from '@/public/assets/github.svg';
-import { LoaderOverlay } from 'ui';
 
 const notifySuccess = (string) => toast.success(string);
 const notifyError = () => toast.error('Something went wrong');
@@ -47,11 +49,9 @@ const styles = {
 };
 
 function Users() {
-  const [updateUserAsAdmin] = useUpdateUserAsAdminMutation({
-    refetchQueries: 'active',
-  });
+  const [updateUserAsAdmin] = useUpdateUserAsAdminMutation();
 
-  const { data, loading } = useGetUserQuery();
+  const { data } = useGetAllUsersQuery();
 
   const updateUser = async (user, role, action) => {
     try {
@@ -237,16 +237,12 @@ function Users() {
     []
   );
 
-  if (loading) {
-    return <LoaderOverlay size='lg' />;
-  }
-
   return (
     <div className='w-full h-full bg-white p-[30px] flex flex-col gap-[20px]'>
       <p className='text-gray-900 text-3xl font-bold'>Users</p>
 
       <div className='flex h-[600px] w-full'>
-        <Table tableData={data?.getUsers} columns={columns} />
+        <Table tableData={data?.getAllUsers?.results} columns={columns} />
       </div>
       <NextSeo title='Users' />
     </div>
