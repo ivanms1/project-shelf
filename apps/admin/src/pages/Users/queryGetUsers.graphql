@@ -1,17 +1,20 @@
-query GetUser {
-  getUsers {
-    id
-    avatar
-    createdAt
-    email
-    role
-    website
-    name
-    location
-    github
-    projects {
-      preview
+query GetAllUsers {
+  getAllUsers {
+    results {
+      name
+      avatar
+      id
+      role
+      website
+      createdAt
+      banned
+      github
+      email
+      projects {
+        preview
+      }
     }
-    banned
+    totalCount
+    bannedUsers
   }
 }
