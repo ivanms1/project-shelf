@@ -60,6 +60,15 @@ export const User = builder.prismaObject('User', {
   }),
 });
 
+const UserResponse = builder.objectType('UserResponse', {
+  description: 'User response',
+  fields: (t) => ({
+    totalCount: t.exposeInt('totalCount'),
+    results: t.expose('results', { type: [User] }),
+    bannedUsers: t.exposeInt('bannedUsers'),
+  }),
+});
+
 builder.queryType({
   fields: (t) => ({
     getUser: t.prismaField({
@@ -101,11 +110,22 @@ builder.queryType({
         return user;
       },
     }),
-    getUsers: t.prismaField({
-      type: ['User'],
+    getAllUsers: t.field({
+      type: UserResponse,
       description: 'Get all users',
       resolve: async () => {
-        return db.user.findMany();
+        const totalCount = await db.user.count();
+        const bannedUsers = await db.user.count({
+          where: {
+            banned: true,
+          },
+        });
+        const results = await db.user.findMany({
+          orderBy: {
+            name: 'asc',
+          },
+        });
+        return { results, totalCount, bannedUsers };
       },
     }),
   }),
