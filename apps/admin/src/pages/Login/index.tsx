@@ -9,7 +9,7 @@ function Login() {
     <div className='h-screen flex justify-center items-center'>
       <div className='flex flex-col'>
         <span className='text-gray-900 text-[30px] font-bold'>Get Started</span>
-        <Button onClick={() => signIn()}>Login</Button>
+        <Button onClick={() => signIn('github')}>Login</Button>
       </div>
 
       <NextSeo title='Login | Admin' />
