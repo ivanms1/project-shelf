@@ -9,7 +9,7 @@ import classNames from 'classnames';
 
 import GithubIcon from '@/public/assets/github.svg';
 import ExternalLink from '@/public/assets/external-link.svg';
-import { Button, Modal, LoaderOverlay } from 'ui';
+import { Button, Modal } from 'ui';
 
 import {
   useDeleteProjectsMutation,
@@ -19,10 +19,9 @@ import {
 function Index() {
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
 
-  const { data, loading } = useGetProjectsAdminQuery();
+  const { data } = useGetProjectsAdminQuery();
 
-  const [deleteProject, { loading: deleteProjectLoading }] =
-    useDeleteProjectsMutation();
+  const [deleteProject] = useDeleteProjectsMutation();
 
   const deleteProjectClick = async (projectId) => {
     setOpenDeleteModal(false);
@@ -31,7 +30,22 @@ function Index() {
         variables: {
           projectIds: [projectId],
         },
+        update: (cache) => {
+          cache.modify({
+            fields: {
+              getProjectsAdmin(existingProjects, { readField }) {
+                return {
+                  ...existingProjects,
+                  results: existingProjects.results.filter((project) => {
+                    return readField('id', project) !== projectId;
+                  }),
+                };
+              },
+            },
+          });
+        },
       });
+
       if (deleteData?.data?.deleteProjects?.length > 0) {
         toast.success('Project deleted successfully');
       }
@@ -157,7 +171,8 @@ function Index() {
                   'text-[14px] text-white font-bold py-[5px] px-[20px] rounded-full bg-red-600'
                 )}
                 onClick={() => {
-                  setOpenDeleteModal(true);
+                  deleteProjectClick(info?.row?.original?.id);
+                  // setOpenDeleteModal(true);
                 }}
               >
                 Delete
@@ -184,10 +199,6 @@ function Index() {
     ],
     []
   );
-
-  if (deleteProjectLoading || loading) {
-    return <LoaderOverlay size='lg' />;
-  }
 
   return (
     <div className='w-full h-full bg-white p-[30px] flex flex-col'>
