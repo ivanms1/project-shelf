@@ -94,6 +94,9 @@ type ProjectsResponse {
 }
 
 type Query {
+  """Get all users"""
+  getAllUsers: UserResponse!
+
   """Get approved projects"""
   getApprovedProjects(input: SearchProjectsInput): ProjectsResponse!
 
@@ -129,9 +132,6 @@ type Query {
 
   """Get user projects"""
   getUserProjects(input: SearchProjectsInput, userId: String!): ProjectsResponse!
-
-  """Get all users"""
-  getUsers: [User!]!
 }
 
 """User role"""
@@ -221,4 +221,11 @@ type User {
 enum UserFollowActions {
   FOLLOW
   UNFOLLOW
+}
+
+"""User response"""
+type UserResponse {
+  bannedUsers: Int!
+  results: [User!]!
+  totalCount: Int!
 }
