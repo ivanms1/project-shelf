@@ -1,5 +1,5 @@
 import { initializeApollo } from 'apollo';
-import { SignupMutation } from 'apollo-hooks';
+import { LoginAsAdminMutation } from 'apollo-hooks';
 import NextAuth from 'next-auth';
 import GithubProvider from 'next-auth/providers/github';
 
@@ -21,7 +21,7 @@ export default NextAuth({
     async signIn({ account }) {
       const apolloClient = initializeApollo();
 
-      const { data } = await apolloClient.mutate<SignupMutation>({
+      const { data } = await apolloClient.mutate<LoginAsAdminMutation>({
         mutation: MUTATION_LOGIN_AS_ADMIN,
         variables: {
           token: account.access_token,
