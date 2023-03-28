@@ -25,6 +25,7 @@
     "react-hook-form": "^7.38.0",
     "react-hot-toast": "^2.4.0",
     "react-select": "^5.7.0",
+    "recharts": "^2.5.0",
     "ui": "*",
     "yarn": "^1.22.17",
     "yup": "^0.32.11"
