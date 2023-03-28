@@ -14,7 +14,6 @@ import { rankItem } from '@tanstack/match-sorter-utils';
 import DebouncedInput from './DebouncedInput';
 
 function Table({ tableData, columns }) {
-  const [data, setData] = useState(() => [...tableData]);
   const [sorting, setSorting] = useState([]);
   const [globalFilter, setGlobalFilter] = useState('');
 
@@ -32,7 +31,7 @@ function Table({ tableData, columns }) {
   };
 
   const table = useReactTable({
-    data,
+    data: tableData || [],
     columns,
     state: {
       sorting,
