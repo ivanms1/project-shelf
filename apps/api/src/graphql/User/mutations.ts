@@ -132,12 +132,15 @@ builder.mutationType({
         const user = await db.user.findFirst({
           where: {
             providerId: data?.id,
-            role: 'ADMIN',
           },
         });
 
         if (!user) {
           throw new Error('User not found');
+        }
+
+        if (user.role !== 'ADMIN') {
+          throw new Error('Not Authorized');
         }
 
         const token = jwt.sign(user.id, process.env.JWT_SECRET!);
