@@ -9,7 +9,7 @@ import {
 import type { GetServerSideProps } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
-import { INTERVALS } from 'const';
+import { IntervalLabels, INTERVALS } from 'const';
 
 export default TopProjects;
 
@@ -28,7 +28,7 @@ export const getServerSideProps: GetServerSideProps = async ({
     query: GetTopProjectsDocument,
 
     variables: {
-      interval: INTERVALS[query.interval as string] ?? '',
+      interval: INTERVALS[query.interval as IntervalLabels] ?? '',
     },
   });
 

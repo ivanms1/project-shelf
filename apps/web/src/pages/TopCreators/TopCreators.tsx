@@ -11,7 +11,7 @@ const YESTERDAY = Math.floor(Date.now() / 1000) - 24 * 60 * 60;
 const A_WEEK_AGO = Math.floor(Date.now() / 1000) - 7 * 24 * 60 * 60;
 const A_MONTH_AGO = Math.floor(Date.now() / 1000) - 30 * 24 * 60 * 60;
 
-const TOP_CREATOR_INTERVALS = {
+const TOP_CREATOR_INTERVALS: Record<number, string> = {
   0: 'today',
   1: 'this-week',
   2: 'this-month',

@@ -55,4 +55,6 @@ export const INTERVALS = {
   today: new Date(YESTERDAY * 1000).toISOString(),
   'this-week': new Date(A_WEEK_AGO * 1000).toISOString(),
   'this-month': new Date(A_MONTH_AGO * 1000).toISOString(),
-};
+} as const;
+
+export type IntervalLabels = 'today' | 'this-week' | 'this-month';
