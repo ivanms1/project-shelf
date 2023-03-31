@@ -1,7 +1,13 @@
+import { Prisma } from '@prisma/client';
 import builder from '../../builder';
 import db from '../../db';
 
 import decodeAccessToken from '../../helpers/decodeAccessToken';
+import {
+  getUserPaginationArgs,
+  type SearchArgs,
+} from '../../helpers/getPaginationArgs';
+import { SearchOrder } from '../Project/queries';
 
 export const Role = builder.enumType('Role', {
   values: ['ADMIN', 'USER'] as const,
@@ -26,6 +32,7 @@ export const User = builder.prismaObject('User', {
     createdAt: t.expose('createdAt', { type: 'Date' }),
     updatedAt: t.expose('updatedAt', { type: 'Date' }),
     projects: t.relation('projects', { nullable: true }),
+    projectsCount: t.relationCount('projects'),
     likesReceived: t.relationCount('AuthorLike'),
     banned: t.exposeBoolean('banned'),
     followers: t.relation('followers'),
@@ -60,12 +67,32 @@ export const User = builder.prismaObject('User', {
   }),
 });
 
+const SearchUsersInput = builder.inputType('SearchUsersInput', {
+  description: 'Search user input',
+  fields: (t) => ({
+    cursor: t.string({ required: false }),
+    search: t.string(),
+    order: t.field({ type: SearchOrder }),
+    orderBy: t.string(),
+  }),
+});
+
 const UserResponse = builder.objectType('UserResponse', {
   description: 'User response',
   fields: (t) => ({
     totalCount: t.exposeInt('totalCount'),
     results: t.expose('results', { type: [User] }),
     bannedUsers: t.exposeInt('bannedUsers'),
+  }),
+});
+
+const UsersResponse = builder.objectType('UsersResponse', {
+  description: 'User response',
+  fields: (t) => ({
+    nextCursor: t.exposeString('nextCursor', { nullable: true }),
+    prevCursor: t.exposeString('prevCursor', { nullable: true }),
+    totalCount: t.exposeInt('totalCount'),
+    results: t.expose('results', { type: [User] }),
   }),
 });
 
@@ -107,6 +134,7 @@ builder.queryType({
         if (!user) {
           throw new Error('User not found');
         }
+
         return user;
       },
     }),
@@ -126,6 +154,68 @@ builder.queryType({
           },
         });
         return { results, totalCount, bannedUsers };
+      },
+    }),
+    getAllUsersAdmin: t.field({
+      type: UsersResponse,
+      description: 'Get all users for admin table',
+      args: { input: t.arg({ type: SearchUsersInput }) },
+      resolve: async (_, args, ctx) => {
+        const incomingCursor = args?.input?.cursor;
+        let results;
+        const currentUserId = decodeAccessToken(ctx?.accessToken);
+        if (!currentUserId) {
+          throw new Error('Not Authorized');
+        }
+
+        const currentUser = await db.user.findUnique({
+          where: {
+            id: String(currentUserId),
+          },
+        });
+
+        if (!currentUser || currentUser.role !== 'ADMIN') {
+          throw new Error('Not Authorized');
+        }
+
+        const filter: Prisma.UserScalarWhereInput | undefined = {
+          OR: [
+            {
+              name: {
+                contains: args?.input?.search || '',
+                mode: 'insensitive',
+              },
+            },
+            {
+              email: {
+                contains: args?.input?.search || '',
+                mode: 'insensitive',
+              },
+            },
+          ],
+        };
+
+        const totalCount = await db.user.count({
+          where: filter,
+        });
+        if (incomingCursor) {
+          results = await db.user.findMany(
+            getUserPaginationArgs(args as SearchArgs, filter, false)
+          );
+        } else {
+          results = await db.user.findMany(
+            getUserPaginationArgs(args as SearchArgs, filter, true)
+          );
+        }
+
+        const cursor = results[9]?.id;
+
+        return {
+          prevCursor: args?.input?.cursor ?? '',
+          nextCursor: cursor,
+          results,
+          totalCount,
+        };
       },
     }),
   }),

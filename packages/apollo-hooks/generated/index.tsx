@@ -165,6 +165,8 @@ export type Query = {
   __typename?: 'Query';
   /** Get all users */
   getAllUsers: UserResponse;
+  /** Get all users for admin table */
+  getAllUsersAdmin: UsersResponse;
   /** Get approved projects */
   getApprovedProjects: ProjectsResponse;
   /** Get the current user */
@@ -189,6 +191,11 @@ export type Query = {
   getUser: User;
   /** Get user projects */
   getUserProjects: ProjectsResponse;
+};
+
+
+export type QueryGetAllUsersAdminArgs = {
+  input?: InputMaybe<SearchUsersInput>;
 };
 
 
@@ -257,6 +264,14 @@ export type SearchProjectsInput = {
   search?: InputMaybe<Scalars['String']>;
 };
 
+/** Search user input */
+export type SearchUsersInput = {
+  cursor?: InputMaybe<Scalars['String']>;
+  order?: InputMaybe<SearchOrder>;
+  orderBy?: InputMaybe<Scalars['String']>;
+  search?: InputMaybe<Scalars['String']>;
+};
+
 /** Top users response */
 export type TopCreatorsResponse = {
   __typename?: 'TopCreatorsResponse';
@@ -317,6 +332,7 @@ export type User = {
   location?: Maybe<Scalars['String']>;
   name: Scalars['String'];
   projects?: Maybe<Array<Project>>;
+  projectsCount: Scalars['Int'];
   role: Role;
   twitter?: Maybe<Scalars['String']>;
   updatedAt: Scalars['Date'];
@@ -333,6 +349,15 @@ export enum UserFollowActions {
 export type UserResponse = {
   __typename?: 'UserResponse';
   bannedUsers: Scalars['Int'];
+  results: Array<User>;
+  totalCount: Scalars['Int'];
+};
+
+/** User response */
+export type UsersResponse = {
+  __typename?: 'UsersResponse';
+  nextCursor?: Maybe<Scalars['String']>;
+  prevCursor?: Maybe<Scalars['String']>;
   results: Array<User>;
   totalCount: Scalars['Int'];
 };
@@ -362,6 +387,13 @@ export type GetProjectsAdminQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type GetProjectsAdminQuery = { __typename?: 'Query', getProjectsAdmin: { __typename?: 'ProjectsResponse', totalCount: number, results: Array<{ __typename?: 'Project', id: string, isApproved: boolean, title: string, preview: string, description: string, createdAt: any, repoLink: string, siteLink: string, tags: Array<string>, author: { __typename?: 'User', name: string, avatar?: string | null, email?: string | null } }> } };
+
+export type GetAllUsersAdminQueryVariables = Exact<{
+  input?: InputMaybe<SearchUsersInput>;
+}>;
+
+
+export type GetAllUsersAdminQuery = { __typename?: 'Query', getAllUsersAdmin: { __typename?: 'UsersResponse', nextCursor?: string | null, prevCursor?: string | null, results: Array<{ __typename?: 'User', avatar?: string | null, banned: boolean, createdAt: any, email?: string | null, followersCount: number, followingCount: number, github?: string | null, id: string, location?: string | null, name: string, role: Role, projectsCount: number }> } };
 
 export type GetAllUsersQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -725,6 +757,56 @@ export function useGetProjectsAdminLazyQuery(baseOptions?: Apollo.LazyQueryHookO
 export type GetProjectsAdminQueryHookResult = ReturnType<typeof useGetProjectsAdminQuery>;
 export type GetProjectsAdminLazyQueryHookResult = ReturnType<typeof useGetProjectsAdminLazyQuery>;
 export type GetProjectsAdminQueryResult = Apollo.QueryResult<GetProjectsAdminQuery, GetProjectsAdminQueryVariables>;
+export const GetAllUsersAdminDocument = gql`
+    query GetAllUsersAdmin($input: SearchUsersInput) {
+  getAllUsersAdmin(input: $input) {
+    nextCursor
+    prevCursor
+    results {
+      avatar
+      banned
+      createdAt
+      email
+      followersCount
+      followingCount
+      github
+      id
+      location
+      name
+      role
+      projectsCount
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetAllUsersAdminQuery__
+ *
+ * To run a query within a React component, call `useGetAllUsersAdminQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetAllUsersAdminQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetAllUsersAdminQuery({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useGetAllUsersAdminQuery(baseOptions?: Apollo.QueryHookOptions<GetAllUsersAdminQuery, GetAllUsersAdminQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetAllUsersAdminQuery, GetAllUsersAdminQueryVariables>(GetAllUsersAdminDocument, options);
+      }
+export function useGetAllUsersAdminLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetAllUsersAdminQuery, GetAllUsersAdminQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetAllUsersAdminQuery, GetAllUsersAdminQueryVariables>(GetAllUsersAdminDocument, options);
+        }
+export type GetAllUsersAdminQueryHookResult = ReturnType<typeof useGetAllUsersAdminQuery>;
+export type GetAllUsersAdminLazyQueryHookResult = ReturnType<typeof useGetAllUsersAdminLazyQuery>;
+export type GetAllUsersAdminQueryResult = Apollo.QueryResult<GetAllUsersAdminQuery, GetAllUsersAdminQueryVariables>;
 export const GetAllUsersDocument = gql`
     query GetAllUsers {
   getAllUsers {

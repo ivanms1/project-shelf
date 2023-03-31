@@ -58,7 +58,7 @@ const ProjectsResponse = builder.objectType('ProjectsResponse', {
   }),
 });
 
-const SearchOrder = builder.enumType('SearchOrder', {
+export const SearchOrder = builder.enumType('SearchOrder', {
   description: 'Search order',
   values: ['asc', 'desc'] as const,
 });

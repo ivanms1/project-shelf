@@ -97,6 +97,9 @@ type Query {
   """Get all users"""
   getAllUsers: UserResponse!
 
+  """Get all users for admin table"""
+  getAllUsersAdmin(input: SearchUsersInput): UsersResponse!
+
   """Get approved projects"""
   getApprovedProjects(input: SearchProjectsInput): ProjectsResponse!
 
@@ -148,6 +151,14 @@ enum SearchOrder {
 
 """Search projects input"""
 input SearchProjectsInput {
+  cursor: String
+  order: SearchOrder
+  orderBy: String
+  search: String
+}
+
+"""Search user input"""
+input SearchUsersInput {
   cursor: String
   order: SearchOrder
   orderBy: String
@@ -211,6 +222,7 @@ type User {
   location: String
   name: String!
   projects: [Project!]
+  projectsCount: Int!
   role: Role!
   twitter: String
   updatedAt: Date!
@@ -226,6 +238,14 @@ enum UserFollowActions {
 """User response"""
 type UserResponse {
   bannedUsers: Int!
+  results: [User!]!
+  totalCount: Int!
+}
+
+"""User response"""
+type UsersResponse {
+  nextCursor: String
+  prevCursor: String
   results: [User!]!
   totalCount: Int!
 }
