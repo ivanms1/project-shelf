@@ -5,10 +5,18 @@ import { NextSeo } from 'next-seo';
 import Image from 'next/image';
 import Link from 'next/link';
 import classNames from 'classnames';
+import {
+  getCoreRowModel,
+  getPaginationRowModel,
+  useReactTable,
+  getSortedRowModel,
+  getFilteredRowModel,
+} from '@tanstack/react-table';
 
 import {
   useUpdateUserAsAdminMutation,
-  useGetAllUsersQuery,
+  useGetAllUsersAdminQuery,
+  SearchOrder,
 } from 'apollo-hooks';
 
 import Table from 'src/components/Table';
@@ -50,8 +58,16 @@ const styles = {
 
 function Users() {
   const [updateUserAsAdmin] = useUpdateUserAsAdminMutation();
+  const [search, setSearch] = React.useState('');
 
-  const { data } = useGetAllUsersQuery();
+  const { data, loading, fetchMore } = useGetAllUsersAdminQuery({
+    variables: {
+      input: {
+        search,
+      },
+    },
+    notifyOnNetworkStatusChange: true,
+  });
 
   const updateUser = async (user, role, action) => {
     try {
@@ -95,6 +111,23 @@ function Users() {
     } catch (error) {
       notifyError();
     }
+  };
+
+  const onRefetch = () => {
+    if (!data?.getAllUsersAdmin?.nextCursor) {
+      return;
+    }
+
+    fetchMore({
+      variables: {
+        input: {
+          search,
+          orderBy: 'createdAt',
+          order: SearchOrder.Asc,
+          cursor: data?.getAllUsersAdmin?.nextCursor,
+        },
+      },
+    });
   };
 
   const columns = useMemo(
@@ -157,7 +190,7 @@ function Users() {
           return (
             <div className=''>
               <span className='text-gray-700 font-bold text-[14px]'>
-                {info?.row?.original?.projects?.length}
+                {info?.row?.original?.projectsCount}
               </span>
             </div>
           );
@@ -237,12 +270,29 @@ function Users() {
     []
   );
 
+  const instance = useReactTable({
+    data: data?.getAllUsersAdmin?.results ?? [],
+    columns,
+    manualPagination: true,
+    getCoreRowModel: getCoreRowModel(),
+    enableColumnFilters: true,
+    columnResizeMode: 'onChange',
+    enableColumnResizing: true,
+  });
+
   return (
     <div className='w-full h-full bg-white p-[30px] flex flex-col gap-[20px]'>
       <p className='text-gray-900 text-3xl font-bold'>Users</p>
+      <input
+        type='text'
+        placeholder='Search'
+        value={search}
+        className='w-full h-[50px] rounded-[10px] border-[1px] border-gray-300 p-[10px] focus:outline-none focus:border-[#3f51b5]'
+        onChange={(e) => setSearch(e.target.value)}
+      />
 
       <div className='flex h-[600px] w-full'>
-        <Table tableData={data?.getAllUsers?.results} columns={columns} />
+        <Table instance={instance} loading={loading} onFetchMore={onRefetch} />
       </div>
       <NextSeo title='Users' />
     </div>
