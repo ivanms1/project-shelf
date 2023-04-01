@@ -5,13 +5,7 @@ import { NextSeo } from 'next-seo';
 import Image from 'next/image';
 import Link from 'next/link';
 import classNames from 'classnames';
-import {
-  getCoreRowModel,
-  getPaginationRowModel,
-  useReactTable,
-  getSortedRowModel,
-  getFilteredRowModel,
-} from '@tanstack/react-table';
+import { getCoreRowModel, useReactTable } from '@tanstack/react-table';
 
 import {
   useUpdateUserAsAdminMutation,
@@ -135,7 +129,7 @@ function Users() {
       {
         accessorKey: 'name',
         header: () => <span>Name</span>,
-        size: 150,
+        size: 375,
         minSize: 20,
         cell: (info) => {
           return (
@@ -186,13 +180,12 @@ function Users() {
       {
         accessorKey: 'projects',
         header: () => <span>Projects</span>,
+        size: 100,
         cell: (info) => {
           return (
-            <div className=''>
-              <span className='text-gray-700 font-bold text-[14px]'>
-                {info?.row?.original?.projectsCount}
-              </span>
-            </div>
+            <span className='text-gray-700 font-bold text-[14px]'>
+              {info?.row?.original?.projectsCount}
+            </span>
           );
         },
       },
