@@ -37,9 +37,17 @@ export const getUserPaginationArgs = (
     skip: isFirst ? 0 : 1,
     cursor: isFirst ? undefined : { id: args?.input?.cursor },
     where: filter,
-    orderBy: {
-      [args?.input?.orderBy || 'createdAt']: args?.input?.order,
-    },
+
+    orderBy:
+      args?.input?.orderBy === 'projectsCount'
+        ? {
+            projects: {
+              _count: args?.input?.order,
+            },
+          }
+        : {
+            [args?.input?.orderBy || 'createdAt']: args?.input?.order,
+          },
   };
 };
 

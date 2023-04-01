@@ -41,7 +41,7 @@ const authLink = setContext(async (_, { headers }) => {
 });
 
 const projectsMergeConfig: FieldPolicy<any, any, any> = {
-  keyArgs: false,
+  keyArgs: ['input', ['search', 'order', 'orderBy']],
   merge(existing = null, incoming) {
     if (!existing || !existing?.results?.length) {
       return incoming;

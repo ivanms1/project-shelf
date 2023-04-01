@@ -5,7 +5,11 @@ import { NextSeo } from 'next-seo';
 import Image from 'next/future/image';
 import Link from 'next/link';
 import classNames from 'classnames';
-import { getCoreRowModel, useReactTable } from '@tanstack/react-table';
+import {
+  getCoreRowModel,
+  SortingState,
+  useReactTable,
+} from '@tanstack/react-table';
 
 import {
   useUpdateUserAsAdminMutation,
@@ -53,11 +57,20 @@ const styles = {
 function Users() {
   const [updateUserAsAdmin] = useUpdateUserAsAdminMutation();
   const [search, setSearch] = React.useState('');
+  const [sorting, setSorting] = React.useState<SortingState>([
+    {
+      desc: false,
+      id: 'name',
+    },
+  ]);
 
   const { data, loading, fetchMore } = useGetAllUsersAdminQuery({
     variables: {
       input: {
         search,
+        order: sorting?.[0]?.desc ? SearchOrder.Desc : SearchOrder.Asc,
+        orderBy: sorting?.[0]?.id,
+        cursor: undefined,
       },
     },
     notifyOnNetworkStatusChange: true,
@@ -116,8 +129,8 @@ function Users() {
       variables: {
         input: {
           search,
-          orderBy: 'createdAt',
-          order: SearchOrder.Asc,
+          order: sorting?.[0]?.desc ? SearchOrder.Desc : SearchOrder.Asc,
+          orderBy: sorting?.[0]?.id,
           cursor: data?.getAllUsersAdmin?.nextCursor,
         },
       },
@@ -136,8 +149,8 @@ function Users() {
               <Image
                 src={info?.row?.original?.avatar}
                 alt={info?.row?.original?.avatar}
-                className='rounded-full'
-                width={70}
+                className='rounded-full w-auto h-auto'
+                width={50}
                 height={50}
               />
               <div className='flex flex-col w-full'>
@@ -171,12 +184,12 @@ function Users() {
         },
       },
       {
-        accessorKey: 'projects',
+        accessorKey: 'projectsCount',
         header: () => <span>Projects</span>,
         cell: (info) => {
           return (
             <span className='text-gray-700 font-bold text-[14px]'>
-              {info?.row?.original?.projectsCount}
+              {info?.getValue()}
             </span>
           );
         },
@@ -234,7 +247,7 @@ function Users() {
       {
         accessorKey: 'action',
         header: () => <span>Action</span>,
-
+        enableSorting: false,
         cell: (info) => {
           return (
             <button
@@ -263,9 +276,11 @@ function Users() {
     columns,
     manualPagination: true,
     getCoreRowModel: getCoreRowModel(),
-    enableColumnFilters: true,
-    columnResizeMode: 'onChange',
-    enableColumnResizing: true,
+    manualSorting: true,
+    onSortingChange: setSorting,
+    state: {
+      sorting,
+    },
   });
 
   return (
