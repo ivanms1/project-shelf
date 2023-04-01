@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import Select from 'react-select';
 import { toast } from 'react-hot-toast';
 import { NextSeo } from 'next-seo';
-import Image from 'next/image';
+import Image from 'next/future/image';
 import Link from 'next/link';
 import classNames from 'classnames';
 import { getCoreRowModel, useReactTable } from '@tanstack/react-table';
@@ -130,23 +130,16 @@ function Users() {
         accessorKey: 'name',
         header: () => <span>Name</span>,
         size: 375,
-        minSize: 20,
         cell: (info) => {
           return (
-            <div className='flex flex-row gap-[20px] items-center'>
-              <div className='flex max-h-[70px] max-w-[70px]'>
-                <Image
-                  loader={() => info?.row?.original?.avatar}
-                  src={info?.row?.original?.avatar}
-                  alt={info?.row?.original?.avatar}
-                  width={'100%'}
-                  height={'100%'}
-                  style={{
-                    borderRadius: '50%',
-                  }}
-                />
-              </div>
-
+            <div className='flex flex-row gap-[20px]'>
+              <Image
+                src={info?.row?.original?.avatar}
+                alt={info?.row?.original?.avatar}
+                className='rounded-full'
+                width={70}
+                height={50}
+              />
               <div className='flex flex-col w-full'>
                 <span className='w-full text-gray-700 font-bold text-[17px]'>
                   {info?.getValue()}
@@ -180,7 +173,6 @@ function Users() {
       {
         accessorKey: 'projects',
         header: () => <span>Projects</span>,
-        size: 100,
         cell: (info) => {
           return (
             <span className='text-gray-700 font-bold text-[14px]'>
@@ -192,6 +184,7 @@ function Users() {
       {
         accessorKey: 'createdAt',
         header: () => <span>Created Date</span>,
+        minSize: 200,
         cell: (info) => {
           return (
             <span className='text-gray-700 font-bold text-[14px]'>
@@ -203,6 +196,7 @@ function Users() {
       {
         accessorKey: 'role',
         header: () => <span>Role</span>,
+        minSize: 200,
         cell: (info) => {
           const selectedValue = {
             value: info.getValue(),
@@ -240,6 +234,7 @@ function Users() {
       {
         accessorKey: 'action',
         header: () => <span>Action</span>,
+
         cell: (info) => {
           return (
             <button

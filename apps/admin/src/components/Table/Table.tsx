@@ -40,7 +40,7 @@ function Table({ instance, loading, onFetchMore }: TableProps) {
                 {headerGroup.headers.map((header) => (
                   <div
                     role='td'
-                    className='flex  items-center text-[14px] tracking-wide text-[#aab4d3]'
+                    className='text-[14px] text-[#aab4d3] p-2'
                     key={header.id}
                     style={{
                       width: header.getSize() || undefined,
@@ -64,6 +64,7 @@ function Table({ instance, loading, onFetchMore }: TableProps) {
                   <div
                     role='td'
                     key={cell.id}
+                    className='flex items-center p-2'
                     style={{
                       width: cell.column.getSize() || undefined,
                     }}
