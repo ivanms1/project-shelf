@@ -76,7 +76,7 @@ function Table({ instance, loading, onFetchMore }: TableProps) {
                 <div
                   role='td'
                   key={cell.id}
-                  className='flex items-center p-2'
+                  className='flex items-center p-2 text-gray-700 font-bold text-[14px]'
                   style={{
                     width: cell.column.getSize() || undefined,
                   }}
