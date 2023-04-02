@@ -2,24 +2,9 @@ import React from 'react';
 import { Waypoint } from 'react-waypoint';
 
 import { flexRender, type Table } from '@tanstack/react-table';
-import type { Role } from 'apollo-hooks';
 
 interface TableProps {
-  instance: Table<{
-    __typename?: 'User';
-    avatar?: string;
-    banned: boolean;
-    createdAt: any;
-    email?: string;
-    followersCount: number;
-    followingCount: number;
-    github?: string;
-    id: string;
-    location?: string;
-    name: string;
-    role: Role;
-    projectsCount: number;
-  }>;
+  instance: Table<any>;
 
   loading?: boolean;
   onFetchMore?: () => void;

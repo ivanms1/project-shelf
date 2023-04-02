@@ -82,6 +82,7 @@ function createApolloClient() {
             getMyProjects: projectsMergeConfig,
             adminGetNotApprovedProjects: projectsMergeConfig,
             getAllUsersAdmin: projectsMergeConfig,
+            getProjectsAdmin: projectsMergeConfig,
           },
         },
       },

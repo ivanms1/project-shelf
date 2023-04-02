@@ -96,11 +96,11 @@ builder.queryFields((t) => ({
 
       const currentUserId = decodeAccessToken(ctx.accessToken);
 
-      if (project?.authorId === currentUserId) {
-        return project;
+      if (project?.authorId !== currentUserId) {
+        throw new Error('Not authorized');
       }
 
-      throw Error('Not authorized');
+      return project;
     },
   }),
   getApprovedProjects: t.field({

@@ -69,7 +69,7 @@ const styles: StylesConfig<Value, boolean, GroupBase<Value>> = {
   },
 };
 
-function Users() {
+const Users = () => {
   const [updateUserAsAdmin] = useUpdateUserAsAdminMutation();
   const [search, setSearch] = React.useState('');
   const [sorting, setSorting] = React.useState<SortingState>([
@@ -288,6 +288,6 @@ function Users() {
       <NextSeo title='Users' />
     </div>
   );
-}
+};
 
 export default Users;

@@ -383,10 +383,12 @@ export type GetAllProjectsQueryVariables = Exact<{
 
 export type GetAllProjectsQuery = { __typename?: 'Query', projects: { __typename?: 'ProjectsResponse', nextCursor?: string | null, prevCursor?: string | null, totalCount: number, results: Array<{ __typename?: 'Project', id: string, title: string, createdAt: any, isLiked: boolean, likesCount: number, tags: Array<string>, preview: string, repoLink: string, siteLink: string, description: string, isApproved: boolean, author: { __typename?: 'User', id: string, avatar?: string | null, name: string } }> } };
 
-export type GetProjectsAdminQueryVariables = Exact<{ [key: string]: never; }>;
+export type GetProjectsAdminQueryVariables = Exact<{
+  input?: InputMaybe<SearchProjectsInput>;
+}>;
 
 
-export type GetProjectsAdminQuery = { __typename?: 'Query', getProjectsAdmin: { __typename?: 'ProjectsResponse', totalCount: number, results: Array<{ __typename?: 'Project', id: string, isApproved: boolean, title: string, preview: string, description: string, createdAt: any, repoLink: string, siteLink: string, tags: Array<string>, author: { __typename?: 'User', name: string, avatar?: string | null, email?: string | null } }> } };
+export type GetProjectsAdminQuery = { __typename?: 'Query', getProjectsAdmin: { __typename?: 'ProjectsResponse', nextCursor?: string | null, prevCursor?: string | null, totalCount: number, results: Array<{ __typename?: 'Project', id: string, isApproved: boolean, title: string, preview: string, description: string, createdAt: any, repoLink: string, siteLink: string, tags: Array<string>, author: { __typename?: 'User', name: string, avatar?: string | null } }> } };
 
 export type GetAllUsersAdminQueryVariables = Exact<{
   input?: InputMaybe<SearchUsersInput>;
@@ -708,8 +710,10 @@ export type GetAllProjectsQueryHookResult = ReturnType<typeof useGetAllProjectsQ
 export type GetAllProjectsLazyQueryHookResult = ReturnType<typeof useGetAllProjectsLazyQuery>;
 export type GetAllProjectsQueryResult = Apollo.QueryResult<GetAllProjectsQuery, GetAllProjectsQueryVariables>;
 export const GetProjectsAdminDocument = gql`
-    query GetProjectsAdmin {
-  getProjectsAdmin {
+    query GetProjectsAdmin($input: SearchProjectsInput) {
+  getProjectsAdmin(input: $input) {
+    nextCursor
+    prevCursor
     totalCount
     results {
       id
@@ -718,7 +722,6 @@ export const GetProjectsAdminDocument = gql`
       author {
         name
         avatar
-        email
       }
       preview
       description
@@ -743,6 +746,7 @@ export const GetProjectsAdminDocument = gql`
  * @example
  * const { data, loading, error } = useGetProjectsAdminQuery({
  *   variables: {
+ *      input: // value for 'input'
  *   },
  * });
  */
