@@ -1,10 +1,10 @@
 import { signOut, useSession } from 'next-auth/react';
-import { useGetCurrentUserQuery } from 'apollo-hooks';
+import { useGetCurrentUserAdminQuery } from 'apollo-hooks';
 
 const useIsLoggedIn = () => {
   const session = useSession();
 
-  const { data, loading, client } = useGetCurrentUserQuery({
+  const { data, loading, client } = useGetCurrentUserAdminQuery({
     skip: session.status === 'unauthenticated' || session.status === 'loading',
   });
 
@@ -14,10 +14,10 @@ const useIsLoggedIn = () => {
   };
 
   return {
-    isLoggedIn: !!data?.getCurrentUser?.id,
+    isLoggedIn: !!data?.getCurrentUserAdmin?.id,
     loading,
     logout,
-    currentUser: data?.getCurrentUser,
+    currentUser: data?.getCurrentUserAdmin,
   };
 };
 
