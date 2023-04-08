@@ -1,15 +1,15 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import Image from 'next/future/image';
 import { NextSeo } from 'next-seo';
-import { Button, Modal } from 'ui';
+import { Button, Modal, Loader } from 'ui';
 import classNames from 'classnames';
 import {
   GetProjectsAdminQuery,
   type Project,
   SearchOrder,
   useDeleteProjectsMutation,
-  useGetProjectsAdminQuery,
+  useGetProjectsAdminLazyQuery,
 } from 'apollo-hooks';
 import {
   createColumnHelper,
@@ -22,6 +22,7 @@ import Table from 'src/components/Table';
 
 import GithubIcon from '@/public/assets/github.svg';
 import ExternalLink from '@/public/assets/external-link.svg';
+import useDebounce from 'src/components/Table/DebouncedInput';
 
 const Projects = () => {
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
@@ -33,17 +34,23 @@ const Projects = () => {
     },
   ]);
 
-  const { data, loading, fetchMore } = useGetProjectsAdminQuery({
-    variables: {
-      input: {
-        search,
-        order: sorting?.[0]?.desc ? SearchOrder.Desc : SearchOrder.Asc,
-        orderBy: sorting?.[0]?.id,
-        cursor: undefined,
+  const debouncedSearchTerm = useDebounce(search, 1000);
+
+  const [getProjects, { data, loading, fetchMore }] =
+    useGetProjectsAdminLazyQuery({});
+
+  useEffect(() => {
+    getProjects({
+      variables: {
+        input: {
+          search: debouncedSearchTerm,
+          order: sorting?.[0]?.desc ? SearchOrder.Desc : SearchOrder.Asc,
+          orderBy: sorting?.[0]?.id,
+          cursor: undefined,
+        },
       },
-    },
-    notifyOnNetworkStatusChange: true,
-  });
+    });
+  }, [debouncedSearchTerm, sorting]);
 
   const [deleteProject] = useDeleteProjectsMutation();
 
@@ -105,7 +112,7 @@ const Projects = () => {
   const columns = [
     columnHelper.accessor('title', {
       header: 'Title',
-      size: 300,
+      size: 500,
       cell: (info) => {
         return (
           <div className='flex flex-row gap-[10px] items-center'>
@@ -139,18 +146,21 @@ const Projects = () => {
       },
     }),
     columnHelper.accessor('author', {
-      size: 200,
+      minSize: 100,
       header: 'Author',
+      enableSorting: false,
+
       cell: (info) => info?.getValue().name,
     }),
     columnHelper.accessor('createdAt', {
-      size: 200,
       header: 'Created At',
+      enableSorting: false,
       cell: (info) => new Date(info?.getValue()).toDateString(),
     }),
     columnHelper.accessor('repoLink', {
-      size: 100,
       header: 'Repo Link',
+      enableSorting: false,
+
       cell: (info) => {
         return (
           <a href={info?.getValue()} target='_blank' rel='noopener noreferrer'>
@@ -160,8 +170,9 @@ const Projects = () => {
       },
     }),
     columnHelper.accessor('siteLink', {
-      size: 100,
       header: 'Site Link',
+      enableSorting: false,
+
       cell: (info) => {
         return (
           <a href={info?.getValue()} target='_blank' rel='noopener noreferrer'>
@@ -172,9 +183,11 @@ const Projects = () => {
     }),
 
     columnHelper.display({
-      id: 'acrions',
+      id: 'actions',
+      minSize: 100,
+      enableSorting: false,
+
       header: 'Actions',
-      size: 100,
       cell: (info) => {
         return (
           <div className='flex flex-row items-center gap-[20px] '>
@@ -227,15 +240,25 @@ const Projects = () => {
   });
 
   return (
-    <div className='w-full h-full bg-white p-[30px] flex flex-col'>
+    <div className='w-full h-full bg-white p-[30px] flex flex-col gap-[20px]'>
       <p className='text-gray-900 text-3xl font-bold'>Projects</p>
-      <input
-        type='text'
-        placeholder='Search'
-        value={search}
-        className='w-full h-[50px] rounded-[10px] border-[1px] border-gray-300 p-[10px] focus:outline-none focus:border-[#3f51b5]'
-        onChange={(e) => setSearch(e.target.value)}
-      />
+      <div className='relative'>
+        <input
+          type='text'
+          placeholder='Search'
+          value={search}
+          className='w-full h-[50px] rounded-[10px] border-[1px] border-gray-300 p-[10px] focus:outline-none focus:border-[#3f51b5]'
+          onChange={(e) => {
+            setSearch(e.target.value);
+          }}
+        />
+
+        {loading ? (
+          <span className='absolute right-[10px] top-[10px] '>
+            <Loader />
+          </span>
+        ) : null}
+      </div>
 
       <div className='flex h-[600px] w-full'>
         <Table instance={instance} loading={loading} onFetchMore={onRefetch} />
