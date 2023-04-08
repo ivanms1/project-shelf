@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { signOut } from 'next-auth/react';
 
 import Button from '../../components/Button';
 
@@ -65,7 +66,9 @@ const SideNav = () => {
           </Button>
         </Link>
         <Link href='/logout'>
-          <Button icon={<LogOut />}>Log Out</Button>
+          <Button icon={<LogOut />} onClick={() => signOut()}>
+            Log Out
+          </Button>
         </Link>
       </div>
     </div>
