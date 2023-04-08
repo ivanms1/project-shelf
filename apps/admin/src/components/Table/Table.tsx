@@ -21,16 +21,19 @@ function Table({ instance, loading, onFetchMore }: TableProps) {
           className='sticky top-0 bg-white z-10 border-b border-gray-200 py-5'
         >
           {instance.getHeaderGroups().map((headerGroup) => (
-            <div role='trow' className='flex' key={headerGroup.id}>
+            <div role='trow' className='flex ' key={headerGroup.id}>
               {headerGroup.headers.map((header) => (
                 <div
                   role='td'
                   key={header.id}
                   style={{
-                    width: header.getSize() || undefined,
+                    minWidth:
+                      header.getSize() !== 0 ? header.getSize() : undefined,
+                    flex: 1,
                   }}
                   {...{
-                    className: 'flex gap-1 text-[14px] text-[#aab4d3] p-2',
+                    className:
+                      'flex w-full gap-1 text-[14px] text-[#aab4d3] p-2',
                     onClick: header?.column?.getCanSort?.()
                       ? header.column.getToggleSortingHandler()
                       : () => null,
@@ -63,7 +66,11 @@ function Table({ instance, loading, onFetchMore }: TableProps) {
                   key={cell.id}
                   className='flex items-center p-2 text-gray-700 font-bold text-[14px]'
                   style={{
-                    width: cell.column.getSize() || undefined,
+                    minWidth:
+                      cell.column.getSize() !== 0
+                        ? cell.column.getSize()
+                        : undefined,
+                    flex: 1,
                   }}
                 >
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
