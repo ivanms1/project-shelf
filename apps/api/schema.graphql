@@ -106,6 +106,9 @@ type Query {
   """Get the current user"""
   getCurrentUser: User!
 
+  """Get the current user for admin"""
+  getCurrentUserAdmin: User!
+
   """Get most liked projects"""
   getMostLikedProjects(input: SearchProjectsInput): ProjectsResponse!
 

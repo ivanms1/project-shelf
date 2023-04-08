@@ -171,6 +171,8 @@ export type Query = {
   getApprovedProjects: ProjectsResponse;
   /** Get the current user */
   getCurrentUser: User;
+  /** Get the current user for admin */
+  getCurrentUserAdmin: User;
   /** Get most liked projects */
   getMostLikedProjects: ProjectsResponse;
   /** Get my projects */
@@ -371,10 +373,10 @@ export type LoginAsAdminMutation = { __typename?: 'Mutation', loginAsAdmin: stri
 
 export type ProjectsResponseFragmentFragment = { __typename?: 'ProjectsResponse', nextCursor?: string | null, prevCursor?: string | null, totalCount: number, results: Array<{ __typename?: 'Project', id: string, title: string, createdAt: any, isLiked: boolean, likesCount: number, tags: Array<string>, preview: string, repoLink: string, siteLink: string, description: string, isApproved: boolean, author: { __typename?: 'User', id: string, avatar?: string | null, name: string } }> };
 
-export type GetCurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
+export type GetCurrentUserAdminQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetCurrentUserQuery = { __typename?: 'Query', getCurrentUser: { __typename?: 'User', id: string, name: string, email?: string | null, github?: string | null, discord?: string | null, avatar?: string | null, cover?: string | null, bio?: string | null, location?: string | null, website?: string | null, twitter?: string | null } };
+export type GetCurrentUserAdminQuery = { __typename?: 'Query', getCurrentUserAdmin: { __typename?: 'User', id: string, name: string, email?: string | null, github?: string | null, discord?: string | null, avatar?: string | null, cover?: string | null, bio?: string | null, location?: string | null, website?: string | null, twitter?: string | null } };
 
 export type GetAllProjectsQueryVariables = Exact<{
   input?: InputMaybe<SearchProjectsInput>;
@@ -468,6 +470,11 @@ export type DeleteLikeMutationVariables = Exact<{
 export type DeleteLikeMutation = { __typename?: 'Mutation', deleteLike: { __typename?: 'Like', id: string, project: { __typename?: 'Project', id: string, likesCount: number, isLiked: boolean } } };
 
 export type ProjectCardFragmentFragment = { __typename?: 'ProjectsResponse', nextCursor?: string | null, prevCursor?: string | null, totalCount: number, results: Array<{ __typename?: 'Project', id: string, title: string, likesCount: number, preview: string, isLiked: boolean, author: { __typename?: 'User', id: string, avatar?: string | null, name: string } }> };
+
+export type GetCurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetCurrentUserQuery = { __typename?: 'Query', getCurrentUser: { __typename?: 'User', id: string, name: string, email?: string | null, github?: string | null, discord?: string | null, avatar?: string | null, cover?: string | null, bio?: string | null, location?: string | null, website?: string | null, twitter?: string | null } };
 
 export type CreateUserProjectMutationVariables = Exact<{
   input: CreateProjectInput;
@@ -630,9 +637,9 @@ export function useLoginAsAdminMutation(baseOptions?: Apollo.MutationHookOptions
 export type LoginAsAdminMutationHookResult = ReturnType<typeof useLoginAsAdminMutation>;
 export type LoginAsAdminMutationResult = Apollo.MutationResult<LoginAsAdminMutation>;
 export type LoginAsAdminMutationOptions = Apollo.BaseMutationOptions<LoginAsAdminMutation, LoginAsAdminMutationVariables>;
-export const GetCurrentUserDocument = gql`
-    query GetCurrentUser {
-  getCurrentUser {
+export const GetCurrentUserAdminDocument = gql`
+    query GetCurrentUserAdmin {
+  getCurrentUserAdmin {
     id
     name
     email
@@ -649,31 +656,31 @@ export const GetCurrentUserDocument = gql`
     `;
 
 /**
- * __useGetCurrentUserQuery__
+ * __useGetCurrentUserAdminQuery__
  *
- * To run a query within a React component, call `useGetCurrentUserQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetCurrentUserQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGetCurrentUserAdminQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetCurrentUserAdminQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetCurrentUserQuery({
+ * const { data, loading, error } = useGetCurrentUserAdminQuery({
  *   variables: {
  *   },
  * });
  */
-export function useGetCurrentUserQuery(baseOptions?: Apollo.QueryHookOptions<GetCurrentUserQuery, GetCurrentUserQueryVariables>) {
+export function useGetCurrentUserAdminQuery(baseOptions?: Apollo.QueryHookOptions<GetCurrentUserAdminQuery, GetCurrentUserAdminQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetCurrentUserQuery, GetCurrentUserQueryVariables>(GetCurrentUserDocument, options);
+        return Apollo.useQuery<GetCurrentUserAdminQuery, GetCurrentUserAdminQueryVariables>(GetCurrentUserAdminDocument, options);
       }
-export function useGetCurrentUserLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetCurrentUserQuery, GetCurrentUserQueryVariables>) {
+export function useGetCurrentUserAdminLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetCurrentUserAdminQuery, GetCurrentUserAdminQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetCurrentUserQuery, GetCurrentUserQueryVariables>(GetCurrentUserDocument, options);
+          return Apollo.useLazyQuery<GetCurrentUserAdminQuery, GetCurrentUserAdminQueryVariables>(GetCurrentUserAdminDocument, options);
         }
-export type GetCurrentUserQueryHookResult = ReturnType<typeof useGetCurrentUserQuery>;
-export type GetCurrentUserLazyQueryHookResult = ReturnType<typeof useGetCurrentUserLazyQuery>;
-export type GetCurrentUserQueryResult = Apollo.QueryResult<GetCurrentUserQuery, GetCurrentUserQueryVariables>;
+export type GetCurrentUserAdminQueryHookResult = ReturnType<typeof useGetCurrentUserAdminQuery>;
+export type GetCurrentUserAdminLazyQueryHookResult = ReturnType<typeof useGetCurrentUserAdminLazyQuery>;
+export type GetCurrentUserAdminQueryResult = Apollo.QueryResult<GetCurrentUserAdminQuery, GetCurrentUserAdminQueryVariables>;
 export const GetAllProjectsDocument = gql`
     query GetAllProjects($input: SearchProjectsInput) {
   projects: getApprovedProjects(input: $input) {
@@ -1257,6 +1264,50 @@ export function useDeleteLikeMutation(baseOptions?: Apollo.MutationHookOptions<D
 export type DeleteLikeMutationHookResult = ReturnType<typeof useDeleteLikeMutation>;
 export type DeleteLikeMutationResult = Apollo.MutationResult<DeleteLikeMutation>;
 export type DeleteLikeMutationOptions = Apollo.BaseMutationOptions<DeleteLikeMutation, DeleteLikeMutationVariables>;
+export const GetCurrentUserDocument = gql`
+    query GetCurrentUser {
+  getCurrentUser {
+    id
+    name
+    email
+    github
+    discord
+    avatar
+    cover
+    bio
+    location
+    website
+    twitter
+  }
+}
+    `;
+
+/**
+ * __useGetCurrentUserQuery__
+ *
+ * To run a query within a React component, call `useGetCurrentUserQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetCurrentUserQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetCurrentUserQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetCurrentUserQuery(baseOptions?: Apollo.QueryHookOptions<GetCurrentUserQuery, GetCurrentUserQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetCurrentUserQuery, GetCurrentUserQueryVariables>(GetCurrentUserDocument, options);
+      }
+export function useGetCurrentUserLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetCurrentUserQuery, GetCurrentUserQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetCurrentUserQuery, GetCurrentUserQueryVariables>(GetCurrentUserDocument, options);
+        }
+export type GetCurrentUserQueryHookResult = ReturnType<typeof useGetCurrentUserQuery>;
+export type GetCurrentUserLazyQueryHookResult = ReturnType<typeof useGetCurrentUserLazyQuery>;
+export type GetCurrentUserQueryResult = Apollo.QueryResult<GetCurrentUserQuery, GetCurrentUserQueryVariables>;
 export const CreateUserProjectDocument = gql`
     mutation CreateUserProject($input: CreateProjectInput!) {
   createProject(input: $input) {
