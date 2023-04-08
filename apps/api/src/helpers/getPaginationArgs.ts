@@ -5,6 +5,7 @@ export type SearchArgs = {
     cursor: string;
     order: 'asc' | 'desc';
     orderBy: string;
+    search: string;
   };
 };
 
@@ -29,7 +30,7 @@ const getPaginationArgs = (
 
 export const getUserPaginationArgs = (
   args: SearchArgs,
-  filter: Prisma.ProjectScalarWhereInput | undefined,
+  filter: Prisma.UserScalarWhereInput | undefined,
   isFirst: boolean
 ) => {
   return {
