@@ -138,6 +138,32 @@ builder.queryType({
         return user;
       },
     }),
+    getCurrentUserAdmin: t.prismaField({
+      type: 'User',
+      description: 'Get the current user for admin',
+      resolve: async (query, _, __, ctx) => {
+        const currentUserId = decodeAccessToken(ctx.accessToken);
+        if (!currentUserId) {
+          throw new Error('Not Authorized');
+        }
+        const user = await db.user.findUnique({
+          ...query,
+          where: {
+            id: String(currentUserId),
+          },
+        });
+
+        if (!user) {
+          throw new Error('User not found');
+        }
+
+        if (user.role !== 'ADMIN') {
+          throw new Error('Not Authorised');
+        }
+
+        return user;
+      },
+    }),
     getAllUsers: t.field({
       type: UserResponse,
       description: 'Get all users',
@@ -209,7 +235,6 @@ builder.queryType({
         }
 
         const cursor = results[9]?.id;
-
         return {
           prevCursor: args?.input?.cursor ?? '',
           nextCursor: cursor,
