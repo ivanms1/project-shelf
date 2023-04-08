@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Select, { type GroupBase, type StylesConfig } from 'react-select';
 import { toast } from 'react-hot-toast';
 import { NextSeo } from 'next-seo';
@@ -13,7 +13,7 @@ import {
 
 import {
   useUpdateUserAsAdminMutation,
-  useGetAllUsersAdminQuery,
+  useGetAllUsersAdminLazyQuery,
   SearchOrder,
   Role,
   type GetAllUsersAdminQuery,
@@ -22,6 +22,7 @@ import {
 import Table from 'src/components/Table';
 
 import GithubIcon from '@/public/assets/github.svg';
+import useDebounce from 'src/components/Table/DebouncedInput';
 
 type Value = { value: string | number; label?: string };
 
@@ -72,6 +73,7 @@ const styles: StylesConfig<Value, boolean, GroupBase<Value>> = {
 const Users = () => {
   const [updateUserAsAdmin] = useUpdateUserAsAdminMutation();
   const [search, setSearch] = React.useState('');
+  const debouncedSearchTerm = useDebounce(search, 1000);
   const [sorting, setSorting] = React.useState<SortingState>([
     {
       desc: false,
@@ -79,17 +81,24 @@ const Users = () => {
     },
   ]);
 
-  const { data, loading, fetchMore } = useGetAllUsersAdminQuery({
-    variables: {
-      input: {
-        search,
-        order: sorting?.[0]?.desc ? SearchOrder.Desc : SearchOrder.Asc,
-        orderBy: sorting?.[0]?.id,
-        cursor: undefined,
+  const [getUsers, { data, loading, fetchMore }] = useGetAllUsersAdminLazyQuery(
+    {
+      notifyOnNetworkStatusChange: true,
+    }
+  );
+
+  useEffect(() => {
+    getUsers({
+      variables: {
+        input: {
+          search,
+          order: sorting?.[0]?.desc ? SearchOrder.Desc : SearchOrder.Asc,
+          orderBy: sorting?.[0]?.id,
+          cursor: data?.getAllUsersAdmin?.nextCursor,
+        },
       },
-    },
-    notifyOnNetworkStatusChange: true,
-  });
+    });
+  }, [debouncedSearchTerm, sorting]);
 
   const updateUser = async (user, role, action) => {
     try {
@@ -160,7 +169,7 @@ const Users = () => {
   const columns = [
     columnHelper.accessor('name', {
       header: 'Name',
-      size: 375,
+      size: 475,
       cell: (info) => {
         return (
           <div className='flex flex-row gap-[20px]'>
@@ -279,7 +288,9 @@ const Users = () => {
         placeholder='Search'
         value={search}
         className='w-full h-[50px] rounded-[10px] border-[1px] border-gray-300 p-[10px] focus:outline-none focus:border-[#3f51b5]'
-        onChange={(e) => setSearch(e.target.value)}
+        onChange={(e) => {
+          setSearch(e.target.value);
+        }}
       />
 
       <div className='flex h-[600px] w-full'>
