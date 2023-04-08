@@ -120,7 +120,7 @@ builder.queryFields((t) => ({
             },
           },
           {
-            description: {
+            repoLink: {
               contains: args?.input?.search || '',
               mode: 'insensitive',
             },
@@ -162,13 +162,30 @@ builder.queryFields((t) => ({
 
       const totalCount = await db.project.count();
 
+      const filter: Prisma.ProjectScalarWhereInput | undefined = {
+        OR: [
+          {
+            title: {
+              contains: args?.input?.search || '',
+              mode: 'insensitive',
+            },
+          },
+          {
+            description: {
+              contains: args?.input?.search || '',
+              mode: 'insensitive',
+            },
+          },
+        ],
+      };
+
       if (incomingCursor) {
         results = await db.project.findMany(
-          getPaginationArgs(args as SearchArgs, undefined, false)
+          getPaginationArgs(args as SearchArgs, filter, false)
         );
       } else {
         results = await db.project.findMany(
-          getPaginationArgs(args as SearchArgs, undefined, true)
+          getPaginationArgs(args as SearchArgs, filter, true)
         );
       }
 
