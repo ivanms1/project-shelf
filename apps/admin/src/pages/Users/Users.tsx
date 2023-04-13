@@ -26,7 +26,7 @@ import useDebounce from 'src/components/Table/DebouncedInput';
 
 type Value = { value: string | number; label?: string };
 
-const options = [
+const OPTIONS = [
   {
     value: Role.User,
     label: Role.User,
@@ -232,7 +232,7 @@ const Users = () => {
           <span className='text-gray-700 font-bold text-[14px]'>
             <Select
               isSearchable={false}
-              options={options}
+              options={OPTIONS}
               value={selectedValue}
               styles={styles}
               hideSelectedOptions
@@ -253,8 +253,8 @@ const Users = () => {
             className={classNames(
               'text-[14px] text-white font-bold py-[5px] px-[20px] rounded-full',
               {
-                'bg-red-600': info?.row?.original?.banned == false,
-                'bg-green-600': info?.row?.original?.banned == true,
+                'bg-red-600': !info?.row?.original?.banned,
+                'bg-green-600': info?.row?.original?.banned,
               }
             )}
             onClick={() => {

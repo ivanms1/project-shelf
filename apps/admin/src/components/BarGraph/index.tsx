@@ -4,14 +4,15 @@ import {
   Area,
   XAxis,
   YAxis,
-  CartesianGrid,
   Tooltip,
-  Legend,
   ResponsiveContainer,
 } from 'recharts';
 
-function Index({ fillColor }) {
-  console.log({ fillColor });
+interface BarGraphProps {
+  fillColor: string;
+}
+
+function BarGraph({ fillColor }: BarGraphProps) {
   const data = [
     {
       name: 'Sunday',
@@ -69,7 +70,6 @@ function Index({ fillColor }) {
           <XAxis dataKey='name' />
           <YAxis />
           <Tooltip />
-          {/* <Legend /> */}
           <Area
             type='monotone'
             dataKey='project'
@@ -82,4 +82,4 @@ function Index({ fillColor }) {
   );
 }
 
-export default Index;
+export default BarGraph;

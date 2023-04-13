@@ -10,8 +10,6 @@ function Index() {
   });
   const { data: projectsAdminData } = useGetProjectsAdminQuery();
 
-  console.log({ data });
-
   return (
     <div className='w-full h-full  flex flex-col border-2'>
       {/* <p className='text-gray-900 text-3xl font-bold'>Dashboard</p> */}
