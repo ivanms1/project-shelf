@@ -18,6 +18,9 @@ import useIsProjectAuthor from '@/hooks/useIsProjectAuthor';
 
 import WorldIcon from '@/assets/icons/world-icon.svg';
 import GithubIcon from '@/assets/icons/github.svg';
+import ReportIcon from '@/assets/icons/report.svg';
+import ShareIcon from '@/assets/icons/share.svg';
+import ShareModal from '@/components/ShareModal';
 
 const DATE_OPTIONS: Intl.DateTimeFormatOptions = {
   weekday: 'long',
@@ -28,6 +31,8 @@ const DATE_OPTIONS: Intl.DateTimeFormatOptions = {
 
 function Project() {
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
+  const [isShareModalOpen, setIsShareModalOpen] = useState(false);
+
   const router = useRouter();
 
   const { t } = useTranslation('project');
@@ -169,7 +174,25 @@ function Project() {
               </div>
             </div>
           </div>
-          <LikeButton project={data?.project} />
+          <div className='flex flex-row items-start gap-[50px] '>
+            <LikeButton project={data?.project} />
+            <div className='flex flex-col gap-[20px] py-[300px]'>
+              <button
+                onClick={() => alert('asd')}
+                title='Report Project'
+                className='w-[40px] h-[40px] flex items-center justify-center rounded-[10px] bg-grey-dark cursor-pointer'
+              >
+                <ReportIcon />
+              </button>
+              <button
+                onClick={() => setIsShareModalOpen(true)}
+                title='Share Project'
+                className='w-[40px] h-[40px] flex items-center justify-center rounded-[10px] bg-grey-dark cursor-pointer'
+              >
+                <ShareIcon />
+              </button>
+            </div>
+          </div>
         </div>
         {isProjectOwner && (
           <div className='flex gap-5 mr-0 ml-auto'>
@@ -207,6 +230,11 @@ function Project() {
             </Modal>
           </div>
         )}
+        <ShareModal
+          project={data?.project}
+          isOpen={isShareModalOpen}
+          onClose={() => setIsShareModalOpen(false)}
+        />
       </div>
 
       <NextSeo

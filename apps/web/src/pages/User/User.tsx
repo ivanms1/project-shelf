@@ -70,7 +70,7 @@ const User = () => {
 
   return (
     <div className='bg-black'>
-      <div className='relative flex flex-col items-center lg:items-start'>
+      <div className='relative flex flex-col items-center lg:items-start '>
         <Image
           className='w-full h-[320px] object-cover'
           src={data?.user?.cover ?? COVER_PLACEHOLDER}
@@ -81,7 +81,7 @@ const User = () => {
 
         {user?.avatar && (
           <Image
-            className='absolute top-[250px] left-none lg:left-[150px]  rounded-lg border-2 border-black'
+            className='absolute bottom-[-70px] left-none lg:left-[270px]  rounded-lg border-2 border-black'
             src={user?.avatar}
             alt={user?.name}
             height={320}
@@ -90,10 +90,11 @@ const User = () => {
         )}
       </div>
 
-      <div className='mt-8 lg:mt-16 py-[40px] px-10 lg:px-[155px]'>
+      <div className='mt-8 lg:mt-16 py-[40px] w-full max-w-[70vw] m-auto'>
         <UserInfo />
       </div>
-      <div className='bg-grey-dark py-[40px] px-10 lg:px-[155px]'>
+      <div className='max-w-[60vw] w-full m-auto flex flex-col mb-[40px]'>
+        <span className='text-[35px] mb-[50px]'>Projects</span>
         <ProjectsGrid
           projects={projectsData?.getUserProjects?.results}
           onRefetch={onRefetch}

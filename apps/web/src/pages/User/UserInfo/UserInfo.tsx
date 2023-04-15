@@ -130,16 +130,18 @@ const UserInfo = () => {
           {data?.user?.name}
         </h4>
 
-        <Button
-          variant='primary'
-          onClick={handleFollowUser}
-          disabled={user?.id === currentUser?.id}
-        >
-          <div className='flex flex-row items-center justify-center gap-3'>
-            <PlusIcon />
-            {t(isFollowingData?.user?.isFollowing ? 'unfollow' : 'follow')}
-          </div>
-        </Button>
+        {currentUser?.id !== query.id && (
+          <Button
+            variant='primary'
+            onClick={handleFollowUser}
+            disabled={user?.id === currentUser?.id}
+          >
+            <div className='flex flex-row items-center justify-center gap-3'>
+              <PlusIcon />
+              {t(isFollowingData?.user?.isFollowing ? 'unfollow' : 'follow')}
+            </div>
+          </Button>
+        )}
       </div>
 
       <div className='flex flex-col gap-10 mt-5'>

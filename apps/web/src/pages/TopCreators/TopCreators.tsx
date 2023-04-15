@@ -64,17 +64,19 @@ const TopCreators = () => {
   );
 
   return (
-    <div className='bg-black flex flex-col px-28 py-20 max-lg:px-[30px] min-h-[100vh] max-lg:min-h-[70vh]'>
-      <div className='flex flex-col gap-5 mb-20'>
-        <h1 className='font-semibold text-5xl'>{t('top-creators')}</h1>
-        <p className='text-[22px]'>{t('top-creators-subtitle')}</p>
+    <div className='bg-black flex flex-col px-28 py-20 max-lg:px-[30px] min-h-[100vh] max-lg:min-h-[70vh] items-center '>
+      <div className='max-w-[70vw]  w-full'>
+        <div className='flex flex-col gap-5 mb-20'>
+          <h1 className='font-semibold text-5xl'>{t('top-creators')}</h1>
+          <p className='text-[22px]'>{t('top-creators-subtitle')}</p>
+        </div>
+        <Tabs
+          tabs={TABS}
+          onChange={handleTabChange}
+          defaultIndex={currentTab}
+          tabPanelClassName='pt-10'
+        />
       </div>
-      <Tabs
-        tabs={TABS}
-        onChange={handleTabChange}
-        defaultIndex={currentTab}
-        tabPanelClassName='pt-10'
-      />
       <NextSeo
         title={t('creators-seo-title')}
         description={t('creators-seo-description')}

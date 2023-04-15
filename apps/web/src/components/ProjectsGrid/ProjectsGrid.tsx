@@ -29,7 +29,7 @@ const ProjectsGrid = ({
           projects?.length === 0 &&
           SKELETON_ARRAY.map((_, index) => <CardSkeleton key={index} />)}
         {projects?.map((project) => (
-          <ProjectCard key={project?.id} project={project} />
+          <ProjectCard key={project?.id} project={project} light />
         ))}
         {!loading && nextCursor && (
           <Waypoint onEnter={onRefetch} bottomOffset='-50%' />

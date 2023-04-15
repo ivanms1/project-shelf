@@ -11,6 +11,7 @@ const users = Array.from({ length: 50 }).map(() => {
     email: faker.internet.email(),
     avatar: faker.image.avatar(),
     github: faker.internet.userName(),
+    cover: faker.image.abstract(),
   };
 });
 

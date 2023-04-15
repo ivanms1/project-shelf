@@ -118,45 +118,47 @@ const ProjectCard = ({ project, light, noLike }: ProjectCardProps) => {
       </div>
       <div
         className={classNames(
-          'rounded-b-lg text-white p-[20px] flex flex-col justify-between h-[160px]',
+          'rounded-b-lg text-white p-[20px] flex flex-col justify-between',
           { ['bg-black']: !light },
           { ['bg-grey-dark']: light },
           { ['h-auto']: noLike }
         )}
       >
-        <div className='flex flex-col items-start gap-y-3 cursor-pointer'>
+        <div className='flex flex-col items-start gap-y-3 cursor-pointer '>
           <p className='text-lg font-medium'>{project.title}</p>
-          <Link href={`/user/${project?.author?.id}`} passHref>
-            <div className='group flex items-center gap-x-2 '>
-              {project?.author?.avatar && (
-                <Image
-                  alt={project?.author.name}
-                  src={project?.author?.avatar}
-                  width={35}
-                  height={35}
-                  className='rounded-circle border-2 transition duration-400 ease-in border-transparent group-hover:border-primary'
-                />
-              )}
-              <span className='font-light'>{project?.author?.name}</span>
-            </div>
-          </Link>
-        </div>
-
-        {!noLike && (
-          <div className='flex flex-row items-center place-self-end gap-x-2'>
-            <p className='w-[10px] mr-2 text-right'>{project.likesCount}</p>
-            <Button variant='ghost' onClick={handleLike}>
-              <HeartIcon
-                className={classNames(
-                  'w-[25px] fill-grey-lighter scale-105 transition ease-out duration-100 hover:fill-pink-light active:scale-75',
-                  {
-                    'fill-pink-light': project?.isLiked,
-                  }
+          <div className=' w-full flex flex-row justify-between'>
+            <Link href={`/user/${project?.author?.id}`} passHref>
+              <div className='group flex items-center gap-x-2 '>
+                {project?.author?.avatar && (
+                  <Image
+                    alt={project?.author.name}
+                    src={project?.author?.avatar}
+                    width={35}
+                    height={35}
+                    className='rounded-circle border-2 transition duration-400 ease-in border-transparent group-hover:border-primary'
+                  />
                 )}
-              />
-            </Button>
+                <span className='font-light'>{project?.author?.name}</span>
+              </div>
+            </Link>
+
+            {!noLike && (
+              <div className='flex flex-row items-center place-self-end gap-x-2 '>
+                <p className='w-[10px] mr-2 text-right'>{project.likesCount}</p>
+                <Button variant='ghost' onClick={handleLike}>
+                  <HeartIcon
+                    className={classNames(
+                      'w-[25px] fill-grey-lighter scale-105 transition ease-out duration-100 hover:fill-pink-light active:scale-75',
+                      {
+                        'fill-pink-light': project?.isLiked,
+                      }
+                    )}
+                  />
+                </Button>
+              </div>
+            )}
           </div>
-        )}
+        </div>
       </div>
     </div>
   );
