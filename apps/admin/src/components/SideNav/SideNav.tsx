@@ -66,7 +66,7 @@ const SideNav = () => {
           </Button>
         </Link>
         <Link href='/logout'>
-          <Button icon={<LogOut />} onClick={() => signOut()}>
+          <Button icon={<LogOut />} onClick={signOut}>
             Log Out
           </Button>
         </Link>

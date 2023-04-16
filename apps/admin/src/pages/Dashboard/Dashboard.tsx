@@ -5,15 +5,11 @@ import BarGraph from '../../components/BarGraph';
 import { useGetAllUsersQuery, useGetProjectsAdminQuery } from 'apollo-hooks';
 
 function Index() {
-  const { data } = useGetAllUsersQuery({
-    fetchPolicy: 'network-only',
-  });
+  const { data } = useGetAllUsersQuery();
   const { data: projectsAdminData } = useGetProjectsAdminQuery();
 
   return (
     <div className='w-full h-full  flex flex-col border-2'>
-      {/* <p className='text-gray-900 text-3xl font-bold'>Dashboard</p> */}
-
       <div className=' flex flex-row gap-[100px] pb-[40px]'>
         <div className=' h-[266px] w-[232px] py-[20px] px-[60px] bg-white flex flex-col items-center justify-center gap-[20px] rounded-[14px] border-2 border-[#72767C]-200'>
           <span className='w-[40px] h-[40px] rounded-circle flex items-center justify-center bg-red-200 '></span>
@@ -55,8 +51,8 @@ function Index() {
         </div>
       </div>
 
-      <div className='flex flex-row gap-[50px] h-[100%] w-[100%] '>
-        <div className='flex flex-col h-[100%] w-[100%] gap-[20px] bg-white rounded-[14px] py-[22px] px-[24px]'>
+      <div className='flex flex-row gap-[50px] h-full w-full '>
+        <div className='flex flex-col h-full w-full gap-[20px] bg-white rounded-[14px] py-[22px] px-[24px]'>
           <div className='flex flex-row text-[#242731] text-[20px] '>
             <span className='font-bold'>
               User <span className='font-normal'>Statistics</span>
@@ -65,7 +61,7 @@ function Index() {
           <BarGraph fillColor='#FF764C' />
         </div>
 
-        <div className='flex flex-col h-[100%] w-[100%] gap-[20px] bg-white rounded-[14px] py-[22px] px-[24px]'>
+        <div className='flex flex-col h-full w-full gap-[20px] bg-white rounded-[14px] py-[22px] px-[24px]'>
           <div className='flex flex-row text-[#242731] text-[20px] '>
             <span className='font-bold'>
               Project <span className='font-normal'>Statistics</span>
@@ -75,7 +71,6 @@ function Index() {
         </div>
       </div>
 
-      {/* </div> */}
       <NextSeo title='Dashboard' />
     </div>
   );

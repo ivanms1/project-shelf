@@ -90,7 +90,7 @@ function Table({ instance, loading, onFetchMore }: TableProps) {
       </div>
 
       {noRows && !loading && (
-        <div className='h-[100%] max-h-[400px] flex items-center justify-center text-gray-700 font-bold text-[25px]'>
+        <div className='h-full max-h-[400px] flex items-center justify-center text-gray-700 font-bold text-[25px]'>
           No Data
         </div>
       )}

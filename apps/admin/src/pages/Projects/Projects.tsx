@@ -194,12 +194,12 @@ const Projects = () => {
             <Modal
               open={openDeleteModal}
               onClose={() => setOpenDeleteModal(false)}
-              modalClassName='bg-white flex flex-col items-center justify-center p-[20px] h-[full] w-[500px] '
+              modalClassName='bg-white flex flex-col  justify-center p-[20px] h-[full] w-[500px] '
             >
               <p className=' text-center text-[30px] mb-[20px] font-semibold w-[full]'>
                 Are you sure !
               </p>
-              <div className='flex justify-between w-[full]'>
+              <div className='flex justify-between w-[full] '>
                 <Button
                   variant='secondary'
                   onClick={() => deleteProjectClick(info?.row?.original?.id)}
@@ -215,8 +215,7 @@ const Projects = () => {
                 'text-[14px] text-white font-bold py-[5px] px-[20px] rounded-full bg-red-600'
               )}
               onClick={() => {
-                deleteProjectClick(info?.row?.original?.id);
-                // setOpenDeleteModal(true);
+                setOpenDeleteModal(true);
               }}
             >
               Delete
