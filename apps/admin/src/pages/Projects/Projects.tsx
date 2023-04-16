@@ -247,7 +247,7 @@ const Projects = () => {
           type='text'
           placeholder='Search'
           value={search}
-          className='w-full h-[50px] rounded-[10px] border-[1px] border-gray-300 p-[10px] focus:outline-none focus:border-[#3f51b5]'
+          className='w-full h-[50px] rounded-[10px] border-[1px] border-gray-300 p-[10px] focus:outline-none focus:border-blue'
           onChange={(e) => {
             setSearch(e.target.value);
           }}

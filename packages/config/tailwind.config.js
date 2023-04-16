@@ -14,11 +14,15 @@ module.exports = {
         'red-light': '#FF6250',
         silver: '#CCCCCC',
         'pink-light': '#ea4c89',
+        blue: '#3f51b5',
       },
       backgroundImage: {
-        'gradient-primary': 'linear-gradient(128.15deg, #A259FF 49.75%, #377DF7 136.56%);',
-        'gradient-secondary': 'linear-gradient(100.92deg, #A259FF 13.57%, #FF6250 97.65%);',
-        'step-icon': 'linear-gradient(101.76deg, #A259FF 11.55%, #3B3B3B 77.45%);'
+        'gradient-primary':
+          'linear-gradient(128.15deg, #A259FF 49.75%, #377DF7 136.56%);',
+        'gradient-secondary':
+          'linear-gradient(100.92deg, #A259FF 13.57%, #FF6250 97.65%);',
+        'step-icon':
+          'linear-gradient(101.76deg, #A259FF 11.55%, #3B3B3B 77.45%);',
       },
       zIndex: {
         'loading-overlay': '999',
@@ -36,6 +40,10 @@ module.exports = {
       },
     },
   },
-  content: ['../../packages/ui/**/*.{js,ts,jsx,tsx}', './pages/**/*.{js,ts,jsx,tsx}', './src/**/*.{js,ts,jsx,tsx}'],
+  content: [
+    '../../packages/ui/**/*.{js,ts,jsx,tsx}',
+    './pages/**/*.{js,ts,jsx,tsx}',
+    './src/**/*.{js,ts,jsx,tsx}',
+  ],
   plugins: [],
 };

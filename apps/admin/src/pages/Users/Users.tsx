@@ -100,44 +100,46 @@ const Users = () => {
     });
   }, [debouncedSearchTerm, sorting]);
 
-  const updateUser = async (user, role, action) => {
+  const changeUserRole = async (user, role) => {
     try {
-      if (action == 'BAN') {
-        const data = await updateUserAsAdmin({
-          variables: {
-            input: {
-              banned: !user.banned,
-              id: user.id,
-              role: user.role,
-            },
+      const data = await updateUserAsAdmin({
+        variables: {
+          input: {
+            banned: user.banned,
+            id: user.id,
+            role: role,
           },
-        });
+        },
+      });
 
-        if (data) {
-          notifySuccess(
-            `User ${
-              data?.data?.updateUserAsAdmin?.banned ? 'banned' : 'unbanned'
-            } successfully`
-          );
-        }
+      if (data) {
+        notifySuccess(
+          `User status changed to ${data?.data?.updateUserAsAdmin?.role} successfully`
+        );
       }
+    } catch (error) {
+      notifyError();
+    }
+  };
 
-      if (action == 'ROLE') {
-        const data = await updateUserAsAdmin({
-          variables: {
-            input: {
-              banned: user.banned,
-              id: user.id,
-              role: role,
-            },
+  const banUser = async (user) => {
+    try {
+      const data = await updateUserAsAdmin({
+        variables: {
+          input: {
+            banned: !user.banned,
+            id: user.id,
+            role: user.role,
           },
-        });
+        },
+      });
 
-        if (data) {
-          notifySuccess(
-            `User status changed to ${data?.data?.updateUserAsAdmin?.role} successfully`
-          );
-        }
+      if (data) {
+        notifySuccess(
+          `User ${
+            data?.data?.updateUserAsAdmin?.banned ? 'banned' : 'unbanned'
+          } successfully`
+        );
       }
     } catch (error) {
       notifyError();
@@ -237,7 +239,7 @@ const Users = () => {
               styles={styles}
               hideSelectedOptions
               onChange={({ value }) => {
-                updateUser(info?.row?.original, value, 'ROLE');
+                changeUserRole(info?.row?.original, value);
               }}
             />
           </span>
@@ -258,7 +260,7 @@ const Users = () => {
               }
             )}
             onClick={() => {
-              updateUser(info?.row?.original, undefined, 'BAN');
+              banUser(info?.row?.original);
             }}
           >
             {info?.row?.original?.banned ? 'Unban' : 'Ban'}
@@ -287,7 +289,7 @@ const Users = () => {
         type='text'
         placeholder='Search'
         value={search}
-        className='w-full h-[50px] rounded-[10px] border-[1px] border-gray-300 p-[10px] focus:outline-none focus:border-[#3f51b5]'
+        className='w-full h-[50px] rounded-[10px] border-[1px] border-gray-300 p-[10px] focus:outline-none focus:border-blue'
         onChange={(e) => {
           setSearch(e.target.value);
         }}
