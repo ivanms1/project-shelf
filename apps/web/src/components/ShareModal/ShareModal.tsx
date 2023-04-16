@@ -2,22 +2,20 @@ import React from 'react';
 import { Modal } from 'ui';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
+import { toast } from 'react-hot-toast';
 
 function ShareModal({ project, isOpen, onClose }) {
-  console.log({ project });
   const router = useRouter();
-  console.log(router);
 
   return (
     <Modal
       open={isOpen}
       onClose={onClose}
-      modalClassName='bg-grey-dark relative'
-      contentClassName='p-12 min-w-[600px] max-lg:min-w-0 max-lg:w-screen max-lg:px-4'
+      modalClassName='bg-grey-dark relative rounded-[3%]'
+      contentClassName='p-[40px] rounded-[10px] min-w-[400px] max-lg:min-w-0 max-lg:w-screen max-lg:px-4'
     >
-      <div className='flex flex-col  border-2 border-red-200 overflow-hidden'>
-        <div>
-          this is share model
+      <div className='flex flex-col  overflow-hidden items-center'>
+        <div className='absolute overflow-hidden  w-[300px] h-[250px] rounded-[10px] z-10 top-[-80px]'>
           <Image
             className='rounded-t-lg object-cover  transition ease-in-out duration-300 hover:brightness-75 hover:opacity-100 '
             src={project.preview}
@@ -26,6 +24,25 @@ function ShareModal({ project, isOpen, onClose }) {
             width={220}
             height={20}
           />
+        </div>
+        <div className='flex flex-col items-center mt-[120px]'>
+          <p className='my-[30px] font-[600] text-[24px] text-center max-w-[350px]'>
+            Share this with you social Community
+          </p>
+          <div className='w-full px-[20px] py-[8px] flex flex-row justify-between rounded-[5px] text-left text-lightBlack bg-white '>
+            <p className='truncate w-full max-w-[250px] text-black'>
+              {router.query.id}
+            </p>
+            <button
+              className='text-red-600 font-medium z-10'
+              onClick={() => {
+                navigator.clipboard.writeText(window.location.href);
+                toast.success('Copied');
+              }}
+            >
+              Copy
+            </button>
+          </div>
         </div>
       </div>
     </Modal>

@@ -98,143 +98,147 @@ function Project() {
           priority
         />
       </div>
-      <div className='flex flex-col bg-black px-28 py-10 max-lg:px-[30px]'>
-        <div className=' flex justify-between text-white max-lg:flex-col'>
-          <div className='max-w-2xl max-lg: mb-7'>
-            <div className='mb-8'>
-              <h1 className='text-4xl font-semibold mb-3'>
-                {data?.project?.title}
-              </h1>
-              <p className='text-grey-light'>
-                {t('created-at', {
-                  date: new Date(data?.project?.createdAt).toLocaleDateString(
-                    undefined,
-                    DATE_OPTIONS
-                  ),
-                })}
-              </p>
-            </div>
-            <div className='flex flex-col gap-8'>
-              <div className='flex flex-col gap-[10px]'>
-                <p className='text-grey-light font-mono'>{t('created-by')}</p>
-                <Link href={`/user/${data?.project?.author?.id}`}>
-                  <div className='flex gap-3'>
-                    <Image
-                      className='rounded-full'
-                      alt={data?.project?.author?.name}
-                      height={24}
-                      width={24}
-                      src={data?.project?.author?.avatar}
-                    />
-                    <p>{data?.project?.author?.name}</p>
-                  </div>
-                </Link>
+      <div className='bg-black  px-28 py-10'>
+        <div className='flex flex-col w-full max-w-[70vw] mx-auto max-lg:px-[30px]'>
+          <div className=' flex justify-between text-white max-lg:flex-col'>
+            <div className='max-w-2xl max-lg: mb-7'>
+              <div className='mb-8'>
+                <h1 className='text-4xl font-semibold mb-3'>
+                  {data?.project?.title}
+                </h1>
+                <p className='text-grey-light'>
+                  {t('created-at', {
+                    date: new Date(data?.project?.createdAt).toLocaleDateString(
+                      undefined,
+                      DATE_OPTIONS
+                    ),
+                  })}
+                </p>
               </div>
-              <div className='flex flex-col gap-[10px]'>
-                <p className='text-grey-light font-mono'>{t('description')}</p>
-                <p>{data?.project?.description}</p>
-              </div>
-              <div className='flex flex-col gap-[10px]'>
-                <p className='text-grey-light font-mono'>{t('details')}</p>
-                <div className='flex flex-col gap-3'>
-                  <a
-                    href={data?.project?.siteLink}
-                    className='flex gap-3'
-                    target='_blank'
-                    rel='noopener noreferrer'
-                  >
-                    <WorldIcon className='w-6 h-6' />
-                    <p>{t('view-website')}</p>
-                  </a>
-
-                  <a
-                    className='flex gap-3'
-                    href={data?.project?.repoLink}
-                    target='_blank'
-                    rel='noopener noreferrer'
-                  >
-                    <GithubIcon className='w-[22px] fill-grey-light' />
-                    <p>{t('view-github')}</p>
-                  </a>
+              <div className='flex flex-col gap-8'>
+                <div className='flex flex-col gap-[10px]'>
+                  <p className='text-grey-light font-mono'>{t('created-by')}</p>
+                  <Link href={`/user/${data?.project?.author?.id}`}>
+                    <div className='flex gap-3'>
+                      <Image
+                        className='rounded-full'
+                        alt={data?.project?.author?.name}
+                        height={24}
+                        width={24}
+                        src={data?.project?.author?.avatar}
+                      />
+                      <p>{data?.project?.author?.name}</p>
+                    </div>
+                  </Link>
                 </div>
-              </div>
-
-              <div className='flex flex-col gap-[20px]'>
-                <p className='text-grey-light font-mono'>{t('tags')}</p>
-                <div className='flex gap-5 max-lg:flex-col'>
-                  {data?.project?.tags.map((tag) => (
-                    <p
-                      key={tag}
-                      className='bg-grey-dark px-[30px] py-3 uppercase w-fit rounded-[20px] font-semibold'
+                <div className='flex flex-col gap-[10px]'>
+                  <p className='text-grey-light font-mono'>
+                    {t('description')}
+                  </p>
+                  <p>{data?.project?.description}</p>
+                </div>
+                <div className='flex flex-col gap-[10px]'>
+                  <p className='text-grey-light font-mono'>{t('details')}</p>
+                  <div className='flex flex-col gap-3'>
+                    <a
+                      href={data?.project?.siteLink}
+                      className='flex gap-3'
+                      target='_blank'
+                      rel='noopener noreferrer'
                     >
-                      {tag}
-                    </p>
-                  ))}
+                      <WorldIcon className='w-6 h-6' />
+                      <p>{t('view-website')}</p>
+                    </a>
+
+                    <a
+                      className='flex gap-3'
+                      href={data?.project?.repoLink}
+                      target='_blank'
+                      rel='noopener noreferrer'
+                    >
+                      <GithubIcon className='w-[22px] fill-grey-light' />
+                      <p>{t('view-github')}</p>
+                    </a>
+                  </div>
+                </div>
+
+                <div className='flex flex-col gap-[20px]'>
+                  <p className='text-grey-light font-mono'>{t('tags')}</p>
+                  <div className='flex gap-5 max-lg:flex-col'>
+                    {data?.project?.tags.map((tag) => (
+                      <p
+                        key={tag}
+                        className='bg-grey-dark px-[30px] py-3 uppercase w-fit rounded-[20px] font-semibold'
+                      >
+                        {tag}
+                      </p>
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          <div className='flex flex-row items-start gap-[50px] '>
-            <LikeButton project={data?.project} />
-            <div className='flex flex-col gap-[20px] py-[300px]'>
-              <button
-                onClick={() => alert('asd')}
-                title='Report Project'
-                className='w-[40px] h-[40px] flex items-center justify-center rounded-[10px] bg-grey-dark cursor-pointer'
-              >
-                <ReportIcon />
-              </button>
-              <button
-                onClick={() => setIsShareModalOpen(true)}
-                title='Share Project'
-                className='w-[40px] h-[40px] flex items-center justify-center rounded-[10px] bg-grey-dark cursor-pointer'
-              >
-                <ShareIcon />
-              </button>
+            <div className='flex flex-row items-start gap-[50px] '>
+              <LikeButton project={data?.project} />
+              <div className='flex flex-col gap-[20px] py-[300px]'>
+                <button
+                  onClick={() => toast.success('Reported')}
+                  title='Report Project'
+                  className='w-[40px] h-[40px] flex items-center justify-center rounded-[10px] bg-grey-dark cursor-pointer'
+                >
+                  <ReportIcon />
+                </button>
+                <button
+                  onClick={() => setIsShareModalOpen(true)}
+                  title='Share Project'
+                  className='w-[40px] h-[40px] flex items-center justify-center rounded-[10px] bg-grey-dark cursor-pointer'
+                >
+                  <ShareIcon />
+                </button>
+              </div>
             </div>
           </div>
+          {isProjectOwner && (
+            <div className='flex gap-5 mr-0 ml-auto'>
+              <Link href={`/project-edit/${router?.query?.id}`}>
+                {t('common:edit')}
+              </Link>
+
+              <Button
+                variant='ghost'
+                className='text-red-500'
+                onClick={() => setOpenDeleteModal(true)}
+              >
+                {t('common:delete')}
+              </Button>
+
+              <Modal
+                open={openDeleteModal}
+                onClose={() => setOpenDeleteModal(false)}
+                modalClassName='bg-grey-dark flex flex-col justify-center p-12 max-lg:h-[50vh]'
+              >
+                <p className='mb-10 text-2xl font-semibold'>
+                  {t('project:are-you-sure')}
+                </p>
+                <div className='flex justify-between'>
+                  <Button
+                    variant='secondary'
+                    onClick={() => deleteProjectClick(data?.project?.id)}
+                  >
+                    {t('common:yes')}
+                  </Button>
+                  <Button onClick={() => setOpenDeleteModal(false)}>
+                    {t('common:no')}
+                  </Button>
+                </div>
+              </Modal>
+            </div>
+          )}
+          <ShareModal
+            project={data?.project}
+            isOpen={isShareModalOpen}
+            onClose={() => setIsShareModalOpen(false)}
+          />
         </div>
-        {isProjectOwner && (
-          <div className='flex gap-5 mr-0 ml-auto'>
-            <Link href={`/project-edit/${router?.query?.id}`}>
-              {t('common:edit')}
-            </Link>
-
-            <Button
-              variant='ghost'
-              className='text-red-500'
-              onClick={() => setOpenDeleteModal(true)}
-            >
-              {t('common:delete')}
-            </Button>
-
-            <Modal
-              open={openDeleteModal}
-              onClose={() => setOpenDeleteModal(false)}
-              modalClassName='bg-grey-dark flex flex-col justify-center p-12 max-lg:h-[50vh]'
-            >
-              <p className='mb-10 text-2xl font-semibold'>
-                {t('project:are-you-sure')}
-              </p>
-              <div className='flex justify-between'>
-                <Button
-                  variant='secondary'
-                  onClick={() => deleteProjectClick(data?.project?.id)}
-                >
-                  {t('common:yes')}
-                </Button>
-                <Button onClick={() => setOpenDeleteModal(false)}>
-                  {t('common:no')}
-                </Button>
-              </div>
-            </Modal>
-          </div>
-        )}
-        <ShareModal
-          project={data?.project}
-          isOpen={isShareModalOpen}
-          onClose={() => setIsShareModalOpen(false)}
-        />
       </div>
 
       <NextSeo
