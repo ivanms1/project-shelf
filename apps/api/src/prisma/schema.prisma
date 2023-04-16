@@ -58,6 +58,7 @@ model Project {
   updatedAt   DateTime @default(now()) @updatedAt
   tags        String[]
   Like        Like[]
+  reported    String[]
 }
 
 model Like {

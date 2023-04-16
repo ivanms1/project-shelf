@@ -48,6 +48,9 @@ type Mutation {
   """Follow or unfollow a user"""
   followUser(input: FollowUserInput!): User!
 
+  """Report project"""
+  reportProject(projectId: String!): Project!
+
   """Create a new user"""
   signup(token: String!): String!
 
