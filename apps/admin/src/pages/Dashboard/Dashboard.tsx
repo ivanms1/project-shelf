@@ -4,7 +4,7 @@ import { NextSeo } from 'next-seo';
 import BarGraph from '../../components/BarGraph';
 import { useGetAllUsersQuery, useGetProjectsAdminQuery } from 'apollo-hooks';
 
-function Index() {
+function Dashboard() {
   const { data } = useGetAllUsersQuery();
   const { data: projectsAdminData } = useGetProjectsAdminQuery();
 
@@ -76,4 +76,4 @@ function Index() {
   );
 }
 
-export default Index;
+export default Dashboard;

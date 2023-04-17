@@ -8,49 +8,19 @@ import {
   ResponsiveContainer,
 } from 'recharts';
 
+import { BAR_GRAPH_DATA } from 'const';
 interface BarGraphProps {
   fillColor: string;
 }
 
 function BarGraph({ fillColor }: BarGraphProps) {
-  const data = [
-    {
-      name: 'Sunday',
-      project: 1,
-    },
-    {
-      name: 'Monday',
-      project: 20,
-    },
-    {
-      name: 'Tuesday',
-      project: 10,
-    },
-    {
-      name: 'Wednesday',
-      project: 5,
-    },
-    {
-      name: 'Thursday',
-      project: 18,
-    },
-    {
-      name: 'Friday',
-      project: 3,
-    },
-    {
-      name: 'Saturday',
-      project: 7,
-    },
-  ];
-
   return (
     <div className='h-full w-full'>
-      <ResponsiveContainer width={'100%'} height={'100%'}>
+      <ResponsiveContainer width='100%' height='100%'>
         <AreaChart
           width={500}
           height={300}
-          data={data}
+          data={BAR_GRAPH_DATA}
           margin={{
             top: 5,
             right: 10,
