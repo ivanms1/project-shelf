@@ -3,15 +3,18 @@ import { Waypoint } from 'react-waypoint';
 
 import { flexRender, type Table } from '@tanstack/react-table';
 
-interface TableProps {
-  instance: Table<any>;
-
+interface TableProps<T> {
+  instance: Table<T>;
   loading?: boolean;
   onFetchMore?: () => void;
-  onClickRow?: (data: any) => void;
+  onClickRow?: (data: T) => void;
 }
 
-function Table({ instance, loading, onFetchMore }: TableProps) {
+const Table = <T extends object>({
+  instance,
+  loading,
+  onFetchMore,
+}: TableProps<T>) => {
   const noRows = instance.getRowModel().rows.length == 0;
   return (
     <div className='w-full'>
@@ -32,8 +35,7 @@ function Table({ instance, loading, onFetchMore }: TableProps) {
                     flex: 1,
                   }}
                   {...{
-                    className:
-                      'flex w-full gap-1 text-[14px] text-[#aab4d3] p-2',
+                    className: 'flex w-full gap-1 text-sm text-[#aab4d3] p-2',
                     onClick: header?.column?.getCanSort?.()
                       ? header.column.getToggleSortingHandler()
                       : () => null,
@@ -64,7 +66,7 @@ function Table({ instance, loading, onFetchMore }: TableProps) {
                 <div
                   role='td'
                   key={cell.id}
-                  className='flex items-center p-2 text-gray-700 font-bold text-[14px]'
+                  className='flex items-center p-2 text-gray-700 font-bold text-sm'
                   style={{
                     minWidth:
                       cell.column.getSize() !== 0
@@ -90,7 +92,7 @@ function Table({ instance, loading, onFetchMore }: TableProps) {
       </div>
 
       {noRows && !loading && (
-        <div className='h-full max-h-[400px] flex items-center justify-center text-gray-700 font-bold text-[25px]'>
+        <div className='h-full max-h-[400px] flex items-center justify-center text-gray-700 font-bold text-2xl'>
           No Data
         </div>
       )}
@@ -101,6 +103,6 @@ function Table({ instance, loading, onFetchMore }: TableProps) {
       )}
     </div>
   );
-}
+};
 
 export default Table;

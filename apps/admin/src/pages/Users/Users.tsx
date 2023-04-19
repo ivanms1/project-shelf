@@ -17,12 +17,14 @@ import {
   SearchOrder,
   Role,
   type GetAllUsersAdminQuery,
+  User,
 } from 'apollo-hooks';
 
 import Table from 'src/components/Table';
 
+import useDebounce from '@/hooks/useDebounce';
+
 import GithubIcon from '@/public/assets/github.svg';
-import useDebounce from 'src/components/Table/DebouncedInput';
 
 type Value = { value: string | number; label?: string };
 
@@ -100,7 +102,7 @@ const Users = () => {
     });
   }, [debouncedSearchTerm, sorting]);
 
-  const changeUserRole = async (user, role) => {
+  const changeUserRole = async (user: Partial<User>, role: string) => {
     try {
       const data = await updateUserAsAdmin({
         variables: {
@@ -122,7 +124,7 @@ const Users = () => {
     }
   };
 
-  const banUser = async (user) => {
+  const banUser = async (user: Partial<User>) => {
     try {
       const data = await updateUserAsAdmin({
         variables: {
@@ -231,15 +233,17 @@ const Users = () => {
         };
 
         return (
-          <span className='text-gray-700 font-bold text-[14px]'>
+          <span className='text-gray-700 font-bold text-sm'>
             <Select
               isSearchable={false}
               options={OPTIONS}
               value={selectedValue}
               styles={styles}
               hideSelectedOptions
-              onChange={({ value }) => {
-                changeUserRole(info?.row?.original, value);
+              onChange={(val) => {
+                if (val && 'value' in val) {
+                  changeUserRole(info?.row?.original, String(val?.value));
+                }
               }}
             />
           </span>
@@ -253,7 +257,7 @@ const Users = () => {
         return (
           <button
             className={classNames(
-              'text-[14px] text-white font-bold py-[5px] px-[20px] rounded-full',
+              'text-[14px] text-white font-bold py-1 px-5 rounded-full',
               {
                 'bg-red-600': !info?.row?.original?.banned,
                 'bg-green-600': info?.row?.original?.banned,
@@ -283,13 +287,13 @@ const Users = () => {
   });
 
   return (
-    <div className='w-full h-full bg-white p-[30px] flex flex-col gap-[20px]'>
+    <div className='w-full h-full bg-white p-7 flex flex-col gap-5'>
       <p className='text-gray-900 text-3xl font-bold'>Users</p>
       <input
         type='text'
         placeholder='Search'
         value={search}
-        className='w-full h-[50px] rounded-[10px] border-[1px] border-gray-300 p-[10px] focus:outline-none focus:border-blue'
+        className='w-full h-[50px] rounded-md border border-gray-300 p-2.5 focus:outline-none focus:border-blue'
         onChange={(e) => {
           setSearch(e.target.value);
         }}

@@ -15,6 +15,7 @@ module.exports = {
         silver: '#CCCCCC',
         'pink-light': '#ea4c89',
         blue: '#3f51b5',
+        'dark-blue': '#242731',
       },
       backgroundImage: {
         'gradient-primary':

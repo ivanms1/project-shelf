@@ -4,7 +4,7 @@ import { NextSeo } from 'next-seo';
 
 import { Button } from 'ui';
 
-function Login() {
+const Login = () => {
   return (
     <div className='h-screen flex justify-center items-center'>
       <div className='flex flex-col'>
@@ -15,6 +15,6 @@ function Login() {
       <NextSeo title='Login | Admin' />
     </div>
   );
-}
+};
 
 export default Login;

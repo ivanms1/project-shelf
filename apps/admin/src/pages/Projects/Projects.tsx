@@ -18,11 +18,12 @@ import {
   useReactTable,
 } from '@tanstack/react-table';
 
+import useDebounce from '@/hooks/useDebounce';
+
 import Table from 'src/components/Table';
 
 import GithubIcon from '@/public/assets/github.svg';
 import ExternalLink from '@/public/assets/external-link.svg';
-import useDebounce from 'src/components/Table/DebouncedInput';
 
 const Projects = () => {
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
@@ -115,7 +116,7 @@ const Projects = () => {
       size: 500,
       cell: (info) => {
         return (
-          <div className='flex flex-row gap-[10px] items-center'>
+          <div className='flex flex-row gap-2.5 items-center'>
             <div className='flex flex-row gap-[20px]'>
               <Image
                 src={info?.row?.original?.preview}
@@ -134,7 +135,7 @@ const Projects = () => {
                 {info?.row?.original?.tags?.map((tag, i) => (
                   <span
                     key={i}
-                    className='capitalize w-fit flex items-center bg-[#e5e7eb] px-[10px] py-[2px] rounded-lg text-gray-700 font-medium text-xs'
+                    className='capitalize w-fit flex items-center bg-[#e5e7eb] px-2.5 py-[2px] rounded-lg text-gray-700 font-medium text-xs'
                   >
                     {tag}
                   </span>
@@ -239,21 +240,21 @@ const Projects = () => {
   });
 
   return (
-    <div className='w-full h-full bg-white p-[30px] flex flex-col gap-[20px]'>
+    <div className='w-full h-full bg-white p-7 flex flex-col gap-5'>
       <p className='text-gray-900 text-3xl font-bold'>Projects</p>
       <div className='relative'>
         <input
           type='text'
           placeholder='Search'
           value={search}
-          className='w-full h-[50px] rounded-[10px] border-[1px] border-gray-300 p-[10px] focus:outline-none focus:border-blue'
+          className='w-full h-12 rounded-md border border-gray-300 p-2.5 focus:outline-none focus:border-blue'
           onChange={(e) => {
             setSearch(e.target.value);
           }}
         />
 
         {loading ? (
-          <span className='absolute right-[10px] top-[10px] '>
+          <span className='absolute right-2.5 top-2.5 '>
             <Loader />
           </span>
         ) : null}
