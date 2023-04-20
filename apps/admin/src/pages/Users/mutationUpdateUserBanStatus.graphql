@@ -1,0 +1,6 @@
+mutation UpdateUserBanStatus($isBanned: Boolean!, $userId: String!) {
+  updateUserBanStatus(isBanned: $isBanned, userId: $userId) {
+    id
+    banned
+  }
+}

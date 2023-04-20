@@ -1,10 +1,13 @@
 import jwt from 'jsonwebtoken';
 import got from 'got';
+import { Role as PrismaUserRole } from '@prisma/client';
 
 import builder from '../../builder';
 import db from '../../db';
 
 import decodeAccessToken from '../../helpers/decodeAccessToken';
+
+import { Role } from './queries';
 
 const GITHUB_API_URL = 'https://api.github.com/user';
 
@@ -22,23 +25,6 @@ const UpdateUserInput = builder.inputType('UpdateUserInput', {
     avatar: t.string(),
     cover: t.string(),
     banned: t.boolean(),
-  }),
-});
-
-const UpdateUserInputAsAdmin = builder.inputType('UpdateUserInputAsAdmin', {
-  description: 'Update the user information as an admin',
-  fields: (t) => ({
-    id: t.string(),
-    name: t.string(),
-    discord: t.string(),
-    website: t.string(),
-    twitter: t.string(),
-    bio: t.string(),
-    location: t.string(),
-    avatar: t.string(),
-    cover: t.string(),
-    banned: t.boolean(),
-    role: t.string(),
   }),
 });
 
@@ -188,11 +174,12 @@ builder.mutationType({
         });
       },
     }),
-    updateUserAsAdmin: t.prismaField({
+    updateUserRole: t.prismaField({
       type: 'User',
-      description: 'Update the user information as an admin',
+      description: 'Update the user role',
       args: {
-        input: t.arg({ type: UpdateUserInputAsAdmin, required: true }),
+        role: t.arg({ type: Role, required: true }),
+        userId: t.arg.string({ required: true }),
       },
       resolve: async (query, __, args, ctx) => {
         const currentUserId = decodeAccessToken(ctx.accessToken);
@@ -210,18 +197,57 @@ builder.mutationType({
           throw new Error('User not found');
         }
 
-        if (user?.role == 'ADMIN') {
-          return db.user.update({
-            ...query,
-            where: {
-              id: String(args.input.id),
-            },
-            data: {
-              role: args?.input?.role ?? undefined,
-              banned: args?.input?.banned ?? undefined,
-            },
-          });
+        if (user?.role !== PrismaUserRole.ADMIN) {
+          throw new Error('Not Authorized');
         }
+
+        return db.user.update({
+          ...query,
+          where: {
+            id: String(args.userId),
+          },
+          data: {
+            role: args.role,
+          },
+        });
+      },
+    }),
+    updateUserBanStatus: t.prismaField({
+      type: 'User',
+      description: 'Update the user ban status',
+      args: {
+        userId: t.arg.string({ required: true }),
+        isBanned: t.arg.boolean({ required: true }),
+      },
+      resolve: async (query, __, args, ctx) => {
+        const currentUserId = decodeAccessToken(ctx.accessToken);
+        if (!decodeAccessToken) {
+          throw new Error('Not Authorized');
+        }
+        const user = await db.user.findUnique({
+          ...query,
+          where: {
+            id: String(currentUserId),
+          },
+        });
+
+        if (!user) {
+          throw new Error('User not found');
+        }
+
+        if (user?.role !== PrismaUserRole.ADMIN) {
+          throw new Error('Not Authorized');
+        }
+
+        return db.user.update({
+          ...query,
+          where: {
+            id: String(args.userId),
+          },
+          data: {
+            banned: args.isBanned,
+          },
+        });
       },
     }),
     followUser: t.prismaField({

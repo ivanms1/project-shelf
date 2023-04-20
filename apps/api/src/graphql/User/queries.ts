@@ -174,11 +174,7 @@ builder.queryType({
             banned: true,
           },
         });
-        const results = await db.user.findMany({
-          orderBy: {
-            name: 'asc',
-          },
-        });
+        const results = await db.user.findMany();
         return { results, totalCount, bannedUsers };
       },
     }),

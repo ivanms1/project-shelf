@@ -66,8 +66,10 @@ export type Mutation = {
   updateProjectStatus: Project;
   /** Update the user information */
   updateUser: User;
-  /** Update the user information as an admin */
-  updateUserAsAdmin: User;
+  /** Update the user ban status */
+  updateUserBanStatus: User;
+  /** Update the user role */
+  updateUserRole: User;
   uploadImage: Scalars['String'];
 };
 
@@ -125,8 +127,15 @@ export type MutationUpdateUserArgs = {
 };
 
 
-export type MutationUpdateUserAsAdminArgs = {
-  input: UpdateUserInputAsAdmin;
+export type MutationUpdateUserBanStatusArgs = {
+  isBanned: Scalars['Boolean'];
+  userId: Scalars['String'];
+};
+
+
+export type MutationUpdateUserRoleArgs = {
+  role: Role;
+  userId: Scalars['String'];
 };
 
 
@@ -299,21 +308,6 @@ export type UpdateUserInput = {
   website?: InputMaybe<Scalars['String']>;
 };
 
-/** Update the user information as an admin */
-export type UpdateUserInputAsAdmin = {
-  avatar?: InputMaybe<Scalars['String']>;
-  banned?: InputMaybe<Scalars['Boolean']>;
-  bio?: InputMaybe<Scalars['String']>;
-  cover?: InputMaybe<Scalars['String']>;
-  discord?: InputMaybe<Scalars['String']>;
-  id?: InputMaybe<Scalars['String']>;
-  location?: InputMaybe<Scalars['String']>;
-  name?: InputMaybe<Scalars['String']>;
-  role?: InputMaybe<Scalars['String']>;
-  twitter?: InputMaybe<Scalars['String']>;
-  website?: InputMaybe<Scalars['String']>;
-};
-
 export type User = {
   __typename?: 'User';
   avatar?: Maybe<Scalars['String']>;
@@ -392,6 +386,22 @@ export type GetProjectsAdminQueryVariables = Exact<{
 
 export type GetProjectsAdminQuery = { __typename?: 'Query', getProjectsAdmin: { __typename?: 'ProjectsResponse', nextCursor?: string | null, prevCursor?: string | null, totalCount: number, results: Array<{ __typename?: 'Project', id: string, isApproved: boolean, title: string, preview: string, description: string, createdAt: any, repoLink: string, siteLink: string, tags: Array<string>, author: { __typename?: 'User', name: string, avatar?: string | null } }> } };
 
+export type UpdateUserBanStatusMutationVariables = Exact<{
+  isBanned: Scalars['Boolean'];
+  userId: Scalars['String'];
+}>;
+
+
+export type UpdateUserBanStatusMutation = { __typename?: 'Mutation', updateUserBanStatus: { __typename?: 'User', id: string, banned: boolean } };
+
+export type UpdateUserRoleMutationVariables = Exact<{
+  role: Role;
+  userId: Scalars['String'];
+}>;
+
+
+export type UpdateUserRoleMutation = { __typename?: 'Mutation', updateUserRole: { __typename?: 'User', id: string, role: Role } };
+
 export type GetAllUsersAdminQueryVariables = Exact<{
   input?: InputMaybe<SearchUsersInput>;
 }>;
@@ -403,13 +413,6 @@ export type GetAllUsersQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type GetAllUsersQuery = { __typename?: 'Query', getAllUsers: { __typename?: 'UserResponse', totalCount: number, bannedUsers: number, results: Array<{ __typename?: 'User', name: string, avatar?: string | null, id: string, role: Role, website?: string | null, createdAt: any, banned: boolean, github?: string | null, email?: string | null, projects?: Array<{ __typename?: 'Project', preview: string }> | null }> } };
-
-export type UpdateUserAsAdminMutationVariables = Exact<{
-  input: UpdateUserInputAsAdmin;
-}>;
-
-
-export type UpdateUserAsAdminMutation = { __typename?: 'Mutation', updateUserAsAdmin: { __typename?: 'User', id: string, banned: boolean, role: Role } };
 
 export type SignupMutationVariables = Exact<{
   token: Scalars['String'];
@@ -768,6 +771,76 @@ export function useGetProjectsAdminLazyQuery(baseOptions?: Apollo.LazyQueryHookO
 export type GetProjectsAdminQueryHookResult = ReturnType<typeof useGetProjectsAdminQuery>;
 export type GetProjectsAdminLazyQueryHookResult = ReturnType<typeof useGetProjectsAdminLazyQuery>;
 export type GetProjectsAdminQueryResult = Apollo.QueryResult<GetProjectsAdminQuery, GetProjectsAdminQueryVariables>;
+export const UpdateUserBanStatusDocument = gql`
+    mutation UpdateUserBanStatus($isBanned: Boolean!, $userId: String!) {
+  updateUserBanStatus(isBanned: $isBanned, userId: $userId) {
+    id
+    banned
+  }
+}
+    `;
+export type UpdateUserBanStatusMutationFn = Apollo.MutationFunction<UpdateUserBanStatusMutation, UpdateUserBanStatusMutationVariables>;
+
+/**
+ * __useUpdateUserBanStatusMutation__
+ *
+ * To run a mutation, you first call `useUpdateUserBanStatusMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateUserBanStatusMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateUserBanStatusMutation, { data, loading, error }] = useUpdateUserBanStatusMutation({
+ *   variables: {
+ *      isBanned: // value for 'isBanned'
+ *      userId: // value for 'userId'
+ *   },
+ * });
+ */
+export function useUpdateUserBanStatusMutation(baseOptions?: Apollo.MutationHookOptions<UpdateUserBanStatusMutation, UpdateUserBanStatusMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateUserBanStatusMutation, UpdateUserBanStatusMutationVariables>(UpdateUserBanStatusDocument, options);
+      }
+export type UpdateUserBanStatusMutationHookResult = ReturnType<typeof useUpdateUserBanStatusMutation>;
+export type UpdateUserBanStatusMutationResult = Apollo.MutationResult<UpdateUserBanStatusMutation>;
+export type UpdateUserBanStatusMutationOptions = Apollo.BaseMutationOptions<UpdateUserBanStatusMutation, UpdateUserBanStatusMutationVariables>;
+export const UpdateUserRoleDocument = gql`
+    mutation UpdateUserRole($role: Role!, $userId: String!) {
+  updateUserRole(role: $role, userId: $userId) {
+    id
+    role
+  }
+}
+    `;
+export type UpdateUserRoleMutationFn = Apollo.MutationFunction<UpdateUserRoleMutation, UpdateUserRoleMutationVariables>;
+
+/**
+ * __useUpdateUserRoleMutation__
+ *
+ * To run a mutation, you first call `useUpdateUserRoleMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateUserRoleMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateUserRoleMutation, { data, loading, error }] = useUpdateUserRoleMutation({
+ *   variables: {
+ *      role: // value for 'role'
+ *      userId: // value for 'userId'
+ *   },
+ * });
+ */
+export function useUpdateUserRoleMutation(baseOptions?: Apollo.MutationHookOptions<UpdateUserRoleMutation, UpdateUserRoleMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateUserRoleMutation, UpdateUserRoleMutationVariables>(UpdateUserRoleDocument, options);
+      }
+export type UpdateUserRoleMutationHookResult = ReturnType<typeof useUpdateUserRoleMutation>;
+export type UpdateUserRoleMutationResult = Apollo.MutationResult<UpdateUserRoleMutation>;
+export type UpdateUserRoleMutationOptions = Apollo.BaseMutationOptions<UpdateUserRoleMutation, UpdateUserRoleMutationVariables>;
 export const GetAllUsersAdminDocument = gql`
     query GetAllUsersAdmin($input: SearchUsersInput) {
   getAllUsersAdmin(input: $input) {
@@ -867,41 +940,6 @@ export function useGetAllUsersLazyQuery(baseOptions?: Apollo.LazyQueryHookOption
 export type GetAllUsersQueryHookResult = ReturnType<typeof useGetAllUsersQuery>;
 export type GetAllUsersLazyQueryHookResult = ReturnType<typeof useGetAllUsersLazyQuery>;
 export type GetAllUsersQueryResult = Apollo.QueryResult<GetAllUsersQuery, GetAllUsersQueryVariables>;
-export const UpdateUserAsAdminDocument = gql`
-    mutation UpdateUserAsAdmin($input: UpdateUserInputAsAdmin!) {
-  updateUserAsAdmin(input: $input) {
-    id
-    banned
-    role
-  }
-}
-    `;
-export type UpdateUserAsAdminMutationFn = Apollo.MutationFunction<UpdateUserAsAdminMutation, UpdateUserAsAdminMutationVariables>;
-
-/**
- * __useUpdateUserAsAdminMutation__
- *
- * To run a mutation, you first call `useUpdateUserAsAdminMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateUserAsAdminMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [updateUserAsAdminMutation, { data, loading, error }] = useUpdateUserAsAdminMutation({
- *   variables: {
- *      input: // value for 'input'
- *   },
- * });
- */
-export function useUpdateUserAsAdminMutation(baseOptions?: Apollo.MutationHookOptions<UpdateUserAsAdminMutation, UpdateUserAsAdminMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<UpdateUserAsAdminMutation, UpdateUserAsAdminMutationVariables>(UpdateUserAsAdminDocument, options);
-      }
-export type UpdateUserAsAdminMutationHookResult = ReturnType<typeof useUpdateUserAsAdminMutation>;
-export type UpdateUserAsAdminMutationResult = Apollo.MutationResult<UpdateUserAsAdminMutation>;
-export type UpdateUserAsAdminMutationOptions = Apollo.BaseMutationOptions<UpdateUserAsAdminMutation, UpdateUserAsAdminMutationVariables>;
 export const SignupDocument = gql`
     mutation Signup($token: String!) {
   signup(token: $token)

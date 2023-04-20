@@ -63,8 +63,11 @@ type Mutation {
   """Update the user information"""
   updateUser(input: UpdateUserInput!): User!
 
-  """Update the user information as an admin"""
-  updateUserAsAdmin(input: UpdateUserInputAsAdmin!): User!
+  """Update the user ban status"""
+  updateUserBanStatus(isBanned: Boolean!, userId: String!): User!
+
+  """Update the user role"""
+  updateUserRole(role: Role!, userId: String!): User!
   uploadImage(path: String!): String!
 }
 
@@ -187,21 +190,6 @@ input UpdateUserInput {
   discord: String
   location: String
   name: String
-  twitter: String
-  website: String
-}
-
-"""Update the user information as an admin"""
-input UpdateUserInputAsAdmin {
-  avatar: String
-  banned: Boolean
-  bio: String
-  cover: String
-  discord: String
-  id: String
-  location: String
-  name: String
-  role: String
   twitter: String
   website: String
 }

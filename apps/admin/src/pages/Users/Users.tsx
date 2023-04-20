@@ -12,12 +12,13 @@ import {
 } from '@tanstack/react-table';
 
 import {
-  useUpdateUserAsAdminMutation,
   useGetAllUsersAdminLazyQuery,
   SearchOrder,
   Role,
   type GetAllUsersAdminQuery,
   User,
+  useUpdateUserRoleMutation,
+  useUpdateUserBanStatusMutation,
 } from 'apollo-hooks';
 
 import Table from 'src/components/Table';
@@ -73,7 +74,8 @@ const styles: StylesConfig<Value, boolean, GroupBase<Value>> = {
 };
 
 const Users = () => {
-  const [updateUserAsAdmin] = useUpdateUserAsAdminMutation();
+  const [updateUserRole] = useUpdateUserRoleMutation();
+  const [updateUserBanStatus] = useUpdateUserBanStatusMutation();
   const [search, setSearch] = React.useState('');
   const debouncedSearchTerm = useDebounce(search, 1000);
   const [sorting, setSorting] = React.useState<SortingState>([
@@ -102,21 +104,18 @@ const Users = () => {
     });
   }, [debouncedSearchTerm, sorting]);
 
-  const changeUserRole = async (user: Partial<User>, role: string) => {
+  const changeUserRole = async (user: Partial<User>, role: Role) => {
     try {
-      const data = await updateUserAsAdmin({
+      const data = await updateUserRole({
         variables: {
-          input: {
-            banned: user.banned,
-            id: user.id,
-            role: role,
-          },
+          userId: user.id,
+          role: role,
         },
       });
 
       if (data) {
         notifySuccess(
-          `User status changed to ${data?.data?.updateUserAsAdmin?.role} successfully`
+          `User status changed to ${data?.data?.updateUserRole?.role} successfully`
         );
       }
     } catch (error) {
@@ -126,20 +125,17 @@ const Users = () => {
 
   const banUser = async (user: Partial<User>) => {
     try {
-      const data = await updateUserAsAdmin({
+      const data = await updateUserBanStatus({
         variables: {
-          input: {
-            banned: !user.banned,
-            id: user.id,
-            role: user.role,
-          },
+          userId: user.id,
+          isBanned: !user.banned,
         },
       });
 
       if (data) {
         notifySuccess(
           `User ${
-            data?.data?.updateUserAsAdmin?.banned ? 'banned' : 'unbanned'
+            data?.data?.updateUserBanStatus?.banned ? 'banned' : 'unbanned'
           } successfully`
         );
       }
@@ -242,7 +238,7 @@ const Users = () => {
               hideSelectedOptions
               onChange={(val) => {
                 if (val && 'value' in val) {
-                  changeUserRole(info?.row?.original, String(val?.value));
+                  changeUserRole(info?.row?.original, val?.value as Role);
                 }
               }}
             />
