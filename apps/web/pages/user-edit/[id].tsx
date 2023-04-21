@@ -8,7 +8,7 @@ export default UserEdit;
 export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ['project-form', 'common'])),
+      ...(await serverSideTranslations(locale, ['user-edit', 'common'])),
     },
   };
 };
