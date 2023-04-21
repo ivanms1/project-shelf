@@ -23,6 +23,17 @@ const builder = new SchemaBuilder<{
     TopProjectsResponse: {
       results: PrismaTypes['Project']['Shape'][];
     };
+    UserResponse: {
+      totalCount: number;
+      results: PrismaTypes['User']['Shape'][];
+      bannedUsers: number;
+    };
+    UsersResponse: {
+      nextCursor: string;
+      prevCursor: string;
+      totalCount: number;
+      results: PrismaTypes['User']['Shape'][];
+    };
   };
   Scalars: {
     Date: {

@@ -58,7 +58,7 @@ const ProjectsResponse = builder.objectType('ProjectsResponse', {
   }),
 });
 
-const SearchOrder = builder.enumType('SearchOrder', {
+export const SearchOrder = builder.enumType('SearchOrder', {
   description: 'Search order',
   values: ['asc', 'desc'] as const,
 });
@@ -96,11 +96,11 @@ builder.queryFields((t) => ({
 
       const currentUserId = decodeAccessToken(ctx.accessToken);
 
-      if (project?.authorId === currentUserId) {
-        return project;
+      if (project?.authorId !== currentUserId) {
+        throw new Error('Not authorized');
       }
 
-      throw Error('Not authorized');
+      return project;
     },
   }),
   getApprovedProjects: t.field({
@@ -120,7 +120,7 @@ builder.queryFields((t) => ({
             },
           },
           {
-            description: {
+            repoLink: {
               contains: args?.input?.search || '',
               mode: 'insensitive',
             },
@@ -162,13 +162,30 @@ builder.queryFields((t) => ({
 
       const totalCount = await db.project.count();
 
+      const filter: Prisma.ProjectScalarWhereInput | undefined = {
+        OR: [
+          {
+            title: {
+              contains: args?.input?.search || '',
+              mode: 'insensitive',
+            },
+          },
+          {
+            description: {
+              contains: args?.input?.search || '',
+              mode: 'insensitive',
+            },
+          },
+        ],
+      };
+
       if (incomingCursor) {
         results = await db.project.findMany(
-          getPaginationArgs(args as SearchArgs, undefined, false)
+          getPaginationArgs(args as SearchArgs, filter, false)
         );
       } else {
         results = await db.project.findMany(
-          getPaginationArgs(args as SearchArgs, undefined, true)
+          getPaginationArgs(args as SearchArgs, filter, true)
         );
       }
 

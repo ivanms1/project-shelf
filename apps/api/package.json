@@ -10,7 +10,8 @@
     "lint": "tsc --noEmit && TIMING=1 eslint src --fix",
     "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist",
     "generate": "yarn prisma generate",
-    "migrate:dev": "yarn prisma migrate dev"
+    "migrate:dev": "yarn prisma migrate dev",
+    "studio": "yarn prisma studio"
   },
   "devDependencies": {
     "@faker-js/faker": "^7.6.0",

@@ -1,5 +1,5 @@
-query GetCurrentUser {
-  getCurrentUser {
+query GetCurrentUserAdmin {
+  getCurrentUserAdmin {
     id
     name
     email

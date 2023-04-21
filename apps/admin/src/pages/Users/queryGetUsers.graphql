@@ -1,0 +1,20 @@
+query GetAllUsers {
+  getAllUsers {
+    results {
+      name
+      avatar
+      id
+      role
+      website
+      createdAt
+      banned
+      github
+      email
+      projects {
+        preview
+      }
+    }
+    totalCount
+    bannedUsers
+  }
+}
