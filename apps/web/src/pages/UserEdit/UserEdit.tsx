@@ -55,6 +55,16 @@ const UserEdit = () => {
   const userId = userDetails?.id;
 
   const router = useRouter();
+  const defaultValues = {
+    preview: userDetails?.avatar ?? '',
+    cover: userDetails?.cover ?? '',
+    profileName: userDetails?.name ?? '',
+    profileBio: userDetails?.bio ?? '',
+    profileLocation: userDetails?.location ?? '',
+    profileWebsite: userDetails?.website ?? '',
+    profileTwitter: userDetails?.twitter ?? '',
+    profileDiscord: userDetails?.discord ?? '',
+  };
 
   const {
     register,
@@ -65,16 +75,7 @@ const UserEdit = () => {
     reset,
     formState: { errors, dirtyFields, isDirty },
   } = useForm<FormTypes>({
-    defaultValues: {
-      preview: userDetails?.avatar,
-      cover: userDetails?.cover,
-      profileName: userDetails?.name,
-      profileBio: userDetails?.bio,
-      profileLocation: userDetails?.location,
-      profileWebsite: userDetails?.website,
-      profileTwitter: userDetails?.twitter,
-      profileDiscord: userDetails?.discord,
-    },
+    defaultValues,
     resolver: yupResolver(validationSchema),
   });
 
@@ -82,16 +83,7 @@ const UserEdit = () => {
   const [uploadImage, { loading: imageUploading }] = useUploadImageMutation();
 
   useEffect(() => {
-    reset({
-      preview: userDetails?.avatar,
-      cover: userDetails?.cover,
-      profileName: userDetails?.name,
-      profileBio: userDetails?.bio,
-      profileLocation: userDetails?.location,
-      profileWebsite: userDetails?.website,
-      profileTwitter: userDetails?.twitter,
-      profileDiscord: userDetails?.discord,
-    });
+    reset(defaultValues);
   }, [userDetails, reset]);
 
   const notifySuccess = () => toast.success(t('edit-success'));
@@ -131,15 +123,24 @@ const UserEdit = () => {
 
   const updateUserVariables = async (urls: ImageResultType[]) => {
     try {
+      const {
+        profileName: name,
+        profileBio: bio,
+        profileDiscord: discord,
+        profileWebsite: website,
+        profileTwitter: twitter,
+        profileLocation: location,
+      } = getValues();
+
       await updateUser({
         variables: {
           input: {
-            name: getValues('profileName'),
-            bio: getValues('profileBio'),
-            discord: getValues('profileDiscord'),
-            website: getValues('profileWebsite'),
-            twitter: getValues('profileTwitter'),
-            location: getValues('profileLocation'),
+            name,
+            bio,
+            discord,
+            website,
+            twitter,
+            location,
             avatar:
               typeof urls[0] === 'string' ? urls[0] : urls[0]?.data?.image,
             cover: typeof urls[1] === 'string' ? urls[1] : urls[1]?.data?.image,

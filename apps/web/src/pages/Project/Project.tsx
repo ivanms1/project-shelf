@@ -2,7 +2,11 @@ import React, { useState } from 'react';
 import Image from 'next/future/image';
 import Link from 'next/link';
 import { NextSeo } from 'next-seo';
-import { useDeleteProjectsMutation, useGetProjectQuery } from 'apollo-hooks';
+import {
+  type Project,
+  useDeleteProjectsMutation,
+  useGetProjectQuery,
+} from 'apollo-hooks';
 import { useRouter } from 'next/router';
 import { Button, Modal, LoaderOverlay } from 'ui';
 import toast from 'react-hot-toast';
@@ -40,7 +44,7 @@ function Project() {
   const [deleteProject, { loading: deleteProjectLoading }] =
     useDeleteProjectsMutation();
 
-  const deleteProjectClick = async (projectId) => {
+  const deleteProjectClick = async (projectId: string) => {
     setOpenDeleteModal(false);
 
     try {
@@ -54,9 +58,11 @@ function Project() {
               getUserProjects(existingProjects, { readField }) {
                 return {
                   ...existingProjects,
-                  results: existingProjects.results.filter((project) => {
-                    return readField('id', project) !== projectId;
-                  }),
+                  results: existingProjects.results.filter(
+                    (project: Project) => {
+                      return readField('id', project) !== projectId;
+                    }
+                  ),
                 };
               },
             },

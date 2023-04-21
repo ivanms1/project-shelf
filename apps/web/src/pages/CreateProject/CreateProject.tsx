@@ -5,10 +5,12 @@ import { NextSeo } from 'next-seo';
 import toast from 'react-hot-toast';
 import { useTranslation } from 'next-i18next';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
+import type { FetchResult } from '@apollo/client';
 
 import ProjectForm from 'src/components/ProjectForm';
 
 import {
+  UploadImageMutation,
   useCreateUserProjectMutation,
   useUploadImageMutation,
 } from 'apollo-hooks';
@@ -64,7 +66,10 @@ function CreateProject() {
     }
   };
 
-  const onCreateProject = async (values, res) => {
+  const onCreateProject = async (
+    values: FormTypes,
+    res: FetchResult<UploadImageMutation>
+  ) => {
     const createdData = await createProject({
       variables: {
         input: {

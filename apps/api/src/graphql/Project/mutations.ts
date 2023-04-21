@@ -165,9 +165,6 @@ builder.mutationFields((t) => ({
         ...query,
         where: { id: args.projectId },
         data: { isApproved: args.isApproved },
-        include: {
-          author: true,
-        },
       });
     },
   }),

@@ -18,7 +18,7 @@ import { projectValidationSchema } from 'const';
 
 export type FormTypes = {
   description: string;
-  preview: File | Blob;
+  preview: File | Blob | string;
   repoLink: string;
   siteLink: string;
   tags: { value: string; label: string }[];
@@ -63,9 +63,12 @@ const ProjectEdit = () => {
 
   const onSubmit: SubmitHandler<FormTypes> = async (values) => {
     try {
-      if (methods.getValues('preview') !== values.preview) {
+      if (
+        methods.getValues('preview') !== values.preview &&
+        typeof values.preview !== 'string'
+      ) {
         const reader = new FileReader();
-        reader.readAsDataURL(methods.getValues('preview'));
+        reader.readAsDataURL(values.preview);
         reader.onload = async () => {
           const res = await uploadImage({
             variables: {
@@ -84,7 +87,7 @@ const ProjectEdit = () => {
       } else {
         const updatedProjectData = await onUpdateProject(
           values,
-          values.preview
+          values.preview as string
         );
         if (updatedProjectData) {
           push(`/user/${data?.project?.author?.id}`);
@@ -96,7 +99,7 @@ const ProjectEdit = () => {
     }
   };
 
-  const onUpdateProject = async (editedValue, res) => {
+  const onUpdateProject = async (editedValue: FormTypes, res: string) => {
     const data = await updateProject({
       variables: {
         projectId: String(query.id),

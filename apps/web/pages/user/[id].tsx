@@ -1,6 +1,10 @@
 import User from '@/pages/User';
 import { addApolloState, initializeApollo } from 'apollo';
-import { GetAllUsersDocument, GetUserForPageQuery } from 'apollo-hooks';
+import {
+  GetAllUsersDocument,
+  GetAllUsersQuery,
+  GetUserForPageQuery,
+} from 'apollo-hooks';
 import type { GetStaticProps } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
@@ -14,7 +18,6 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
 
     await client.query<GetUserForPageQuery>({
       query: QUERY_GET_USER_FOR_PAGE,
-
       variables: {
         id: params?.id,
       },
@@ -37,11 +40,11 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
 
 export async function getStaticPaths() {
   const client = initializeApollo();
-  const data = await client.query({
+  const data = await client.query<GetAllUsersQuery>({
     query: GetAllUsersDocument,
   });
 
-  const paths = data?.data?.getUsers?.map((p) => ({
+  const paths = data?.data?.getAllUsers?.results.map((p) => ({
     params: { id: p.id },
   }));
 

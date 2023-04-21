@@ -1,0 +1,22 @@
+query GetProjectsAdmin($input: SearchProjectsInput) {
+  getProjectsAdmin(input: $input) {
+    nextCursor
+    prevCursor
+    totalCount
+    results {
+      id
+      isApproved
+      title
+      author {
+        name
+        avatar
+      }
+      preview
+      description
+      createdAt
+      repoLink
+      siteLink
+      tags
+    }
+  }
+}

@@ -1,11 +1,11 @@
 import { useGetUserForPageQuery, useGetUserProjectsQuery } from 'apollo-hooks';
 import { useRouter } from 'next/router';
-
-import Image from 'next/future/image';
-
-import ProjectsGrid from '@/components/ProjectsGrid';
 import { NextSeo } from 'next-seo';
 import { useTranslation } from 'react-i18next';
+import Image from 'next/future/image';
+import { Loader } from 'ui';
+
+import ProjectsGrid from '@/components/ProjectsGrid';
 import UserInfo from './UserInfo';
 
 const COVER_PLACEHOLDER = 'https://via.placeholder.com/1665x288';
@@ -14,7 +14,7 @@ const User = () => {
   const { query } = useRouter();
   const { t } = useTranslation('user');
 
-  const { data } = useGetUserForPageQuery({
+  const { data, loading: userLoading } = useGetUserForPageQuery({
     variables: {
       id: String(query?.id),
     },
@@ -51,6 +51,14 @@ const User = () => {
       },
     });
   };
+
+  if (userLoading) {
+    return (
+      <div className='flex justify-center items-center bg-black'>
+        <Loader size='lg' />
+      </div>
+    );
+  }
 
   if (!user) {
     return (

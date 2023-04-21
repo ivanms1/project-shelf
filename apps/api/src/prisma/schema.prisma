@@ -42,6 +42,7 @@ model User {
   userFollowingId String?
   Like            Like[]    @relation("UserLikeId")
   AuthorLike      Like[]    @relation("AuthorLikeId")
+  banned          Boolean   @default(false)
 }
 
 model Project {

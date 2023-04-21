@@ -1,0 +1,20 @@
+query GetAllUsersAdmin($input: SearchUsersInput) {
+  getAllUsersAdmin(input: $input) {
+    nextCursor
+    prevCursor
+    results {
+      avatar
+      banned
+      createdAt
+      email
+      followersCount
+      followingCount
+      github
+      id
+      location
+      name
+      role
+      projectsCount
+    }
+  }
+}
