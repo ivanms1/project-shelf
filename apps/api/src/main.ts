@@ -13,6 +13,8 @@ const DEV_ORIGINS = [
 
 const PROD_ORIGINS = [
   'https://project-shelf-dev.netlify.app',
+  'https://project-shelf-web.vercel.app',
+  'https://project-shelf-admin.vercel.app',
   'https://project-shelf.fly.dev',
 ];
 
