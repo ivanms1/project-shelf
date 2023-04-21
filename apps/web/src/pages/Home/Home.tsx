@@ -121,9 +121,7 @@ function Home() {
             </p>
           </div>
           <Button className='max-lg:hidden'>
-            <Link href='/top-creators' passHref>
-              {t('view-rankings')}
-            </Link>
+            <Link href='/top-creators'>{t('view-rankings')}</Link>
           </Button>
         </div>
         <div className='flex gap-[30px] flex-wrap justify-center max-lg:mb-10'>
@@ -135,9 +133,7 @@ function Home() {
           className='hidden w-full text-center max-lg:block'
           variant='secondary'
         >
-          <Link href='/top-creators' passHref>
-            {t('view-rankings')}
-          </Link>
+          <Link href='/top-creators'>{t('view-rankings')}</Link>
         </Button>
       </div>
       <div className='py-20 max-lg:pt-0'>
