@@ -1,4 +1,5 @@
 import User from '@/pages/User';
+
 import { addApolloState, initializeApollo } from 'apollo';
 import {
   GetAllUsersDocument,

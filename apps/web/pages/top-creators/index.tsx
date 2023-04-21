@@ -1,6 +1,6 @@
 import TopCreators from '@/pages/TopCreators';
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import type { GetStaticProps } from 'next';
 
 export default TopCreators;

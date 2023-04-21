@@ -1,4 +1,5 @@
 import ProjectEdit from '@/pages/ProjectEdit';
+
 import type { GetServerSideProps } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 

@@ -1,7 +1,7 @@
+import About from '@/pages/About';
+
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import axios from 'redaxios';
-
-import About from '@/pages/About';
 
 import { IMGBOT_ID, PROJECT_SHELF_CONTRIBUTORS_API } from 'const';
 import type { GetStaticProps } from 'next';
