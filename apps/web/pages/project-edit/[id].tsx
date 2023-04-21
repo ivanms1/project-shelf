@@ -1,10 +1,10 @@
 import ProjectEdit from '@/pages/ProjectEdit';
-import type { GetStaticProps } from 'next';
+import type { GetServerSideProps } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 export default ProjectEdit;
 
-export const getStaticProps: GetStaticProps = async ({ locale }) => {
+export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
   return {
     props: {
       ...(await serverSideTranslations(locale, ['project-form', 'common'])),
