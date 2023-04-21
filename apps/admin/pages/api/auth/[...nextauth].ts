@@ -41,6 +41,7 @@ export default NextAuth({
       return token;
     },
     session({ session, token }) {
+      // @ts-expect-error TODO: find a way to add serverToken to the session type
       session.token = token?.serverToken;
       return session;
     },

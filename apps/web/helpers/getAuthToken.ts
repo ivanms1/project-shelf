@@ -4,7 +4,7 @@ import isWindowPresent from './isWindowPresent';
 
 async function getAuthToken() {
   const session = await getSession();
-
+  // @ts-expect-error TODO: find a way to add serverToken to the session type
   return session?.token;
 }
 
