@@ -1,5 +1,5 @@
 import ProjectEdit from '@/pages/ProjectEdit';
-import { GetStaticProps } from 'next';
+import type { GetStaticProps } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 export default ProjectEdit;

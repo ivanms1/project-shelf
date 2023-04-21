@@ -4,7 +4,7 @@ import axios from 'redaxios';
 import About from '@/pages/About';
 
 import { IMGBOT_ID, PROJECT_SHELF_CONTRIBUTORS_API } from 'const';
-import { GetStaticProps } from 'next';
+import type { GetStaticProps } from 'next';
 
 export default About;
 
