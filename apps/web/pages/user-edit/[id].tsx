@@ -1,14 +1,14 @@
-import type { GetServerSideProps } from 'next';
+import type { GetStaticProps } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import UserEdit from '@/pages/UserEdit';
 
 export default UserEdit;
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
   return {
     props: {
-      ...(await serverSideTranslations(ctx.locale, ['user-edit', 'common'])),
+      ...(await serverSideTranslations(locale, ['user-edit', 'common'])),
     },
   };
 };
