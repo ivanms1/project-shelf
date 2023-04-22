@@ -120,21 +120,24 @@ function Home() {
               {t('top-creators-subtitle')}
             </p>
           </div>
-          <Button className='max-lg:hidden'>
-            <Link href='/top-creators'>{t('view-rankings')}</Link>
-          </Button>
+          <Link href='/top-creators' passHref>
+            <Button className='max-lg:hidden'>{t('view-rankings')}</Button>
+          </Link>
         </div>
         <div className='flex gap-[30px] flex-wrap justify-center max-lg:mb-10'>
           {creatorsData?.getTopCreatorsForHomePage?.results.map((creator) => (
             <TopCreator key={creator.id} creator={creator} />
           ))}
         </div>
-        <Button
-          className='hidden w-full text-center max-lg:block'
-          variant='secondary'
-        >
-          <Link href='/top-creators'>{t('view-rankings')}</Link>
-        </Button>
+
+        <Link href='/top-creators' passHref>
+          <Button
+            className='hidden w-full text-center max-lg:block'
+            variant='secondary'
+          >
+            {t('view-rankings')}
+          </Button>
+        </Link>
       </div>
       <div className='py-20 max-lg:pt-0'>
         <div className='flex justify-between items-center pb-20  max-lg:flex-col max-lg:items-start max-lg:pb-10'>
@@ -181,7 +184,7 @@ function Home() {
           <h3 className='text-[51px] font-semibold max-lg:text-[38px]'>
             {coverProject?.title}
           </h3>
-          <Link href={`/project/${coverProject?.id}`}>
+          <Link href={`/project/${coverProject?.id}`} passHref>
             <Button variant='secondary' className='w-fit max-lg:w-full'>
               {t('see-project')}
             </Button>
