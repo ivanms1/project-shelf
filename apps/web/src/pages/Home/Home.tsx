@@ -131,10 +131,7 @@ function Home() {
         </div>
 
         <Link href='/top-creators' passHref>
-          <Button
-            className='hidden w-full text-center max-lg:block'
-            variant='secondary'
-          >
+          <Button className='hidden w-full text-center max-lg:block'>
             {t('view-rankings')}
           </Button>
         </Link>
@@ -150,7 +147,7 @@ function Home() {
             </p>
           </div>
           <Button className='max-lg:hidden'>
-            <Link href='/top-creators' passHref>
+            <Link href='/top-projects' passHref>
               {t('see-all-projects')}
             </Link>
           </Button>
