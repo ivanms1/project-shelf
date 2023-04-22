@@ -45,9 +45,7 @@ const TopCreators = () => {
     },
     {
       name: t('all-time'),
-      content: (
-        <CreatorsTable interval={new Date(A_MONTH_AGO * 1000).toISOString()} />
-      ),
+      content: <CreatorsTable />,
     },
   ];
 

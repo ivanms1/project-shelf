@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { useGetTopUsersQuery } from 'apollo-hooks';
 
 interface CreatorsTableProps {
-  interval: string;
+  interval?: string;
 }
 
 const CreatorsTable = ({ interval }: CreatorsTableProps) => {
