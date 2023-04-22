@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'next-i18next';
 import { useRouter } from 'next/router';
-import { Tabs } from 'ui';
+import { Loader, Tabs } from 'ui';
 import { NextSeo } from 'next-seo';
 
 import useIsMobile from '@/hooks/useIsMobile';
@@ -19,7 +19,7 @@ const TOP_CREATOR_INTERVALS: Record<number, string> = {
 
 const TopProjects = () => {
   const { t } = useTranslation('top');
-  const { push, query } = useRouter();
+  const { push, query, isReady } = useRouter();
 
   const isMobile = useIsMobile();
 
@@ -66,12 +66,16 @@ const TopProjects = () => {
         <h1 className='font-semibold text-5xl'>{t('top-projects')}</h1>
         <p className='text-[22px]'>{t('top-projects-subtitle')}</p>
       </div>
-      <Tabs
-        tabs={TABS}
-        onChange={handleTabChange}
-        defaultIndex={currentTab}
-        tabPanelClassName='pt-10'
-      />
+      {isReady ? (
+        <Tabs
+          tabs={TABS}
+          onChange={handleTabChange}
+          defaultIndex={currentTab}
+          tabPanelClassName='pt-10'
+        />
+      ) : (
+        <Loader />
+      )}
       <NextSeo
         title={t('projects-seo-title')}
         description={t('projects-seo-description')}
