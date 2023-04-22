@@ -146,22 +146,22 @@ function Home() {
               {t('discover-more-projects-subtitle')}
             </p>
           </div>
-          <Button className='max-lg:hidden'>
-            <Link href='/top-projects' passHref>
-              {t('see-all-projects')}
-            </Link>
-          </Button>
+          <Link href='/top-projects' passHref>
+            <Button className='max-lg:hidden'>{t('see-all-projects')}</Button>
+          </Link>
         </div>
         <div className='flex gap-8 justify-between max-lg:flex-col max-lg:mb-10'>
           {restProjects.map((project) => (
             <ProjectCard key={project.id} light project={project} noLike />
           ))}
         </div>
-        <Button className='hidden w-full text-center max-lg:block'>
-          <Link href='/top-creators' passHref>
+
+        <Link href='/top-projects' passHref>
+          <Button className='hidden w-full text-center max-lg:block'>
+            {' '}
             {t('see-all-projects')}
-          </Link>
-        </Button>
+          </Button>
+        </Link>
       </div>
       <div
         className='h-[640px] flex -mx-28 max-lg:-mx-[30px] bg-cover bg-center items-end max-lg:items-center'
