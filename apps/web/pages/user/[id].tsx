@@ -1,4 +1,5 @@
 import User from '@/pages/User';
+
 import { addApolloState, initializeApollo } from 'apollo';
 import {
   GetAllUsersDocument,
@@ -44,7 +45,7 @@ export async function getStaticPaths() {
     query: GetAllUsersDocument,
   });
 
-  const paths = data?.data?.getUsers?.map((p) => ({
+  const paths = data?.data?.getAllUsers?.results.map((p) => ({
     params: { id: p.id },
   }));
 

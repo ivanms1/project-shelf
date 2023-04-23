@@ -1,10 +1,13 @@
 import jwt from 'jsonwebtoken';
 import got from 'got';
+import { Role as PrismaUserRole } from '@prisma/client';
 
 import builder from '../../builder';
 import db from '../../db';
 
 import decodeAccessToken from '../../helpers/decodeAccessToken';
+
+import { Role } from './queries';
 
 const GITHUB_API_URL = 'https://api.github.com/user';
 
@@ -21,6 +24,7 @@ const UpdateUserInput = builder.inputType('UpdateUserInput', {
     location: t.string(),
     avatar: t.string(),
     cover: t.string(),
+    banned: t.boolean(),
   }),
 });
 
@@ -89,6 +93,47 @@ builder.mutationType({
         return String(token);
       },
     }),
+    loginAsAdmin: t.field({
+      type: 'String',
+      description: 'Login in as a admin',
+      args: {
+        token: t.arg.string({ required: true }),
+      },
+      resolve: async (_, { token: githubToken }) => {
+        const data: {
+          email: string;
+          name: string;
+          login: string;
+          avatar_url: string;
+          id: number;
+        } = await got
+          .get(GITHUB_API_URL, {
+            headers: {
+              Authorization: `Bearer ${githubToken}`,
+              Accept: 'application/vnd.github+json',
+            },
+          })
+          .json();
+
+        const user = await db.user.findFirst({
+          where: {
+            providerId: data?.id,
+          },
+        });
+
+        if (!user) {
+          throw new Error('User not found');
+        }
+
+        if (user.role !== 'ADMIN') {
+          throw new Error('Not Authorized');
+        }
+
+        const token = jwt.sign(user.id, process.env.JWT_SECRET!);
+
+        return String(token);
+      },
+    }),
     updateUser: t.prismaField({
       type: 'User',
       description: 'Update the user information',
@@ -125,6 +170,82 @@ builder.mutationType({
             location: args.input.location ?? undefined,
             avatar: args.input.avatar ?? undefined,
             cover: args.input.cover ?? undefined,
+          },
+        });
+      },
+    }),
+    updateUserRole: t.prismaField({
+      type: 'User',
+      description: 'Update the user role',
+      args: {
+        role: t.arg({ type: Role, required: true }),
+        userId: t.arg.string({ required: true }),
+      },
+      resolve: async (query, __, args, ctx) => {
+        const currentUserId = decodeAccessToken(ctx.accessToken);
+        if (!decodeAccessToken) {
+          throw new Error('Not Authorized');
+        }
+        const user = await db.user.findUnique({
+          ...query,
+          where: {
+            id: String(currentUserId),
+          },
+        });
+
+        if (!user) {
+          throw new Error('User not found');
+        }
+
+        if (user?.role !== PrismaUserRole.ADMIN) {
+          throw new Error('Not Authorized');
+        }
+
+        return db.user.update({
+          ...query,
+          where: {
+            id: String(args.userId),
+          },
+          data: {
+            role: args.role,
+          },
+        });
+      },
+    }),
+    updateUserBanStatus: t.prismaField({
+      type: 'User',
+      description: 'Update the user ban status',
+      args: {
+        userId: t.arg.string({ required: true }),
+        isBanned: t.arg.boolean({ required: true }),
+      },
+      resolve: async (query, __, args, ctx) => {
+        const currentUserId = decodeAccessToken(ctx.accessToken);
+        if (!decodeAccessToken) {
+          throw new Error('Not Authorized');
+        }
+        const user = await db.user.findUnique({
+          ...query,
+          where: {
+            id: String(currentUserId),
+          },
+        });
+
+        if (!user) {
+          throw new Error('User not found');
+        }
+
+        if (user?.role !== PrismaUserRole.ADMIN) {
+          throw new Error('Not Authorized');
+        }
+
+        return db.user.update({
+          ...query,
+          where: {
+            id: String(args.userId),
+          },
+          data: {
+            banned: args.isBanned,
           },
         });
       },

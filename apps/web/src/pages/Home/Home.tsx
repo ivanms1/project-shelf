@@ -120,25 +120,21 @@ function Home() {
               {t('top-creators-subtitle')}
             </p>
           </div>
-          <Button className='max-lg:hidden'>
-            <Link href='/top-creators' passHref>
-              {t('view-rankings')}
-            </Link>
-          </Button>
+          <Link href='/top-creators' passHref>
+            <Button className='max-lg:hidden'>{t('view-rankings')}</Button>
+          </Link>
         </div>
         <div className='flex gap-[30px] flex-wrap justify-center max-lg:mb-10'>
           {creatorsData?.getTopCreatorsForHomePage?.results.map((creator) => (
             <TopCreator key={creator.id} creator={creator} />
           ))}
         </div>
-        <Button
-          className='hidden w-full text-center max-lg:block'
-          variant='secondary'
-        >
-          <Link href='/top-creators' passHref>
+
+        <Link href='/top-creators' passHref>
+          <Button className='hidden w-full text-center max-lg:block'>
             {t('view-rankings')}
-          </Link>
-        </Button>
+          </Button>
+        </Link>
       </div>
       <div className='py-20 max-lg:pt-0'>
         <div className='flex justify-between items-center pb-20  max-lg:flex-col max-lg:items-start max-lg:pb-10'>
@@ -150,22 +146,22 @@ function Home() {
               {t('discover-more-projects-subtitle')}
             </p>
           </div>
-          <Button className='max-lg:hidden'>
-            <Link href='/top-creators' passHref>
-              {t('see-all-projects')}
-            </Link>
-          </Button>
+          <Link href='/top-projects' passHref>
+            <Button className='max-lg:hidden'>{t('see-all-projects')}</Button>
+          </Link>
         </div>
         <div className='flex gap-8 justify-between max-lg:flex-col max-lg:mb-10'>
           {restProjects.map((project) => (
             <ProjectCard key={project.id} light project={project} noLike />
           ))}
         </div>
-        <Button className='hidden w-full text-center max-lg:block'>
-          <Link href='/top-creators' passHref>
+
+        <Link href='/top-projects' passHref>
+          <Button className='hidden w-full text-center max-lg:block'>
+            {' '}
             {t('see-all-projects')}
-          </Link>
-        </Button>
+          </Button>
+        </Link>
       </div>
       <div
         className='h-[640px] flex -mx-28 max-lg:-mx-[30px] bg-cover bg-center items-end max-lg:items-center'
@@ -185,7 +181,7 @@ function Home() {
           <h3 className='text-[51px] font-semibold max-lg:text-[38px]'>
             {coverProject?.title}
           </h3>
-          <Link href={`/project/${coverProject?.id}`}>
+          <Link href={`/project/${coverProject?.id}`} passHref>
             <Button variant='secondary' className='w-fit max-lg:w-full'>
               {t('see-project')}
             </Button>
