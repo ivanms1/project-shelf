@@ -1,4 +1,5 @@
 import Project from '@/pages/Project';
+
 import { addApolloState, initializeApollo } from 'apollo';
 import { GetApprovedProjectsQuery, GetProjectQuery } from 'apollo-hooks';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';

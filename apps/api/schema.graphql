@@ -48,6 +48,9 @@ type Mutation {
   """Follow or unfollow a user"""
   followUser(input: FollowUserInput!): User!
 
+  """Login in as a admin"""
+  loginAsAdmin(token: String!): String!
+
   """Report project"""
   reportProject(projectId: String!): Project!
 
@@ -62,6 +65,12 @@ type Mutation {
 
   """Update the user information"""
   updateUser(input: UpdateUserInput!): User!
+
+  """Update the user ban status"""
+  updateUserBanStatus(isBanned: Boolean!, userId: String!): User!
+
+  """Update the user role"""
+  updateUserRole(role: Role!, userId: String!): User!
   uploadImage(path: String!): String!
 }
 
@@ -91,11 +100,20 @@ type ProjectsResponse {
 }
 
 type Query {
+  """Get all users"""
+  getAllUsers: UserResponse!
+
+  """Get all users for admin table"""
+  getAllUsersAdmin(input: SearchUsersInput): UsersResponse!
+
   """Get approved projects"""
   getApprovedProjects(input: SearchProjectsInput): ProjectsResponse!
 
   """Get the current user"""
   getCurrentUser: User!
+
+  """Get the current user for admin"""
+  getCurrentUserAdmin: User!
 
   """Get most liked projects"""
   getMostLikedProjects(input: SearchProjectsInput): ProjectsResponse!
@@ -126,9 +144,6 @@ type Query {
 
   """Get user projects"""
   getUserProjects(input: SearchProjectsInput, userId: String!): ProjectsResponse!
-
-  """Get all users"""
-  getUsers: [User!]!
 }
 
 """User role"""
@@ -151,6 +166,14 @@ input SearchProjectsInput {
   search: String
 }
 
+"""Search user input"""
+input SearchUsersInput {
+  cursor: String
+  order: SearchOrder
+  orderBy: String
+  search: String
+}
+
 """Top users response"""
 type TopCreatorsResponse {
   results: [User!]!
@@ -164,6 +187,7 @@ type TopProjectsResponse {
 """Update the user information"""
 input UpdateUserInput {
   avatar: String
+  banned: Boolean
   bio: String
   cover: String
   discord: String
@@ -175,6 +199,7 @@ input UpdateUserInput {
 
 type User {
   avatar: String
+  banned: Boolean!
   bio: String
   cover: String
   createdAt: Date!
@@ -191,6 +216,7 @@ type User {
   location: String
   name: String!
   projects: [Project!]
+  projectsCount: Int!
   role: Role!
   twitter: String
   updatedAt: Date!
@@ -201,4 +227,19 @@ type User {
 enum UserFollowActions {
   FOLLOW
   UNFOLLOW
+}
+
+"""User response"""
+type UserResponse {
+  bannedUsers: Int!
+  results: [User!]!
+  totalCount: Int!
+}
+
+"""User response"""
+type UsersResponse {
+  nextCursor: String
+  prevCursor: String
+  results: [User!]!
+  totalCount: Int!
 }

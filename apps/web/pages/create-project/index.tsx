@@ -1,7 +1,7 @@
+import CreateProject from '@/pages/CreateProject';
+
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import type { GetStaticProps } from 'next';
-
-import CreateProject from '@/pages/CreateProject';
 
 export default CreateProject;
 

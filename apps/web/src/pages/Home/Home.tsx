@@ -207,6 +207,80 @@ function Home() {
               </Button>
             </Link>
           </div>
+          <Link href='/top-creators' passHref>
+            <Button className='max-lg:hidden'>{t('view-rankings')}</Button>
+          </Link>
+        </div>
+        <div className='flex gap-[30px] flex-wrap justify-center max-lg:mb-10'>
+          {creatorsData?.getTopCreatorsForHomePage?.results.map((creator) => (
+            <TopCreator key={creator.id} creator={creator} />
+          ))}
+        </div>
+
+        <Link href='/top-creators' passHref>
+          <Button className='hidden w-full text-center max-lg:block'>
+            {t('view-rankings')}
+          </Button>
+        </Link>
+      </div>
+      <div className='py-20 max-lg:pt-0'>
+        <div className='flex justify-between items-center pb-20  max-lg:flex-col max-lg:items-start max-lg:pb-10'>
+          <div className='flex flex-col gap-[10px]'>
+            <h2 className='text-[38px] font-semibold max-lg:text-[28px]'>
+              {t('discover-more-projects')}
+            </h2>
+            <p className='text-[22px] max-lg:text-base'>
+              {t('discover-more-projects-subtitle')}
+            </p>
+          </div>
+          <Link href='/top-projects' passHref>
+            <Button className='max-lg:hidden'>{t('see-all-projects')}</Button>
+          </Link>
+        </div>
+        <div className='flex gap-8 justify-between max-lg:flex-col max-lg:mb-10'>
+          {restProjects.map((project) => (
+            <ProjectCard key={project.id} light project={project} noLike />
+          ))}
+        </div>
+
+        <Link href='/top-projects' passHref>
+          <Button className='hidden w-full text-center max-lg:block'>
+            {' '}
+            {t('see-all-projects')}
+          </Button>
+        </Link>
+      </div>
+      <div
+        className='h-[640px] flex -mx-28 max-lg:-mx-[30px] bg-cover bg-center items-end max-lg:items-center'
+        style={{ backgroundImage: `url(${coverProject?.preview})` }}
+      >
+        <div className='flex flex-col gap-[30px] py-16 px-28 max-lg:px-[30px]'>
+          <div className='flex bg-grey-dark w-fit px-5 py-[10px] gap-3 rounded-lg items-center'>
+            <Image
+              className='rounded-full'
+              src={coverProject?.author?.avatar}
+              alt={coverProject?.author?.name}
+              width={24}
+              height={24}
+            />
+            <p>{coverProject?.author?.name}</p>
+          </div>
+          <h3 className='text-[51px] font-semibold max-lg:text-[38px]'>
+            {coverProject?.title}
+          </h3>
+          <Link href={`/project/${coverProject?.id}`} passHref>
+            <Button variant='secondary' className='w-fit max-lg:w-full'>
+              {t('see-project')}
+            </Button>
+          </Link>
+        </div>
+      </div>
+      <div className='py-20 max-lg:pt-10'>
+        <div className='flex flex-col gap-[10px] mb-10'>
+          <h2 className='text-[38px] font-semibold max-lg:text-[28px]'>
+            {t('how-it-works')}
+          </h2>
+          <p className='text-[22px] max-lg:text-base'>{t('find-out')}</p>
         </div>
         <div className='py-20 max-lg:pt-10 '>
           <div className='flex flex-col gap-[10px] mb-10'>

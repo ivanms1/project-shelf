@@ -1,3 +1,4 @@
+import useIsLoggedIn from '@/hooks/useIsLoggedIn';
 import React from 'react';
 
 import Navbar from '../Navbar';
@@ -8,6 +9,12 @@ interface LayoutProps {
 }
 
 const Layout = ({ children }: LayoutProps) => {
+  const { isLoggedIn } = useIsLoggedIn();
+
+  if (!isLoggedIn) {
+    return <>{children}</>;
+  }
+
   return (
     <div className='bg-gray-200 flex flex-row h-screen w-screen'>
       <SideNav />

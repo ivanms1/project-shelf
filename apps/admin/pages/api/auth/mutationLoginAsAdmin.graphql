@@ -1,0 +1,3 @@
+mutation LoginAsAdmin($token: String!) {
+  loginAsAdmin(token: $token)
+}

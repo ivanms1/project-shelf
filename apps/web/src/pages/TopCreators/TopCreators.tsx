@@ -3,7 +3,7 @@ import { useTranslation } from 'next-i18next';
 import { NextSeo } from 'next-seo';
 import { useRouter } from 'next/router';
 import React from 'react';
-import { Tabs } from 'ui';
+import { Loader, Tabs } from 'ui';
 
 import CreatorsTable from '@/pages/TopCreators/CreatorsTable';
 
@@ -20,7 +20,7 @@ const TOP_CREATOR_INTERVALS: Record<number, string> = {
 
 const TopCreators = () => {
   const { t } = useTranslation('top');
-  const { push, query } = useRouter();
+  const { push, query, isReady } = useRouter();
 
   const isMobile = useIsMobile();
 
@@ -45,9 +45,7 @@ const TopCreators = () => {
     },
     {
       name: t('all-time'),
-      content: (
-        <CreatorsTable interval={new Date(A_MONTH_AGO * 1000).toISOString()} />
-      ),
+      content: <CreatorsTable />,
     },
   ];
 
@@ -77,6 +75,16 @@ const TopCreators = () => {
           tabPanelClassName='pt-10'
         />
       </div>
+      {isReady ? (
+        <Tabs
+          tabs={TABS}
+          onChange={handleTabChange}
+          defaultIndex={currentTab}
+          tabPanelClassName='pt-10'
+        />
+      ) : (
+        <Loader />
+      )}
       <NextSeo
         title={t('creators-seo-title')}
         description={t('creators-seo-description')}

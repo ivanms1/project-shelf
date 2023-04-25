@@ -3,7 +3,7 @@ import { faker } from '@faker-js/faker';
 
 const prisma = new PrismaClient();
 
-const users = Array.from({ length: 50 }).map(() => {
+const users = Array.from({ length: 70 }).map(() => {
   return {
     providerId: +faker.helpers.unique(() => faker.random.numeric(10)),
     provider: 'github',
@@ -12,6 +12,7 @@ const users = Array.from({ length: 50 }).map(() => {
     avatar: faker.image.avatar(),
     github: faker.internet.userName(),
     cover: faker.image.abstract(),
+    banned: false,
   };
 });
 

@@ -127,7 +127,7 @@ const User = () => {
             className='absolute bottom-[-70px] left-[270px] flex h-[200px] w-[200px]  overflow-hidden'
           >
             <Image
-              className='w-full h-[full] object-cover rounded-circle'
+              className='w-full h-[full] object-cover rounded-circle cursor-pointer'
               src={croppedImage || user.avatar}
               alt={user?.name}
               width={200}
