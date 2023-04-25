@@ -183,31 +183,33 @@ function Home() {
             </Link>
           </Button>
         </div>
-        <div
-          className='h-[640px] flex max-lg:-mx-[30px] bg-cover bg-center items-end max-lg:items-center'
-          style={{ backgroundImage: `url(${coverProject?.preview})` }}
-        >
-          <div className='flex flex-col gap-[30px] py-16 px-28 max-lg:px-[30px] '>
-            <div className='flex bg-grey-dark w-fit px-5 py-[10px] gap-3 rounded-lg items-center'>
-              <Image
-                className='rounded-full'
-                src={coverProject?.author?.avatar}
-                alt={coverProject?.author?.name}
-                width={24}
-                height={24}
-              />
-              <p>{coverProject?.author?.name}</p>
+        {coverProject?.preview && (
+          <div
+            className='h-[640px] flex max-lg:-mx-[30px] bg-cover bg-center items-end max-lg:items-center'
+            style={{ backgroundImage: `url(${coverProject?.preview})` }}
+          >
+            <div className='flex flex-col gap-[30px] py-16 px-28 max-lg:px-[30px] '>
+              <div className='flex bg-grey-dark w-fit px-5 py-[10px] gap-3 rounded-lg items-center'>
+                <Image
+                  className='rounded-full'
+                  src={coverProject?.author?.avatar}
+                  alt={coverProject?.author?.name}
+                  width={24}
+                  height={24}
+                />
+                <p>{coverProject?.author?.name}</p>
+              </div>
+              <h3 className='text-[51px] font-semibold max-lg:text-[38px]'>
+                {coverProject?.title}
+              </h3>
+              <Link href={`/project/${coverProject?.id}`}>
+                <Button variant='secondary' className='w-fit max-lg:w-full'>
+                  {t('see-project')}
+                </Button>
+              </Link>
             </div>
-            <h3 className='text-[51px] font-semibold max-lg:text-[38px]'>
-              {coverProject?.title}
-            </h3>
-            <Link href={`/project/${coverProject?.id}`}>
-              <Button variant='secondary' className='w-fit max-lg:w-full'>
-                {t('see-project')}
-              </Button>
-            </Link>
           </div>
-        </div>
+        )}
         <div className='py-20 max-lg:pt-10 '>
           <div className='flex flex-col gap-[10px] mb-10'>
             <h2 className='text-[38px] font-semibold max-lg:text-[28px]'>
