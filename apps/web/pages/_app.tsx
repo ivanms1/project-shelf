@@ -12,6 +12,7 @@ import useApollo from '@/hooks/useApollo';
 import type { Session } from 'next-auth';
 
 import './styles.css';
+import './cropper.css';
 
 function CustomApp({
   Component,
