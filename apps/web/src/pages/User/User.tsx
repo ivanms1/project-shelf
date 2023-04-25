@@ -28,7 +28,7 @@ const User = () => {
   const { t } = useTranslation('user');
 
   const [uploadImage] = useUploadImageMutation();
-  const [updateUser, { loading: updateUserLoading }] = useUpdateUserMutation();
+  const [updateUser] = useUpdateUserMutation();
 
   const onSubmit = async () => {
     try {

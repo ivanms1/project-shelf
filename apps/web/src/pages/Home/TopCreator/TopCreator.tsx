@@ -10,6 +10,7 @@ interface TopCreatorProps {
     avatar?: string;
     likesReceived: number;
   };
+  idx?: number;
 }
 
 const TopCreator = ({ creator, idx }: TopCreatorProps) => {
