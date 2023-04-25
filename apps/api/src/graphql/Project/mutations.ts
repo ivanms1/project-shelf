@@ -168,34 +168,4 @@ builder.mutationFields((t) => ({
       });
     },
   }),
-
-  reportProject: t.prismaField({
-    type: 'Project',
-    description: 'Report project',
-    args: {
-      projectId: t.arg.string({ required: true }),
-    },
-    resolve: async (query, _, args, ctx) => {
-      if (!ctx.accessToken) {
-        throw Error('Not Authorized');
-      }
-
-      const currentUserId = decodeAccessToken(ctx.accessToken);
-      const user = await db.user.findUnique({
-        where: {
-          id: String(currentUserId),
-        },
-      });
-
-      if (user?.role !== 'ADMIN') {
-        throw Error('Not Authorized');
-      }
-
-      return db.project.update({
-        ...query,
-        where: { id: args.projectId },
-        data: { isApproved: args.isApproved },
-      });
-    },
-  }),
 }));

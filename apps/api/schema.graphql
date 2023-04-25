@@ -51,9 +51,6 @@ type Mutation {
   """Login in as a admin"""
   loginAsAdmin(token: String!): String!
 
-  """Report project"""
-  reportProject(projectId: String!): Project!
-
   """Create a new user"""
   signup(token: String!): String!
 
