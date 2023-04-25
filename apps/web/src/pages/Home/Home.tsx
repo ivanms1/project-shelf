@@ -1,4 +1,4 @@
-import { Button, Input } from 'ui';
+import { Button, Input, Loader } from 'ui';
 import Image from 'next/image';
 import { NextSeo } from 'next-seo';
 import { signIn } from 'next-auth/react';
@@ -36,7 +36,11 @@ function Home() {
   const restProjects =
     projectsData?.getTopProjectsForHomePage?.results.slice(1, 4) ?? [];
 
-  const coverProject = projectsData?.getTopProjectsForHomePage?.results?.[5];
+  const randomIndex = Math.floor(
+    Math.random() * projectsData?.getTopProjectsForHomePage?.results?.length
+  );
+  const coverProject =
+    projectsData?.getTopProjectsForHomePage?.results?.[randomIndex];
 
   const homeButtonAndActionButtons = (
     <>
@@ -183,7 +187,7 @@ function Home() {
             </Link>
           </Button>
         </div>
-        {coverProject?.preview && (
+        {coverProject?.preview ? (
           <div
             className='h-[640px] flex max-lg:-mx-[30px] bg-cover bg-center items-end max-lg:items-center'
             style={{ backgroundImage: `url(${coverProject?.preview})` }}
@@ -208,6 +212,10 @@ function Home() {
                 </Button>
               </Link>
             </div>
+          </div>
+        ) : (
+          <div className='border-red-200 flex items-center justify-center'>
+            <Loader />
           </div>
         )}
         <div className='py-20 max-lg:pt-10 '>
