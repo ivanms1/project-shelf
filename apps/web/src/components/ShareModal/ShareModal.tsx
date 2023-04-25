@@ -4,7 +4,15 @@ import { useRouter } from 'next/router';
 import Image from 'next/image';
 import { toast } from 'react-hot-toast';
 
-function ShareModal({ project, isOpen, onClose }) {
+type ShareModalProps = {
+  project: {
+    preview: string;
+  };
+  isOpen: boolean;
+  onClose: () => void;
+};
+
+function ShareModal({ project, isOpen, onClose }: ShareModalProps) {
   const router = useRouter();
 
   return (

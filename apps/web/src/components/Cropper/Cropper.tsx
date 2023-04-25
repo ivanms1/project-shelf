@@ -1,32 +1,48 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react';
 import ReactCrop from 'react-easy-crop';
+import { Area } from 'react-easy-crop/types';
 import { getCroppedImg } from './cropUtils';
 
-function App({ src, image, setImage, setCroppedImage, onSubmit }) {
+interface Props {
+  src: string;
+  image: string;
+  setImage: any;
+  setCroppedImage: (croppedImage: string | undefined) => void;
+  onSubmit: () => void;
+}
+
+function App({ src, image, setImage, setCroppedImage, onSubmit }: Props) {
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
   const inputRef = useRef(null);
 
-  const onCropComplete = async (_, croppedAreaPixels) => {
-    const croppedImage = await getCroppedImg(image, croppedAreaPixels);
-    setCroppedImage(croppedImage?.toDataURL());
-  };
+  const onCropComplete = useCallback(
+    (croppedArea: Area, croppedAreaPixels: Area) => {
+      getCroppedImg(image, croppedAreaPixels).then((croppedImage) => {
+        setCroppedImage(croppedImage?.toDataURL());
+      });
+    },
+    [image, setCroppedImage]
+  );
 
   useEffect(() => {
     setImage(src);
   }, []);
 
-  const handleFileChange = useCallback((event) => {
-    setCrop({ x: 0, y: 0 });
-    setZoom(1);
-    const file = event.target.files[0];
-    const reader = new FileReader();
+  const handleFileChange = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      setCrop({ x: 0, y: 0 });
+      setZoom(1);
+      const file = event.target?.files?.[0];
+      const reader = new FileReader();
 
-    reader.readAsDataURL(file);
-    reader.onload = () => {
-      setImage(reader.result);
-    };
-  }, []);
+      reader.readAsDataURL(file as Blob);
+      reader.onload = () => {
+        setImage(reader.result);
+      };
+    },
+    []
+  );
 
   return (
     <div>
