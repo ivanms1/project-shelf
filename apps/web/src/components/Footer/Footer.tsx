@@ -28,53 +28,55 @@ const SOCIALS = [
 const Footer = () => {
   const { t } = useTranslation('common');
   return (
-    <div className='bg-grey-dark px-28 py-10 text-white max-lg:px-[30px]'>
-      <div className='flex flex-row border-b-[1px] border-b-grey-light pb-12 justify-between max-lg:flex-col max-lg:gap-[30px]'>
-        <div>
-          <p className='text-2xl mb-6 font-bold font-mono'>
-            {t('project-shelf')}
-          </p>
-          <div className='text-silver flex gap-5 flex-col'>
-            <p>{t('discover-projects')}</p>
-            <p>{t('join-community')}</p>
-            <div className='flex flex-row gap-[10px]'>
-              {SOCIALS.map((social) => {
-                const Icon = social.icon;
-                return (
-                  <a
-                    key={social.id}
-                    href={social.link}
-                    target='_blank'
-                    rel='noreferrer'
-                  >
-                    <Icon className='w-6 h-6' />
-                  </a>
-                );
-              })}
+    <div className='bg-grey-dark'>
+      <div className='px-28 py-10 text-white max-lg:px-[30px] max-w-screen-2xl mx-auto'>
+        <div className='flex flex-row border-b-[1px] border-b-grey-light pb-12 justify-between max-lg:flex-col max-lg:gap-[30px]'>
+          <div>
+            <p className='text-2xl mb-6 font-bold font-mono'>
+              {t('project-shelf')}
+            </p>
+            <div className='text-silver flex gap-5 flex-col'>
+              <p>{t('discover-projects')}</p>
+              <p>{t('join-community')}</p>
+              <div className='flex flex-row gap-[10px]'>
+                {SOCIALS.map((social) => {
+                  const Icon = social.icon;
+                  return (
+                    <a
+                      key={social.id}
+                      href={social.link}
+                      target='_blank'
+                      rel='noreferrer'
+                    >
+                      <Icon className='w-6 h-6' />
+                    </a>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+          <div>
+            <p className='text-2xl mb-6 font-bold font-mono'>{t('explore')}</p>
+            <div className='text-silver flex gap-5 flex-col'>
+              <Link href='/search'>{t('search')}</Link>
+              <Link href='/rankings'>{t('rankings')}</Link>
+            </div>
+          </div>
+          <div className='flex gap-5 flex-col'>
+            <p className='text-2xl font-bold font-mono'>{t('join-digest')}</p>
+            <p className='text-silver'>{t('get-promotions')}</p>
+            <div className='flex flex-row relative'>
+              <Input containerClassName='w-full' />
+              <Button className='absolute right-0' size='small' noAnimation>
+                {t('subscribe')}
+              </Button>
             </div>
           </div>
         </div>
-        <div>
-          <p className='text-2xl mb-6 font-bold font-mono'>{t('explore')}</p>
-          <div className='text-silver flex gap-5 flex-col'>
-            <Link href='/search'>{t('search')}</Link>
-            <Link href='/rankings'>{t('rankings')}</Link>
-          </div>
-        </div>
-        <div className='flex gap-5 flex-col'>
-          <p className='text-2xl font-bold font-mono'>{t('join-digest')}</p>
-          <p className='text-silver'>{t('get-promotions')}</p>
-          <div className='flex flex-row relative'>
-            <Input containerClassName='w-full' />
-            <Button className='absolute right-0' size='small' noAnimation>
-              {t('subscribe')}
-            </Button>
-          </div>
-        </div>
+        <p className='text-silver text-sm mt-5'>
+          © {new Date().getFullYear()} Project Shelf. All rights reserved.
+        </p>
       </div>
-      <p className='text-silver text-sm mt-5'>
-        © {new Date().getFullYear()} Project Shelf. All rights reserved.
-      </p>
     </div>
   );
 };
