@@ -29,6 +29,7 @@ export const Tabs = ({
   if (!showTabs) {
     return null;
   }
+
   return (
     <Tab.Group onChange={onChange} defaultIndex={defaultIndex}>
       <Tab.List className='flex'>

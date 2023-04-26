@@ -11,7 +11,9 @@ const Layout = ({ children }: LayoutProps) => {
   return (
     <div className='grid min-h-screen grid-rows-[auto_1fr_auto]'>
       <Navbar />
-      {children}
+      <div className='bg-black'>
+        <div className='max-w-screen-2xl mx-auto'>{children}</div>
+      </div>
       <Footer />
     </div>
   );
