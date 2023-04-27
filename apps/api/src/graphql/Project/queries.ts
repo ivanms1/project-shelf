@@ -24,6 +24,7 @@ export const Project = builder.prismaObject('Project', {
     author: t.relation('author'),
     likes: t.relation('Like'),
     likesCount: t.relationCount('Like'),
+    isReported: t.exposeBoolean('isReported'),
     isLiked: t.boolean({
       resolve: async (parent, _, ctx) => {
         try {

@@ -57,6 +57,9 @@ model Project {
   isApproved  Boolean  @default(false)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @default(now()) @updatedAt
+  isReported  Boolean  @default(false)
+  reportCount Int      @default(0)
+  reportedBy  String[]
   tags        String[]
   Like        Like[]
 }
