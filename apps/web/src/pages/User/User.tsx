@@ -68,12 +68,14 @@ const User = () => {
     );
   }
 
+  console.log({ data });
+
   return (
     <div className='bg-black'>
       <div className='relative flex flex-col items-center lg:items-start'>
         <Image
           className='w-full h-[320px] object-cover'
-          src={data?.user?.cover ?? COVER_PLACEHOLDER}
+          src={data?.user?.cover || COVER_PLACEHOLDER}
           alt={user?.name}
           width={1000}
           height={1000}
