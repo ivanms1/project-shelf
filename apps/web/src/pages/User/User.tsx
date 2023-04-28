@@ -68,8 +68,6 @@ const User = () => {
     );
   }
 
-  console.log({ data });
-
   return (
     <div className='bg-black'>
       <div className='relative flex flex-col items-center lg:items-start'>
