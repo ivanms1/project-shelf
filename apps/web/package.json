@@ -35,7 +35,7 @@
     "react-waypoint": "^10.3.0",
     "redaxios": "^0.5.1",
     "ui": "*",
-    "yup": "^0.32.11"
+    "zod": "^3.21.4"
   },
   "devDependencies": {
     "@cld-apis/types": "^0.1.6",

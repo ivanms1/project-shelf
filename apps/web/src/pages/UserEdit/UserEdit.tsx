@@ -2,10 +2,10 @@ import React, { useEffect } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useRouter } from 'next/router';
 import toast from 'react-hot-toast';
-import * as yup from 'yup';
+import * as zod from 'zod';
 import { NextSeo } from 'next-seo';
 import { useTranslation } from 'next-i18next';
-import { yupResolver } from '@hookform/resolvers/yup';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { Button, FormInput, FormTextArea } from 'ui';
 import {
   UploadImageMutation,
@@ -38,11 +38,16 @@ type FormTypes = {
   profileTwitter: string;
 };
 
-const validationSchema = yup
-  .object()
-  .shape({
-    profileName: yup.string().required('This is required field'),
-    profileWebsite: yup.string().url('It must be a valid URL'),
+const validationSchema = zod
+  .object({
+    profileName: zod.string({
+      required_error: 'This is required field',
+    }),
+    profileWebsite: zod
+      .string()
+      .url('It must be a valid URL')
+      .optional()
+      .or(zod.literal('')),
   })
   .required();
 
@@ -76,7 +81,7 @@ const UserEdit = () => {
     formState: { errors, dirtyFields, isDirty },
   } = useForm<FormTypes>({
     defaultValues,
-    resolver: yupResolver(validationSchema),
+    resolver: zodResolver(validationSchema),
   });
 
   const [updateUser, { loading: updateUserLoading }] = useUpdateUserMutation();

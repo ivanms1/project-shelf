@@ -3,7 +3,7 @@ import { NextSeo } from 'next-seo';
 import { useRouter } from 'next/router';
 import toast from 'react-hot-toast';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { LoaderOverlay } from 'ui';
 
 import ProjectForm from '@/components/ProjectForm';
@@ -57,31 +57,34 @@ const ProjectEdit = () => {
   };
 
   const methods = useForm<FormTypes>({
-    resolver: yupResolver(projectValidationSchema),
+    resolver: zodResolver(projectValidationSchema),
     defaultValues: defaultValues,
   });
 
   const onSubmit: SubmitHandler<FormTypes> = async (values) => {
     try {
       if (
-        methods.getValues('preview') !== values.preview &&
+        methods.getValues('preview') !== data?.project?.preview &&
         typeof values.preview !== 'string'
       ) {
         const reader = new FileReader();
-        reader.readAsDataURL(values.preview);
+
+        reader.readAsDataURL(methods.getValues('preview') as File);
         reader.onload = async () => {
           const res = await uploadImage({
             variables: {
               path: String(reader.result),
             },
           });
-          const updatedProjectData = await onUpdateProject(
-            values,
-            res?.data?.image
-          );
-          if (updatedProjectData) {
-            push(`/user/${data?.project?.author?.id}`);
-            notifySuccess();
+          if (res) {
+            const updatedProjectData = await onUpdateProject(
+              values,
+              res?.data?.image
+            );
+            if (updatedProjectData) {
+              push(`/user/${data?.project?.author?.id}`);
+              notifySuccess();
+            }
           }
         };
       } else {
