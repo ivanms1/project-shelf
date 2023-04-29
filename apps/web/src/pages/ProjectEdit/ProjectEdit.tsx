@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { NextSeo } from 'next-seo';
 import { useRouter } from 'next/router';
 import toast from 'react-hot-toast';
+import { z } from 'zod';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { LoaderOverlay } from 'ui';
@@ -16,17 +17,10 @@ import {
 
 import { projectValidationSchema } from 'const';
 
-export type FormTypes = {
-  description: string;
-  preview: File | Blob | string;
-  repoLink: string;
-  siteLink: string;
-  tags: { value: string; label: string }[];
-  title: string;
-};
-
 const notifySuccess = () => toast.success('Project edited successfully');
 const notifyError = () => toast.error('Something went wrong');
+
+type FormTypes = z.infer<typeof projectValidationSchema>;
 
 const ProjectEdit = () => {
   const { query, push } = useRouter();
@@ -102,13 +96,16 @@ const ProjectEdit = () => {
     }
   };
 
-  const onUpdateProject = async (editedValue: FormTypes, res: string) => {
+  const onUpdateProject = async (
+    editedValue: FormTypes,
+    res: string | undefined
+  ) => {
     const data = await updateProject({
       variables: {
         projectId: String(query.id),
         input: {
           ...editedValue,
-          preview: res,
+          preview: res || '',
           tags: editedValue?.tags.map((tag) => tag.value),
         },
       },

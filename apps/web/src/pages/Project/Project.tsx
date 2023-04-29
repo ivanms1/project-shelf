@@ -69,7 +69,7 @@ function Project() {
           });
         },
       });
-      if (deletedData?.data?.deleteProjects?.length > 0) {
+      if (deletedData?.data?.deleteProjects?.length ?? 0 > 0) {
         router.push(`/user/${data?.project?.author?.id}`);
       }
       toast.success(t('project:delete-success'));
@@ -80,6 +80,10 @@ function Project() {
 
   if (getProjectQueryLoading || deleteProjectLoading) {
     return <LoaderOverlay size='lg' />;
+  }
+
+  if (!data?.project) {
+    return null;
   }
 
   return (
@@ -112,18 +116,20 @@ function Project() {
             <div className='flex flex-col gap-8'>
               <div className='flex flex-col gap-[10px]'>
                 <p className='text-grey-light font-mono'>{t('created-by')}</p>
-                <Link href={`/user/${data?.project?.author?.id}`}>
-                  <div className='flex gap-3'>
-                    <Image
-                      className='rounded-full'
-                      alt={data?.project?.author?.name}
-                      height={24}
-                      width={24}
-                      src={data?.project?.author?.avatar}
-                    />
-                    <p>{data?.project?.author?.name}</p>
-                  </div>
-                </Link>
+                {data?.project?.author?.avatar && (
+                  <Link href={`/user/${data?.project?.author?.id}`}>
+                    <div className='flex gap-3'>
+                      <Image
+                        className='rounded-full'
+                        alt={data?.project?.author?.name}
+                        height={24}
+                        width={24}
+                        src={data?.project?.author?.avatar}
+                      />
+                      <p>{data?.project?.author?.name}</p>
+                    </div>
+                  </Link>
+                )}
               </div>
               <div className='flex flex-col gap-[10px]'>
                 <p className='text-grey-light font-mono'>{t('description')}</p>

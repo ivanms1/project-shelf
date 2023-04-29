@@ -7,7 +7,7 @@ interface TopCreatorProps {
   creator: {
     id: string;
     name: string;
-    avatar?: string;
+    avatar?: string | null;
     likesReceived: number;
   };
 }
@@ -19,13 +19,15 @@ const TopCreator = ({ creator }: TopCreatorProps) => {
       href={`/user/${creator.id}`}
       className='bg-grey-dark p-5 flex flex-col gap-5 justify-center items-center rounded-lg w-[260px] h-[260px]'
     >
-      <Image
-        src={creator?.avatar}
-        alt={creator.name}
-        className='rounded-full w-[120px] h-[120px]'
-        width={120}
-        height={120}
-      />
+      {creator?.avatar && (
+        <Image
+          src={creator?.avatar}
+          alt={creator.name}
+          className='rounded-full w-[120px] h-[120px]'
+          width={120}
+          height={120}
+        />
+      )}
       <div className='flex flex-col gap-1.5 items-center'>
         <p className='text-[22px] font-semibold text-center'>{creator.name}</p>
         <div className='flex gap-2.5'>

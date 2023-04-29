@@ -27,7 +27,7 @@ const User = () => {
     loading,
   } = useGetUserProjectsQuery({
     variables: {
-      userId: data?.user?.id,
+      userId: data?.user?.id!,
       input: {
         cursor: null,
       },
@@ -95,7 +95,7 @@ const User = () => {
       </div>
       <div className='bg-grey-dark py-[40px] px-10 lg:px-[155px]'>
         <ProjectsGrid
-          projects={projectsData?.getUserProjects?.results}
+          projects={projectsData?.getUserProjects?.results ?? []}
           onRefetch={onRefetch}
           loading={loading}
           nextCursor={projectsData?.getUserProjects?.nextCursor}
@@ -108,7 +108,7 @@ const User = () => {
         openGraph={{
           type: 'website',
           title: user?.name,
-          description: user?.bio,
+          description: user?.bio ?? '',
           site_name: 'Project Shelf',
           images: [
             {

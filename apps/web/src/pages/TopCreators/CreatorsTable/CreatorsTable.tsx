@@ -40,13 +40,15 @@ const CreatorsTable = ({ interval }: CreatorsTableProps) => {
               href={`/user/${user.id}`}
               className='flex items-center gap-5 flex-1'
             >
-              <Image
-                src={user.avatar}
-                alt={user.name}
-                width={60}
-                height={60}
-                className='rounded-full max-lg:w-6 max-lg:h-6'
-              />
+              {user?.avatar && (
+                <Image
+                  src={user.avatar}
+                  alt={user.name}
+                  width={60}
+                  height={60}
+                  className='rounded-full max-lg:w-6 max-lg:h-6'
+                />
+              )}
               <p className='text-[22px] font-semibold max-lg:text-base max-lg:font-normal'>
                 {user?.name}
               </p>

@@ -13,8 +13,8 @@ export default NextAuth({
   secret: process.env.JWT_SECRET,
   providers: [
     GithubProvider({
-      clientId: process.env.GITHUB_CLIENT_ID,
-      clientSecret: process.env.GITHUB_CLIENT_SECRET,
+      clientId: process.env.GITHUB_CLIENT_ID!,
+      clientSecret: process.env.GITHUB_CLIENT_SECRET!,
     }),
   ],
   callbacks: {
@@ -24,7 +24,7 @@ export default NextAuth({
       const { data } = await apolloClient.mutate<SignupMutation>({
         mutation: MUTATION_SIGNUP,
         variables: {
-          token: account.access_token,
+          token: account?.access_token,
         },
       });
 

@@ -10,6 +10,7 @@ import type { GetStaticProps } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import QUERY_GET_USER_FOR_PAGE from './queryGetUserForPage.graphql';
+import { EN_LOCALE } from 'const';
 
 export default User;
 
@@ -26,14 +27,20 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
 
     return addApolloState(client, {
       props: {
-        ...(await serverSideTranslations(locale, ['user', 'common'])),
+        ...(await serverSideTranslations(locale || EN_LOCALE, [
+          'user',
+          'common',
+        ])),
       },
       revalidate: 60,
     });
   } catch (error) {
     return {
       props: {
-        ...(await serverSideTranslations(locale, ['user', 'common'])),
+        ...(await serverSideTranslations(locale || EN_LOCALE, [
+          'user',
+          'common',
+        ])),
       },
     };
   }

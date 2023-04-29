@@ -22,7 +22,7 @@ const AvatarDropzone = ({
   onDrop,
   children,
   accept,
-  maxSize = null,
+  maxSize = undefined,
   imageClassname,
   overlayClassName,
   overlayText,
@@ -38,7 +38,7 @@ const AvatarDropzone = ({
   const { t } = useTranslation('common');
 
   useEffect(() => {
-    if (dropzoneRef) {
+    if (dropzoneRef && inputRef?.current) {
       dropzoneRef.current = inputRef?.current;
     }
   }, []);

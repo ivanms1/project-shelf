@@ -8,6 +8,7 @@ import type { GetStaticProps } from 'next/types';
 
 import QUERY_GET_PROJECT from './queryGetProject.graphql';
 import QUERY_GET_APPROVED_PROJECTS from './queryGetAllApprovedProjects.graphql';
+import { EN_LOCALE } from 'const';
 
 export default Project;
 
@@ -24,14 +25,20 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
 
     return addApolloState(client, {
       props: {
-        ...(await serverSideTranslations(locale, ['common', 'project'])),
+        ...(await serverSideTranslations(locale || EN_LOCALE, [
+          'common',
+          'project',
+        ])),
       },
       revalidate: 30,
     });
   } catch (error) {
     return {
       props: {
-        ...(await serverSideTranslations(locale, ['common', 'project'])),
+        ...(await serverSideTranslations(locale || EN_LOCALE, [
+          'common',
+          'project',
+        ])),
       },
     };
   }

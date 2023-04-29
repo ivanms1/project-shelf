@@ -37,7 +37,7 @@ const UserInfo = () => {
     skip: !query?.id,
   });
 
-  const { user } = data;
+  const { user } = data || {};
 
   const { data: projectsData } = useGetUserProjectsQuery({
     variables: {
