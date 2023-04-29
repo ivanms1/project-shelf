@@ -2,9 +2,9 @@ import React from 'react';
 import { SubmitHandler, useFormContext } from 'react-hook-form';
 import { Button, FormInput, FormSelect, Modal } from 'ui';
 
-import { FormTypes } from '../../../pages/CreateProject/CreateProject';
-
 import { useTranslation } from 'next-i18next';
+
+import { FormTypes } from 'const';
 
 interface DetailsFormModalProps {
   isOpen: boolean;

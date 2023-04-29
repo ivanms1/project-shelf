@@ -17,13 +17,10 @@ import {
 
 import useIsLoggedIn from '@/hooks/useIsLoggedIn';
 
-import { projectValidationSchema } from 'const';
-import { z } from 'zod';
+import { type FormTypes, projectValidationSchema } from 'const';
 
 const notifySuccess = () => toast.success('Project created successfully');
 const notifyError = () => toast.error('Something went wrong');
-
-type FormTypes = z.infer<typeof projectValidationSchema>;
 
 function CreateProject() {
   const { currentUser } = useIsLoggedIn();

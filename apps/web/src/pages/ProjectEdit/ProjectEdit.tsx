@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { NextSeo } from 'next-seo';
 import { useRouter } from 'next/router';
 import toast from 'react-hot-toast';
-import { z } from 'zod';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { LoaderOverlay } from 'ui';
@@ -15,12 +14,10 @@ import {
   useUploadImageMutation,
 } from 'apollo-hooks';
 
-import { projectValidationSchema } from 'const';
+import { type FormTypes, projectValidationSchema } from 'const';
 
 const notifySuccess = () => toast.success('Project edited successfully');
 const notifyError = () => toast.error('Something went wrong');
-
-type FormTypes = z.infer<typeof projectValidationSchema>;
 
 const ProjectEdit = () => {
   const { query, push } = useRouter();

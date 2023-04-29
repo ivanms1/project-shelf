@@ -38,6 +38,8 @@ export const projectValidationSchema = zod.object({
   preview: zod.string().or(zod.custom<Blob>((v) => v instanceof Blob)),
 });
 
+export type FormTypes = zod.infer<typeof projectValidationSchema>;
+
 export const LANG_LOCALE_STORAGE_KEY = 'project-shelf-lang';
 
 export const LOCALES = [
