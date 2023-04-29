@@ -9,7 +9,7 @@ import DetailsFormModal from '@/components/ProjectForm/DetailsFormModal';
 
 import ImageIcon from '@/assets/icons/image.svg';
 
-import type { FormTypes } from '@/pages/ProjectEdit/ProjectEdit';
+import type { FormTypes } from 'const';
 
 interface ProjectFormProps {
   onSubmit: (values: FormTypes) => void;
