@@ -8,12 +8,23 @@ import { useTranslation } from 'next-i18next';
 import MobileMenu from '../MobileMenu';
 
 import useIsLoggedIn from '@/hooks/useIsLoggedIn';
+import useZustandStore from 'src/zustand/useZustandStore';
 
 const Navbar = () => {
   const { isLoggedIn, logout, currentUser } = useIsLoggedIn();
   const [open, setOpen] = useState(false);
   const [isTopOpen, setIsTopOpen] = useState(false);
   const { t } = useTranslation('common');
+  const {setIsAuthLoading, isAuthLoading} = useZustandStore(state => state)
+  
+
+  const handleLogin = () => {
+    console.log('handle login clicked from navar')
+    signIn('github')
+    setIsAuthLoading(true)
+  }
+
+  console.log('isAuthLoading', isAuthLoading)
 
   return (
     <div className='bg-black flex text-white flex-row py-5 px-12 justify-between max-lg:py-3 max-lg:px-7'>
@@ -110,7 +121,8 @@ const Navbar = () => {
           <Button
             className='px-7'
             size='small'
-            onClick={() => signIn('github')}
+            onClick={handleLogin}
+            isLoading={isAuthLoading}
           >
             {t('login')}
           </Button>

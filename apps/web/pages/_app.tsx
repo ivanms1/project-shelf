@@ -8,11 +8,14 @@ import { Analytics } from '@vercel/analytics/react';
 import AuthProvider from 'src/components/AuthProvider';
 import Layout from 'src/components/Layout/Layout';
 
+
 import useApollo from '@/hooks/useApollo';
 
 import type { Session } from 'next-auth';
 
 import './styles.css';
+import useZustandStore from 'src/zustand/useZustandStore';
+
 
 function CustomApp({
   Component,
@@ -21,10 +24,13 @@ function CustomApp({
   session: Session;
 }>) {
   const client = useApollo(pageProps);
+  const isAuthLoading = useZustandStore(state => state.isAuthLoading)
+
   return (
     <SessionProvider session={session}>
       <ApolloProvider client={client}>
         <Layout>
+          {isAuthLoading && 'loading...'}
           {/* @ts-expect-error TODO: fix types here */}
           {Component.auth ? (
             <AuthProvider>
