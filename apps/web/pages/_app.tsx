@@ -26,7 +26,7 @@ function CustomApp({
   return (
     <SessionProvider session={session}>
       <ApolloProvider client={client}>
-        <NextNProgress />
+        <NextNProgress color='#9240FD' />
         <Layout>
           {/* @ts-expect-error TODO: fix types here */}
           {Component.auth ? (
