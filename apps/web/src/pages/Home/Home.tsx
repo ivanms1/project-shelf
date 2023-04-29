@@ -1,7 +1,8 @@
+import { useState } from 'react';
 import { Button, Input } from 'ui';
 import Image from 'next/future/image';
 import { NextSeo } from 'next-seo';
-import { signIn } from 'next-auth/react';
+import { signIn, useSession } from 'next-auth/react';
 import { useTranslation } from 'next-i18next';
 import Link from 'next/link';
 import {
@@ -21,8 +22,9 @@ import FeedbackIcon from '@/assets/icons/feedback.svg';
 import newsletterImage from '@/assets/images/newsletter.jpeg';
 
 function Home() {
+  const session = useSession();
   const { t } = useTranslation('home');
-
+  const [isAuthLoading, setIsAuthLoading] = useState(false);
   const { data: projectsData } = useGetTopProjectsForHomePageQuery();
   const { data: creatorsData } = useGetTopCreatorsForHomePageQuery();
 
@@ -37,6 +39,11 @@ function Home() {
 
   const coverProject = projectsData?.getTopProjectsForHomePage?.results?.[5];
 
+  const handleLogin = () => {
+    signIn('github');
+    setIsAuthLoading(true);
+  };
+
   const homeButtonAndActionButtons = (
     <>
       {isLoggedIn ? (
@@ -50,7 +57,8 @@ function Home() {
       ) : (
         <Button
           className='max-lg:mb-10 w-fit max-lg:w-full'
-          onClick={() => signIn('github')}
+          onClick={handleLogin}
+          isLoading={isAuthLoading || session.status === 'loading'}
         >
           {t('common:login')}
         </Button>
