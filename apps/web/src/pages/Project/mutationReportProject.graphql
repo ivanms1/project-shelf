@@ -1,0 +1,5 @@
+mutation ReportProject($projectId: String!) {
+  reportProject(projectId: $projectId) {
+    id
+  }
+}
