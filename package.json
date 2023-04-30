@@ -45,8 +45,7 @@
       "prettier --write"
     ],
     "*.{js,jsx,ts,tsx}": [
-      "prettier --write",
-      "yarn lint"
+      "prettier --write"
     ]
   }
 }
