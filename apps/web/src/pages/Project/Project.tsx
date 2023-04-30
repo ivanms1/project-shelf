@@ -6,6 +6,7 @@ import {
   type Project,
   useDeleteProjectsMutation,
   useGetProjectQuery,
+  useReportProjectMutation,
 } from 'apollo-hooks';
 import { useRouter } from 'next/router';
 import { Button, Modal, LoaderOverlay } from 'ui';
@@ -18,6 +19,8 @@ import useIsProjectAuthor from '@/hooks/useIsProjectAuthor';
 
 import WorldIcon from '@/assets/icons/world-icon.svg';
 import GithubIcon from '@/assets/icons/github.svg';
+import ReportIcon from '@/assets/icons/report.svg';
+import ReportModal from '@/components/ReportModal';
 
 const DATE_OPTIONS: Intl.DateTimeFormatOptions = {
   weekday: 'long',
@@ -28,6 +31,7 @@ const DATE_OPTIONS: Intl.DateTimeFormatOptions = {
 
 function Project() {
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
+  const [openReportModal, setOpenReportModal] = useState(false);
   const router = useRouter();
 
   const { t } = useTranslation('project');
@@ -43,6 +47,8 @@ function Project() {
 
   const [deleteProject, { loading: deleteProjectLoading }] =
     useDeleteProjectsMutation();
+
+  const [reportProject] = useReportProjectMutation();
 
   const deleteProjectClick = async (projectId: string) => {
     setOpenDeleteModal(false);
@@ -75,6 +81,23 @@ function Project() {
       toast.success(t('project:delete-success'));
     } catch (error) {
       toast.error(t('project:delete-fail'));
+    }
+  };
+
+  const reportProjectClick = async (projectId: string) => {
+    try {
+      const reportedProject = await reportProject({
+        variables: {
+          projectId: projectId,
+        },
+      });
+      if (reportedProject?.data?.reportProject?.id) {
+        toast.success(t('project:report-success'));
+        setOpenReportModal(false);
+      }
+    } catch (error) {
+      toast.error(error.message);
+      setOpenReportModal(false);
     }
   };
 
@@ -169,44 +192,57 @@ function Project() {
               </div>
             </div>
           </div>
-          <LikeButton project={data?.project} />
-        </div>
-        {isProjectOwner && (
-          <div className='flex gap-5 mr-0 ml-auto'>
-            <Link href={`/project-edit/${router?.query?.id}`}>
-              {t('common:edit')}
-            </Link>
-
-            <Button
-              variant='ghost'
-              className='text-red-500'
-              onClick={() => setOpenDeleteModal(true)}
-            >
-              {t('common:delete')}
-            </Button>
-
-            <Modal
-              open={openDeleteModal}
-              onClose={() => setOpenDeleteModal(false)}
-              modalClassName='bg-grey-dark flex flex-col justify-center p-12 max-lg:h-[50vh]'
-            >
-              <p className='mb-10 text-2xl font-semibold'>
-                {t('project:are-you-sure')}
-              </p>
-              <div className='flex justify-between'>
-                <Button
-                  variant='secondary'
-                  onClick={() => deleteProjectClick(data?.project?.id)}
-                >
-                  {t('common:yes')}
-                </Button>
-                <Button onClick={() => setOpenDeleteModal(false)}>
-                  {t('common:no')}
-                </Button>
-              </div>
-            </Modal>
+          <div className='flex flex-row items-start gap-[50px] '>
+            <LikeButton project={data?.project} />
           </div>
-        )}
+        </div>
+
+        <div className='flex items-center gap-5 mr-0 ml-auto'>
+          {isProjectOwner ? (
+            <div className='flex items-center gap-5'>
+              <Link href={`/project-edit/${router?.query?.id}`}>
+                {t('common:edit')}
+              </Link>
+
+              <Button
+                variant='ghost'
+                className='text-red-500'
+                onClick={() => setOpenDeleteModal(true)}
+              >
+                {t('common:delete')}
+              </Button>
+
+              <Modal
+                open={openDeleteModal}
+                onClose={() => setOpenDeleteModal(false)}
+                modalClassName='bg-grey-dark flex flex-col justify-center p-12 max-lg:h-[50vh]'
+              >
+                <p className='mb-10 text-2xl font-semibold'>
+                  {t('project:are-you-sure')}
+                </p>
+                <div className='flex justify-between'>
+                  <Button
+                    variant='secondary'
+                    onClick={() => deleteProjectClick(data?.project?.id)}
+                  >
+                    {t('common:yes')}
+                  </Button>
+                  <Button onClick={() => setOpenDeleteModal(false)}>
+                    {t('common:no')}
+                  </Button>
+                </div>
+              </Modal>
+            </div>
+          ) : (
+            <button
+              onClick={() => setOpenReportModal(true)}
+              title='Report Project'
+              className='w-[40px] h-[40px] flex items-center justify-center rounded-[10px] bg-grey-dark cursor-pointer'
+            >
+              <ReportIcon />
+            </button>
+          )}
+        </div>
       </div>
 
       <NextSeo
@@ -226,6 +262,12 @@ function Project() {
             },
           ],
         }}
+      />
+
+      <ReportModal
+        isOpen={openReportModal}
+        onClose={() => setOpenReportModal(false)}
+        reportProjectClick={() => reportProjectClick(data?.project?.id)}
       />
     </>
   );
