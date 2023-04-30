@@ -58,6 +58,8 @@ export type Mutation = {
   followUser: User;
   /** Login in as a admin */
   loginAsAdmin: Scalars['String'];
+  /** Report a project */
+  reportProject: Project;
   /** Create a new user */
   signup: Scalars['String'];
   /** Update a project */
@@ -102,6 +104,11 @@ export type MutationFollowUserArgs = {
 
 export type MutationLoginAsAdminArgs = {
   token: Scalars['String'];
+};
+
+
+export type MutationReportProjectArgs = {
+  projectId: Scalars['String'];
 };
 
 
@@ -151,6 +158,7 @@ export type Project = {
   id: Scalars['ID'];
   isApproved: Scalars['Boolean'];
   isLiked: Scalars['Boolean'];
+  isReported: Scalars['Boolean'];
   likes: Array<Like>;
   likesCount: Scalars['Int'];
   preview: Scalars['String'];
@@ -506,6 +514,13 @@ export type DeleteProjectsMutationVariables = Exact<{
 
 
 export type DeleteProjectsMutation = { __typename?: 'Mutation', deleteProjects: Array<string> };
+
+export type ReportProjectMutationVariables = Exact<{
+  projectId: Scalars['String'];
+}>;
+
+
+export type ReportProjectMutation = { __typename?: 'Mutation', reportProject: { __typename?: 'Project', id: string } };
 
 export type UpdateProjectMutationVariables = Exact<{
   input: CreateProjectInput;
@@ -1485,6 +1500,39 @@ export function useDeleteProjectsMutation(baseOptions?: Apollo.MutationHookOptio
 export type DeleteProjectsMutationHookResult = ReturnType<typeof useDeleteProjectsMutation>;
 export type DeleteProjectsMutationResult = Apollo.MutationResult<DeleteProjectsMutation>;
 export type DeleteProjectsMutationOptions = Apollo.BaseMutationOptions<DeleteProjectsMutation, DeleteProjectsMutationVariables>;
+export const ReportProjectDocument = gql`
+    mutation ReportProject($projectId: String!) {
+  reportProject(projectId: $projectId) {
+    id
+  }
+}
+    `;
+export type ReportProjectMutationFn = Apollo.MutationFunction<ReportProjectMutation, ReportProjectMutationVariables>;
+
+/**
+ * __useReportProjectMutation__
+ *
+ * To run a mutation, you first call `useReportProjectMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useReportProjectMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [reportProjectMutation, { data, loading, error }] = useReportProjectMutation({
+ *   variables: {
+ *      projectId: // value for 'projectId'
+ *   },
+ * });
+ */
+export function useReportProjectMutation(baseOptions?: Apollo.MutationHookOptions<ReportProjectMutation, ReportProjectMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<ReportProjectMutation, ReportProjectMutationVariables>(ReportProjectDocument, options);
+      }
+export type ReportProjectMutationHookResult = ReturnType<typeof useReportProjectMutation>;
+export type ReportProjectMutationResult = Apollo.MutationResult<ReportProjectMutation>;
+export type ReportProjectMutationOptions = Apollo.BaseMutationOptions<ReportProjectMutation, ReportProjectMutationVariables>;
 export const UpdateProjectDocument = gql`
     mutation UpdateProject($input: CreateProjectInput!, $projectId: String!) {
   updateProject(input: $input, projectId: $projectId) {
