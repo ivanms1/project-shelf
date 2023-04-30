@@ -15,6 +15,8 @@ import NextNProgress from 'nextjs-progressbar';
 
 import './styles.css';
 
+const PROGRESS_COLOR = '#9240FD';
+
 function CustomApp({
   Component,
   pageProps: { session, ...pageProps },
@@ -22,12 +24,11 @@ function CustomApp({
   session: Session;
 }>) {
   const client = useApollo(pageProps);
-  const progressColor = '#9240FD';
 
   return (
     <SessionProvider session={session}>
       <ApolloProvider client={client}>
-        <NextNProgress color={progressColor} />
+        <NextNProgress color={PROGRESS_COLOR} />
         <Layout>
           {/* @ts-expect-error TODO: fix types here */}
           {Component.auth ? (
