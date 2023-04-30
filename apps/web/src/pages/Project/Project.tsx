@@ -12,6 +12,7 @@ import { useRouter } from 'next/router';
 import { Button, Modal, LoaderOverlay } from 'ui';
 import toast from 'react-hot-toast';
 import { useTranslation } from 'next-i18next';
+import useIsLoggedIn from '@/hooks/useIsLoggedIn';
 
 import LikeButton from './LikeButton/LikeButton';
 
@@ -21,6 +22,7 @@ import WorldIcon from '@/assets/icons/world-icon.svg';
 import GithubIcon from '@/assets/icons/github.svg';
 import ReportIcon from '@/assets/icons/report.svg';
 import ReportModal from '@/components/ReportModal';
+import LoginModal from '@/components/Modals/LoginModal';
 
 const DATE_OPTIONS: Intl.DateTimeFormatOptions = {
   weekday: 'long',
@@ -32,6 +34,9 @@ const DATE_OPTIONS: Intl.DateTimeFormatOptions = {
 function Project() {
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [openReportModal, setOpenReportModal] = useState(false);
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+
+  const { isLoggedIn } = useIsLoggedIn();
   const router = useRouter();
 
   const { t } = useTranslation('project');
@@ -235,7 +240,11 @@ function Project() {
             </div>
           ) : (
             <button
-              onClick={() => setOpenReportModal(true)}
+              onClick={() =>
+                isLoggedIn
+                  ? setOpenReportModal(true)
+                  : setIsLoginModalOpen(true)
+              }
               title='Report Project'
               className='w-[40px] h-[40px] flex items-center justify-center rounded-[10px] bg-grey-dark cursor-pointer'
             >
@@ -268,6 +277,11 @@ function Project() {
         isOpen={openReportModal}
         onClose={() => setOpenReportModal(false)}
         reportProjectClick={() => reportProjectClick(data?.project?.id)}
+      />
+
+      <LoginModal
+        isOpen={isLoginModalOpen}
+        onClose={() => setIsLoginModalOpen(false)}
       />
     </>
   );
