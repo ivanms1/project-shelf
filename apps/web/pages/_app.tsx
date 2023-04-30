@@ -22,11 +22,12 @@ function CustomApp({
   session: Session;
 }>) {
   const client = useApollo(pageProps);
+  const progressColor = '#9240FD';
 
   return (
     <SessionProvider session={session}>
       <ApolloProvider client={client}>
-        <NextNProgress color='#9240FD' />
+        <NextNProgress color={progressColor} />
         <Layout>
           {/* @ts-expect-error TODO: fix types here */}
           {Component.auth ? (
