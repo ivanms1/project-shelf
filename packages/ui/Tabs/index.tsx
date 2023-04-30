@@ -19,6 +19,17 @@ export const Tabs = ({
   defaultIndex = 0,
   onChange,
 }: TabProps) => {
+  //TODO: Remove the state and useEffect once we test that Tabs work as expected in React 18.
+  const [showTabs, setShowTabs] = React.useState(false);
+
+  React.useEffect(() => {
+    setShowTabs(true);
+  }, []);
+
+  if (!showTabs) {
+    return null;
+  }
+
   return (
     <Tab.Group onChange={onChange} defaultIndex={defaultIndex}>
       <Tab.List className='flex'>
