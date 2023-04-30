@@ -39,9 +39,10 @@ function Home() {
 
   const coverProject = projectsData?.getTopProjectsForHomePage?.results?.[5];
 
-  const handleLogin = () => {
-    signIn('github');
+  const handleLogin = async () => {
     setIsAuthLoading(true);
+    await signIn('github');
+    setIsAuthLoading(false);
   };
 
   const homeButtonAndActionButtons = (

@@ -17,14 +17,16 @@ const Navbar = () => {
   const [isTopOpen, setIsTopOpen] = useState(false);
   const { t } = useTranslation('common');
 
-  const handleLogin = () => {
-    signIn('github');
+  const handleLogin = async () => {
     setIsAuthLoading(true);
+    await signIn('github');
+    setIsAuthLoading(false);
   };
 
-  const handleLogout = () => {
-    logout();
+  const handleLogout = async () => {
     setIsAuthLoading(true);
+    await logout();
+    setIsAuthLoading(false);
   };
 
   return (

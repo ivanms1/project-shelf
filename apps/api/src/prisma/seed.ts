@@ -52,7 +52,7 @@ async function main() {
 
       console.log(`Created project ${projectCreated.id}, author ${authorId}`);
 
-      const numberOfLikes = Math.floor(Math.random() * 10) + 1;
+      const numberOfLikes = Math.floor(Math.random() * 50) + 1;
 
       Promise.all(
         faker.helpers
