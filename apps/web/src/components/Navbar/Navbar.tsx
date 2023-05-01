@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import Link from 'next/link';
-import { signIn, useSession } from 'next-auth/react';
-import Image from 'next/future/image';
-import { Button, DropDown } from 'ui';
+import { useState } from 'react';
+import { signIn } from 'next-auth/react';
 import { useTranslation } from 'next-i18next';
+import Image from 'next/future/image';
+import Link from 'next/link';
+import { Button, DropDown } from 'ui';
 
 import MobileMenu from '../MobileMenu';
 
@@ -11,7 +11,6 @@ import useIsLoggedIn from '@/hooks/useIsLoggedIn';
 
 const Navbar = () => {
   const { isLoggedIn, logout, currentUser } = useIsLoggedIn();
-  const session = useSession();
   const [isAuthLoading, setIsAuthLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const [isTopOpen, setIsTopOpen] = useState(false);
@@ -113,7 +112,7 @@ const Navbar = () => {
                 <Button
                   variant='ghost'
                   className='py-3 px-8 text-center hover:bg-grey-light w-full rounded-b-sm'
-                  isLoading={isAuthLoading || session.status === 'loading'}
+                  isLoading={isAuthLoading}
                   onClick={handleLogout}
                 >
                   {t('sign-out')}
@@ -125,7 +124,7 @@ const Navbar = () => {
           <Button
             className='px-7'
             size='small'
-            isLoading={isAuthLoading || session.status === 'loading'}
+            isLoading={isAuthLoading}
             onClick={handleLogin}
           >
             {t('login')}

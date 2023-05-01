@@ -18,7 +18,6 @@ const MobileMenu = () => {
     setIsAuthLoading(true);
     await logout();
     setOpen(false);
-
     // Not setting the isAuthLoading state to false because of the loading UI flicker on click
   };
 
