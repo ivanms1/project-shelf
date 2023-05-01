@@ -20,13 +20,13 @@ const Navbar = () => {
   const handleLogin = async () => {
     setIsAuthLoading(true);
     await signIn('github');
-    setIsAuthLoading(false);
+    // Not setting the state to false because of the loading UI flicker on click
   };
 
   const handleLogout = async () => {
     setIsAuthLoading(true);
     await logout();
-    setIsAuthLoading(false);
+    // Not setting the state to false because of the loading UI flicker on click
   };
 
   return (
