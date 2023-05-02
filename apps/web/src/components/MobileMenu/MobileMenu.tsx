@@ -9,10 +9,24 @@ import useIsLoggedIn from '@/hooks/useIsLoggedIn';
 import MenuIcon from '@/assets/icons/menu-icon.svg';
 
 const MobileMenu = () => {
+  const { t } = useTranslation('common');
   const [open, setOpen] = useState(false);
   const { isLoggedIn, logout, currentUser } = useIsLoggedIn();
+  const [isAuthLoading, setIsAuthLoading] = useState(false);
 
-  const { t } = useTranslation('common');
+  const handleLogout = async () => {
+    setIsAuthLoading(true);
+    await logout();
+    setOpen(false);
+    // Not setting the isAuthLoading state to false because of the loading UI flicker on click
+  };
+
+  const handleLogin = async () => {
+    setIsAuthLoading(true);
+    await signIn('github');
+    // Not setting the isAuthLoading state to false because of the loading UI flicker on click
+  };
+
   return (
     <div className='hidden items-center max-lg:flex'>
       <Button
@@ -62,10 +76,8 @@ const MobileMenu = () => {
               <Button
                 variant='ghost'
                 className='py-3 px-8 font-semibold text-center w-full'
-                onClick={() => {
-                  logout();
-                  setOpen(false);
-                }}
+                isLoading={isAuthLoading}
+                onClick={handleLogout}
               >
                 {t('sign-out')}
               </Button>
@@ -87,7 +99,8 @@ const MobileMenu = () => {
             <Button
               className='px-7'
               size='small'
-              onClick={() => signIn('github')}
+              onClick={handleLogin}
+              isLoading={isAuthLoading}
             >
               {t('login')}
             </Button>

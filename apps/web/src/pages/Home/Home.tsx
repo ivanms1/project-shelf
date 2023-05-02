@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Button, Input } from 'ui';
 import Image from 'next/future/image';
 import { NextSeo } from 'next-seo';
@@ -22,7 +23,7 @@ import newsletterImage from '@/assets/images/newsletter.jpeg';
 
 function Home() {
   const { t } = useTranslation('home');
-
+  const [isAuthLoading, setIsAuthLoading] = useState(false);
   const { data: projectsData } = useGetTopProjectsForHomePageQuery();
   const { data: creatorsData } = useGetTopCreatorsForHomePageQuery();
 
@@ -37,6 +38,12 @@ function Home() {
 
   const coverProject = projectsData?.getTopProjectsForHomePage?.results?.[5];
 
+  const handleLogin = async () => {
+    setIsAuthLoading(true);
+    await signIn('github');
+    // Not setting the state to false because of the loading UI flicker on click
+  };
+
   const homeButtonAndActionButtons = (
     <>
       {isLoggedIn ? (
@@ -50,7 +57,8 @@ function Home() {
       ) : (
         <Button
           className='max-lg:mb-10 w-fit max-lg:w-full'
-          onClick={() => signIn('github')}
+          onClick={handleLogin}
+          isLoading={isAuthLoading}
         >
           {t('common:login')}
         </Button>

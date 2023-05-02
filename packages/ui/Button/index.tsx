@@ -28,7 +28,7 @@ export const Button = React.forwardRef<HTMLButtonElement, Button>(
     if (variant === 'ghost') {
       return (
         <button ref={ref} className={className} onClick={onClick} {...props}>
-          {isLoading ? <Loader /> : children}
+          {isLoading ? <Loader className='m-auto' /> : children}
         </button>
       );
     }
@@ -46,7 +46,7 @@ export const Button = React.forwardRef<HTMLButtonElement, Button>(
         {...props}
         onClick={isLoading ? undefined : onClick}
       >
-        {isLoading ? <Loader className='mx-auto ' /> : children}
+        {isLoading ? <Loader className='m-auto' /> : children}
       </button>
     );
   }

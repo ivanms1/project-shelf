@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import Link from 'next/link';
+import { useState } from 'react';
 import { signIn } from 'next-auth/react';
-import Image from 'next/future/image';
-import { Button, DropDown } from 'ui';
 import { useTranslation } from 'next-i18next';
+import Image from 'next/future/image';
+import Link from 'next/link';
+import { Button, DropDown } from 'ui';
 
 import MobileMenu from '../MobileMenu';
 
@@ -11,9 +11,22 @@ import useIsLoggedIn from '@/hooks/useIsLoggedIn';
 
 const Navbar = () => {
   const { isLoggedIn, logout, currentUser } = useIsLoggedIn();
+  const [isAuthLoading, setIsAuthLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const [isTopOpen, setIsTopOpen] = useState(false);
   const { t } = useTranslation('common');
+
+  const handleLogin = async () => {
+    setIsAuthLoading(true);
+    await signIn('github');
+    // Not setting the isAuthLoading state to false because of the loading UI flicker on click
+  };
+
+  const handleLogout = async () => {
+    setIsAuthLoading(true);
+    await logout();
+    // Not setting the isAuthLoading state to false because of the loading UI flicker on click
+  };
 
   return (
     <div className='bg-black flex text-white flex-row py-5 px-12 justify-between max-lg:py-3 max-lg:px-7'>
@@ -99,7 +112,8 @@ const Navbar = () => {
                 <Button
                   variant='ghost'
                   className='py-3 px-8 text-center hover:bg-grey-light w-full rounded-b-sm'
-                  onClick={logout}
+                  isLoading={isAuthLoading}
+                  onClick={handleLogout}
                 >
                   {t('sign-out')}
                 </Button>
@@ -110,7 +124,8 @@ const Navbar = () => {
           <Button
             className='px-7'
             size='small'
-            onClick={() => signIn('github')}
+            isLoading={isAuthLoading}
+            onClick={handleLogin}
           >
             {t('login')}
           </Button>
