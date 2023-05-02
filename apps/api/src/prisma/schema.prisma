@@ -43,6 +43,7 @@ model User {
   Like            Like[]    @relation("UserLikeId")
   AuthorLike      Like[]    @relation("AuthorLikeId")
   banned          Boolean   @default(false)
+  Report          Report[]
 }
 
 model Project {
@@ -57,11 +58,9 @@ model Project {
   isApproved  Boolean  @default(false)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @default(now()) @updatedAt
-  isReported  Boolean  @default(false)
-  reportCount Int      @default(0)
-  reportedBy  String[]
   tags        String[]
   Like        Like[]
+  Report      Report[]
 }
 
 model Like {
@@ -75,4 +74,17 @@ model Like {
   authorId  String
 
   @@unique([userId, projectId])
+}
+
+model Report {
+  id         String   @id @default(cuid())
+  createdAt  DateTime @default(now())
+  reason     String
+  message    String?
+  project    Project  @relation(fields: [projectId], references: [id])
+  projectId  String
+  reporter   User     @relation(fields: [reporterId], references: [id])
+  reporterId String
+
+  @@unique([projectId, reporterId])
 }

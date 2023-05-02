@@ -3,3 +3,4 @@ export * from './Project';
 export * from './Scalars';
 export * from './Like';
 export * from './Other';
+export * from './Report';
