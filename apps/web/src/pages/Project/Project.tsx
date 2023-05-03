@@ -251,7 +251,7 @@ function Project() {
                   : setIsLoginModalOpen(true)
               }
               title='Report Project'
-              className='w-[40px] h-[40px] flex items-center justify-center rounded-[10px] bg-grey-dark cursor-pointer'
+              className='w-10 h-10 flex items-center justify-center rounded-[10px] bg-grey-dark cursor-pointer'
             >
               <ReportIcon />
             </button>
@@ -259,7 +259,7 @@ function Project() {
           <button
             onClick={() => setIsShareModalOpen(true)}
             title='Share Project'
-            className='w-[40px] h-[40px] flex items-center justify-center rounded-[10px] bg-grey-dark cursor-pointer'
+            className='w-10 h-10 flex items-center justify-center rounded-[10px] bg-grey-dark cursor-pointer'
           >
             <ShareIcon />
           </button>

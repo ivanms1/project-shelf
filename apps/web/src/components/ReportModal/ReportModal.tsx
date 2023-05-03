@@ -4,22 +4,22 @@ import { useTranslation } from 'next-i18next';
 
 import { Modal, Button } from 'ui';
 
-type ReportModalProps = {
+interface ReportModalProps {
   isOpen: boolean;
   onClose: () => void;
   reportProjectClick: (error: string, message: string) => void;
-};
+}
 
-function ReportModal({
+const ReportModal = ({
   isOpen,
   onClose,
   reportProjectClick,
-}: ReportModalProps) {
+}: ReportModalProps) => {
   const [selected, setSelected] = useState(null);
   const [message, setMessage] = useState('');
   const [error, setError] = useState(false);
 
-  const { t } = useTranslation('report-modal');
+  const { t } = useTranslation('project');
 
   useEffect(() => {
     setSelected(false);
@@ -70,13 +70,13 @@ function ReportModal({
     >
       <div className='flex flex-col gap-2 md:gap-4'>
         <span className='text-2xl md:text-3xl font-semibold'>
-          {t('report-modal:report')}
+          {t('project:report')}
         </span>
         <p className='font-medium text-lg md:text-xl'>
-          {t('report-modal:reporting-this-post')}
+          {t('project:reporting-this-post')}
         </p>
         <p className='text-sm md:text-base mb-2 md:mb-4'>
-          {t('report-modal:description')}
+          {t('project:description')}
         </p>
 
         <div className='flex flex-row flex-wrap gap-2 md:gap-4 md:mb-6'>
@@ -98,17 +98,17 @@ function ReportModal({
         </div>
 
         <div className='flex flex-col gap-2 md:gap-4'>
-          <span className='text-lg md:text-xl'>{t('report-modal:reason')}</span>
-          <p>{t('report-modal:help')}</p>
+          <span className='text-lg md:text-xl'>{t('project:reason')}</span>
+          <p>{t('project:help')}</p>
           <textarea
             className='block p-2.5 w-full text-sm md:text-base rounded-md border border-gray-300 bg-gray-200 dark:text-gray-400 dark:placeholder-gray-400 outline-none'
-            placeholder='Write a message'
+            placeholder={t('write-a-message')}
             onChange={(e) => setMessage(e.target.value)}
           />
         </div>
         {error && (
           <span className='text-red-400 text-center text-[13px]'>
-            {t('report-modal:category')}
+            {t('project:category')}
           </span>
         )}
         <Button
@@ -123,11 +123,11 @@ function ReportModal({
             }
           }}
         >
-          {t('report-modal:submit-report')}
+          {t('project:submit-report')}
         </Button>
       </div>
     </Modal>
   );
-}
+};
 
 export default ReportModal;

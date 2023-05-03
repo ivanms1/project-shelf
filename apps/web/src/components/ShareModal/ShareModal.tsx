@@ -12,7 +12,7 @@ type ShareModalProps = {
   onClose: () => void;
 };
 
-function ShareModal({ project, isOpen, onClose }: ShareModalProps) {
+const ShareModal = ({ project, isOpen, onClose }: ShareModalProps) => {
   const router = useRouter();
 
   return (
@@ -55,6 +55,6 @@ function ShareModal({ project, isOpen, onClose }: ShareModalProps) {
       </div>
     </Modal>
   );
-}
+};
 
 export default ShareModal;

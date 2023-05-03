@@ -24,22 +24,14 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
 
     return addApolloState(client, {
       props: {
-        ...(await serverSideTranslations(locale, [
-          'common',
-          'project',
-          'report-modal',
-        ])),
+        ...(await serverSideTranslations(locale, ['common', 'project'])),
       },
       revalidate: 30,
     });
   } catch (error) {
     return {
       props: {
-        ...(await serverSideTranslations(locale, [
-          'common',
-          'project',
-          'report-modal',
-        ])),
+        ...(await serverSideTranslations(locale, ['common', 'project'])),
       },
     };
   }
