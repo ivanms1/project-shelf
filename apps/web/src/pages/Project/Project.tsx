@@ -21,8 +21,10 @@ import useIsProjectAuthor from '@/hooks/useIsProjectAuthor';
 import WorldIcon from '@/assets/icons/world-icon.svg';
 import GithubIcon from '@/assets/icons/github.svg';
 import ReportIcon from '@/assets/icons/report.svg';
+import ShareIcon from '@/assets/icons/share.svg';
 import ReportModal from '@/components/ReportModal';
 import LoginModal from '@/components/Modals/LoginModal';
+import ShareModal from '@/components/ShareModal';
 
 const DATE_OPTIONS: Intl.DateTimeFormatOptions = {
   weekday: 'long',
@@ -35,6 +37,7 @@ function Project() {
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [openReportModal, setOpenReportModal] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const [isShareModalOpen, setIsShareModalOpen] = useState(false);
 
   const { isLoggedIn } = useIsLoggedIn();
   const router = useRouter();
@@ -253,6 +256,13 @@ function Project() {
               <ReportIcon />
             </button>
           )}
+          <button
+            onClick={() => setIsShareModalOpen(true)}
+            title='Share Project'
+            className='w-[40px] h-[40px] flex items-center justify-center rounded-[10px] bg-grey-dark cursor-pointer'
+          >
+            <ShareIcon />
+          </button>
         </div>
       </div>
 
@@ -284,6 +294,12 @@ function Project() {
       <LoginModal
         isOpen={isLoginModalOpen}
         onClose={() => setIsLoginModalOpen(false)}
+      />
+
+      <ShareModal
+        project={data?.project}
+        isOpen={isShareModalOpen}
+        onClose={() => setIsShareModalOpen(false)}
       />
     </>
   );
