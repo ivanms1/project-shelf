@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
+import { useTranslation } from 'next-i18next';
 
 import { Modal, Button } from 'ui';
 
@@ -18,20 +19,46 @@ function ReportModal({
   const [message, setMessage] = useState('');
   const [error, setError] = useState(false);
 
+  const { t } = useTranslation('report-modal');
+
   useEffect(() => {
     setSelected(false);
     setMessage('');
   }, [isOpen]);
 
   const TAGS = [
-    'Spam',
-    'Nudity',
-    'Scam',
-    'Illegal',
-    'Violence',
-    'Suicide or self-injury',
-    'Hate speech',
-    'Something else',
+    {
+      name: 'spam',
+      value: 'Spam',
+    },
+    {
+      name: 'nudity',
+      value: 'Nudity',
+    },
+    {
+      name: 'scam',
+      value: 'Scam',
+    },
+    {
+      name: 'illegal',
+      value: 'Illegal',
+    },
+    {
+      name: 'violence',
+      value: 'Violence',
+    },
+    {
+      name: 'suicide-or-self-injury',
+      value: 'Suicide or self injury',
+    },
+    {
+      name: 'hate-speech',
+      value: 'Hate speech',
+    },
+    {
+      name: 'something-else',
+      value: 'Something else',
+    },
   ];
 
   return (
@@ -42,14 +69,14 @@ function ReportModal({
       contentClassName='p-4 max-h-full md:max-h-screen-md overflow-y-auto'
     >
       <div className='flex flex-col gap-2 md:gap-4'>
-        <span className='text-2xl md:text-3xl font-semibold'>Report</span>
+        <span className='text-2xl md:text-3xl font-semibold'>
+          {t('report-modal:report')}
+        </span>
         <p className='font-medium text-lg md:text-xl'>
-          Why are you reporting this post?
+          {t('report-modal:reporting-this-post')}
         </p>
         <p className='text-sm md:text-base mb-2 md:mb-4'>
-          Your report is anonymous, except if you&apos;re reporting an
-          intellectual property infringement. If someone is in immediate danger,
-          call the local emergency sevices.
+          {t('report-modal:description')}
         </p>
 
         <div className='flex flex-row flex-wrap gap-2 md:gap-4 md:mb-6'>
@@ -65,14 +92,14 @@ function ReportModal({
               )}
               key={idx}
             >
-              {tag}
+              {t(tag.name)}
             </span>
           ))}
         </div>
 
         <div className='flex flex-col gap-2 md:gap-4'>
-          <span className='text-lg md:text-xl'>Reason</span>
-          <p>Help us understand the problem.</p>
+          <span className='text-lg md:text-xl'>{t('report-modal:reason')}</span>
+          <p>{t('report-modal:help')}</p>
           <textarea
             className='block p-2.5 w-full text-sm md:text-base rounded-md border border-gray-300 bg-gray-200 dark:text-gray-400 dark:placeholder-gray-400 outline-none'
             placeholder='Write a message'
@@ -81,7 +108,7 @@ function ReportModal({
         </div>
         {error && (
           <span className='text-red-400 text-center text-[13px]'>
-            Please select a category to report
+            {t('report-modal:category')}
           </span>
         )}
         <Button
@@ -92,11 +119,11 @@ function ReportModal({
               setError(true);
             } else {
               setError(false);
-              reportProjectClick(selected, message);
+              reportProjectClick(selected.value, message);
             }
           }}
         >
-          Submit Report
+          {t('report-modal:submit-report')}
         </Button>
       </div>
     </Modal>
