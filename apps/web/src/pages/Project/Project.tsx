@@ -6,7 +6,7 @@ import {
   type Project,
   useDeleteProjectsMutation,
   useGetProjectQuery,
-  useReportProjectMutation,
+  useCreateReportMutation,
 } from 'apollo-hooks';
 import { useRouter } from 'next/router';
 import { Button, Modal, LoaderOverlay } from 'ui';
@@ -53,7 +53,7 @@ function Project() {
   const [deleteProject, { loading: deleteProjectLoading }] =
     useDeleteProjectsMutation();
 
-  const [reportProject] = useReportProjectMutation();
+  const [reportProject] = useCreateReportMutation();
 
   const deleteProjectClick = async (projectId: string) => {
     setOpenDeleteModal(false);
@@ -89,14 +89,16 @@ function Project() {
     }
   };
 
-  const reportProjectClick = async (projectId: string) => {
+  const reportProjectClick = async (message: string, reason: string) => {
     try {
       const reportedProject = await reportProject({
         variables: {
-          projectId: projectId,
+          projectId: String(router.query.id),
+          message: message,
+          reason: reason,
         },
       });
-      if (reportedProject?.data?.reportProject?.id) {
+      if (reportedProject?.data?.createReport.id) {
         toast.success(t('project:report-success'));
         setOpenReportModal(false);
       }
@@ -276,7 +278,7 @@ function Project() {
       <ReportModal
         isOpen={openReportModal}
         onClose={() => setOpenReportModal(false)}
-        reportProjectClick={() => reportProjectClick(data?.project?.id)}
+        reportProjectClick={reportProjectClick}
       />
 
       <LoginModal
