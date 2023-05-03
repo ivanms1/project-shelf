@@ -46,14 +46,14 @@ const MobileMenu = () => {
           <Link
             href='/about'
             onClick={() => setOpen(false)}
-            className='py-3 px-8 font-semibold text-center w-full'
+            className='w-full py-3 px-8 text-center font-semibold'
           >
             {t('about')}
           </Link>
           <Link
             href='/search'
             onClick={() => setOpen(false)}
-            className='py-3 px-8 font-semibold text-center w-full'
+            className='w-full py-3 px-8 text-center font-semibold'
           >
             {t('search')}
           </Link>
@@ -61,7 +61,7 @@ const MobileMenu = () => {
             <>
               <Link
                 href={`/user/${currentUser?.id}`}
-                className='py-3 px-8 font-semibold text-center w-full'
+                className='w-full py-3 px-8 text-center font-semibold'
                 onClick={() => setOpen(false)}
               >
                 {t('profile')}
@@ -69,13 +69,13 @@ const MobileMenu = () => {
               <Link
                 href={`/user-edit/${currentUser?.id}`}
                 onClick={() => setOpen(false)}
-                className='py-3 px-8 font-semibold text-center w-full'
+                className='w-full py-3 px-8 text-center font-semibold'
               >
                 {t('edit-profile')}
               </Link>
               <Button
                 variant='ghost'
-                className='py-3 px-8 font-semibold text-center w-full'
+                className='w-full py-3 px-8 text-center font-semibold'
                 isLoading={isAuthLoading}
                 onClick={handleLogout}
               >
@@ -83,7 +83,7 @@ const MobileMenu = () => {
               </Button>
               <Link
                 href='/create-project'
-                className='text-center w-full'
+                className='w-full text-center'
                 passHref
               >
                 <Button

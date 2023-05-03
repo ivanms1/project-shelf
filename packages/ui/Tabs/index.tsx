@@ -38,7 +38,7 @@ export const Tabs = ({
             key={tab.name}
             className={({ selected }) =>
               classNames(
-                'w-full py-4 text-[22px] bg-transparent max-lg:text-base font-semibold text-center focus:outline-none border-b-2',
+                'w-full border-b-2 bg-transparent py-4 text-center text-[22px] font-semibold focus:outline-none max-lg:text-base',
                 selected
                   ? 'border-b-grey-light'
                   : 'border-b-transparent text-grey-light',
