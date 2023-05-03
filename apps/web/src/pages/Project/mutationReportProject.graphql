@@ -1,5 +1,5 @@
-mutation ReportProject($projectId: String!) {
-  reportProject(projectId: $projectId) {
+mutation CreateReport($reason: String!, $projectId: String!, $message: String) {
+  createReport(reason: $reason, projectId: $projectId, message: $message) {
     id
   }
 }
