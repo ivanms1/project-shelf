@@ -19,6 +19,17 @@ export const Tabs = ({
   defaultIndex = 0,
   onChange,
 }: TabProps) => {
+  //TODO: Remove the state and useEffect once we test that Tabs work as expected in React 18.
+  const [showTabs, setShowTabs] = React.useState(false);
+
+  React.useEffect(() => {
+    setShowTabs(true);
+  }, []);
+
+  if (!showTabs) {
+    return null;
+  }
+
   return (
     <Tab.Group onChange={onChange} defaultIndex={defaultIndex}>
       <Tab.List className='flex'>
@@ -27,7 +38,7 @@ export const Tabs = ({
             key={tab.name}
             className={({ selected }) =>
               classNames(
-                'w-full py-4 text-[22px] bg-transparent max-lg:text-base font-semibold text-center focus:outline-none border-b-2',
+                'w-full border-b-2 bg-transparent py-4 text-center text-[22px] font-semibold focus:outline-none max-lg:text-base',
                 selected
                   ? 'border-b-grey-light'
                   : 'border-b-transparent text-grey-light',
