@@ -72,7 +72,7 @@ function ReportModal({
 
         <div className='flex flex-col gap-2 md:gap-4'>
           <span className='text-lg md:text-xl'>Reason</span>
-          <p>Help us undestand the problem.</p>
+          <p>Help us understand the problem.</p>
           <textarea
             className='block p-2.5 w-full text-sm md:text-base rounded-md border border-gray-300 bg-gray-200 dark:text-gray-400 dark:placeholder-gray-400 outline-none'
             placeholder='Write a message'
