@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
 
 import { Modal, Button } from 'ui';
@@ -6,7 +6,7 @@ import { Modal, Button } from 'ui';
 type ReportModalProps = {
   isOpen: boolean;
   onClose: () => void;
-  reportProjectClick: () => void;
+  reportProjectClick: (error: string, message: string) => void;
 };
 
 function ReportModal({
@@ -14,7 +14,14 @@ function ReportModal({
   onClose,
   reportProjectClick,
 }: ReportModalProps) {
-  const [selected, setSelected] = useState('');
+  const [selected, setSelected] = useState(null);
+  const [message, setMessage] = useState('');
+  const [error, setError] = useState(false);
+
+  useEffect(() => {
+    setSelected(false);
+    setMessage('');
+  }, [isOpen]);
 
   const TAGS = [
     'Spam',
@@ -66,17 +73,28 @@ function ReportModal({
         <div className='flex flex-col gap-2 md:gap-4'>
           <span className='text-lg md:text-xl'>Reason</span>
           <p>Help us undestand the problem.</p>
-
           <textarea
             className='block p-2.5 w-full text-sm md:text-base rounded-md border border-gray-300 bg-gray-200 dark:text-gray-400 dark:placeholder-gray-400 outline-none'
             placeholder='Write a message'
+            onChange={(e) => setMessage(e.target.value)}
           />
         </div>
-
+        {error && (
+          <span className='text-red-400 text-center text-[13px]'>
+            Please select a category to report
+          </span>
+        )}
         <Button
           variant='primary'
           className='text-sm md:text-base'
-          onClick={reportProjectClick}
+          onClick={() => {
+            if (!selected) {
+              setError(true);
+            } else {
+              setError(false);
+              reportProjectClick(selected, message);
+            }
+          }}
         >
           Submit Report
         </Button>
