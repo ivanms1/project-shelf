@@ -1,6 +1,6 @@
 import React from 'react';
 import Image from 'next/future/image';
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'next-i18next';
 import Link from 'next/link';
 
 interface TopCreatorProps {
@@ -14,6 +14,7 @@ interface TopCreatorProps {
 
 const TopCreator = ({ creator }: TopCreatorProps) => {
   const { t } = useTranslation('home');
+
   return (
     <Link
       href={`/user/${creator.id}`}

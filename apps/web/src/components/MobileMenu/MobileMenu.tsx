@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Button, Drawer } from 'ui';
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'next-i18next';
 import Link from 'next/link';
 import { signIn } from 'next-auth/react';
 

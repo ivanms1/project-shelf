@@ -1,7 +1,7 @@
 import React from 'react';
 import Image from 'next/future/image';
 import Link from 'next/link';
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'next-i18next';
 import { useGetTopProjectsQuery } from 'apollo-hooks';
 
 interface ProjectsTableProps {

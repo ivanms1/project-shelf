@@ -3,7 +3,7 @@ User-agent: *
 Allow: /
 
 # Host
-Host: https://project-shelf-dev.netlify.app
+Host: https://www.projectshelf.dev
 
 # Sitemaps
-Sitemap: https://project-shelf-dev.netlify.app/sitemap.xml
+Sitemap: https://www.projectshelf.dev/sitemap.xml
