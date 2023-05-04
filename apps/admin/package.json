@@ -29,7 +29,7 @@
     "recharts": "^2.5.0",
     "ui": "*",
     "yarn": "^1.22.17",
-    "yup": "^0.32.11"
+    "yup": "^1.1.1"
   },
   "devDependencies": {
     "@types/react": "18.2.0",
