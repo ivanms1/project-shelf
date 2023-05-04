@@ -1,7 +1,7 @@
 import Image from 'next/future/image';
 
 import type { MemberType } from '@/pages/About/About';
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'next-i18next';
 
 interface MemberProps {
   member: MemberType;

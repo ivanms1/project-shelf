@@ -1,7 +1,7 @@
 import { useGetUserForPageQuery, useGetUserProjectsQuery } from 'apollo-hooks';
 import { useRouter } from 'next/router';
 import { NextSeo } from 'next-seo';
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'next-i18next';
 import Image from 'next/future/image';
 import { Loader } from 'ui';
 
