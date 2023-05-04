@@ -86,7 +86,7 @@ const TopProjects = () => {
           site_name: t('projects-seo-title'),
           images: [
             {
-              url: 'https://project-shelf-dev.netlify.app/assets/images/shelf.png',
+              url: 'https://www.projectshelf.dev/assets/images/shelf.png',
               width: 200,
               height: 200,
               alt: 'Project Shelf',

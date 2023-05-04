@@ -16,6 +16,7 @@ const PROD_ORIGINS = [
   'https://project-shelf-web.vercel.app',
   'https://project-shelf-admin.vercel.app',
   'https://project-shelf.fly.dev',
+  'https://www.projectshelf.dev',
 ];
 
 const apollo = new ApolloServer({

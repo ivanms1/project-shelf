@@ -258,7 +258,7 @@ function Home() {
           site_name: 'Project Shelf',
           images: [
             {
-              url: 'https://project-shelf-dev.netlify.app/assets/images/shelf.png',
+              url: 'https://www.projectshelf.dev/assets/images/shelf.png',
               width: 200,
               height: 200,
               alt: 'Project Shelf',
