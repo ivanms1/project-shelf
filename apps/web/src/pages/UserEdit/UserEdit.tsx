@@ -2,10 +2,10 @@ import React, { useEffect } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useRouter } from 'next/router';
 import toast from 'react-hot-toast';
-import * as yup from 'yup';
+import * as zod from 'zod';
 import { NextSeo } from 'next-seo';
 import { useTranslation } from 'next-i18next';
-import { yupResolver } from '@hookform/resolvers/yup';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { Button, FormInput, FormTextArea } from 'ui';
 import {
   UploadImageMutation,
@@ -38,11 +38,16 @@ type FormTypes = {
   profileTwitter: string;
 };
 
-const validationSchema = yup
-  .object()
-  .shape({
-    profileName: yup.string().required('This is required field'),
-    profileWebsite: yup.string().url('It must be a valid URL'),
+const validationSchema = zod
+  .object({
+    profileName: zod.string({
+      required_error: 'This is required field',
+    }),
+    profileWebsite: zod
+      .string()
+      .url('It must be a valid URL')
+      .optional()
+      .or(zod.literal('')),
   })
   .required();
 
@@ -76,7 +81,7 @@ const UserEdit = () => {
     formState: { errors, dirtyFields, isDirty },
   } = useForm<FormTypes>({
     defaultValues,
-    resolver: yupResolver(validationSchema),
+    resolver: zodResolver(validationSchema),
   });
 
   const [updateUser, { loading: updateUserLoading }] = useUpdateUserMutation();
@@ -159,9 +164,9 @@ const UserEdit = () => {
   const currentCover = watch('cover');
 
   return (
-    <div className='bg-black flex justify-center items-center '>
+    <div className='flex items-center justify-center bg-black '>
       <form
-        className='flex flex-col w-full items-center mb-10'
+        className='mb-10 flex w-full flex-col items-center'
         onSubmit={handleSubmit(onSubmit)}
       >
         <AvatarDropzone
@@ -171,7 +176,7 @@ const UserEdit = () => {
           }}
           overlayText={t('cover-label')}
           accept='image/*'
-          className='relative w-full h-72'
+          className='relative h-72 w-full'
           imageClassname='object-cover'
           withPreview
         />
@@ -182,19 +187,19 @@ const UserEdit = () => {
           onDrop={(files) => {
             setValue('preview', files[0], { shouldDirty: true });
           }}
-          className='-mt-[100px] w-[200px] h-[200px] z-10'
+          className='z-10 -mt-[100px] h-[200px] w-[200px]'
           imageClassname='object-cover rounded-full'
           overlayClassName='rounded-full'
           withPreview
         />
 
-        <div className='flex flex-col gap-5 w-full max-w-4xl px-[30px]'>
+        <div className='flex w-full max-w-4xl flex-col gap-5 px-[30px]'>
           <FormInput
             label={t('name')}
             register={register('profileName')}
             error={errors.profileName}
           />
-          <div className='grid gap-5 grid-cols-2 max-lg:grid-cols-1'>
+          <div className='grid grid-cols-2 gap-5 max-lg:grid-cols-1'>
             <FormInput
               label={t('location')}
               register={register('profileLocation')}
@@ -221,14 +226,14 @@ const UserEdit = () => {
             type='text'
             register={register('profileBio')}
           />
-          <span className='text-grey-light text-sm'>
+          <span className='text-sm text-grey-light'>
             {t('bio-description')}
           </span>
           <div className='flex justify-end'>
             <Button
               variant='primary'
               isLoading={updateUserLoading || imageUploading}
-              className='min-w-[200px] flex justify-center'
+              className='flex min-w-[200px] justify-center'
               type='submit'
             >
               {t('save-profile')}

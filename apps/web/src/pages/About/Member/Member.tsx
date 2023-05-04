@@ -1,7 +1,7 @@
 import Image from 'next/future/image';
 
 import type { MemberType } from '@/pages/About/About';
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'next-i18next';
 
 interface MemberProps {
   member: MemberType;
@@ -11,20 +11,20 @@ export const Member = ({ member }: MemberProps) => {
   const { t } = useTranslation('about');
   return (
     <a target='_blank' href={member.html_url} rel='noreferrer'>
-      <div className='flex flex-col items-center bg-grey-dark rounded-lg h-[300px] w-[250px] hover:shadow-xl transition-shadow'>
+      <div className='flex h-[300px] w-[250px] flex-col items-center rounded-lg bg-grey-dark transition-shadow hover:shadow-xl'>
         <Image
-          className='h-[200px] object-cover rounded-t-lg'
+          className='h-[200px] rounded-t-lg object-cover'
           src={member.avatar_url}
           alt='github-profile'
           width={250}
           height={200}
         />
-        <div className='flex justify-center gap-1 flex-col items-center h-full'>
-          <p className='text-xs font-mono text-center'>@{member.login}</p>
-          <p className='text-4xl font-mono text-center'>
+        <div className='flex h-full flex-col items-center justify-center gap-1'>
+          <p className='text-center font-mono text-xs'>@{member.login}</p>
+          <p className='text-center font-mono text-4xl'>
             {member.contributions}
           </p>
-          <p className='text-xs font-mono text-center'>{t('contributions')}</p>
+          <p className='text-center font-mono text-xs'>{t('contributions')}</p>
         </div>
       </div>
     </a>

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useRouter } from 'next/router';
-import { yupResolver } from '@hookform/resolvers/yup';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { NextSeo } from 'next-seo';
 import toast from 'react-hot-toast';
 import { useTranslation } from 'next-i18next';
@@ -36,7 +36,7 @@ function CreateProject() {
   const router = useRouter();
   const { t } = useTranslation('create-project');
   const methods = useForm<FormTypes>({
-    resolver: yupResolver(projectValidationSchema),
+    resolver: zodResolver(projectValidationSchema),
   });
 
   const [uploadImage, { loading: imageLoading }] = useUploadImageMutation();

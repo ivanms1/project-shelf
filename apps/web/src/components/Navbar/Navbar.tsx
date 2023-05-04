@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import Link from 'next/link';
+import { useState } from 'react';
 import { signIn } from 'next-auth/react';
-import Image from 'next/future/image';
-import { Button, DropDown } from 'ui';
 import { useTranslation } from 'next-i18next';
+import Image from 'next/future/image';
+import Link from 'next/link';
+import { Button, DropDown } from 'ui';
 
 import MobileMenu from '../MobileMenu';
 
@@ -11,12 +11,25 @@ import useIsLoggedIn from '@/hooks/useIsLoggedIn';
 
 const Navbar = () => {
   const { isLoggedIn, logout, currentUser } = useIsLoggedIn();
+  const [isAuthLoading, setIsAuthLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const [isTopOpen, setIsTopOpen] = useState(false);
   const { t } = useTranslation('common');
 
+  const handleLogin = async () => {
+    setIsAuthLoading(true);
+    await signIn('github');
+    // Not setting the isAuthLoading state to false because of the loading UI flicker on click
+  };
+
+  const handleLogout = async () => {
+    setIsAuthLoading(true);
+    await logout();
+    // Not setting the isAuthLoading state to false because of the loading UI flicker on click
+  };
+
   return (
-    <div className='bg-black flex text-white flex-row py-5 px-12 justify-between max-lg:py-3 max-lg:px-7'>
+    <div className='flex flex-row justify-between bg-black py-5 px-12 text-white max-lg:py-3 max-lg:px-7'>
       <Link className='flex flex-row items-center gap-3' href='/'>
         <>
           <Image
@@ -26,12 +39,12 @@ const Navbar = () => {
             height={50}
             width={50}
           />
-          <p className='lg:text-2xl font-bold font-mono text-xl'>
+          <p className='font-mono text-xl font-bold lg:text-2xl'>
             {t('project-shelf')}
           </p>
         </>
       </Link>
-      <div className='flex flex-row gap-[10px] items-center max-lg:hidden'>
+      <div className='flex flex-row items-center gap-[10px] max-lg:hidden'>
         <Link href='/search' className='py-5 px-3'>
           {t('search')}
         </Link>
@@ -45,17 +58,17 @@ const Navbar = () => {
             </Button>
           }
         >
-          <div className='bg-grey-dark flex w-40 flex-col rounded-sm'>
+          <div className='flex w-40 flex-col rounded-sm bg-grey-dark'>
             <Link
               href='/top-projects'
-              className='py-3 px-8 text-center hover:bg-grey-light w-full rounded-t-sm'
+              className='w-full rounded-t-sm py-3 px-8 text-center hover:bg-grey-light'
             >
               {t('projects')}
             </Link>
 
             <Link
               href='/top-creators'
-              className='py-3 px-8 text-center hover:bg-grey-light w-full rounded-b-sm'
+              className='w-full rounded-b-sm py-3 px-8 text-center hover:bg-grey-light'
             >
               {t('creators')}
             </Link>
@@ -65,7 +78,7 @@ const Navbar = () => {
         {isLoggedIn ? (
           <>
             <Link href='/create-project' passHref>
-              <Button className='px-7 mr-1' size='small'>
+              <Button className='mr-1 px-7' size='small'>
                 {t('add-project')}
               </Button>
             </Link>
@@ -74,7 +87,7 @@ const Navbar = () => {
               setOpen={setOpen}
               parent={
                 <Image
-                  className='cursor-pointer rounded-full h-10 w-10 object-cover'
+                  className='h-10 w-10 cursor-pointer rounded-full object-cover'
                   src={currentUser?.avatar}
                   width={40}
                   height={40}
@@ -82,24 +95,25 @@ const Navbar = () => {
                 />
               }
             >
-              <div className='bg-grey-dark flex w-40 flex-col rounded-sm'>
+              <div className='flex w-40 flex-col rounded-sm bg-grey-dark'>
                 <Link
                   href={`/user/${currentUser?.id}`}
-                  className='py-3 px-8 text-center hover:bg-grey-light w-full rounded-t-sm'
+                  className='w-full rounded-t-sm py-3 px-8 text-center hover:bg-grey-light'
                 >
                   {t('profile')}
                 </Link>
 
                 <Link
                   href={`/user-edit/${currentUser?.id}`}
-                  className='py-3 px-8 text-center hover:bg-grey-light w-full'
+                  className='w-full py-3 px-8 text-center hover:bg-grey-light'
                 >
                   {t('edit-profile')}
                 </Link>
                 <Button
                   variant='ghost'
-                  className='py-3 px-8 text-center hover:bg-grey-light w-full rounded-b-sm'
-                  onClick={logout}
+                  className='w-full rounded-b-sm py-3 px-8 text-center hover:bg-grey-light'
+                  isLoading={isAuthLoading}
+                  onClick={handleLogout}
                 >
                   {t('sign-out')}
                 </Button>
@@ -110,7 +124,8 @@ const Navbar = () => {
           <Button
             className='px-7'
             size='small'
-            onClick={() => signIn('github')}
+            isLoading={isAuthLoading}
+            onClick={handleLogin}
           >
             {t('login')}
           </Button>
