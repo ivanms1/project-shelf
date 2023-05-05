@@ -11,8 +11,11 @@ import Layout from 'src/components/Layout/Layout';
 import useApollo from '@/hooks/useApollo';
 
 import type { Session } from 'next-auth';
+import NextNProgress from 'nextjs-progressbar';
 
 import './styles.css';
+
+const PROGRESS_COLOR = '#9240FD';
 
 function CustomApp({
   Component,
@@ -21,9 +24,14 @@ function CustomApp({
   session: Session;
 }>) {
   const client = useApollo(pageProps);
+
   return (
     <SessionProvider session={session}>
       <ApolloProvider client={client}>
+        <NextNProgress
+          color={PROGRESS_COLOR}
+          options={{ showSpinner: false }}
+        />
         <Layout>
           {/* @ts-expect-error TODO: fix types here */}
           {Component.auth ? (

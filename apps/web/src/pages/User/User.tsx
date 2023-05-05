@@ -1,7 +1,7 @@
 import { useGetUserForPageQuery, useGetUserProjectsQuery } from 'apollo-hooks';
 import { useRouter } from 'next/router';
 import { NextSeo } from 'next-seo';
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'next-i18next';
 import Image from 'next/future/image';
 import { Loader } from 'ui';
 
@@ -54,7 +54,7 @@ const User = () => {
 
   if (userLoading) {
     return (
-      <div className='flex justify-center items-center bg-black'>
+      <div className='flex items-center justify-center bg-black'>
         <Loader size='lg' />
       </div>
     );
@@ -62,7 +62,7 @@ const User = () => {
 
   if (!user) {
     return (
-      <div className='w-full h-full flex justify-center items-center bg-black'>
+      <div className='flex h-full w-full items-center justify-center bg-black'>
         <p className='text-white'>{t('user_not_found')}</p>
       </div>
     );
@@ -72,8 +72,8 @@ const User = () => {
     <div className='bg-black'>
       <div className='relative flex flex-col items-center lg:items-start'>
         <Image
-          className='w-full h-[320px] object-cover'
-          src={data?.user?.cover ?? COVER_PLACEHOLDER}
+          className='h-[320px] w-full object-cover'
+          src={data?.user?.cover || COVER_PLACEHOLDER}
           alt={user?.name}
           width={1000}
           height={1000}
@@ -81,7 +81,7 @@ const User = () => {
 
         {user?.avatar && (
           <Image
-            className='absolute top-[250px] left-none lg:left-[150px]  rounded-lg border-2 border-black'
+            className='left-none absolute top-[250px] rounded-lg  border-2 border-black lg:left-[150px]'
             src={user?.avatar}
             alt={user?.name}
             height={320}
@@ -90,7 +90,7 @@ const User = () => {
         )}
       </div>
 
-      <div className='mt-8 lg:mt-16 py-[40px] px-10 lg:px-[155px]'>
+      <div className='mt-8 py-[40px] px-10 lg:mt-16 lg:px-[155px]'>
         <UserInfo />
       </div>
       <div className='bg-grey-dark py-[40px] px-10 lg:px-[155px]'>

@@ -33,10 +33,10 @@ const About = ({ members }: AboutProps) => {
   const { t } = useTranslation('about');
 
   return (
-    <div className='bg-black pt-10 pb-20 flex flex-col justify-between gap-16 items-center px-28 max-lg:px-[30px]'>
-      <p className='font-semibold text-5xl text-center'>{t('title')}</p>
+    <div className='flex flex-col items-center justify-between gap-16 bg-black px-28 pt-10 pb-20 max-lg:px-[30px]'>
+      <p className='text-center text-5xl font-semibold'>{t('title')}</p>
       <div>
-        <div className='flex gap-10 justify-between flex-wrap after:content-[""] after:flex-auto max-lg:justify-center'>
+        <div className='flex flex-wrap justify-between gap-10 after:flex-auto after:content-[""] max-lg:justify-center'>
           {members.map((member) => (
             <Member key={member?.id} member={member} />
           ))}

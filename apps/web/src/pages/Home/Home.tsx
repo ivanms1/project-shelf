@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Button, Input } from 'ui';
 import Image from 'next/future/image';
 import { NextSeo } from 'next-seo';
@@ -22,7 +23,7 @@ import newsletterImage from '@/assets/images/newsletter.jpeg';
 
 function Home() {
   const { t } = useTranslation('home');
-
+  const [isAuthLoading, setIsAuthLoading] = useState(false);
   const { data: projectsData } = useGetTopProjectsForHomePageQuery();
   const { data: creatorsData } = useGetTopCreatorsForHomePageQuery();
 
@@ -37,25 +38,32 @@ function Home() {
 
   const coverProject = projectsData?.getTopProjectsForHomePage?.results?.[5];
 
+  const handleLogin = async () => {
+    setIsAuthLoading(true);
+    await signIn('github');
+    // Not setting the state to false because of the loading UI flicker on click
+  };
+
   const homeButtonAndActionButtons = (
     <>
       {isLoggedIn ? (
         <Link
           href='/create-project'
-          className='max-lg:w-full max-lg:mb-10'
+          className='max-lg:mb-10 max-lg:w-full'
           passHref
         >
           <Button className='max-lg:w-full'>{t('common:add-project')}</Button>
         </Link>
       ) : (
         <Button
-          className='max-lg:mb-10 w-fit max-lg:w-full'
-          onClick={() => signIn('github')}
+          className='w-fit max-lg:mb-10 max-lg:w-full'
+          onClick={handleLogin}
+          isLoading={isAuthLoading}
         >
           {t('common:login')}
         </Button>
       )}
-      <div className='flex gap-[30px] w-1/2 max-lg:w-auto'>
+      <div className='flex w-1/2 gap-[30px] max-lg:w-auto'>
         <div className='flex flex-col gap-1'>
           <p className='font-mono text-[28px] font-bold'>5k+</p>
           <p className='text-2xl'>{t('common:projects')}</p>
@@ -73,9 +81,9 @@ function Home() {
   );
 
   return (
-    <div className='bg-black flex flex-col px-28 py-20 max-lg:px-[30px] min-h-[100vh] max-lg:min-h-[70vh] max-lg:pt-10'>
-      <div className='flex justify-between items-start pb-20 max-lg:flex-col max-lg:pb-0'>
-        <div className='flex flex-col gap-5 w-1/2 max-lg:w-auto max-lg:mb-10'>
+    <div className='flex min-h-[100vh] flex-col bg-black px-28 py-20 max-lg:min-h-[70vh] max-lg:px-[30px] max-lg:pt-10'>
+      <div className='flex items-start justify-between pb-20 max-lg:flex-col max-lg:pb-0'>
+        <div className='flex w-1/2 flex-col gap-5 max-lg:mb-10 max-lg:w-auto'>
           <h1 className='text-[67px] font-semibold leading-tight max-lg:text-[28px]'>
             {t('title')}
           </h1>
@@ -84,12 +92,12 @@ function Home() {
         </div>
         <Link
           href={`/project/${firstProject?.id}`}
-          className='rounded-lg bg-grey-dark flex flex-col max-lg:mb-10'
+          className='flex flex-col rounded-lg bg-grey-dark max-lg:mb-10'
         >
           <Image
             src={firstProject?.preview ?? ''}
             priority
-            className='rounded-t-lg object-cover w-[510] h-[400px]'
+            className='h-[400px] w-[510] rounded-t-lg object-cover'
             alt='project shelf logo'
             height={400}
             width={510}
@@ -100,7 +108,7 @@ function Home() {
               <Image
                 src={firstProject?.author?.avatar}
                 alt={firstProject?.author?.name}
-                className='rounded-full w-6 h-6'
+                className='h-6 w-6 rounded-full'
                 width={24}
                 height={24}
               />
@@ -111,7 +119,7 @@ function Home() {
         {isMobile && homeButtonAndActionButtons}
       </div>
       <div className='py-20'>
-        <div className='flex justify-between items-center pb-20 gap-2.5 max-lg:flex-col max-lg:items-start max-lg:pb-10 '>
+        <div className='flex items-center justify-between gap-2.5 pb-20 max-lg:flex-col max-lg:items-start max-lg:pb-10 '>
           <div className='flex flex-col gap-[10px]'>
             <h2 className='text-[38px] font-semibold max-lg:text-[28px]'>
               {t('top-creators')}
@@ -124,7 +132,7 @@ function Home() {
             <Button className='max-lg:hidden'>{t('view-rankings')}</Button>
           </Link>
         </div>
-        <div className='flex gap-[30px] flex-wrap justify-center max-lg:mb-10'>
+        <div className='flex flex-wrap justify-center gap-[30px] max-lg:mb-10'>
           {creatorsData?.getTopCreatorsForHomePage?.results.map((creator) => (
             <TopCreator key={creator.id} creator={creator} />
           ))}
@@ -137,7 +145,7 @@ function Home() {
         </Link>
       </div>
       <div className='py-20 max-lg:pt-0'>
-        <div className='flex justify-between items-center pb-20  max-lg:flex-col max-lg:items-start max-lg:pb-10'>
+        <div className='flex items-center justify-between pb-20  max-lg:flex-col max-lg:items-start max-lg:pb-10'>
           <div className='flex flex-col gap-[10px]'>
             <h2 className='text-[38px] font-semibold max-lg:text-[28px]'>
               {t('discover-more-projects')}
@@ -150,7 +158,7 @@ function Home() {
             <Button className='max-lg:hidden'>{t('see-all-projects')}</Button>
           </Link>
         </div>
-        <div className='flex gap-8 justify-between max-lg:flex-col max-lg:mb-10'>
+        <div className='flex justify-between gap-8 max-lg:mb-10 max-lg:flex-col'>
           {restProjects.map((project) => (
             <ProjectCard key={project.id} light project={project} noLike />
           ))}
@@ -164,11 +172,11 @@ function Home() {
         </Link>
       </div>
       <div
-        className='h-[640px] flex -mx-28 max-lg:-mx-[30px] bg-cover bg-center items-end max-lg:items-center'
+        className='-mx-28 flex h-[640px] items-end bg-cover bg-center max-lg:-mx-[30px] max-lg:items-center'
         style={{ backgroundImage: `url(${coverProject?.preview})` }}
       >
         <div className='flex flex-col gap-[30px] py-16 px-28 max-lg:px-[30px]'>
-          <div className='flex bg-grey-dark w-fit px-5 py-[10px] gap-3 rounded-lg items-center'>
+          <div className='flex w-fit items-center gap-3 rounded-lg bg-grey-dark px-5 py-[10px]'>
             <Image
               className='rounded-full'
               src={coverProject?.author?.avatar}
@@ -189,25 +197,25 @@ function Home() {
         </div>
       </div>
       <div className='py-20 max-lg:pt-10'>
-        <div className='flex flex-col gap-[10px] mb-10'>
+        <div className='mb-10 flex flex-col gap-[10px]'>
           <h2 className='text-[38px] font-semibold max-lg:text-[28px]'>
             {t('how-it-works')}
           </h2>
           <p className='text-[22px] max-lg:text-base'>{t('find-out')}</p>
         </div>
-        <div className='flex justify-between max-lg:flex-col gap-5'>
+        <div className='flex justify-between gap-5 max-lg:flex-col'>
           {PROJECT_SHELF_STEPS.map((step) => {
             const Icon = step.icon;
             return (
               <div
                 key={step.title}
-                className='flex h-[440px] w-[330px] flex-col gap-10 bg-grey-dark rounded-lg justify-center items-center p-8 flex-wrap'
+                className='flex h-[440px] w-[330px] flex-col flex-wrap items-center justify-center gap-10 rounded-lg bg-grey-dark p-8'
               >
-                <div className='bg-step-icon p-10 rounded-full'>
-                  <Icon className='w-28 h-28' />
+                <div className='rounded-full bg-step-icon p-10'>
+                  <Icon className='h-28 w-28' />
                 </div>
                 <div className='flex flex-col gap-2.5'>
-                  <h3 className='text-[22px] font-semibold text-center'>
+                  <h3 className='text-center text-[22px] font-semibold'>
                     {t(step.title)}
                   </h3>
                   <p className='text-center'>{t(step.description)}</p>
@@ -217,11 +225,11 @@ function Home() {
           })}
         </div>
       </div>
-      <div className='bg-grey-dark p-[60px] flex justify-between rounded-lg max-w-[1050px] mt-10 mr-auto ml-auto gap-20 items-center max-lg:gap-8 max-lg:items-stretch max-lg:bg-transparent max-lg:flex-col max-lg:p-0'>
+      <div className='mt-10 mr-auto ml-auto flex max-w-[1050px] items-center justify-between gap-20 rounded-lg bg-grey-dark p-[60px] max-lg:flex-col max-lg:items-stretch max-lg:gap-8 max-lg:bg-transparent max-lg:p-0'>
         <Image
           src={newsletterImage}
           alt='newsletter-image'
-          className='rounded-lg object-cover w-[425px] h-[310px]'
+          className='h-[310px] w-[425px] rounded-lg object-cover'
           width={425}
           height={310}
         />
@@ -232,7 +240,7 @@ function Home() {
           <p className='mb-10 text-[22px] max-lg:text-base'>
             {t('newsletter-subtitle')}
           </p>
-          <div className='flex flex-row relative'>
+          <div className='relative flex flex-row'>
             <Input placeholder={t('enter-email')} containerClassName='w-full' />
             <Button className='absolute right-0' size='small' noAnimation>
               {t('subscribe')}
@@ -250,7 +258,7 @@ function Home() {
           site_name: 'Project Shelf',
           images: [
             {
-              url: 'https://project-shelf-dev.netlify.app/assets/images/shelf.png',
+              url: 'https://www.projectshelf.dev/assets/images/shelf.png',
               width: 200,
               height: 200,
               alt: 'Project Shelf',

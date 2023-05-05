@@ -30,12 +30,12 @@ const LoginModal = ({ isOpen, onClose, ...props }: LoginModalProps) => {
       </div>
 
       <div className='mb-7 flex flex-col gap-3 justify-center items-center max-lg:flex-col max-lg:text-center'>
-        <p className='text-3xl lg:text-5xl font-semibold'>
+        <p className='text-3xl lg:text-4xl font-semibold'>
           {t('discover-projects')}
         </p>
-        <p className='text-lg lg:text-2xl'>{t('sign-in-to-discover')}</p>
+        <p className='text-lg lg:text-xl'>{t('sign-in-to-discover')}</p>
       </div>
-      <p className='text-base lg:text-lg text-center'>
+      <p className='text-base lg:text-base text-center'>
         {t('create-account-or-login')}
       </p>
       <Button onClick={() => signIn('github')} className='w-full'>
