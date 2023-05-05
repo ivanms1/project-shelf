@@ -61,9 +61,9 @@ const TopProjects = () => {
   );
 
   return (
-    <div className='bg-black flex flex-col px-28 py-20 max-lg:px-[30px] min-h-[100vh] max-lg:min-h-[70vh]'>
-      <div className='flex flex-col gap-5 mb-20'>
-        <h1 className='font-semibold text-5xl'>{t('top-projects')}</h1>
+    <div className='flex min-h-[100vh] flex-col bg-black px-28 py-20 max-lg:min-h-[70vh] max-lg:px-[30px]'>
+      <div className='mb-20 flex flex-col gap-5'>
+        <h1 className='text-5xl font-semibold'>{t('top-projects')}</h1>
         <p className='text-[22px]'>{t('top-projects-subtitle')}</p>
       </div>
       {isReady ? (

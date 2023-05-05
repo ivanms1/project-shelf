@@ -42,7 +42,7 @@ export function FormInput({
         {...props}
       />
       {error?.message && (
-        <div className='absolute bottom-[-20px] text-sm r-0 text-red-400'>
+        <div className='r-0 absolute bottom-[-20px] text-sm text-red-400'>
           {error?.message.toString()}
         </div>
       )}

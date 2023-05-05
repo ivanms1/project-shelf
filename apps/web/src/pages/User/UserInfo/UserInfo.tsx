@@ -125,8 +125,8 @@ const UserInfo = () => {
         onClose={() => setIsLoginModalOpen(false)}
       />
 
-      <div className='flex flex-col lg:flex-row gap-6 md:gap-5 justify-between lg:items-center mt-10'>
-        <h4 className='text-[28px] md:text-4xl font-bold'>
+      <div className='mt-10 flex flex-col justify-between gap-6 md:gap-5 lg:flex-row lg:items-center'>
+        <h4 className='text-[28px] font-bold md:text-4xl'>
           {data?.user?.name}
         </h4>
 
@@ -142,8 +142,8 @@ const UserInfo = () => {
         </Button>
       </div>
 
-      <div className='flex flex-col gap-10 mt-5'>
-        <div className='mt-5 lg:mt-0 flex flex-row gap-20'>
+      <div className='mt-5 flex flex-col gap-10'>
+        <div className='mt-5 flex flex-row gap-20 lg:mt-0'>
           {arrOfStats.map(({ id, stats, title }) => (
             <div key={id} className='flex flex-col gap-0'>
               <h4 className='text-[28px] font-bold'>{stats}</h4>
@@ -154,7 +154,7 @@ const UserInfo = () => {
 
         {data?.user?.location && (
           <div>
-            <h5 className='font-bold font-mono text-silver  text-[22px]'>
+            <h5 className='font-mono text-[22px] font-bold  text-silver'>
               {t('location')}
             </h5>
             <p className='mt-1 text-[22px]'>{data?.user?.location}</p>
@@ -163,7 +163,7 @@ const UserInfo = () => {
 
         {data?.user?.bio && (
           <div>
-            <h5 className='font-bold font-mono text-silver  text-[22px]'>
+            <h5 className='font-mono text-[22px] font-bold  text-silver'>
               {t('bio')}
             </h5>
             <p className='mt-1 text-[22px]'>{data?.user?.bio}</p>
@@ -185,7 +185,7 @@ const UserInfo = () => {
                 target='_blank'
                 rel='noreferrer'
               >
-                <Icon className='w-8 h-8' />
+                <Icon className='h-8 w-8' />
               </a>
             );
           })}

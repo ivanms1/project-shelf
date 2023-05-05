@@ -50,10 +50,14 @@ export type Mutation = {
   createLike: Like;
   /** Create a new project */
   createProject: Project;
+  /** Create a new report */
+  createReport: Report;
   /** Delete a like */
   deleteLike: Like;
   /** Delete projects */
   deleteProjects: Array<Scalars['String']>;
+  /** Delete a report */
+  deleteReport: Report;
   /** Follow or unfollow a user */
   followUser: User;
   /** Login in as a admin */
@@ -85,6 +89,13 @@ export type MutationCreateProjectArgs = {
 };
 
 
+export type MutationCreateReportArgs = {
+  message?: InputMaybe<Scalars['String']>;
+  projectId: Scalars['String'];
+  reason: Scalars['String'];
+};
+
+
 export type MutationDeleteLikeArgs = {
   projectId: Scalars['String'];
 };
@@ -92,6 +103,11 @@ export type MutationDeleteLikeArgs = {
 
 export type MutationDeleteProjectsArgs = {
   projectIds: Array<Scalars['String']>;
+};
+
+
+export type MutationDeleteReportArgs = {
+  reportId: Scalars['String'];
 };
 
 
@@ -190,6 +206,8 @@ export type Query = {
   getProject: Project;
   /** Get projects for admin */
   getProjectsAdmin: ProjectsResponse;
+  /** Get reports */
+  getReports: Array<Report>;
   /** Get top creators for home page */
   getTopCreatorsForHomePage: TopCreatorsResponse;
   /** Get top projects */
@@ -253,6 +271,16 @@ export type QueryGetUserArgs = {
 export type QueryGetUserProjectsArgs = {
   input?: InputMaybe<SearchProjectsInput>;
   userId: Scalars['String'];
+};
+
+export type Report = {
+  __typename?: 'Report';
+  createdAt: Scalars['Date'];
+  id: Scalars['ID'];
+  message?: Maybe<Scalars['String']>;
+  project: Project;
+  reason: Scalars['String'];
+  user: User;
 };
 
 /** User role */
@@ -506,6 +534,15 @@ export type DeleteProjectsMutationVariables = Exact<{
 
 
 export type DeleteProjectsMutation = { __typename?: 'Mutation', deleteProjects: Array<string> };
+
+export type CreateReportMutationVariables = Exact<{
+  reason: Scalars['String'];
+  projectId: Scalars['String'];
+  message?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type CreateReportMutation = { __typename?: 'Mutation', createReport: { __typename?: 'Report', id: string } };
 
 export type UpdateProjectMutationVariables = Exact<{
   input: CreateProjectInput;
@@ -1485,6 +1522,41 @@ export function useDeleteProjectsMutation(baseOptions?: Apollo.MutationHookOptio
 export type DeleteProjectsMutationHookResult = ReturnType<typeof useDeleteProjectsMutation>;
 export type DeleteProjectsMutationResult = Apollo.MutationResult<DeleteProjectsMutation>;
 export type DeleteProjectsMutationOptions = Apollo.BaseMutationOptions<DeleteProjectsMutation, DeleteProjectsMutationVariables>;
+export const CreateReportDocument = gql`
+    mutation CreateReport($reason: String!, $projectId: String!, $message: String) {
+  createReport(reason: $reason, projectId: $projectId, message: $message) {
+    id
+  }
+}
+    `;
+export type CreateReportMutationFn = Apollo.MutationFunction<CreateReportMutation, CreateReportMutationVariables>;
+
+/**
+ * __useCreateReportMutation__
+ *
+ * To run a mutation, you first call `useCreateReportMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateReportMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createReportMutation, { data, loading, error }] = useCreateReportMutation({
+ *   variables: {
+ *      reason: // value for 'reason'
+ *      projectId: // value for 'projectId'
+ *      message: // value for 'message'
+ *   },
+ * });
+ */
+export function useCreateReportMutation(baseOptions?: Apollo.MutationHookOptions<CreateReportMutation, CreateReportMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateReportMutation, CreateReportMutationVariables>(CreateReportDocument, options);
+      }
+export type CreateReportMutationHookResult = ReturnType<typeof useCreateReportMutation>;
+export type CreateReportMutationResult = Apollo.MutationResult<CreateReportMutation>;
+export type CreateReportMutationOptions = Apollo.BaseMutationOptions<CreateReportMutation, CreateReportMutationVariables>;
 export const UpdateProjectDocument = gql`
     mutation UpdateProject($input: CreateProjectInput!, $projectId: String!) {
   updateProject(input: $input, projectId: $projectId) {

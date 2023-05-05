@@ -22,14 +22,14 @@ export const Select = ({
   ...props
 }: SelectProps) => {
   return (
-    <div className='flex flex-col relative'>
+    <div className='relative flex flex-col'>
       {label && (
-        <label className='font-semibold mb-1 text-white'>{label}</label>
+        <label className='mb-1 font-semibold text-white'>{label}</label>
       )}
 
       <RSelect styles={{ ...styles, ...customStyles }} {...props} />
       {error?.message && (
-        <div className='absolute bottom-[-20px] text-sm r-0 text-red-400'>
+        <div className='r-0 absolute bottom-[-20px] text-sm text-red-400'>
           {error.message.toString()}
         </div>
       )}

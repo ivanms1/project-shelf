@@ -19,44 +19,44 @@ const ProjectsTable = ({ interval }: ProjectsTableProps) => {
 
   return (
     <div className='flex flex-col gap-5'>
-      <div className='flex justify-between font-mono border border-grey-light rounded-lg py-3 px-5 gap-5'>
-        <p className='text-grey-light w-1/12'>#</p>
-        <p className='text-grey-light flex-1'>{t('title')}</p>
-        <p className='text-grey-light w-2/12'>{t('likes')}</p>
-        <p className='text-grey-light w-3/12 max-lg:hidden'>{t('tags')}</p>
+      <div className='flex justify-between gap-5 rounded-lg border border-grey-light py-3 px-5 font-mono'>
+        <p className='w-1/12 text-grey-light'>#</p>
+        <p className='flex-1 text-grey-light'>{t('title')}</p>
+        <p className='w-2/12 text-grey-light'>{t('likes')}</p>
+        <p className='w-3/12 text-grey-light max-lg:hidden'>{t('tags')}</p>
       </div>
       <div className='flex flex-col gap-5'>
         {data?.getTopProjects?.results?.map((project, index) => (
           <div
             key={project?.id}
-            className='flex justify-between w-full bg-grey-dark items-center py-3 px-5 rounded-lg gap-5 max-lg:py-[10px] max-lg:px-3'
+            className='flex w-full items-center justify-between gap-5 rounded-lg bg-grey-dark py-3 px-5 max-lg:py-[10px] max-lg:px-3'
           >
             <div className=' w-1/12'>
-              <p className='bg-black h-[30px] w-[30px] flex justify-center items-center rounded-full text-grey-light font-mono'>
+              <p className='flex h-[30px] w-[30px] items-center justify-center rounded-full bg-black font-mono text-grey-light'>
                 {index + 1}
               </p>
             </div>
             <Link
               href={`/project/${project.id}`}
-              className='flex items-center gap-5 flex-1'
+              className='flex flex-1 items-center gap-5'
             >
               <Image
                 src={project.preview}
                 alt={project?.title}
                 width={60}
                 height={60}
-                className='rounded-full w-[60px] h-[60px] max-lg:w-6 max-lg:h-6'
+                className='h-[60px] w-[60px] rounded-full max-lg:h-6 max-lg:w-6'
               />
               <p className='text-[22px] font-semibold max-lg:text-base max-lg:font-normal'>
                 {project?.title}
               </p>
             </Link>
-            <p className='font-mono w-2/12'>{project?.likesCount}</p>
-            <div className='w-3/12 max-lg:hidden flex gap-2 flex-wrap'>
+            <p className='w-2/12 font-mono'>{project?.likesCount}</p>
+            <div className='flex w-3/12 flex-wrap gap-2 max-lg:hidden'>
               {project?.tags?.map((tag) => (
                 <p
                   key={tag}
-                  className='bg-black px-5 py-2 uppercase w-fit rounded-[20px] text-xs'
+                  className='w-fit rounded-[20px] bg-black px-5 py-2 text-xs uppercase'
                 >
                   {tag}
                 </p>
