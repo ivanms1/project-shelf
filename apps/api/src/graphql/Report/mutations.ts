@@ -3,6 +3,7 @@ import builder from '../../builder';
 import db from '../../db';
 import { GraphQLError } from 'graphql';
 import { ERROR_CODES } from '@/src/const';
+import { Role } from '@prisma/client';
 
 builder.mutationFields((t) => ({
   createReport: t.prismaField({
@@ -102,25 +103,49 @@ builder.mutationFields((t) => ({
       });
     },
   }),
-  deleteReport: t.prismaField({
-    type: 'Report',
-    description: 'Delete a report',
+  deleteReport: t.field({
+    type: ['String'],
+    description: 'Delete reports',
     args: {
-      reportId: t.arg.string({ required: true }),
+      reportIds: t.arg.stringList({ required: true }),
     },
-    resolve: async (query, _, args, ctx) => {
+    resolve: async (_, args, ctx) => {
       const userId = decodeAccessToken(ctx.accessToken);
+
+      if (!userId) {
+        throw new GraphQLError('You are not allowed to do this', {
+          extensions: {
+            code: ERROR_CODES.UNAUTHENTICATED,
+          },
+        });
+      }
+
+      const user = await db.user.findUnique({
+        where: {
+          id: String(userId),
+        },
+      });
+
+      if (user?.role !== Role.ADMIN) {
+        throw new GraphQLError('You are not allowed to do this', {
+          extensions: {
+            code: ERROR_CODES.FORBIDDEN,
+          },
+        });
+      }
 
       if (!userId) {
         throw Error('Args missing');
       }
-
-      return db.report.delete({
-        ...query,
+      await db.report.deleteMany({
         where: {
-          id: args?.reportId,
+          id: {
+            in: args?.reportIds,
+          },
         },
       });
+
+      return args?.reportIds;
     },
   }),
 }));

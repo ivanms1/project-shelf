@@ -52,4 +52,20 @@ export const getUserPaginationArgs = (
   };
 };
 
+export const getReportsPaginationArgs = (
+  args: SearchArgs,
+  filter: Prisma.UserScalarWhereInput | undefined,
+  isFirst: boolean
+) => {
+  return {
+    take: 10,
+    skip: isFirst ? 0 : 1,
+    cursor: isFirst ? undefined : { id: args?.input?.cursor },
+    where: filter,
+    orderBy: {
+      [args?.input?.orderBy || 'createdAt']: args?.input?.order,
+    },
+  };
+};
+
 export default getPaginationArgs;
