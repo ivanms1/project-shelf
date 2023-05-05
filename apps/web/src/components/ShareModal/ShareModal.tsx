@@ -51,7 +51,7 @@ const ShareModal = ({ project, isOpen, onClose }: ShareModalProps) => {
                 toast.success(t('project:copied'));
               }}
             >
-              Copy
+              {t('project:copy')}
             </button>
           </div>
         </div>
