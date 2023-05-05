@@ -3,6 +3,7 @@ import { Modal } from 'ui';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 import { toast } from 'react-hot-toast';
+import { useTranslation } from 'react-i18next';
 
 type ShareModalProps = {
   project: {
@@ -14,6 +15,8 @@ type ShareModalProps = {
 
 const ShareModal = ({ project, isOpen, onClose }: ShareModalProps) => {
   const router = useRouter();
+
+  const { t } = useTranslation('project');
 
   return (
     <Modal
@@ -35,7 +38,7 @@ const ShareModal = ({ project, isOpen, onClose }: ShareModalProps) => {
         </div>
         <div className='flex flex-col items-center mt-[120px]'>
           <p className='my-[30px] font-[600] text-[24px] text-center max-w-[350px]'>
-            Share this with you social Community
+            {t('project:share-this')}
           </p>
           <div className='w-full px-[20px] py-[8px] flex flex-row justify-between rounded-[5px] text-left text-lightBlack bg-white '>
             <p className='truncate w-full max-w-[250px] text-black'>
@@ -45,7 +48,7 @@ const ShareModal = ({ project, isOpen, onClose }: ShareModalProps) => {
               className='text-red-600 font-medium z-10'
               onClick={() => {
                 navigator.clipboard.writeText(window.location.href);
-                toast.success('Copied');
+                toast.success(t('project:copied'));
               }}
             >
               Copy

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
 import { useTranslation } from 'next-i18next';
 
-import { Modal, Button } from 'ui';
+import { Modal, Button, TextArea } from 'ui';
 
 interface ReportModalProps {
   isOpen: boolean;
@@ -100,7 +100,7 @@ const ReportModal = ({
         <div className='flex flex-col gap-2 md:gap-4'>
           <span className='text-lg md:text-xl'>{t('project:reason')}</span>
           <p>{t('project:help')}</p>
-          <textarea
+          <TextArea
             className='block p-2.5 w-full text-sm md:text-base rounded-md border border-gray-300 bg-gray-200 dark:text-gray-400 dark:placeholder-gray-400 outline-none'
             placeholder={t('write-a-message')}
             onChange={(e) => setMessage(e.target.value)}
