@@ -12,12 +12,14 @@ export const TextArea = ({
   placeholder,
   onChange,
   className,
+  ...props
 }: TextAreaProps) => {
   return (
     <textarea
       className={className}
       placeholder={placeholder}
       onChange={onChange}
+      {...props}
     />
   );
 };
