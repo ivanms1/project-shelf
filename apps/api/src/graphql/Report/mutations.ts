@@ -2,7 +2,7 @@ import decodeAccessToken from '../../helpers/decodeAccessToken';
 import builder from '../../builder';
 import db from '../../db';
 import { GraphQLError } from 'graphql';
-import { ERROR_CODES } from '@/src/const';
+import { ERROR_CODES } from '../../const';
 
 builder.mutationFields((t) => ({
   createReport: t.prismaField({
