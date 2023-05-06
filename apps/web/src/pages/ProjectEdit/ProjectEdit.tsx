@@ -14,16 +14,7 @@ import {
   useUploadImageMutation,
 } from 'apollo-hooks';
 
-import { projectValidationSchema } from 'const';
-
-export type FormTypes = {
-  description: string;
-  preview: File | Blob | string;
-  repoLink: string;
-  siteLink: string;
-  tags: { value: string; label: string }[];
-  title: string;
-};
+import { type FormTypes, projectValidationSchema } from 'const';
 
 const notifySuccess = () => toast.success('Project edited successfully');
 const notifyError = () => toast.error('Something went wrong');
@@ -102,13 +93,16 @@ const ProjectEdit = () => {
     }
   };
 
-  const onUpdateProject = async (editedValue: FormTypes, res: string) => {
+  const onUpdateProject = async (
+    editedValue: FormTypes,
+    res: string | undefined
+  ) => {
     const data = await updateProject({
       variables: {
         projectId: String(query.id),
         input: {
           ...editedValue,
-          preview: res,
+          preview: res || '',
           tags: editedValue?.tags.map((tag) => tag.value),
         },
       },

@@ -82,7 +82,7 @@ function LikeButton({ project }: LikeButtonProps) {
               project: {
                 __typename: 'Project',
                 id: project.id,
-                likesCount: data?.project?.likesCount + 1,
+                likesCount: data?.project?.likesCount ?? 0 + 1,
                 isLiked: true,
               },
             },

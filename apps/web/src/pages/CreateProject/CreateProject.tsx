@@ -17,19 +17,10 @@ import {
 
 import useIsLoggedIn from '@/hooks/useIsLoggedIn';
 
-import { projectValidationSchema } from 'const';
+import { type FormTypes, projectValidationSchema } from 'const';
 
 const notifySuccess = () => toast.success('Project created successfully');
 const notifyError = () => toast.error('Something went wrong');
-
-export type FormTypes = {
-  description: string;
-  preview: File;
-  repoLink: string;
-  siteLink: string;
-  tags: { value: string; label: string }[];
-  title: string;
-};
 
 function CreateProject() {
   const { currentUser } = useIsLoggedIn();
@@ -46,7 +37,7 @@ function CreateProject() {
     try {
       const reader = new FileReader();
 
-      reader.readAsDataURL(methods.getValues('preview'));
+      reader.readAsDataURL(methods.getValues('preview') as Blob);
       reader.onload = async () => {
         const res = await uploadImage({
           variables: {
@@ -56,7 +47,7 @@ function CreateProject() {
         if (res) {
           const createdProjectData = await onCreateProject(values, res);
           if (createdProjectData) {
-            router.push(`/user/${currentUser.id}`);
+            router.push(`/user/${currentUser?.id}`);
             notifySuccess();
           }
         }
@@ -75,13 +66,14 @@ function CreateProject() {
         input: {
           ...values,
           tags: values.tags.map((tag) => tag.value),
-          preview: res?.data?.image,
+          preview: res?.data?.image ?? '',
         },
       },
       update: (cache, { data }) => {
         cache.modify({
           fields: {
             getUserProjects(existingProjects, { toReference }) {
+              if (!data?.createProject) return existingProjects;
               const results = existingProjects.results;
               const reference = toReference(data.createProject);
 

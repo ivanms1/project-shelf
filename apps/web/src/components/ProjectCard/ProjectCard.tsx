@@ -21,7 +21,7 @@ export interface ProjectCardProps {
     author: {
       id: string;
       name: string;
-      avatar?: string;
+      avatar?: string | null;
     };
   };
   light?: boolean;

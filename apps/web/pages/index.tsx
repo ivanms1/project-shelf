@@ -6,6 +6,7 @@ import Home from '@/pages/Home';
 
 import QUERY_GET_TOP_PROJECTS_FOR_HOME_PAGE from './queryGetTopProjectsForHomePage.graphql';
 import QUERY_GET_TOP_CREATORS_FOR_HOME_PAGE from './queryGetTopCreatorsForHomePage.graphql';
+import { EN_LOCALE } from 'const';
 
 export default Home;
 
@@ -27,13 +28,19 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
 
     return addApolloState(client, {
       props: {
-        ...(await serverSideTranslations(locale, ['home', 'common'])),
+        ...(await serverSideTranslations(locale || EN_LOCALE, [
+          'home',
+          'common',
+        ])),
       },
     });
   } catch {
     return {
       props: {
-        ...(await serverSideTranslations(locale, ['home', 'common'])),
+        ...(await serverSideTranslations(locale || EN_LOCALE, [
+          'home',
+          'common',
+        ])),
       },
     };
   }

@@ -88,10 +88,10 @@ const Navbar = () => {
               parent={
                 <Image
                   className='h-10 w-10 cursor-pointer rounded-full object-cover'
-                  src={currentUser?.avatar}
+                  src={currentUser?.avatar ?? ''}
                   width={40}
                   height={40}
-                  alt={currentUser?.name}
+                  alt={currentUser?.name ?? 'user avatar'}
                 />
               }
             >

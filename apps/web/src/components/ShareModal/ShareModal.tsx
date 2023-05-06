@@ -25,10 +25,10 @@ const ShareModal = ({ project, isOpen, onClose }: ShareModalProps) => {
       modalClassName='bg-grey-dark relative rounded-[3%]'
       contentClassName='p-[40px] rounded-[10px] min-w-[400px] max-lg:min-w-0 max-lg:w-screen max-lg:px-4'
     >
-      <div className='flex flex-col  overflow-hidden items-center'>
-        <div className='absolute overflow-hidden  w-[300px] h-[250px] rounded-[10px] z-10 top-[-80px]'>
+      <div className='flex flex-col  items-center overflow-hidden'>
+        <div className='absolute top-[-80px]  z-10 h-[250px] w-[300px] overflow-hidden rounded-[10px]'>
           <Image
-            className='rounded-t-lg object-cover  transition ease-in-out duration-300 hover:brightness-75 hover:opacity-100 '
+            className='rounded-t-lg object-cover  transition duration-300 ease-in-out hover:opacity-100 hover:brightness-75 '
             src={project.preview}
             alt={project.preview}
             layout='fill'
@@ -36,16 +36,16 @@ const ShareModal = ({ project, isOpen, onClose }: ShareModalProps) => {
             height={20}
           />
         </div>
-        <div className='flex flex-col items-center mt-[120px]'>
-          <p className='my-[30px] font-[600] text-[24px] text-center max-w-[350px]'>
+        <div className='mt-[120px] flex flex-col items-center'>
+          <p className='my-[30px] max-w-[350px] text-center text-[24px] font-[600]'>
             {t('project:share-this')}
           </p>
-          <div className='w-full px-[20px] py-[8px] flex flex-row justify-between rounded-[5px] text-left text-lightBlack bg-white '>
-            <p className='truncate w-full max-w-[250px] text-black'>
+          <div className='text-lightBlack flex w-full flex-row justify-between rounded-[5px] bg-white px-[20px] py-[8px] text-left '>
+            <p className='w-full max-w-[250px] truncate text-black'>
               {router.query.id}
             </p>
             <button
-              className='text-red-600 font-medium z-10'
+              className='z-10 font-medium text-red-600'
               onClick={() => {
                 navigator.clipboard.writeText(window.location.href);
                 toast.success(t('project:copied'));

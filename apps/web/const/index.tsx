@@ -35,8 +35,10 @@ export const projectValidationSchema = zod.object({
     .array()
     .min(1, 'Add at least one tag')
     .max(5, 'Add no more than five tags'),
-  preview: zod.string().or(zod.custom<File>((v) => v instanceof File)),
+  preview: zod.string().or(zod.custom<Blob>((v) => v instanceof Blob)),
 });
+
+export type FormTypes = zod.infer<typeof projectValidationSchema>;
 
 export const LANG_LOCALE_STORAGE_KEY = 'project-shelf-lang';
 
@@ -69,3 +71,5 @@ export const INTERVALS = {
 } as const;
 
 export type IntervalLabels = 'today' | 'this-week' | 'this-month';
+
+export const EN_LOCALE = 'en';

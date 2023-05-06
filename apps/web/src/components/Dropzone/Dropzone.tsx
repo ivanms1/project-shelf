@@ -15,7 +15,7 @@ function Dropzone({
   currentFile,
   withPreview,
   accept,
-  maxSize = null,
+  maxSize = undefined,
 }: DropzoneProps) {
   const { getRootProps, getInputProps } = useDropzone({
     onDrop,

@@ -4,6 +4,7 @@
   "exclude": ["node_modules"],
   "compilerOptions": {
     "baseUrl": ".",
+    "strictNullChecks": true,
     "paths": {
       "@/components/*": ["src/components/*"],
       "@/assets/*": ["public/assets/*"],

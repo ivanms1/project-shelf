@@ -61,7 +61,6 @@ function Search() {
       >
         <input
           className='p-5 bg-black text-white border border-grey-dark rounded-lg w-full focus:outline-none'
-          name='project-search'
           placeholder={t('search-placeholder')}
           autoFocus
           defaultValue={search}

@@ -13,7 +13,7 @@ interface ProjectsGridProps {
   projects: ProjectCardProps['project'][];
   onRefetch: () => void;
   loading: boolean;
-  nextCursor: string | null;
+  nextCursor?: string | null;
 }
 
 const ProjectsGrid = ({

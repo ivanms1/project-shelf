@@ -106,8 +106,8 @@ function Home() {
             <p>{firstProject?.title}</p>
             <div className='flex gap-3'>
               <Image
-                src={firstProject?.author?.avatar}
-                alt={firstProject?.author?.name}
+                src={firstProject?.author?.avatar ?? ''}
+                alt={firstProject?.author?.name ?? ''}
                 className='h-6 w-6 rounded-full'
                 width={24}
                 height={24}
@@ -179,8 +179,8 @@ function Home() {
           <div className='flex w-fit items-center gap-3 rounded-lg bg-grey-dark px-5 py-[10px]'>
             <Image
               className='rounded-full'
-              src={coverProject?.author?.avatar}
-              alt={coverProject?.author?.name}
+              src={coverProject?.author?.avatar ?? ''}
+              alt={coverProject?.author?.name ?? ''}
               width={24}
               height={24}
             />
