@@ -41,7 +41,7 @@ const CreatorsTable = ({ interval }: CreatorsTableProps) => {
               className='flex flex-1 items-center gap-5'
             >
               <Image
-                src={user.avatar}
+                src={user.avatar ?? ''}
                 alt={user.name}
                 width={60}
                 height={60}

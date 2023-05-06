@@ -22,7 +22,7 @@ const AvatarDropzone = ({
   onDrop,
   children,
   accept,
-  maxSize = null,
+  maxSize = undefined,
   imageClassname,
   overlayClassName,
   overlayText,
@@ -38,7 +38,7 @@ const AvatarDropzone = ({
   const { t } = useTranslation('common');
 
   useEffect(() => {
-    if (dropzoneRef) {
+    if (dropzoneRef && inputRef?.current) {
       dropzoneRef.current = inputRef?.current;
     }
   }, []);
@@ -46,7 +46,7 @@ const AvatarDropzone = ({
   return (
     <div
       className={classNames(
-        'group relative border-none flex justify-center items-center cursor-pointer',
+        'group relative flex cursor-pointer items-center justify-center border-none',
         className
       )}
       {...getRootProps()}
@@ -67,7 +67,7 @@ const AvatarDropzone = ({
             />
             <div
               className={classNames(
-                'w-full h-full flex justify-center items-center opacity-0 absolute bottom-0 bg-[rgba(0,0,0,0.6)] text-xl group-hover:opacity-100 transition-opacity',
+                'absolute bottom-0 flex h-full w-full items-center justify-center bg-[rgba(0,0,0,0.6)] text-xl opacity-0 transition-opacity group-hover:opacity-100',
                 overlayClassName
               )}
             >

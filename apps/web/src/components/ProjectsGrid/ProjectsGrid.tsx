@@ -13,7 +13,7 @@ interface ProjectsGridProps {
   projects: ProjectCardProps['project'][];
   onRefetch: () => void;
   loading: boolean;
-  nextCursor: string | null;
+  nextCursor?: string | null;
 }
 
 const ProjectsGrid = ({
@@ -24,7 +24,7 @@ const ProjectsGrid = ({
 }: ProjectsGridProps) => {
   return (
     <>
-      <div className='grid gap-[30px] grid-cols-[repeat(auto-fit,_minmax(330px,_1fr))] max-lg:justify-items-center'>
+      <div className='grid grid-cols-[repeat(auto-fit,_minmax(330px,_1fr))] gap-[30px] max-lg:justify-items-center'>
         {loading &&
           projects?.length === 0 &&
           SKELETON_ARRAY.map((_, index) => <CardSkeleton key={index} />)}
@@ -36,7 +36,7 @@ const ProjectsGrid = ({
         )}
       </div>
       {loading && nextCursor && (
-        <div className='flex justify-center items-center'>
+        <div className='flex items-center justify-center'>
           <Loader size='lg' />
         </div>
       )}

@@ -123,7 +123,7 @@ const UserEdit = () => {
       })
     );
 
-    return updateUserVariables(urls);
+    return updateUserVariables(urls.filter(Boolean) as ImageResultType[]);
   };
 
   const updateUserVariables = async (urls: ImageResultType[]) => {

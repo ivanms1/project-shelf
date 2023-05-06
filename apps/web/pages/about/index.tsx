@@ -3,7 +3,7 @@ import About from '@/pages/About';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import axios from 'redaxios';
 
-import { IMGBOT_ID, PROJECT_SHELF_CONTRIBUTORS_API } from 'const';
+import { EN_LOCALE, IMGBOT_ID, PROJECT_SHELF_CONTRIBUTORS_API } from 'const';
 import type { GetStaticProps } from 'next';
 
 export default About;
@@ -19,7 +19,10 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
   return {
     props: {
       members,
-      ...(await serverSideTranslations(locale, ['about', 'common'])),
+      ...(await serverSideTranslations(locale || EN_LOCALE, [
+        'about',
+        'common',
+      ])),
     },
   };
 };

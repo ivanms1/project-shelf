@@ -7,7 +7,7 @@ interface TopCreatorProps {
   creator: {
     id: string;
     name: string;
-    avatar?: string;
+    avatar?: string | null;
     likesReceived: number;
   };
 }
@@ -21,7 +21,7 @@ const TopCreator = ({ creator }: TopCreatorProps) => {
       className='flex h-[260px] w-[260px] flex-col items-center justify-center gap-5 rounded-lg bg-grey-dark p-5'
     >
       <Image
-        src={creator?.avatar}
+        src={creator?.avatar ?? ''}
         alt={creator.name}
         className='h-[120px] w-[120px] rounded-full'
         width={120}

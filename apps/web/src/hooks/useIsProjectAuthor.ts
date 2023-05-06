@@ -1,6 +1,6 @@
 import useIsLoggedIn from '@/hooks/useIsLoggedIn';
 
-const useIsProjectAuthor = (projectAuthorId: string) => {
+const useIsProjectAuthor = (projectAuthorId: string | undefined) => {
   const { currentUser } = useIsLoggedIn();
   return currentUser?.id === projectAuthorId;
 };

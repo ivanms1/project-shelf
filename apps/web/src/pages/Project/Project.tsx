@@ -83,7 +83,7 @@ function Project() {
           });
         },
       });
-      if (deletedData?.data?.deleteProjects?.length > 0) {
+      if (deletedData?.data?.deleteProjects?.length ?? 0 > 0) {
         router.push(`/user/${data?.project?.author?.id}`);
       }
       toast.success(t('project:delete-success'));
@@ -115,9 +115,13 @@ function Project() {
     return <LoaderOverlay size='lg' />;
   }
 
+  if (!data?.project) {
+    return null;
+  }
+
   return (
     <>
-      <div className='h-[560px] max-lg:h-[320px] relative'>
+      <div className='relative h-[560px] max-lg:h-[320px]'>
         <Image
           alt={data?.project?.title}
           src={data?.project?.preview}
@@ -128,9 +132,9 @@ function Project() {
       </div>
       <div className='flex flex-col bg-black px-28 py-10 max-lg:px-[30px]'>
         <div className=' flex justify-between text-white max-lg:flex-col'>
-          <div className='max-w-2xl max-lg: mb-7'>
+          <div className='max-lg: mb-7 max-w-2xl'>
             <div className='mb-8'>
-              <h1 className='text-4xl font-semibold mb-3'>
+              <h1 className='mb-3 text-4xl font-semibold'>
                 {data?.project?.title}
               </h1>
               <p className='text-grey-light'>
@@ -144,26 +148,28 @@ function Project() {
             </div>
             <div className='flex flex-col gap-8'>
               <div className='flex flex-col gap-[10px]'>
-                <p className='text-grey-light font-mono'>{t('created-by')}</p>
-                <Link href={`/user/${data?.project?.author?.id}`}>
-                  <div className='flex gap-3'>
-                    <Image
-                      className='rounded-full'
-                      alt={data?.project?.author?.name}
-                      height={24}
-                      width={24}
-                      src={data?.project?.author?.avatar}
-                    />
-                    <p>{data?.project?.author?.name}</p>
-                  </div>
-                </Link>
+                <p className='font-mono text-grey-light'>{t('created-by')}</p>
+                {data?.project?.author?.avatar && (
+                  <Link href={`/user/${data?.project?.author?.id}`}>
+                    <div className='flex gap-3'>
+                      <Image
+                        className='rounded-full'
+                        alt={data?.project?.author?.name}
+                        height={24}
+                        width={24}
+                        src={data?.project?.author?.avatar}
+                      />
+                      <p>{data?.project?.author?.name}</p>
+                    </div>
+                  </Link>
+                )}
               </div>
               <div className='flex flex-col gap-[10px]'>
-                <p className='text-grey-light font-mono'>{t('description')}</p>
+                <p className='font-mono text-grey-light'>{t('description')}</p>
                 <p>{data?.project?.description}</p>
               </div>
               <div className='flex flex-col gap-[10px]'>
-                <p className='text-grey-light font-mono'>{t('details')}</p>
+                <p className='font-mono text-grey-light'>{t('details')}</p>
                 <div className='flex flex-col gap-3'>
                   <a
                     href={data?.project?.siteLink}
@@ -171,7 +177,7 @@ function Project() {
                     target='_blank'
                     rel='noopener noreferrer'
                   >
-                    <WorldIcon className='w-6 h-6' />
+                    <WorldIcon className='h-6 w-6' />
                     <p>{t('view-website')}</p>
                   </a>
 
@@ -188,12 +194,12 @@ function Project() {
               </div>
 
               <div className='flex flex-col gap-[20px]'>
-                <p className='text-grey-light font-mono'>{t('tags')}</p>
+                <p className='font-mono text-grey-light'>{t('tags')}</p>
                 <div className='flex gap-5 max-lg:flex-col'>
                   {data?.project?.tags.map((tag) => (
                     <p
                       key={tag}
-                      className='bg-grey-dark px-[30px] py-3 uppercase w-fit rounded-[20px] font-semibold'
+                      className='w-fit rounded-[20px] bg-grey-dark px-[30px] py-3 font-semibold uppercase'
                     >
                       {tag}
                     </p>
@@ -207,7 +213,7 @@ function Project() {
           </div>
         </div>
 
-        <div className='flex items-center gap-5 mr-0 ml-auto'>
+        <div className='mr-0 ml-auto flex items-center gap-5'>
           {isProjectOwner ? (
             <div className='flex items-center gap-5'>
               <Link href={`/project-edit/${router?.query?.id}`}>
@@ -251,7 +257,7 @@ function Project() {
                   : setIsLoginModalOpen(true)
               }
               title='Report Project'
-              className='w-10 h-10 flex items-center justify-center rounded-[10px] bg-grey-dark cursor-pointer'
+              className='flex h-10 w-10 cursor-pointer items-center justify-center rounded-[10px] bg-grey-dark'
             >
               <ReportIcon />
             </button>
@@ -259,7 +265,7 @@ function Project() {
           <button
             onClick={() => setIsShareModalOpen(true)}
             title='Share Project'
-            className='w-10 h-10 flex items-center justify-center rounded-[10px] bg-grey-dark cursor-pointer'
+            className='flex h-10 w-10 cursor-pointer items-center justify-center rounded-[10px] bg-grey-dark'
           >
             <ShareIcon />
           </button>

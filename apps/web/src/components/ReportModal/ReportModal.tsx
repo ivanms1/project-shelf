@@ -15,14 +15,17 @@ const ReportModal = ({
   onClose,
   reportProjectClick,
 }: ReportModalProps) => {
-  const [selected, setSelected] = useState(null);
+  const [selected, setSelected] = useState<{
+    name: string;
+    value: string;
+  } | null>(null);
   const [message, setMessage] = useState('');
   const [error, setError] = useState(false);
 
   const { t } = useTranslation('project');
 
   useEffect(() => {
-    setSelected(false);
+    setSelected(null);
     setMessage('');
   }, [isOpen]);
 
@@ -69,22 +72,22 @@ const ReportModal = ({
       contentClassName='p-4 max-h-full md:max-h-screen-md overflow-y-auto'
     >
       <div className='flex flex-col gap-2 md:gap-4'>
-        <span className='text-2xl md:text-3xl font-semibold'>
+        <span className='text-2xl font-semibold md:text-3xl'>
           {t('project:report')}
         </span>
-        <p className='font-medium text-lg md:text-xl'>
+        <p className='text-lg font-medium md:text-xl'>
           {t('project:reporting-this-post')}
         </p>
-        <p className='text-sm md:text-base mb-2 md:mb-4'>
+        <p className='mb-2 text-sm md:mb-4 md:text-base'>
           {t('project:description')}
         </p>
 
-        <div className='flex flex-row flex-wrap gap-2 md:gap-4 md:mb-6'>
+        <div className='flex flex-row flex-wrap gap-2 md:mb-6 md:gap-4'>
           {TAGS?.map((tag, idx) => (
             <span
               onClick={() => setSelected(tag)}
               className={classNames(
-                'rounded-full py-1 px-3 cursor-pointer select-none',
+                'cursor-pointer select-none rounded-full py-1 px-3',
                 {
                   'bg-red-200 text-red-600': selected == tag,
                   'bg-white text-gray-600': selected !== tag,
@@ -101,13 +104,13 @@ const ReportModal = ({
           <span className='text-lg md:text-xl'>{t('project:reason')}</span>
           <p>{t('project:help')}</p>
           <TextArea
-            className='block p-2.5 w-full text-sm md:text-base rounded-md border border-gray-300 bg-gray-200 dark:text-gray-400 dark:placeholder-gray-400 outline-none'
+            className='block w-full rounded-md border border-gray-300 bg-gray-200 p-2.5 text-sm outline-none dark:text-gray-400 dark:placeholder-gray-400 md:text-base'
             placeholder={t('write-a-message')}
             onChange={(e) => setMessage(e.target.value)}
           />
         </div>
         {error && (
-          <span className='text-red-400 text-center text-[13px]'>
+          <span className='text-center text-[13px] text-red-400'>
             {t('project:category')}
           </span>
         )}
