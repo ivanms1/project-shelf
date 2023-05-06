@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Button, Drawer } from 'ui';
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'next-i18next';
 import Link from 'next/link';
 import { signIn } from 'next-auth/react';
 
@@ -9,10 +9,24 @@ import useIsLoggedIn from '@/hooks/useIsLoggedIn';
 import MenuIcon from '@/assets/icons/menu-icon.svg';
 
 const MobileMenu = () => {
+  const { t } = useTranslation('common');
   const [open, setOpen] = useState(false);
   const { isLoggedIn, logout, currentUser } = useIsLoggedIn();
+  const [isAuthLoading, setIsAuthLoading] = useState(false);
 
-  const { t } = useTranslation('common');
+  const handleLogout = async () => {
+    setIsAuthLoading(true);
+    await logout();
+    setOpen(false);
+    // Not setting the isAuthLoading state to false because of the loading UI flicker on click
+  };
+
+  const handleLogin = async () => {
+    setIsAuthLoading(true);
+    await signIn('github');
+    // Not setting the isAuthLoading state to false because of the loading UI flicker on click
+  };
+
   return (
     <div className='hidden items-center max-lg:flex'>
       <Button
@@ -32,14 +46,14 @@ const MobileMenu = () => {
           <Link
             href='/about'
             onClick={() => setOpen(false)}
-            className='py-3 px-8 font-semibold text-center w-full'
+            className='w-full py-3 px-8 text-center font-semibold'
           >
             {t('about')}
           </Link>
           <Link
             href='/search'
             onClick={() => setOpen(false)}
-            className='py-3 px-8 font-semibold text-center w-full'
+            className='w-full py-3 px-8 text-center font-semibold'
           >
             {t('search')}
           </Link>
@@ -47,7 +61,7 @@ const MobileMenu = () => {
             <>
               <Link
                 href={`/user/${currentUser?.id}`}
-                className='py-3 px-8 font-semibold text-center w-full'
+                className='w-full py-3 px-8 text-center font-semibold'
                 onClick={() => setOpen(false)}
               >
                 {t('profile')}
@@ -55,23 +69,21 @@ const MobileMenu = () => {
               <Link
                 href={`/user-edit/${currentUser?.id}`}
                 onClick={() => setOpen(false)}
-                className='py-3 px-8 font-semibold text-center w-full'
+                className='w-full py-3 px-8 text-center font-semibold'
               >
                 {t('edit-profile')}
               </Link>
               <Button
                 variant='ghost'
-                className='py-3 px-8 font-semibold text-center w-full'
-                onClick={() => {
-                  logout();
-                  setOpen(false);
-                }}
+                className='w-full py-3 px-8 text-center font-semibold'
+                isLoading={isAuthLoading}
+                onClick={handleLogout}
               >
                 {t('sign-out')}
               </Button>
               <Link
                 href='/create-project'
-                className='text-center w-full'
+                className='w-full text-center'
                 passHref
               >
                 <Button
@@ -87,7 +99,8 @@ const MobileMenu = () => {
             <Button
               className='px-7'
               size='small'
-              onClick={() => signIn('github')}
+              onClick={handleLogin}
+              isLoading={isAuthLoading}
             >
               {t('login')}
             </Button>

@@ -39,11 +39,17 @@ type Mutation {
   """Create a new project"""
   createProject(input: CreateProjectInput!): Project!
 
+  """Create a new report"""
+  createReport(message: String, projectId: String!, reason: String!): Report!
+
   """Delete a like"""
   deleteLike(projectId: String!): Like!
 
   """Delete projects"""
   deleteProjects(projectIds: [String!]!): [String!]!
+
+  """Delete a report"""
+  deleteReport(reportId: String!): Report!
 
   """Follow or unfollow a user"""
   followUser(input: FollowUserInput!): User!
@@ -124,6 +130,9 @@ type Query {
   """Get projects for admin"""
   getProjectsAdmin(input: SearchProjectsInput): ProjectsResponse!
 
+  """Get reports"""
+  getReports: [Report!]!
+
   """Get top creators for home page"""
   getTopCreatorsForHomePage: TopCreatorsResponse!
 
@@ -141,6 +150,15 @@ type Query {
 
   """Get user projects"""
   getUserProjects(input: SearchProjectsInput, userId: String!): ProjectsResponse!
+}
+
+type Report {
+  createdAt: Date!
+  id: ID!
+  message: String
+  project: Project!
+  reason: String!
+  user: User!
 }
 
 """User role"""
