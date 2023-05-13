@@ -17,6 +17,8 @@ import {
   type SortingState,
   useReactTable,
 } from '@tanstack/react-table';
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
 
 import useDebounce from '@/hooks/useDebounce';
 
@@ -24,6 +26,8 @@ import Table from 'src/components/Table';
 
 import GithubIcon from '@/public/assets/github.svg';
 import ExternalLink from '@/public/assets/external-link.svg';
+
+dayjs.extend(relativeTime);
 
 const Projects = () => {
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
@@ -116,26 +120,26 @@ const Projects = () => {
       size: 500,
       cell: (info) => {
         return (
-          <div className='flex flex-row gap-2.5 items-center'>
+          <div className='flex flex-row items-center gap-2.5'>
             <div className='flex flex-row gap-[20px]'>
               <Image
                 src={info?.row?.original?.preview}
                 alt={info?.row?.original?.preview}
-                className='rounded-full'
-                width={50}
-                height={50}
+                className='h-12 w-12 rounded-full'
+                width={48}
+                height={48}
               />
             </div>
             <div className='flex flex-col gap-[5px]'>
-              <span className='w-full text-gray-700 font-medium text-[16px]'>
+              <span className='w-full text-[16px] font-medium text-gray-700'>
                 {info?.getValue()}
               </span>
 
-              <div className='flex gap-[5px] flex-wrap'>
+              <div className='flex flex-wrap gap-[5px]'>
                 {info?.row?.original?.tags?.map((tag, i) => (
                   <span
                     key={i}
-                    className='capitalize w-fit flex items-center bg-[#e5e7eb] px-2.5 py-[2px] rounded-lg text-gray-700 font-medium text-xs'
+                    className='flex w-fit items-center rounded-lg bg-[#e5e7eb] px-2.5 py-[2px] text-xs font-medium capitalize text-gray-700'
                   >
                     {tag}
                   </span>
@@ -156,7 +160,7 @@ const Projects = () => {
     columnHelper.accessor('createdAt', {
       header: 'Created At',
       enableSorting: false,
-      cell: (info) => new Date(info?.getValue()).toDateString(),
+      cell: (info) => dayjs().to(dayjs(info.getValue())),
     }),
     columnHelper.accessor('repoLink', {
       header: 'Repo Link',
@@ -197,10 +201,10 @@ const Projects = () => {
               onClose={() => setOpenDeleteModal(false)}
               modalClassName='bg-white flex flex-col  justify-center p-[20px] h-[full] w-[500px] '
             >
-              <p className=' text-center text-[30px] mb-[20px] font-semibold w-[full]'>
+              <p className=' mb-[20px] w-[full] text-center text-[30px] font-semibold'>
                 Are you sure !
               </p>
-              <div className='flex justify-between w-[full] '>
+              <div className='flex w-[full] justify-between '>
                 <Button
                   variant='secondary'
                   onClick={() => deleteProjectClick(info?.row?.original?.id)}
@@ -213,7 +217,7 @@ const Projects = () => {
 
             <button
               className={classNames(
-                'text-[14px] text-white font-bold py-[5px] px-[20px] rounded-full bg-red-600'
+                'rounded-full bg-red-600 py-[5px] px-[20px] text-[14px] font-bold text-white'
               )}
               onClick={() => {
                 setOpenDeleteModal(true);
@@ -240,14 +244,14 @@ const Projects = () => {
   });
 
   return (
-    <div className='w-full h-full bg-white p-7 flex flex-col gap-5'>
-      <p className='text-gray-900 text-3xl font-bold'>Projects</p>
+    <div className='flex h-full w-full flex-col gap-5 bg-white p-7'>
+      <p className='text-3xl font-bold text-gray-900'>Projects</p>
       <div className='relative'>
         <input
           type='text'
           placeholder='Search'
           value={search}
-          className='w-full h-12 rounded-md border border-gray-300 p-2.5 focus:outline-none focus:border-blue'
+          className='h-12 w-full rounded-md border border-gray-300 p-2.5 focus:border-blue focus:outline-none'
           onChange={(e) => {
             setSearch(e.target.value);
           }}

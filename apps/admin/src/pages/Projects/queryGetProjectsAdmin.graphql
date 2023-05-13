@@ -1,4 +1,4 @@
-query GetProjectsAdmin($input: SearchProjectsInput) {
+query GetProjectsAdmin($input: SearchInput) {
   getProjectsAdmin(input: $input) {
     nextCursor
     prevCursor

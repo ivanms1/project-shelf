@@ -1,4 +1,4 @@
-query SearchProjects($input: SearchProjectsInput) {
+query SearchProjects($input: SearchInput) {
   searchProjects: getApprovedProjects(input: $input) {
     results {
       title

@@ -176,16 +176,16 @@ const Users = () => {
             <Image
               src={info?.row?.original?.avatar}
               alt={info?.row?.original?.avatar}
-              className='rounded-full w-auto h-auto'
+              className='h-auto w-auto rounded-full'
               width={50}
               height={50}
             />
-            <div className='flex flex-col w-full'>
-              <span className='w-full text-gray-700 font-bold text-[17px]'>
+            <div className='flex w-full flex-col'>
+              <span className='w-full text-[17px] font-bold text-gray-700'>
                 {info?.getValue()}
               </span>
-              <div className='gap-[2px] flex flex-col'>
-                <span className='w-full text-gray-700 font-medium text-[15px]'>
+              <div className='flex flex-col gap-[2px]'>
+                <span className='w-full text-[15px] font-medium text-gray-700'>
                   {info?.row?.original?.email}
                 </span>
 
@@ -193,13 +193,13 @@ const Users = () => {
                   href={`https://github.com/` + info?.row?.original?.github}
                   target='_blank'
                   rel='noreferrer'
-                  className='flex flex-row gap-[10px] items-center'
+                  className='flex flex-row items-center gap-[10px]'
                 >
-                  <span className='w-full flex flex-row items-center gap-[5px]'>
-                    <i className='w-[20px] h-[20px]'>
+                  <span className='flex w-full flex-row items-center gap-[5px]'>
+                    <i className='h-[20px] w-[20px]'>
                       <GithubIcon className='fill-[#a3aed0]' />
                     </i>
-                    <span className='text-gray-700 font-bold text-[14px]'>
+                    <span className='text-[14px] font-bold text-gray-700'>
                       {info?.row?.original?.github}
                     </span>
                   </span>
@@ -229,7 +229,7 @@ const Users = () => {
         };
 
         return (
-          <span className='text-gray-700 font-bold text-sm'>
+          <span className='text-sm font-bold text-gray-700'>
             <Select
               isSearchable={false}
               options={OPTIONS}
@@ -253,7 +253,7 @@ const Users = () => {
         return (
           <button
             className={classNames(
-              'text-[14px] text-white font-bold py-1 px-5 rounded-full',
+              'rounded-full py-1 px-5 text-[14px] font-bold text-white',
               {
                 'bg-red-600': !info?.row?.original?.banned,
                 'bg-green-600': info?.row?.original?.banned,
@@ -283,13 +283,13 @@ const Users = () => {
   });
 
   return (
-    <div className='w-full h-full bg-white p-7 flex flex-col gap-5'>
-      <p className='text-gray-900 text-3xl font-bold'>Users</p>
+    <div className='flex h-full w-full flex-col gap-5 bg-white p-7'>
+      <p className='text-3xl font-bold text-gray-900'>Users</p>
       <input
         type='text'
         placeholder='Search'
         value={search}
-        className='w-full h-[50px] rounded-md border border-gray-300 p-2.5 focus:outline-none focus:border-blue'
+        className='h-[50px] w-full rounded-md border border-gray-300 p-2.5 focus:border-blue focus:outline-none'
         onChange={(e) => {
           setSearch(e.target.value);
         }}

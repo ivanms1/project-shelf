@@ -1,4 +1,4 @@
-query GetUserProjects($userId: String!, $input: SearchProjectsInput) {
+query GetUserProjects($userId: String!, $input: SearchInput) {
   getUserProjects(userId: $userId, input: $input) {
     nextCursor
     prevCursor
