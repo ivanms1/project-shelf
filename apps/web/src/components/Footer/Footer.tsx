@@ -3,7 +3,7 @@ import Link from 'next/link';
 import React from 'react';
 
 import DiscordIcon from '@/assets/icons/discord-icon.svg';
-import YoutubeIcon from '@/assets/icons/youtube-icon.svg';
+import InstagramIcon from '@/assets/icons/instagram-icon.svg';
 import TwitterIcon from '@/assets/icons/twitter-icon.svg';
 import { Button, Input } from 'ui';
 
@@ -11,7 +11,7 @@ const SOCIALS = [
   {
     id: 'twitter',
     icon: TwitterIcon,
-    link: 'https://twitter.com/ProjectShelf',
+    link: 'https://twitter.com/project_shelf',
   },
   {
     id: 'discord',
@@ -19,9 +19,9 @@ const SOCIALS = [
     link: 'https://discord.gg/2Z8Y4Z8',
   },
   {
-    id: 'youtube',
-    icon: YoutubeIcon,
-    link: 'https://www.youtube.com/channel/UCZ2J9QZ7YXZ3Z5Z8ZQZ8Z8Q',
+    id: 'instagram',
+    icon: InstagramIcon,
+    link: 'https://www.instagram.com/project.shelf',
   },
 ];
 
@@ -29,12 +29,12 @@ const Footer = () => {
   const { t } = useTranslation('common');
   return (
     <div className='bg-grey-dark px-28 py-10 text-white max-lg:px-[30px]'>
-      <div className='flex flex-row border-b-[1px] border-b-grey-light pb-12 justify-between max-lg:flex-col max-lg:gap-[30px]'>
+      <div className='flex flex-row justify-between border-b-[1px] border-b-grey-light pb-12 max-lg:flex-col max-lg:gap-[30px]'>
         <div>
-          <p className='text-2xl mb-6 font-bold font-mono'>
+          <p className='mb-6 font-mono text-2xl font-bold'>
             {t('project-shelf')}
           </p>
-          <div className='text-silver flex gap-5 flex-col'>
+          <div className='flex flex-col gap-5 text-silver'>
             <p>{t('discover-projects')}</p>
             <p>{t('join-community')}</p>
             <div className='flex flex-row gap-[10px]'>
@@ -47,7 +47,7 @@ const Footer = () => {
                     target='_blank'
                     rel='noreferrer'
                   >
-                    <Icon className='w-6 h-6' />
+                    <Icon className='h-6 w-6' />
                   </a>
                 );
               })}
@@ -55,16 +55,16 @@ const Footer = () => {
           </div>
         </div>
         <div>
-          <p className='text-2xl mb-6 font-bold font-mono'>{t('explore')}</p>
-          <div className='text-silver flex gap-5 flex-col'>
+          <p className='mb-6 font-mono text-2xl font-bold'>{t('explore')}</p>
+          <div className='flex flex-col gap-5 text-silver'>
             <Link href='/search'>{t('search')}</Link>
             <Link href='/rankings'>{t('rankings')}</Link>
           </div>
         </div>
-        <div className='flex gap-5 flex-col'>
-          <p className='text-2xl font-bold font-mono'>{t('join-digest')}</p>
+        <div className='flex flex-col gap-5'>
+          <p className='font-mono text-2xl font-bold'>{t('join-digest')}</p>
           <p className='text-silver'>{t('get-promotions')}</p>
-          <div className='flex flex-row relative'>
+          <div className='relative flex flex-row'>
             <Input containerClassName='w-full' />
             <Button className='absolute right-0' size='small' noAnimation>
               {t('subscribe')}
@@ -72,8 +72,8 @@ const Footer = () => {
           </div>
         </div>
       </div>
-      <p className='text-silver text-sm mt-5'>
-        © {new Date().getFullYear()} Project Shelf. All rights reserved.
+      <p className='mt-5 text-sm text-silver'>
+        {t('all-rights-reserved', { year: new Date().getFullYear() })}
       </p>
     </div>
   );
