@@ -89,14 +89,15 @@ const Table = <T extends object>({
           ) : (
             <Waypoint onEnter={onFetchMore} bottomOffset='-10%' />
           )}
+
+          {noRows && !loading && (
+            <div className='flex h-full max-h-[400px] items-center justify-center  text-2xl font-bold text-gray-700'>
+              No Data
+            </div>
+          )}
         </div>
       </div>
 
-      {noRows && !loading && (
-        <div className='flex h-full max-h-[400px] items-center justify-center text-2xl font-bold text-gray-700'>
-          No Data
-        </div>
-      )}
       {noRows && loading && (
         <div className='flex h-[100px] items-center justify-center'>
           <p>loading...</p>
