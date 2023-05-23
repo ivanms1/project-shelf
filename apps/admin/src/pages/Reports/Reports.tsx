@@ -26,10 +26,8 @@ import { toast } from 'react-hot-toast';
 
 dayjs.extend(relativeTime);
 
-// interface ReportsProps {}
-
 const Reports = () => {
-  const [openDeleteModal, setOpenDeleteModal] = useState(false);
+  const [deleteReportId, setDeleteReportId] = useState(null);
 
   const [search, setSearch] = useState('');
   const debouncedSearchTerm = useDebounce(search, 1000);
@@ -37,14 +35,13 @@ const Reports = () => {
 
   const [deleteReportMutation] = useDeleteReportMutation();
 
-  const deleteReportClick = async (projectId: string) => {
+  const deleteReportClick = async (reportId: string) => {
     try {
       const data = await deleteReportMutation({
         variables: {
-          reportIds: [projectId],
+          reportIds: [reportId],
         },
         update: (cache) => {
-          console.log('what is cache', projectId, cache.extract());
           cache.modify({
             fields: {
               getReports(existingReports, { readField }) {
@@ -52,13 +49,7 @@ const Reports = () => {
                 return {
                   ...existingReports,
                   results: existingReports.results.filter((report: Report) => {
-                    console.log(
-                      'check',
-                      readField('Report', report),
-                      projectId
-                    );
-
-                    // return readField('Report', report) !== projectId;
+                    return readField('id', report) !== reportId;
                   }),
                 };
               },
@@ -66,10 +57,9 @@ const Reports = () => {
           });
         },
       });
-      console.log({ data });
       if (data?.data?.deleteReport) {
         toast.success('Reported deleted succesfully');
-        setOpenDeleteModal(false);
+        setDeleteReportId(null);
       }
     } catch (error) {
       toast.error('Failed to delete Report');
@@ -88,7 +78,6 @@ const Reports = () => {
       variables: {
         input: {
           search: debouncedSearchTerm,
-          // order: sorting?.[0]?.desc ? SearchOrder.Desc : SearchOrder.Asc,
         },
       },
     });
@@ -171,37 +160,15 @@ const Reports = () => {
 
       header: 'Actions',
       cell: (info) => {
-        console.log('what is info', info);
         return (
           <div className='flex flex-row items-center gap-[20px] '>
-            <Modal
-              open={openDeleteModal}
-              onClose={() => {
-                setOpenDeleteModal(false);
-              }}
-              modalClassName='bg-white flex flex-col  justify-center p-[20px] h-[full] w-[500px] '
-            >
-              <p className=' mb-[20px] w-[full] text-center text-[30px] font-semibold'>
-                Are you sure !
-              </p>
-              <div className='flex w-[full] justify-between '>
-                <Button
-                  variant='secondary'
-                  onClick={() => {
-                    deleteReportClick(info?.row?.original?.id);
-                  }}
-                >
-                  Yes
-                </Button>
-                <Button onClick={() => setOpenDeleteModal(false)}>No</Button>
-              </div>
-            </Modal>
-
             <button
               className={classNames(
                 'rounded-full bg-red-600 py-[5px] px-[20px] text-[14px] font-bold text-white'
               )}
-              onClick={() => setOpenDeleteModal(true)}
+              onClick={() => {
+                setDeleteReportId(info?.row?.original?.id);
+              }}
             >
               Delete Report
             </button>
@@ -247,6 +214,28 @@ const Reports = () => {
         <Table instance={instance} loading={loading} onFetchMore={onRefetch} />
       </div>
 
+      <Modal
+        open={!!deleteReportId}
+        onClose={() => {
+          setDeleteReportId(null);
+        }}
+        modalClassName='bg-white flex flex-col  justify-center p-[20px] h-[full] w-[500px] '
+      >
+        <p className=' mb-[20px] w-[full] text-center text-[30px] font-semibold'>
+          Are you sure !
+        </p>
+        <div className='flex w-[full] justify-between '>
+          <Button
+            variant='secondary'
+            onClick={() => {
+              deleteReportClick(deleteReportId);
+            }}
+          >
+            Yes
+          </Button>
+          <Button onClick={() => setDeleteReportId(null)}>No</Button>
+        </div>
+      </Modal>
       <NextSeo title='Reports' />
     </div>
   );

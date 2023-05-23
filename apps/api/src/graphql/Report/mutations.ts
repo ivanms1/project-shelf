@@ -140,7 +140,7 @@ builder.mutationFields((t) => ({
       await db.report.deleteMany({
         where: {
           id: {
-            in: args?.reportIds,
+            in: args?.reportIds || [],
           },
         },
       });
