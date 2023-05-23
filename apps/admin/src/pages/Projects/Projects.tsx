@@ -30,7 +30,7 @@ import ExternalLink from '@/public/assets/external-link.svg';
 dayjs.extend(relativeTime);
 
 const Projects = () => {
-  const [openDeleteModal, setOpenDeleteModal] = useState(false);
+  const [deleteProjectId, setDeleteProjectId] = useState(null);
   const [search, setSearch] = useState('');
   const [sorting, setSorting] = React.useState<SortingState>([
     {
@@ -77,7 +77,7 @@ const Projects = () => {
   };
 
   const deleteProjectClick = async (projectId: string) => {
-    setOpenDeleteModal(false);
+    setDeleteProjectId(false);
     try {
       const deleteData = await deleteProject({
         variables: {
@@ -196,31 +196,12 @@ const Projects = () => {
       cell: (info) => {
         return (
           <div className='flex flex-row items-center gap-[20px] '>
-            <Modal
-              open={openDeleteModal}
-              onClose={() => setOpenDeleteModal(false)}
-              modalClassName='bg-white flex flex-col  justify-center p-[20px] h-[full] w-[500px] '
-            >
-              <p className=' mb-[20px] w-[full] text-center text-[30px] font-semibold'>
-                Are you sure !
-              </p>
-              <div className='flex w-[full] justify-between '>
-                <Button
-                  variant='secondary'
-                  onClick={() => deleteProjectClick(info?.row?.original?.id)}
-                >
-                  Yes
-                </Button>
-                <Button onClick={() => setOpenDeleteModal(false)}>No</Button>
-              </div>
-            </Modal>
-
             <button
               className={classNames(
                 'rounded-full bg-red-600 py-[5px] px-[20px] text-[14px] font-bold text-white'
               )}
               onClick={() => {
-                setOpenDeleteModal(true);
+                setDeleteProjectId(info?.row?.original?.id);
               }}
             >
               Delete
@@ -268,6 +249,24 @@ const Projects = () => {
         <Table instance={instance} loading={loading} onFetchMore={onRefetch} />
       </div>
 
+      <Modal
+        open={!!deleteProjectId}
+        onClose={() => setDeleteProjectId(false)}
+        modalClassName='bg-white flex flex-col  justify-center p-[20px] h-[full] w-[500px] '
+      >
+        <p className=' mb-[20px] w-[full] text-center text-[30px] font-semibold'>
+          Are you sure !
+        </p>
+        <div className='flex w-[full] justify-between '>
+          <Button
+            variant='secondary'
+            onClick={() => deleteProjectClick(deleteProjectId)}
+          >
+            Yes
+          </Button>
+          <Button onClick={() => setDeleteProjectId(null)}>No</Button>
+        </div>
+      </Modal>
       <NextSeo title='Projects' />
     </div>
   );
