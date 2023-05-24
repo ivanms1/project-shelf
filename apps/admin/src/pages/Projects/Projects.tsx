@@ -136,9 +136,9 @@ const Projects = () => {
               </span>
 
               <div className='flex flex-wrap gap-[5px]'>
-                {info?.row?.original?.tags?.map((tag, i) => (
+                {info?.row?.original?.tags?.map((tag) => (
                   <span
-                    key={i}
+                    key={tag}
                     className='flex w-fit items-center rounded-lg bg-[#e5e7eb] px-2.5 py-[2px] text-xs font-medium capitalize text-gray-700'
                   >
                     {tag}
@@ -254,10 +254,10 @@ const Projects = () => {
         onClose={() => setDeleteProjectId(false)}
         modalClassName='bg-white flex flex-col  justify-center p-[20px] h-[full] w-[500px] '
       >
-        <p className=' mb-[20px] w-[full] text-center text-[30px] font-semibold'>
-          Are you sure !
+        <p className=' mb-[20px] w-full text-center text-[30px] font-semibold'>
+          Are you sure ?
         </p>
-        <div className='flex w-[full] justify-between '>
+        <div className='flex w-full justify-between '>
           <Button
             variant='secondary'
             onClick={() => deleteProjectClick(deleteProjectId)}

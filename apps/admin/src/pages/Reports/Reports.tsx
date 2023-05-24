@@ -31,7 +31,7 @@ const Reports = () => {
 
   const [search, setSearch] = useState('');
   const debouncedSearchTerm = useDebounce(search, 1000);
-  const [getReports, { data, loading, fetchMore }] = useGetReportsLazyQuery({});
+  const [getReports, { data, loading, fetchMore }] = useGetReportsLazyQuery();
 
   const [deleteReportMutation] = useDeleteReportMutation();
 
@@ -45,7 +45,6 @@ const Reports = () => {
           cache.modify({
             fields: {
               getReports(existingReports, { readField }) {
-                console.log('what is existingReports', existingReports);
                 return {
                   ...existingReports,
                   results: existingReports.results.filter((report: Report) => {
@@ -100,8 +99,6 @@ const Reports = () => {
     });
   };
 
-  console.log('what is data', data);
-
   const columnHelper =
     createColumnHelper<GetReportsQuery['getReports']['results'][0]>();
 
@@ -128,9 +125,9 @@ const Reports = () => {
               </span>
 
               <div className='flex flex-wrap gap-[5px]'>
-                {info?.row?.original?.project?.tags?.map((tag, i) => (
+                {info?.row?.original?.project?.tags?.map((tag) => (
                   <span
-                    key={i}
+                    key={tag}
                     className='flex w-fit items-center rounded-lg bg-[#e5e7eb] px-2.5 py-[2px] text-xs font-medium capitalize text-gray-700'
                   >
                     {tag}
@@ -221,10 +218,10 @@ const Reports = () => {
         }}
         modalClassName='bg-white flex flex-col  justify-center p-[20px] h-[full] w-[500px] '
       >
-        <p className=' mb-[20px] w-[full] text-center text-[30px] font-semibold'>
-          Are you sure !
+        <p className=' mb-[20px] w-full text-center text-[30px] font-semibold'>
+          Are you sure ?
         </p>
-        <div className='flex w-[full] justify-between '>
+        <div className='flex w-full justify-between '>
           <Button
             variant='secondary'
             onClick={() => {

@@ -134,9 +134,6 @@ builder.mutationFields((t) => ({
         });
       }
 
-      if (!userId) {
-        throw Error('Args missing');
-      }
       await db.report.deleteMany({
         where: {
           id: {

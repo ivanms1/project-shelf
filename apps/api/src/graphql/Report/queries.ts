@@ -61,10 +61,6 @@ builder.queryFields((t) => ({
         });
       }
 
-      if (!userId) {
-        throw Error('Args missing');
-      }
-
       const incomingCursor = args?.input?.cursor;
       let results;
 
