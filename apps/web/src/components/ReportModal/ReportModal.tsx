@@ -10,6 +10,41 @@ interface ReportModalProps {
   reportProjectClick: (error: string, message: string) => void;
 }
 
+const TAGS = [
+  {
+    name: 'spam',
+    value: 'Spam',
+  },
+  {
+    name: 'nudity',
+    value: 'Nudity',
+  },
+  {
+    name: 'scam',
+    value: 'Scam',
+  },
+  {
+    name: 'illegal',
+    value: 'Illegal',
+  },
+  {
+    name: 'violence',
+    value: 'Violence',
+  },
+  {
+    name: 'suicide-or-self-injury',
+    value: 'Suicide or self injury',
+  },
+  {
+    name: 'hate-speech',
+    value: 'Hate speech',
+  },
+  {
+    name: 'something-else',
+    value: 'Something else',
+  },
+];
+
 const ReportModal = ({
   isOpen,
   onClose,
@@ -29,41 +64,6 @@ const ReportModal = ({
     setMessage('');
   }, [isOpen]);
 
-  const TAGS = [
-    {
-      name: 'spam',
-      value: 'Spam',
-    },
-    {
-      name: 'nudity',
-      value: 'Nudity',
-    },
-    {
-      name: 'scam',
-      value: 'Scam',
-    },
-    {
-      name: 'illegal',
-      value: 'Illegal',
-    },
-    {
-      name: 'violence',
-      value: 'Violence',
-    },
-    {
-      name: 'suicide-or-self-injury',
-      value: 'Suicide or self injury',
-    },
-    {
-      name: 'hate-speech',
-      value: 'Hate speech',
-    },
-    {
-      name: 'something-else',
-      value: 'Something else',
-    },
-  ];
-
   return (
     <Modal
       open={isOpen}
@@ -73,14 +73,12 @@ const ReportModal = ({
     >
       <div className='flex flex-col gap-2 md:gap-4'>
         <span className='text-2xl font-semibold md:text-3xl'>
-          {t('project:report')}
+          {t('report')}
         </span>
         <p className='text-lg font-medium md:text-xl'>
-          {t('project:reporting-this-post')}
+          {t('reporting-this-post')}
         </p>
-        <p className='mb-2 text-sm md:mb-4 md:text-base'>
-          {t('project:description')}
-        </p>
+        <p className='mb-2 text-sm md:mb-4 md:text-base'>{t('description')}</p>
 
         <div className='flex flex-row flex-wrap gap-2 md:mb-6 md:gap-4'>
           {TAGS?.map((tag, idx) => (
@@ -101,8 +99,8 @@ const ReportModal = ({
         </div>
 
         <div className='flex flex-col gap-2 md:gap-4'>
-          <span className='text-lg md:text-xl'>{t('project:reason')}</span>
-          <p>{t('project:help')}</p>
+          <span className='text-lg md:text-xl'>{t('reason')}</span>
+          <p>{t('help')}</p>
           <TextArea
             className='block w-full rounded-md border border-gray-300 bg-gray-200 p-2.5 text-sm outline-none dark:text-gray-400 dark:placeholder-gray-400 md:text-base'
             placeholder={t('write-a-message')}
@@ -111,7 +109,7 @@ const ReportModal = ({
         </div>
         {error && (
           <span className='text-center text-[13px] text-red-400'>
-            {t('project:category')}
+            {t('category')}
           </span>
         )}
         <Button
@@ -126,7 +124,7 @@ const ReportModal = ({
             }
           }}
         >
-          {t('project:submit-report')}
+          {t('submit-report')}
         </Button>
       </div>
     </Modal>
