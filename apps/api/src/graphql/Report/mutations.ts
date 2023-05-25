@@ -19,7 +19,11 @@ builder.mutationFields((t) => ({
       const { projectId, reason, message = '' } = args;
 
       if (!userId || !projectId) {
-        throw Error('Args missing');
+        throw new GraphQLError('Missing arguments', {
+          extensions: {
+            code: ERROR_CODES.BAD_USER_INPUT,
+          },
+        });
       }
 
       const project = await db.project.findUnique({

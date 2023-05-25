@@ -1,6 +1,10 @@
+import { Role } from '@prisma/client';
+import { GraphQLError } from 'graphql';
+
 import decodeAccessToken from '../../helpers/decodeAccessToken';
 import builder from '../../builder';
 import db from '../../db';
+import { ERROR_CODES } from '../../const';
 
 const ProjectInput = builder.inputType('CreateProjectInput', {
   description: 'Fields necessary to create a new project',
@@ -75,7 +79,11 @@ builder.mutationFields((t) => ({
       });
 
       if (projectToUpdate?.authorId !== authorId) {
-        throw Error('Not authorized');
+        throw new GraphQLError('You are not allowed to do this', {
+          extensions: {
+            code: ERROR_CODES.FORBIDDEN,
+          },
+        });
       }
 
       return db.project.update({
@@ -103,7 +111,11 @@ builder.mutationFields((t) => ({
       const { projectIds } = args;
 
       if (!authorId || !projectIds) {
-        throw Error('Args missing');
+        throw new GraphQLError('Missing arguments', {
+          extensions: {
+            code: ERROR_CODES.BAD_USER_INPUT,
+          },
+        });
       }
 
       const projectsToDelete = await db.project.findMany({
@@ -122,9 +134,13 @@ builder.mutationFields((t) => ({
 
       if (
         !projectsToDelete.every((project) => project.authorId === authorId) &&
-        userDeleting?.role !== 'ADMIN'
+        userDeleting?.role !== Role.ADMIN
       ) {
-        throw Error('Not authorized');
+        throw new GraphQLError('You are not allowed to do this', {
+          extensions: {
+            code: ERROR_CODES.FORBIDDEN,
+          },
+        });
       }
 
       await db.project.deleteMany({
@@ -147,7 +163,11 @@ builder.mutationFields((t) => ({
     },
     resolve: async (query, _, args, ctx) => {
       if (!ctx.accessToken) {
-        throw Error('Not Authorized');
+        throw new GraphQLError('You are not allowed to do this', {
+          extensions: {
+            code: ERROR_CODES.FORBIDDEN,
+          },
+        });
       }
 
       const currentUserId = decodeAccessToken(ctx.accessToken);
@@ -157,8 +177,12 @@ builder.mutationFields((t) => ({
         },
       });
 
-      if (user?.role !== 'ADMIN') {
-        throw Error('Not Authorized');
+      if (user?.role !== Role.ADMIN) {
+        throw new GraphQLError('You are not allowed to do this', {
+          extensions: {
+            code: ERROR_CODES.FORBIDDEN,
+          },
+        });
       }
 
       return db.project.update({
