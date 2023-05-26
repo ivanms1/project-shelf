@@ -26,7 +26,7 @@ function Dropzone({
 
   return (
     <div
-      className='relative border-2 border-dashed border-grey-light w-[800px] h-[600px] rounded max-lg:w-[335px] max-lg:h-[251px] flex justify-center cursor-pointer'
+      className='relative flex h-[600px] w-[800px] cursor-pointer justify-center rounded border-2 border-dashed border-grey-light max-lg:h-[251px] max-lg:w-[335px]'
       {...getRootProps()}
     >
       <input {...getInputProps()} />

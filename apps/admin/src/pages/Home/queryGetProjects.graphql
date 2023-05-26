@@ -1,6 +1,6 @@
 #import "@/graphql/projectFragment.graphql"
 
-query GetAllProjects($input: SearchProjectsInput) {
+query GetAllProjects($input: SearchInput) {
   projects: getApprovedProjects(input: $input) {
     ...ProjectsResponseFragment
   }

@@ -1,0 +1,26 @@
+query GetReports($input: SearchInput) {
+  getReports(input: $input) {
+    results {
+      id
+      createdAt
+      message
+      reason
+      project {
+        id
+        preview
+        repoLink
+        siteLink
+        reportsCount
+        title
+        description
+        author {
+          name
+        }
+        tags
+      }
+    }
+    prevCursor
+    nextCursor
+    totalCount
+  }
+}

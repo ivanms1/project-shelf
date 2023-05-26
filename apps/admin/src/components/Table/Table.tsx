@@ -1,5 +1,6 @@
 import React from 'react';
 import { Waypoint } from 'react-waypoint';
+import { Loader } from 'ui';
 
 import { flexRender, type Table } from '@tanstack/react-table';
 
@@ -21,7 +22,7 @@ const Table = <T extends object>({
       <div role='table' className='relative min-w-fit'>
         <div
           role='thead'
-          className='sticky top-0 bg-white z-10 border-b border-gray-200 py-5'
+          className='sticky top-0 z-10 border-b border-gray-200 bg-white py-5'
         >
           {instance.getHeaderGroups().map((headerGroup) => (
             <div role='trow' className='flex ' key={headerGroup.id}>
@@ -59,14 +60,14 @@ const Table = <T extends object>({
           ))}
         </div>
 
-        <div role='body' className='overflow-y-auto h-[550px]'>
+        <div role='body' className='h-[550px] overflow-y-auto'>
           {instance?.getRowModel?.()?.rows?.map?.((row) => (
             <div role='trow' key={row.id} className='flex items-center py-5'>
               {row.getVisibleCells().map((cell) => (
                 <div
                   role='td'
                   key={cell.id}
-                  className='flex items-center p-2 text-gray-700 font-bold text-sm'
+                  className='flex items-center p-2 text-sm font-bold text-gray-700'
                   style={{
                     minWidth:
                       cell.column.getSize() !== 0
@@ -82,22 +83,23 @@ const Table = <T extends object>({
           ))}
 
           {loading ? (
-            <div className='flex items-center justify-center h-[100px]'>
-              <p>loading...</p>
+            <div className='flex h-[100px] items-center justify-center'>
+              <Loader />
             </div>
           ) : (
             <Waypoint onEnter={onFetchMore} bottomOffset='-10%' />
           )}
+
+          {noRows && !loading && (
+            <div className='flex h-full max-h-[400px] items-center justify-center  text-2xl font-bold text-gray-700'>
+              No Data
+            </div>
+          )}
         </div>
       </div>
 
-      {noRows && !loading && (
-        <div className='h-full max-h-[400px] flex items-center justify-center text-gray-700 font-bold text-2xl'>
-          No Data
-        </div>
-      )}
       {noRows && loading && (
-        <div className='flex items-center justify-center h-[100px]'>
+        <div className='flex h-[100px] items-center justify-center'>
           <p>loading...</p>
         </div>
       )}

@@ -15,7 +15,7 @@ const SideNav = () => {
   const selectedTab = router.pathname;
 
   return (
-    <div className='w-72 h-full pt-8 pb-8 pr-6 pl-6 bg-white flex flex-col justify-between border-r border-gray-200'>
+    <div className='flex h-full w-72 flex-col justify-between border-r border-gray-200 bg-white pt-8 pb-8 pr-6 pl-6'>
       <div className='flex flex-col gap-4'>
         <Link href='/dashboard'>
           <Button selected={selectedTab == '/dashboard'} icon={<Dashboard />}>
@@ -30,6 +30,11 @@ const SideNav = () => {
         <Link href='/projects'>
           <Button selected={selectedTab == '/projects'} icon={<Dashboard />}>
             Projects
+          </Button>
+        </Link>
+        <Link href='/reports'>
+          <Button selected={selectedTab == '/reports'} icon={<Dashboard />}>
+            Reports
           </Button>
         </Link>
       </div>

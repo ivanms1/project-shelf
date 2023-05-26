@@ -1,16 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { toast } from 'react-hot-toast';
 import Image from 'next/future/image';
-import { NextSeo } from 'next-seo';
-import { Button, Modal, Loader } from 'ui';
-import classNames from 'classnames';
-import {
-  GetProjectsAdminQuery,
-  type Project,
-  SearchOrder,
-  useDeleteProjectsMutation,
-  useGetProjectsAdminLazyQuery,
-} from 'apollo-hooks';
 import {
   createColumnHelper,
   getCoreRowModel,
@@ -19,19 +8,63 @@ import {
 } from '@tanstack/react-table';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
-
-import useDebounce from '@/hooks/useDebounce';
+import {
+  type Report,
+  GetReportsQuery,
+  SearchOrder,
+  useDeleteReportMutation,
+  useGetReportsLazyQuery,
+} from 'apollo-hooks';
+import { NextSeo } from 'next-seo';
 
 import Table from 'src/components/Table';
 
-import GithubIcon from '@/public/assets/github.svg';
-import ExternalLink from '@/public/assets/external-link.svg';
+import { Button, Loader, Modal } from 'ui';
+import useDebounce from '@/hooks/useDebounce';
+import classNames from 'classnames';
+import { toast } from 'react-hot-toast';
 
 dayjs.extend(relativeTime);
 
-const Projects = () => {
-  const [deleteProjectId, setDeleteProjectId] = useState(null);
+const Reports = () => {
+  const [deleteReportId, setDeleteReportId] = useState(null);
+
   const [search, setSearch] = useState('');
+  const debouncedSearchTerm = useDebounce(search, 1000);
+  const [getReports, { data, loading, fetchMore }] = useGetReportsLazyQuery();
+
+  const [deleteReportMutation] = useDeleteReportMutation();
+
+  const deleteReportClick = async (reportId: string) => {
+    try {
+      const data = await deleteReportMutation({
+        variables: {
+          reportIds: [reportId],
+        },
+        update: (cache) => {
+          cache.modify({
+            fields: {
+              getReports(existingReports, { readField }) {
+                return {
+                  ...existingReports,
+                  results: existingReports.results.filter((report: Report) => {
+                    return readField('id', report) !== reportId;
+                  }),
+                };
+              },
+            },
+          });
+        },
+      });
+      if (data?.data?.deleteReport) {
+        toast.success('Reported deleted succesfully');
+        setDeleteReportId(null);
+      }
+    } catch (error) {
+      toast.error('Failed to delete Report');
+    }
+  };
+
   const [sorting, setSorting] = React.useState<SortingState>([
     {
       desc: false,
@@ -39,28 +72,18 @@ const Projects = () => {
     },
   ]);
 
-  const debouncedSearchTerm = useDebounce(search, 1000);
-
-  const [getProjects, { data, loading, fetchMore }] =
-    useGetProjectsAdminLazyQuery({});
-
   useEffect(() => {
-    getProjects({
+    getReports({
       variables: {
         input: {
           search: debouncedSearchTerm,
-          order: sorting?.[0]?.desc ? SearchOrder.Desc : SearchOrder.Asc,
-          orderBy: sorting?.[0]?.id,
-          cursor: undefined,
         },
       },
     });
   }, [debouncedSearchTerm, sorting]);
 
-  const [deleteProject] = useDeleteProjectsMutation();
-
   const onRefetch = () => {
-    if (!data?.getProjectsAdmin?.nextCursor) {
+    if (!data?.getReports?.nextCursor) {
       return;
     }
 
@@ -70,73 +93,39 @@ const Projects = () => {
           search,
           order: sorting?.[0]?.desc ? SearchOrder.Desc : SearchOrder.Asc,
           orderBy: sorting?.[0]?.id,
-          cursor: data?.getProjectsAdmin?.nextCursor,
+          cursor: data?.getReports?.nextCursor,
         },
       },
     });
   };
 
-  const deleteProjectClick = async (projectId: string) => {
-    setDeleteProjectId(false);
-    try {
-      const deleteData = await deleteProject({
-        variables: {
-          projectIds: [projectId],
-        },
-        update: (cache) => {
-          cache.modify({
-            fields: {
-              getProjectsAdmin(existingProjects, { readField }) {
-                return {
-                  ...existingProjects,
-                  results: existingProjects.results.filter(
-                    (project: Project) => {
-                      return readField('id', project) !== projectId;
-                    }
-                  ),
-                };
-              },
-            },
-          });
-        },
-      });
-
-      if (deleteData?.data?.deleteProjects?.length > 0) {
-        toast.success('Project deleted successfully');
-      }
-    } catch (error) {
-      toast.error('Project deleted failed');
-    }
-  };
-
   const columnHelper =
-    createColumnHelper<
-      GetProjectsAdminQuery['getProjectsAdmin']['results'][0]
-    >();
+    createColumnHelper<GetReportsQuery['getReports']['results'][0]>();
 
   const columns = [
-    columnHelper.accessor('title', {
-      header: 'Title',
-      size: 500,
+    columnHelper.accessor('project.title', {
+      header: 'Project',
+      minSize: 500,
+
       cell: (info) => {
         return (
           <div className='flex flex-row items-center gap-2.5'>
             <div className='flex flex-row gap-[20px]'>
               <Image
-                src={info?.row?.original?.preview}
-                alt={info?.row?.original?.preview}
-                className='h-12 w-12 rounded-full'
-                width={48}
-                height={48}
+                src={info?.row?.original?.project?.preview}
+                alt={info?.row?.original?.project?.preview}
+                className='rounded-full'
+                width={50}
+                height={50}
               />
             </div>
             <div className='flex flex-col gap-[5px]'>
               <span className='w-full text-[16px] font-medium text-gray-700'>
-                {info?.getValue()}
+                {info?.row?.original?.project?.title}
               </span>
 
               <div className='flex flex-wrap gap-[5px]'>
-                {info?.row?.original?.tags?.map((tag) => (
+                {info?.row?.original?.project?.tags?.map((tag) => (
                   <span
                     key={tag}
                     className='flex w-fit items-center rounded-lg bg-[#e5e7eb] px-2.5 py-[2px] text-xs font-medium capitalize text-gray-700'
@@ -150,46 +139,20 @@ const Projects = () => {
         );
       },
     }),
-    columnHelper.accessor('author', {
-      minSize: 100,
-      header: 'Author',
-      enableSorting: false,
-
-      cell: (info) => info?.getValue().name,
+    columnHelper.accessor('reason', {
+      header: 'Reason',
     }),
+
+    columnHelper.accessor('message', {
+      header: 'Message',
+    }),
+
     columnHelper.accessor('createdAt', {
       header: 'Created At',
-      enableSorting: false,
       cell: (info) => dayjs().to(dayjs(info.getValue())),
     }),
-    columnHelper.accessor('repoLink', {
-      header: 'Repo Link',
-      enableSorting: false,
-
-      cell: (info) => {
-        return (
-          <a href={info?.getValue()} target='_blank' rel='noopener noreferrer'>
-            <GithubIcon className='w-5' />
-          </a>
-        );
-      },
-    }),
-    columnHelper.accessor('siteLink', {
-      header: 'Site Link',
-      enableSorting: false,
-
-      cell: (info) => {
-        return (
-          <a href={info?.getValue()} target='_blank' rel='noopener noreferrer'>
-            <ExternalLink className='w-5' />
-          </a>
-        );
-      },
-    }),
-
     columnHelper.display({
       id: 'actions',
-      minSize: 100,
       enableSorting: false,
 
       header: 'Actions',
@@ -201,10 +164,10 @@ const Projects = () => {
                 'rounded-full bg-red-600 py-[5px] px-[20px] text-[14px] font-bold text-white'
               )}
               onClick={() => {
-                setDeleteProjectId(info?.row?.original?.id);
+                setDeleteReportId(info?.row?.original?.id);
               }}
             >
-              Delete
+              Delete Report
             </button>
           </div>
         );
@@ -213,7 +176,7 @@ const Projects = () => {
   ];
 
   const instance = useReactTable({
-    data: data?.getProjectsAdmin?.results ?? [],
+    data: data?.getReports?.results ?? [],
     columns,
     manualPagination: true,
     getCoreRowModel: getCoreRowModel(),
@@ -223,10 +186,9 @@ const Projects = () => {
       sorting,
     },
   });
-
   return (
     <div className='flex h-full w-full flex-col gap-5 bg-white p-7'>
-      <p className='text-3xl font-bold text-gray-900'>Projects</p>
+      <p className='text-3xl font-bold text-gray-900'>Reports</p>
       <div className='relative'>
         <input
           type='text'
@@ -250,8 +212,10 @@ const Projects = () => {
       </div>
 
       <Modal
-        open={!!deleteProjectId}
-        onClose={() => setDeleteProjectId(false)}
+        open={!!deleteReportId}
+        onClose={() => {
+          setDeleteReportId(null);
+        }}
         modalClassName='bg-white flex flex-col  justify-center p-[20px] h-[full] w-[500px] '
       >
         <p className=' mb-[20px] w-full text-center text-[30px] font-semibold'>
@@ -260,16 +224,18 @@ const Projects = () => {
         <div className='flex w-full justify-between '>
           <Button
             variant='secondary'
-            onClick={() => deleteProjectClick(deleteProjectId)}
+            onClick={() => {
+              deleteReportClick(deleteReportId);
+            }}
           >
             Yes
           </Button>
-          <Button onClick={() => setDeleteProjectId(null)}>No</Button>
+          <Button onClick={() => setDeleteReportId(null)}>No</Button>
         </div>
       </Modal>
-      <NextSeo title='Projects' />
+      <NextSeo title='Reports' />
     </div>
   );
 };
 
-export default Projects;
+export default Reports;

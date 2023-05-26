@@ -35,8 +35,8 @@ const DetailsFormModal = ({
       modalClassName='bg-grey-dark'
       contentClassName='p-12 min-w-[600px] max-lg:min-w-0 max-lg:w-screen max-lg:px-4'
     >
-      <h1 className='text-2xl font-semibold mb-[30px]'>{t('final-details')}</h1>
-      <div className='flex flex-col gap-8 mb-11'>
+      <h1 className='mb-[30px] text-2xl font-semibold'>{t('final-details')}</h1>
+      <div className='mb-11 flex flex-col gap-8'>
         <FormInput
           type='url'
           placeholder={t('repo-link')}
