@@ -6,9 +6,9 @@ import {
   getReportsPaginationArgs,
   type SearchArgs,
 } from '../../helpers/getPaginationArgs';
-import decodeAccessToken from '@/helpers/decodeAccessToken';
+import decodeAccessToken from '../../helpers/decodeAccessToken';
 import { GraphQLError } from 'graphql';
-import { ERROR_CODES } from '@/src/const';
+import { ERROR_CODES } from '../../const';
 
 const Report = builder.prismaObject('Report', {
   name: 'Report',
