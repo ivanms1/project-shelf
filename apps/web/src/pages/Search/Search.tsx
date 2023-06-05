@@ -50,9 +50,9 @@ function Search() {
   };
 
   return (
-    <div className='bg-black flex flex-col px-28 pt-20 pb-[3px] max-lg:px-[30px] min-h-[52vh] max-lg:min-h-[70vh]'>
-      <div className='flex flex-col gap-3 mb-8'>
-        <h1 className='font-semibold text-5xl'>{t('title')}</h1>
+    <div className='flex min-h-[52vh] flex-col bg-black px-28 pt-20 pb-[3px] max-lg:min-h-[70vh] max-lg:px-[30px]'>
+      <div className='mb-8 flex flex-col gap-3'>
+        <h1 className='text-5xl font-semibold'>{t('title')}</h1>
         <p className='text-[22px]'>{t('subtitle')}</p>
       </div>
       <form
@@ -60,7 +60,7 @@ function Search() {
         onSubmit={handleSubmit(handleSearch)}
       >
         <input
-          className='p-5 bg-black text-white border border-grey-dark rounded-lg w-full focus:outline-none'
+          className='w-full rounded-lg border border-grey-dark bg-black p-5 text-white focus:outline-none'
           placeholder={t('search-placeholder')}
           autoFocus
           defaultValue={search}
@@ -69,13 +69,13 @@ function Search() {
       </form>
       {!!search && !!data?.searchProjects?.totalCount && (
         <>
-          <div className='flex gap-4 px-48 w-fit py-4 border-b-[2px] border-b-grey-light justify-center items-center max-lg:px-7'>
-            <p className='capitalize text-[22px]'>{t('projects')}</p>
-            <p className='bg-grey-light rounded-lg px-4 py-[5px] font-mono'>
+          <div className='flex w-fit items-center justify-center gap-4 border-b-[2px] border-b-grey-light px-48 py-4 max-lg:px-7'>
+            <p className='text-[22px] capitalize'>{t('projects')}</p>
+            <p className='rounded-lg bg-grey-light px-4 py-[5px] font-mono'>
               {data?.searchProjects?.totalCount}
             </p>
           </div>
-          <div className='bg-grey-dark py-14 px-28 max-lg:px-[30px] -mx-28 max-lg:mx-[-30px]'>
+          <div className='-mx-28 bg-grey-dark py-14 px-28 max-lg:mx-[-30px] max-lg:px-[30px]'>
             <ProjectsGrid
               projects={data?.searchProjects?.results ?? []}
               nextCursor={data?.searchProjects?.nextCursor}
@@ -86,7 +86,7 @@ function Search() {
         </>
       )}
       {data?.searchProjects?.totalCount === 0 && called && (
-        <div className='flex flex-col gap-2 items-center'>
+        <div className='flex flex-col items-center gap-2'>
           <p className='text-[22px]'>{t('no-results')}</p>
           <p className='text-lg text-grey-light'>
             {t('no-results-description')}

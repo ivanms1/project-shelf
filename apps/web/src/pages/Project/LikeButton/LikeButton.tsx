@@ -104,11 +104,11 @@ function LikeButton({ project }: LikeButtonProps) {
         isOpen={isLoginModalOpen}
         onClose={() => setIsLoginModalOpen(false)}
       />
-      <div className='bg-grey-dark rounded-[20px] w-fit p-[30px] h-fit max-xl:mb-8'>
-        <p className='text-4xl font-mono text-center'>
+      <div className='h-fit w-fit rounded-[20px] bg-grey-dark p-[30px] max-xl:mb-8'>
+        <p className='text-center font-mono text-4xl'>
           {data?.project?.likesCount}
         </p>
-        <p className='text-xs font-mono mb-4 text-center'>{t('likes')}</p>
+        <p className='mb-4 text-center font-mono text-xs'>{t('likes')}</p>
         <Button
           className={classNames('min-w-[200px]')}
           variant={isLiked ? 'primary' : 'secondary'}

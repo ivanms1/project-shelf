@@ -23,6 +23,7 @@ export const Project = builder.prismaObject('Project', {
     tags: t.exposeStringList('tags'),
     author: t.relation('author'),
     likes: t.relation('Like'),
+    reportsCount: t.relationCount('Report'),
     likesCount: t.relationCount('Like'),
     isLiked: t.boolean({
       resolve: async (parent, _, ctx) => {
@@ -63,7 +64,7 @@ export const SearchOrder = builder.enumType('SearchOrder', {
   values: ['asc', 'desc'] as const,
 });
 
-const SearchProjectsInput = builder.inputType('SearchProjectsInput', {
+export const SearchInput = builder.inputType('SearchInput', {
   description: 'Search projects input',
   fields: (t) => ({
     cursor: t.string({ required: false }),
@@ -106,7 +107,7 @@ builder.queryFields((t) => ({
   getApprovedProjects: t.field({
     type: ProjectsResponse,
     description: 'Get approved projects',
-    args: { input: t.arg({ type: SearchProjectsInput }) },
+    args: { input: t.arg({ type: SearchInput }) },
     resolve: async (_, args) => {
       const incomingCursor = args?.input?.cursor;
       let results;
@@ -155,7 +156,7 @@ builder.queryFields((t) => ({
   getProjectsAdmin: t.field({
     description: 'Get projects for admin',
     type: ProjectsResponse,
-    args: { input: t.arg({ type: SearchProjectsInput }) },
+    args: { input: t.arg({ type: SearchInput }) },
     resolve: async (_, args) => {
       const incomingCursor = args?.input?.cursor;
       let results;
@@ -202,7 +203,7 @@ builder.queryFields((t) => ({
   getMyProjects: t.field({
     description: 'Get my projects',
     type: ProjectsResponse,
-    args: { input: t.arg({ type: SearchProjectsInput }) },
+    args: { input: t.arg({ type: SearchInput }) },
     resolve: async (_, args, ctx) => {
       const currentUserId = decodeAccessToken(ctx.accessToken);
 
@@ -262,7 +263,7 @@ builder.queryFields((t) => ({
     description: 'Get user projects',
     type: ProjectsResponse,
     args: {
-      input: t.arg({ type: SearchProjectsInput }),
+      input: t.arg({ type: SearchInput }),
       userId: t.arg.string({ required: true }),
     },
 
@@ -330,7 +331,7 @@ builder.queryFields((t) => ({
   getMostLikedProjects: t.field({
     description: 'Get most liked projects',
     type: ProjectsResponse,
-    args: { input: t.arg({ type: SearchProjectsInput }) },
+    args: { input: t.arg({ type: SearchInput }) },
     resolve: async (_, args) => {
       const incomingCursor = args?.input?.cursor;
       let results;

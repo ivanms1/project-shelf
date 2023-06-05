@@ -34,6 +34,12 @@ const builder = new SchemaBuilder<{
       totalCount: number;
       results: PrismaTypes['User']['Shape'][];
     };
+    ReportsResponse: {
+      nextCursor: string;
+      prevCursor: string;
+      totalCount: number;
+      results: PrismaTypes['Report']['Shape'][];
+    };
   };
   Scalars: {
     Date: {

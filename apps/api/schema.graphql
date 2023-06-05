@@ -48,8 +48,8 @@ type Mutation {
   """Delete projects"""
   deleteProjects(projectIds: [String!]!): [String!]!
 
-  """Delete a report"""
-  deleteReport(reportId: String!): Report!
+  """Delete reports"""
+  deleteReport(reportIds: [String!]!): [String!]!
 
   """Follow or unfollow a user"""
   followUser(input: FollowUserInput!): User!
@@ -88,6 +88,7 @@ type Project {
   likesCount: Int!
   preview: String!
   repoLink: String!
+  reportsCount: Int!
   siteLink: String!
   tags: [String!]!
   title: String!
@@ -110,7 +111,7 @@ type Query {
   getAllUsersAdmin(input: SearchUsersInput): UsersResponse!
 
   """Get approved projects"""
-  getApprovedProjects(input: SearchProjectsInput): ProjectsResponse!
+  getApprovedProjects(input: SearchInput): ProjectsResponse!
 
   """Get the current user"""
   getCurrentUser: User!
@@ -119,19 +120,19 @@ type Query {
   getCurrentUserAdmin: User!
 
   """Get most liked projects"""
-  getMostLikedProjects(input: SearchProjectsInput): ProjectsResponse!
+  getMostLikedProjects(input: SearchInput): ProjectsResponse!
 
   """Get my projects"""
-  getMyProjects(input: SearchProjectsInput): ProjectsResponse!
+  getMyProjects(input: SearchInput): ProjectsResponse!
 
   """Get a project by id"""
   getProject(id: String!): Project!
 
   """Get projects for admin"""
-  getProjectsAdmin(input: SearchProjectsInput): ProjectsResponse!
+  getProjectsAdmin(input: SearchInput): ProjectsResponse!
 
   """Get reports"""
-  getReports: [Report!]!
+  getReports(input: SearchInput): ReportsResponse!
 
   """Get top creators for home page"""
   getTopCreatorsForHomePage: TopCreatorsResponse!
@@ -149,7 +150,7 @@ type Query {
   getUser(id: String!): User!
 
   """Get user projects"""
-  getUserProjects(input: SearchProjectsInput, userId: String!): ProjectsResponse!
+  getUserProjects(input: SearchInput, userId: String!): ProjectsResponse!
 }
 
 type Report {
@@ -161,24 +162,32 @@ type Report {
   user: User!
 }
 
+"""Projects response"""
+type ReportsResponse {
+  nextCursor: String
+  prevCursor: String
+  results: [Report!]!
+  totalCount: Int!
+}
+
 """User role"""
 enum Role {
   ADMIN
   USER
 }
 
-"""Search order"""
-enum SearchOrder {
-  asc
-  desc
-}
-
 """Search projects input"""
-input SearchProjectsInput {
+input SearchInput {
   cursor: String
   order: SearchOrder
   orderBy: String
   search: String
+}
+
+"""Search order"""
+enum SearchOrder {
+  asc
+  desc
 }
 
 """Search user input"""

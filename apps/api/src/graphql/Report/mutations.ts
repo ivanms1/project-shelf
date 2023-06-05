@@ -3,6 +3,7 @@ import builder from '../../builder';
 import db from '../../db';
 import { GraphQLError } from 'graphql';
 import { ERROR_CODES } from '../../const';
+import { Role } from '@prisma/client';
 
 builder.mutationFields((t) => ({
   createReport: t.prismaField({
@@ -18,7 +19,11 @@ builder.mutationFields((t) => ({
       const { projectId, reason, message = '' } = args;
 
       if (!userId || !projectId) {
-        throw Error('Args missing');
+        throw new GraphQLError('Missing arguments', {
+          extensions: {
+            code: ERROR_CODES.BAD_USER_INPUT,
+          },
+        });
       }
 
       const project = await db.project.findUnique({
@@ -102,25 +107,46 @@ builder.mutationFields((t) => ({
       });
     },
   }),
-  deleteReport: t.prismaField({
-    type: 'Report',
-    description: 'Delete a report',
+  deleteReport: t.field({
+    type: ['String'],
+    description: 'Delete reports',
     args: {
-      reportId: t.arg.string({ required: true }),
+      reportIds: t.arg.stringList({ required: true }),
     },
-    resolve: async (query, _, args, ctx) => {
+    resolve: async (_, args, ctx) => {
       const userId = decodeAccessToken(ctx.accessToken);
 
       if (!userId) {
-        throw Error('Args missing');
+        throw new GraphQLError('You are not allowed to do this', {
+          extensions: {
+            code: ERROR_CODES.UNAUTHENTICATED,
+          },
+        });
       }
 
-      return db.report.delete({
-        ...query,
+      const user = await db.user.findUnique({
         where: {
-          id: args?.reportId,
+          id: String(userId),
         },
       });
+
+      if (user?.role !== Role.ADMIN) {
+        throw new GraphQLError('You are not allowed to do this', {
+          extensions: {
+            code: ERROR_CODES.FORBIDDEN,
+          },
+        });
+      }
+
+      await db.report.deleteMany({
+        where: {
+          id: {
+            in: args?.reportIds || [],
+          },
+        },
+      });
+
+      return args?.reportIds;
     },
   }),
 }));

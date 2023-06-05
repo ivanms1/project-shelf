@@ -108,7 +108,7 @@ const ProjectCard = ({ project, light, noLike }: ProjectCardProps) => {
           passHref
         >
           <Image
-            className='rounded-t-lg object-cover transition ease-in-out duration-300 hover:brightness-75 hover:opacity-100 w-[330px] h-[295px]'
+            className='h-[295px] w-[330px] rounded-t-lg object-cover transition duration-300 ease-in-out hover:opacity-100 hover:brightness-75'
             alt={project?.title}
             src={project?.preview}
             width={330}
@@ -118,13 +118,13 @@ const ProjectCard = ({ project, light, noLike }: ProjectCardProps) => {
       </div>
       <div
         className={classNames(
-          'rounded-b-lg text-white p-[20px] flex flex-col justify-between h-[160px]',
+          'flex h-[160px] flex-col justify-between rounded-b-lg p-[20px] text-white',
           { ['bg-black']: !light },
           { ['bg-grey-dark']: light },
           { ['h-auto']: noLike }
         )}
       >
-        <div className='flex flex-col items-start gap-y-3 cursor-pointer'>
+        <div className='flex cursor-pointer flex-col items-start gap-y-3'>
           <p className='text-lg font-medium'>{project.title}</p>
           <Link href={`/user/${project?.author?.id}`} passHref>
             <div className='group flex items-center gap-x-2 '>
@@ -134,7 +134,7 @@ const ProjectCard = ({ project, light, noLike }: ProjectCardProps) => {
                   src={project?.author?.avatar}
                   width={35}
                   height={35}
-                  className='rounded-circle border-2 transition duration-400 ease-in border-transparent group-hover:border-primary'
+                  className='duration-400 rounded-circle border-2 border-transparent transition ease-in group-hover:border-primary'
                 />
               )}
               <span className='font-light'>{project?.author?.name}</span>
@@ -143,12 +143,12 @@ const ProjectCard = ({ project, light, noLike }: ProjectCardProps) => {
         </div>
 
         {!noLike && (
-          <div className='flex flex-row items-center place-self-end gap-x-2'>
-            <p className='w-[10px] mr-2 text-right'>{project.likesCount}</p>
+          <div className='flex flex-row items-center gap-x-2 place-self-end'>
+            <p className='mr-2 w-[10px] text-right'>{project.likesCount}</p>
             <Button variant='ghost' onClick={handleLike}>
               <HeartIcon
                 className={classNames(
-                  'w-[25px] fill-grey-lighter scale-105 transition ease-out duration-100 hover:fill-pink-light active:scale-75',
+                  'w-[25px] scale-105 fill-grey-lighter transition duration-100 ease-out hover:fill-pink-light active:scale-75',
                   {
                     'fill-pink-light': project?.isLiked,
                   }

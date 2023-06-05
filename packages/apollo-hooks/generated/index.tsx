@@ -62,8 +62,8 @@ export type Mutation = {
   deleteLike: Like;
   /** Delete projects */
   deleteProjects: Array<Scalars['String']>;
-  /** Delete a report */
-  deleteReport: Report;
+  /** Delete reports */
+  deleteReport: Array<Scalars['String']>;
   /** Follow or unfollow a user */
   followUser: User;
   /** Login in as a admin */
@@ -107,7 +107,7 @@ export type MutationDeleteProjectsArgs = {
 };
 
 export type MutationDeleteReportArgs = {
-  reportId: Scalars['String'];
+  reportIds: Array<Scalars['String']>;
 };
 
 export type MutationFollowUserArgs = {
@@ -162,6 +162,7 @@ export type Project = {
   likesCount: Scalars['Int'];
   preview: Scalars['String'];
   repoLink: Scalars['String'];
+  reportsCount: Scalars['Int'];
   siteLink: Scalars['String'];
   tags: Array<Scalars['String']>;
   title: Scalars['String'];
@@ -198,7 +199,7 @@ export type Query = {
   /** Get projects for admin */
   getProjectsAdmin: ProjectsResponse;
   /** Get reports */
-  getReports: Array<Report>;
+  getReports: ReportsResponse;
   /** Get top creators for home page */
   getTopCreatorsForHomePage: TopCreatorsResponse;
   /** Get top projects */
@@ -218,15 +219,15 @@ export type QueryGetAllUsersAdminArgs = {
 };
 
 export type QueryGetApprovedProjectsArgs = {
-  input?: InputMaybe<SearchProjectsInput>;
+  input?: InputMaybe<SearchInput>;
 };
 
 export type QueryGetMostLikedProjectsArgs = {
-  input?: InputMaybe<SearchProjectsInput>;
+  input?: InputMaybe<SearchInput>;
 };
 
 export type QueryGetMyProjectsArgs = {
-  input?: InputMaybe<SearchProjectsInput>;
+  input?: InputMaybe<SearchInput>;
 };
 
 export type QueryGetProjectArgs = {
@@ -234,7 +235,11 @@ export type QueryGetProjectArgs = {
 };
 
 export type QueryGetProjectsAdminArgs = {
-  input?: InputMaybe<SearchProjectsInput>;
+  input?: InputMaybe<SearchInput>;
+};
+
+export type QueryGetReportsArgs = {
+  input?: InputMaybe<SearchInput>;
 };
 
 export type QueryGetTopProjectsArgs = {
@@ -250,7 +255,7 @@ export type QueryGetUserArgs = {
 };
 
 export type QueryGetUserProjectsArgs = {
-  input?: InputMaybe<SearchProjectsInput>;
+  input?: InputMaybe<SearchInput>;
   userId: Scalars['String'];
 };
 
@@ -264,25 +269,34 @@ export type Report = {
   user: User;
 };
 
+/** Projects response */
+export type ReportsResponse = {
+  __typename?: 'ReportsResponse';
+  nextCursor?: Maybe<Scalars['String']>;
+  prevCursor?: Maybe<Scalars['String']>;
+  results: Array<Report>;
+  totalCount: Scalars['Int'];
+};
+
 /** User role */
 export enum Role {
   Admin = 'ADMIN',
   User = 'USER',
 }
 
-/** Search order */
-export enum SearchOrder {
-  Asc = 'asc',
-  Desc = 'desc',
-}
-
 /** Search projects input */
-export type SearchProjectsInput = {
+export type SearchInput = {
   cursor?: InputMaybe<Scalars['String']>;
   order?: InputMaybe<SearchOrder>;
   orderBy?: InputMaybe<Scalars['String']>;
   search?: InputMaybe<Scalars['String']>;
 };
+
+/** Search order */
+export enum SearchOrder {
+  Asc = 'asc',
+  Desc = 'desc',
+}
 
 /** Search user input */
 export type SearchUsersInput = {
@@ -424,7 +438,7 @@ export type GetCurrentUserAdminQuery = {
 };
 
 export type GetAllProjectsQueryVariables = Exact<{
-  input?: InputMaybe<SearchProjectsInput>;
+  input?: InputMaybe<SearchInput>;
 }>;
 
 export type GetAllProjectsQuery = {
@@ -458,7 +472,7 @@ export type GetAllProjectsQuery = {
 };
 
 export type GetProjectsAdminQueryVariables = Exact<{
-  input?: InputMaybe<SearchProjectsInput>;
+  input?: InputMaybe<SearchInput>;
 }>;
 
 export type GetProjectsAdminQuery = {
@@ -480,6 +494,48 @@ export type GetProjectsAdminQuery = {
       siteLink: string;
       tags: Array<string>;
       author: { __typename?: 'User'; name: string; avatar?: string | null };
+    }>;
+  };
+};
+
+export type DeleteReportMutationVariables = Exact<{
+  reportIds: Array<Scalars['String']> | Scalars['String'];
+}>;
+
+export type DeleteReportMutation = {
+  __typename?: 'Mutation';
+  deleteReport: Array<string>;
+};
+
+export type GetReportsQueryVariables = Exact<{
+  input?: InputMaybe<SearchInput>;
+}>;
+
+export type GetReportsQuery = {
+  __typename?: 'Query';
+  getReports: {
+    __typename?: 'ReportsResponse';
+    prevCursor?: string | null;
+    nextCursor?: string | null;
+    totalCount: number;
+    results: Array<{
+      __typename?: 'Report';
+      id: string;
+      createdAt: any;
+      message?: string | null;
+      reason: string;
+      project: {
+        __typename?: 'Project';
+        id: string;
+        preview: string;
+        repoLink: string;
+        siteLink: string;
+        reportsCount: number;
+        title: string;
+        description: string;
+        tags: Array<string>;
+        author: { __typename?: 'User'; name: string };
+      };
     }>;
   };
 };
@@ -563,7 +619,7 @@ export type SignupMutationVariables = Exact<{
 export type SignupMutation = { __typename?: 'Mutation'; signup: string };
 
 export type GetApprovedProjectsQueryVariables = Exact<{
-  input?: InputMaybe<SearchProjectsInput>;
+  input?: InputMaybe<SearchInput>;
 }>;
 
 export type GetApprovedProjectsQuery = {
@@ -857,7 +913,7 @@ export type UpdateProjectMutation = {
 };
 
 export type SearchProjectsQueryVariables = Exact<{
-  input?: InputMaybe<SearchProjectsInput>;
+  input?: InputMaybe<SearchInput>;
 }>;
 
 export type SearchProjectsQuery = {
@@ -954,7 +1010,7 @@ export type IsUserFollowingQuery = {
 
 export type GetUserProjectsQueryVariables = Exact<{
   userId: Scalars['String'];
-  input?: InputMaybe<SearchProjectsInput>;
+  input?: InputMaybe<SearchInput>;
 }>;
 
 export type GetUserProjectsQuery = {
@@ -1161,7 +1217,7 @@ export type GetCurrentUserAdminQueryResult = Apollo.QueryResult<
   GetCurrentUserAdminQueryVariables
 >;
 export const GetAllProjectsDocument = gql`
-  query GetAllProjects($input: SearchProjectsInput) {
+  query GetAllProjects($input: SearchInput) {
     projects: getApprovedProjects(input: $input) {
       ...ProjectsResponseFragment
     }
@@ -1220,7 +1276,7 @@ export type GetAllProjectsQueryResult = Apollo.QueryResult<
   GetAllProjectsQueryVariables
 >;
 export const GetProjectsAdminDocument = gql`
-  query GetProjectsAdmin($input: SearchProjectsInput) {
+  query GetProjectsAdmin($input: SearchInput) {
     getProjectsAdmin(input: $input) {
       nextCursor
       prevCursor
@@ -1293,6 +1349,131 @@ export type GetProjectsAdminLazyQueryHookResult = ReturnType<
 export type GetProjectsAdminQueryResult = Apollo.QueryResult<
   GetProjectsAdminQuery,
   GetProjectsAdminQueryVariables
+>;
+export const DeleteReportDocument = gql`
+  mutation DeleteReport($reportIds: [String!]!) {
+    deleteReport(reportIds: $reportIds)
+  }
+`;
+export type DeleteReportMutationFn = Apollo.MutationFunction<
+  DeleteReportMutation,
+  DeleteReportMutationVariables
+>;
+
+/**
+ * __useDeleteReportMutation__
+ *
+ * To run a mutation, you first call `useDeleteReportMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteReportMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteReportMutation, { data, loading, error }] = useDeleteReportMutation({
+ *   variables: {
+ *      reportIds: // value for 'reportIds'
+ *   },
+ * });
+ */
+export function useDeleteReportMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    DeleteReportMutation,
+    DeleteReportMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    DeleteReportMutation,
+    DeleteReportMutationVariables
+  >(DeleteReportDocument, options);
+}
+export type DeleteReportMutationHookResult = ReturnType<
+  typeof useDeleteReportMutation
+>;
+export type DeleteReportMutationResult =
+  Apollo.MutationResult<DeleteReportMutation>;
+export type DeleteReportMutationOptions = Apollo.BaseMutationOptions<
+  DeleteReportMutation,
+  DeleteReportMutationVariables
+>;
+export const GetReportsDocument = gql`
+  query GetReports($input: SearchInput) {
+    getReports(input: $input) {
+      results {
+        id
+        createdAt
+        message
+        reason
+        project {
+          id
+          preview
+          repoLink
+          siteLink
+          reportsCount
+          title
+          description
+          author {
+            name
+          }
+          tags
+        }
+      }
+      prevCursor
+      nextCursor
+      totalCount
+    }
+  }
+`;
+
+/**
+ * __useGetReportsQuery__
+ *
+ * To run a query within a React component, call `useGetReportsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetReportsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetReportsQuery({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useGetReportsQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    GetReportsQuery,
+    GetReportsQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetReportsQuery, GetReportsQueryVariables>(
+    GetReportsDocument,
+    options
+  );
+}
+export function useGetReportsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetReportsQuery,
+    GetReportsQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<GetReportsQuery, GetReportsQueryVariables>(
+    GetReportsDocument,
+    options
+  );
+}
+export type GetReportsQueryHookResult = ReturnType<typeof useGetReportsQuery>;
+export type GetReportsLazyQueryHookResult = ReturnType<
+  typeof useGetReportsLazyQuery
+>;
+export type GetReportsQueryResult = Apollo.QueryResult<
+  GetReportsQuery,
+  GetReportsQueryVariables
 >;
 export const UpdateUserBanStatusDocument = gql`
   mutation UpdateUserBanStatus($isBanned: Boolean!, $userId: String!) {
@@ -1587,7 +1768,7 @@ export type SignupMutationOptions = Apollo.BaseMutationOptions<
   SignupMutationVariables
 >;
 export const GetApprovedProjectsDocument = gql`
-  query GetApprovedProjects($input: SearchProjectsInput) {
+  query GetApprovedProjects($input: SearchInput) {
     projects: getApprovedProjects(input: $input) {
       ...ProjectCardFragment
     }
@@ -2477,7 +2658,7 @@ export type UpdateProjectMutationOptions = Apollo.BaseMutationOptions<
   UpdateProjectMutationVariables
 >;
 export const SearchProjectsDocument = gql`
-  query SearchProjects($input: SearchProjectsInput) {
+  query SearchProjects($input: SearchInput) {
     searchProjects: getApprovedProjects(input: $input) {
       results {
         title
@@ -2789,7 +2970,7 @@ export type IsUserFollowingQueryResult = Apollo.QueryResult<
   IsUserFollowingQueryVariables
 >;
 export const GetUserProjectsDocument = gql`
-  query GetUserProjects($userId: String!, $input: SearchProjectsInput) {
+  query GetUserProjects($userId: String!, $input: SearchInput) {
     getUserProjects(userId: $userId, input: $input) {
       nextCursor
       prevCursor
