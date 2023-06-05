@@ -19,6 +19,7 @@
     "classnames": "^2.3.2",
     "deepmerge": "^4.2.2",
     "i18next": "^22.4.15",
+    "is-hotkey": "^0.2.0",
     "lodash-es": "^4.17.21",
     "next": "12.3.0",
     "next-auth": "^4.20.1",
@@ -35,6 +36,9 @@
     "react-i18next": "^12.1.1",
     "react-waypoint": "^10.3.0",
     "redaxios": "^0.5.1",
+    "slate": "^0.94.1",
+    "slate-history": "^0.93.0",
+    "slate-react": "^0.94.2",
     "ui": "*",
     "zod": "^3.21.4"
   },

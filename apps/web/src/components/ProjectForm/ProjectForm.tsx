@@ -11,6 +11,8 @@ import ImageIcon from '@/assets/icons/image.svg';
 
 import type { FormTypes } from 'const';
 
+import RichEditor from 'src/components/RichEditor';
+
 interface ProjectFormProps {
   onSubmit: (values: FormTypes) => void;
   loading: boolean;
@@ -34,8 +36,8 @@ const ProjectForm = ({ onSubmit, loading }: ProjectFormProps) => {
   const currentDescription = watch('description');
 
   return (
-    <div className='bg-black flex flex-col px-28 pb-20 max-lg:px-[30px] max-lg:pb-10 max-lg:pt-10 max-lg:flex-col-reverse'>
-      <div className='flex justify-between sticky top-0 pt-10 w-full'>
+    <div className='flex flex-col bg-black px-28 pb-20 max-lg:flex-col-reverse max-lg:px-[30px] max-lg:pb-10 max-lg:pt-10'>
+      <div className='sticky top-0 flex w-full justify-between pt-10'>
         <Button type='button' variant='secondary' onClick={() => router.back()}>
           {t('common:cancel')}
         </Button>
@@ -47,15 +49,15 @@ const ProjectForm = ({ onSubmit, loading }: ProjectFormProps) => {
         </Button>
       </div>
       <form
-        className='flex flex-col justify-center items-center'
+        className='flex flex-col items-center justify-center'
         onSubmit={handleSubmit(handleSubmitFn)}
       >
         {!currentImage && (
           <>
-            <h1 className='text-4xl font-semibold mb-4'>
+            <h1 className='mb-4 text-4xl font-semibold'>
               {t('project-question')}
             </h1>
-            <p className='text-grey-light text-xl font-mono mb-10'>
+            <p className='mb-10 font-mono text-xl text-grey-light'>
               {t('project-sneak-peek')}
             </p>
           </>
@@ -63,7 +65,7 @@ const ProjectForm = ({ onSubmit, loading }: ProjectFormProps) => {
         {currentImage && (
           <input
             autoFocus
-            className='bg-black text-3xl max-w-[800px] mb-5 w-full font-semibold focus:outline-none'
+            className='mb-5 w-full max-w-[800px] bg-black text-3xl font-semibold focus:outline-none'
             placeholder={t('project-title-placeholder')}
             {...register('title')}
           />
@@ -77,17 +79,19 @@ const ProjectForm = ({ onSubmit, loading }: ProjectFormProps) => {
           accept='image/*'
           withPreview
         >
-          <div className='flex flex-col justify-center items-center'>
+          <div className='flex flex-col items-center justify-center'>
             <ImageIcon className='w-20' />
             <p>{t('drag-and-drop')}</p>
           </div>
         </Dropzone>
         {currentImage && (
-          <textarea
-            className='bg-black max-w-[800px] w-full min-h-[100px] mt-5 text-xl font-mono focus:outline-none'
-            placeholder={t('description-placeholder')}
-            {...register('description')}
-          />
+          // <textarea
+          //   className='mt-5 min-h-[100px] w-full max-w-[800px] bg-black font-mono text-xl focus:outline-none'
+          //   placeholder={t('description-placeholder')}
+          //   {...register('description')}
+          // />
+
+          <RichEditor />
         )}
         <DetailsFormModal
           isOpen={isDetailsModalOpen}
