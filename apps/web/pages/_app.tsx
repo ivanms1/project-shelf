@@ -14,6 +14,7 @@ import type { Session } from 'next-auth';
 import NextNProgress from 'nextjs-progressbar';
 
 import './styles.css';
+import './cropper.css';
 
 const PROGRESS_COLOR = '#9240FD';
 
