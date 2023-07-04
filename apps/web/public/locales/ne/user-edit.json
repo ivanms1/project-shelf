@@ -12,5 +12,7 @@
   "bio": "Bio",
   "bio-description": "Brief description for your profile.",
   "save-profile": "Save Profile",
-  "seo-title": "Edit Profile"
+  "seo-title": "Edit Profile",
+  "success-profile-pic": "Profile pic Changed",
+  "error-profile-pic": "Error while updating"
 }
