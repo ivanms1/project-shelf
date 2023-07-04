@@ -4,6 +4,7 @@ import classNames from 'classnames';
 export interface LoaderInterface {
   size?: 'sm' | 'md' | 'lg';
   className?: string | undefined;
+  transparent?: string | undefined | boolean;
 }
 
 export const Loader = ({ size = 'md', className }: LoaderInterface) => {
@@ -12,7 +13,7 @@ export const Loader = ({ size = 'md', className }: LoaderInterface) => {
       <svg
         aria-hidden='true'
         className={classNames(
-          'animate-spin text-white fill-primary',
+          'animate-spin fill-primary text-white',
           LODADER_SIZES[size],
           className
         )}
