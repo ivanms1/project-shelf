@@ -8,18 +8,28 @@ export const LoaderOverlay = ({
   className,
   transparent,
 }: LoaderInterface) => {
+  React.useEffect(() => {
+    // Add a class to the body element to disable scrolling
+    document.body.classList.add('overflow-hidden');
+
+    return () => {
+      // Remove the class from the body element when the component unmounts
+      document.body.classList.remove('overflow-hidden');
+    };
+  }, []);
+
   return (
     <div
       className={classNames(
-        'absolute top-0 left-0 z-loading-overlay flex h-full w-full items-center justify-center bg-[#494848]',
+        'fixed top-0 left-0 z-loading-overlay flex h-screen w-screen cursor-pointer items-center justify-center bg-overlay',
         {
-          'bg-[rgba(0,0,0,0.8)]': transparent,
+          'bg-overlay': transparent,
         }
       )}
     >
       <Loader
         size={size}
-        className={classNames('dark:text-[#494848]', className)}
+        className={classNames('text-grey-medium', className)}
       />
     </div>
   );
