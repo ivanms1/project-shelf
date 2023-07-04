@@ -6,6 +6,7 @@ import { useTranslation } from 'next-i18next';
 
 import Dropzone from 'src/components/Dropzone';
 import DetailsFormModal from '@/components/ProjectForm/DetailsFormModal';
+import Editor from '../Editor';
 
 import ImageIcon from '@/assets/icons/image.svg';
 
@@ -83,11 +84,12 @@ const ProjectForm = ({ onSubmit, loading }: ProjectFormProps) => {
           </div>
         </Dropzone>
         {currentImage && (
-          <textarea
-            className='mt-5 min-h-[100px] w-full max-w-[800px] bg-black font-mono text-xl focus:outline-none'
-            placeholder={t('description-placeholder')}
-            {...register('description')}
-          />
+          // <textarea
+          //   className='mt-5 min-h-[100px] w-full max-w-[800px] bg-black font-mono text-xl focus:outline-none'
+          //   placeholder={t('description-placeholder')}
+          //   {...register('description')}
+          // />
+          <Editor />
         )}
         <DetailsFormModal
           isOpen={isDetailsModalOpen}
