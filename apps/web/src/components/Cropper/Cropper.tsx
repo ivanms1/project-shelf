@@ -11,7 +11,7 @@ import { Area } from 'react-easy-crop/types';
 import { getCroppedImg } from './cropUtils';
 
 interface Props {
-  src: string | null | undefined;
+  src: string | null | File | undefined;
   image: string | null | undefined;
   setImage: Dispatch<SetStateAction<string | ArrayBuffer | null | undefined>>;
   setCroppedImage: Dispatch<SetStateAction<string | null>>;
@@ -33,7 +33,7 @@ function Cropper({ src, image, setImage, setCroppedImage, onSubmit }: Props) {
   );
 
   useEffect(() => {
-    setImage(src);
+    setImage(() => src as string | ArrayBuffer | null | undefined);
   }, []);
 
   const handleFileChange = useCallback(
@@ -45,7 +45,9 @@ function Cropper({ src, image, setImage, setCroppedImage, onSubmit }: Props) {
 
       reader.readAsDataURL(file as Blob);
       reader.onload = () => {
-        setImage(reader.result);
+        setImage(
+          () => reader.result as string | ArrayBuffer | null | undefined
+        );
       };
     },
     []
@@ -96,7 +98,7 @@ function Cropper({ src, image, setImage, setCroppedImage, onSubmit }: Props) {
         {src !== image && (
           <button
             onClick={() => {
-              setImage(src);
+              setImage(() => src as string | ArrayBuffer | null | undefined);
               setCrop({ x: 0, y: 0 });
               setZoom(1);
             }}
