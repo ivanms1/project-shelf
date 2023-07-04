@@ -26,7 +26,7 @@ import fileReader from '@/helpers/fileReader';
 
 import type { FetchResult } from '@apollo/client';
 import Cropper from '@/components/Cropper';
-import Image from 'next/image';
+import Image from 'next/future/image';
 
 const COVER_PLACEHOLDER = 'https://via.placeholder.com/1665x288';
 
@@ -241,21 +241,20 @@ const UserEdit = () => {
             setShowCoverPic(true);
           }}
         >
-          <div className='group relative flex h-72 w-full cursor-pointer '>
+          <div className='group relative flex h-72 w-full cursor-pointer'>
             {showCoverLoader && (
               <div className='flex w-full items-center justify-center'>
                 <Loader size='lg' />
               </div>
             )}
             <Image
-              className='h-full w-full object-cover'
+              className='h-full w-full  object-cover'
               src={String(currentCover) || COVER_PLACEHOLDER}
               alt={String(currentCover)}
               onLoad={() => setShowCoverLoader(false)}
               onError={() => setShowCoverLoader(false)}
-              layout='fill'
-              objectPosition='top'
-              objectFit='cover'
+              width={200}
+              height={200}
             />
 
             <div className='absolute top-0 left-0 flex h-full w-full cursor-pointer items-center justify-center  bg-overlay text-xl opacity-0 transition-opacity group-hover:opacity-100 '>
@@ -269,14 +268,14 @@ const UserEdit = () => {
             setShowProfilePic(true);
           }}
         >
-          <div className='group relative'>
+          <div className='group relative h-60 w-60 overflow-hidden '>
             {showProfilePicLoader && (
               <div className='absolute top-0 left-0 flex h-60 w-60 items-center justify-center rounded-circle border-2'>
                 <Loader size='lg' />
               </div>
             )}
             <Image
-              className='h-full w-full cursor-pointer rounded-circle object-cover'
+              className='h-full w-full cursor-pointer rounded-circle object-contain'
               src={croppedImage || String(currentImage)}
               alt={String(currentImage)}
               width={200}
@@ -285,7 +284,7 @@ const UserEdit = () => {
               onError={() => setShowProfilePicLoader(false)}
             />
             {!showProfilePicLoader && (
-              <div className='absolute top-0 left-0 flex h-full w-full cursor-pointer items-center justify-center rounded-circle bg-[rgba(0,0,0,0.6)] text-xl opacity-0 transition-opacity group-hover:opacity-100'>
+              <div className='absolute bottom-0 left-0 flex h-full w-full cursor-pointer items-center justify-center rounded-circle bg-[rgba(0,0,0,0.6)] text-xl opacity-0 transition-opacity group-hover:opacity-100'>
                 <span className='text-l text-white'>Change Image</span>
               </div>
             )}
@@ -356,6 +355,7 @@ const UserEdit = () => {
               image={image || ''}
               setImage={setImage}
               onSubmit={onAvatarSubmit}
+              type='avatar'
             />
           </div>
         </div>
@@ -376,6 +376,7 @@ const UserEdit = () => {
               image={imageCover || ''}
               setImage={setImageCover}
               onSubmit={onCoverSubmit}
+              type='cover'
             />
           </div>
         </div>
