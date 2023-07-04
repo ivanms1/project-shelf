@@ -6,7 +6,14 @@ import * as zod from 'zod';
 import { NextSeo } from 'next-seo';
 import { useTranslation } from 'next-i18next';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Button, FormInput, FormTextArea, Modal, LoaderOverlay } from 'ui';
+import {
+  Button,
+  FormInput,
+  FormTextArea,
+  Modal,
+  LoaderOverlay,
+  Loader,
+} from 'ui';
 import {
   UploadImageMutation,
   useUpdateUserMutation,
@@ -56,6 +63,8 @@ const UserEdit = () => {
   const [showCoverPic, setShowCoverPic] = useState(false);
   const [image, setImage] = useState();
   const [imageCover, setImageCover] = useState();
+  const [showCoverLoader, setShowCoverLoader] = useState(true);
+  const [showProfilePicLoader, setShowProfilePicLoader] = useState(true);
 
   const [croppedImage, setCroppedImage] = useState(null);
   const [coverImage, setCoverImage] = useState(null);
@@ -118,9 +127,10 @@ const UserEdit = () => {
         setShowProfilePic(false);
       }
 
-      toast.success('Profile pic changed');
+      toast.success(t('success-profile-pic'));
+      router.push(`/user/${userId}`);
     } catch (error) {
-      toast.error('error while updating');
+      toast.error(t('error-profile-pic'));
     }
   };
 
@@ -142,9 +152,10 @@ const UserEdit = () => {
         setShowCoverPic(false);
       }
 
-      toast.success('Profile pic changed');
+      toast.success(t('success-profile-pic'));
+      router.push(`/user/${userId}`);
     } catch (error) {
-      toast.error('error while updating');
+      toast.error(t('error-profile-pic'));
     }
   };
 
@@ -230,14 +241,24 @@ const UserEdit = () => {
             setShowCoverPic(true);
           }}
         >
-          <div className='group relative flex h-72 w-full cursor-pointer'>
+          <div className='group relative flex h-72 w-full cursor-pointer '>
+            {showCoverLoader && (
+              <div className='flex w-full items-center justify-center'>
+                <Loader size='lg' />
+              </div>
+            )}
             <Image
               className='h-full w-full object-cover'
               src={String(currentCover) || COVER_PLACEHOLDER}
               alt={String(currentCover)}
+              onLoad={() => setShowCoverLoader(false)}
+              onError={() => setShowCoverLoader(false)}
               layout='fill'
+              objectPosition='top'
+              objectFit='cover'
             />
-            <div className='absolute top-0 left-0 flex h-full w-full cursor-pointer items-center justify-center  bg-[rgba(0,0,0,0.6)] text-xl opacity-0 transition-opacity group-hover:opacity-100 '>
+
+            <div className='absolute top-0 left-0 flex h-full w-full cursor-pointer items-center justify-center  bg-overlay text-xl opacity-0 transition-opacity group-hover:opacity-100 '>
               <span className='text-l text-white '>Change Cover</span>
             </div>
           </div>
@@ -249,16 +270,25 @@ const UserEdit = () => {
           }}
         >
           <div className='group relative'>
+            {showProfilePicLoader && (
+              <div className='absolute top-0 left-0 flex h-60 w-60 items-center justify-center rounded-circle border-2'>
+                <Loader size='lg' />
+              </div>
+            )}
             <Image
               className='h-full w-full cursor-pointer rounded-circle object-cover'
               src={croppedImage || String(currentImage)}
               alt={String(currentImage)}
               width={200}
               height={200}
+              onLoad={() => setShowProfilePicLoader(false)}
+              onError={() => setShowProfilePicLoader(false)}
             />
-            <div className='absolute top-[-5px] left-0 flex h-full w-full cursor-pointer items-center justify-center rounded-circle bg-[rgba(0,0,0,0.6)] text-xl opacity-0 transition-opacity group-hover:opacity-100 '>
-              <span className='text-l text-white '>Change Image</span>
-            </div>
+            {!showProfilePicLoader && (
+              <div className='absolute top-0 left-0 flex h-full w-full cursor-pointer items-center justify-center rounded-circle bg-[rgba(0,0,0,0.6)] text-xl opacity-0 transition-opacity group-hover:opacity-100'>
+                <span className='text-l text-white'>Change Image</span>
+              </div>
+            )}
           </div>
         </div>
 
@@ -319,7 +349,7 @@ const UserEdit = () => {
         <div className='flex flex-col items-center'>
           <p className=' w-full text-[30px]'>Change Profile Pic</p>
 
-          <div className='my-[20px]  h-full w-full overflow-hidden'>
+          <div className='my-5  h-full w-full overflow-hidden'>
             <Cropper
               src={currentImage}
               setCroppedImage={setCroppedImage}
@@ -339,7 +369,7 @@ const UserEdit = () => {
         <div className='flex flex-col items-center'>
           <p className=' w-full text-[30px]'>Cover Image</p>
 
-          <div className='my-[20px]  h-full w-full overflow-hidden'>
+          <div className='my-5  h-full w-full overflow-hidden'>
             <Cropper
               src={currentCover}
               setCroppedImage={setCoverImage}
