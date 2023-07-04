@@ -9,6 +9,7 @@ import React, {
 import ReactCrop from 'react-easy-crop';
 import { Area } from 'react-easy-crop/types';
 import { getCroppedImg } from './cropUtils';
+import { Button } from 'ui';
 
 interface Props {
   src: string | null | File | undefined;
@@ -16,9 +17,17 @@ interface Props {
   setImage: Dispatch<SetStateAction<string | ArrayBuffer | null | undefined>>;
   setCroppedImage: Dispatch<SetStateAction<string | null>>;
   onSubmit: () => void;
+  type: 'cover' | 'avatar';
 }
 
-function Cropper({ src, image, setImage, setCroppedImage, onSubmit }: Props) {
+function Cropper({
+  src,
+  image,
+  setImage,
+  setCroppedImage,
+  onSubmit,
+  type,
+}: Props) {
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -61,12 +70,12 @@ function Cropper({ src, image, setImage, setCroppedImage, onSubmit }: Props) {
             image={image}
             crop={crop}
             zoom={zoom}
-            aspect={5 / 5}
+            aspect={type == 'avatar' ? 5 / 5 : 10 / 3}
             maxZoom={10}
             onCropChange={setCrop}
             onZoomChange={setZoom}
             onCropComplete={onCropComplete}
-            cropShape='round'
+            cropShape={type == 'avatar' ? 'round' : 'rect'}
             showGrid={false}
           />
         )}
@@ -80,31 +89,40 @@ function Cropper({ src, image, setImage, setCroppedImage, onSubmit }: Props) {
         />
       </div>
       <div className='mt-[20px] flex w-full justify-between'>
-        <button
+        <Button
           onClick={() => {
             inputRef.current?.click();
           }}
+          variant='secondary'
+          size='small'
+          className='w-min p-1'
         >
           New
-        </button>
-        <button
+        </Button>
+        <Button
           onClick={() => {
             onSubmit();
           }}
+          variant='primary'
+          size='small'
+          className='w-min p-1'
         >
           Save
-        </button>
+        </Button>
 
         {src !== image && (
-          <button
+          <Button
             onClick={() => {
               setImage(() => src as string | ArrayBuffer | null | undefined);
               setCrop({ x: 0, y: 0 });
               setZoom(1);
             }}
+            className='w-fit p-2'
+            size='small'
+            variant='danger'
           >
             Delete
-          </button>
+          </Button>
         )}
       </div>
     </div>
