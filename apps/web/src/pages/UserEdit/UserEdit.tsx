@@ -258,7 +258,7 @@ const UserEdit = () => {
             />
 
             <div className='absolute top-0 left-0 flex h-full w-full cursor-pointer items-center justify-center  bg-overlay text-xl opacity-0 transition-opacity group-hover:opacity-100 '>
-              <span className='text-l text-white '>Change Cover</span>
+              <span className='text-l text-white '>{t('change-cover')}</span>
             </div>
           </div>
         </div>
@@ -285,7 +285,7 @@ const UserEdit = () => {
             />
             {!showProfilePicLoader && (
               <div className='absolute bottom-0 left-0 flex h-full w-full cursor-pointer items-center justify-center rounded-circle bg-[rgba(0,0,0,0.6)] text-xl opacity-0 transition-opacity group-hover:opacity-100'>
-                <span className='text-l text-white'>Change Image</span>
+                <span className='text-l text-white'>{t('change-image')}</span>
               </div>
             )}
           </div>
@@ -346,7 +346,7 @@ const UserEdit = () => {
         modalClassName='bg-grey-dark flex flex-col justify-center p-12 w-[40vw] overflow-hidden'
       >
         <div className='flex flex-col items-center'>
-          <p className=' w-full text-[30px]'>Change Profile Pic</p>
+          <p className=' w-full text-[30px]'>{t('change-profile-pic')}</p>
 
           <div className='my-5  h-full w-full overflow-hidden'>
             <Cropper
@@ -367,7 +367,7 @@ const UserEdit = () => {
         modalClassName='bg-grey-dark flex flex-col justify-center p-12 w-[40vw] overflow-hidden'
       >
         <div className='flex flex-col items-center'>
-          <p className=' w-full text-[30px]'>Cover Image</p>
+          <p className=' w-full text-[30px]'>{t('change-cover-image')}</p>
 
           <div className='my-5  h-full w-full overflow-hidden'>
             <Cropper

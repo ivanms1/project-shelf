@@ -14,5 +14,9 @@
   "save-profile": "Save Profile",
   "seo-title": "Edit Profile",
   "success-profile-pic": "Profile pic Changed",
-  "error-profile-pic": "Error while updating"
+  "error-profile-pic": "Error while updating",
+  "change-profile-pic": "Change Profile Pic",
+  "change-cover-image": "Change Cover Image",
+  "change-image": "Change Image",
+  "change-cover": "Change Cover"
 }
