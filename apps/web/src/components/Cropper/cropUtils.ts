@@ -1,4 +1,12 @@
-export function getCroppedImg(imageSrc, pixelCrop) {
+export function getCroppedImg(
+  imageSrc: string,
+  pixelCrop: {
+    x: number;
+    y: number;
+    width: number;
+    height: number;
+  }
+) {
   return new Promise((resolve) => {
     const canvas = document.createElement('canvas');
     canvas.width = pixelCrop.width;
@@ -9,7 +17,7 @@ export function getCroppedImg(imageSrc, pixelCrop) {
     image.crossOrigin = 'anonymous';
     image.src = imageSrc;
     image.onload = function () {
-      ctx.drawImage(
+      ctx?.drawImage(
         image,
         pixelCrop.x,
         pixelCrop.y,

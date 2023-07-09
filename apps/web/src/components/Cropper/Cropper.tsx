@@ -34,9 +34,11 @@ function Cropper({
 
   const onCropComplete = useCallback(
     (croppedArea: Area, croppedAreaPixels: Area) => {
-      getCroppedImg(image, croppedAreaPixels).then((croppedImage) => {
-        setCroppedImage(croppedImage?.toDataURL());
-      });
+      getCroppedImg(image, croppedAreaPixels).then(
+        (croppedImage: HTMLCanvasElement) => {
+          setCroppedImage(croppedImage?.toDataURL());
+        }
+      );
     },
     [image, setCroppedImage]
   );
