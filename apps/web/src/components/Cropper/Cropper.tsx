@@ -11,6 +11,8 @@ import { Area } from 'react-easy-crop/types';
 import { getCroppedImg } from './cropUtils';
 import { Button } from 'ui';
 
+import { useTranslation } from 'next-i18next';
+
 interface Props {
   src: string | null | File | undefined;
   image: string | null | undefined;
@@ -31,6 +33,8 @@ function Cropper({
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
   const inputRef = useRef<HTMLInputElement>(null);
+
+  const { t } = useTranslation('common');
 
   const onCropComplete = useCallback(
     (croppedArea: Area, croppedAreaPixels: Area) => {
@@ -99,7 +103,7 @@ function Cropper({
           size='small'
           className='w-min p-1'
         >
-          New
+          {t('new')}
         </Button>
         <Button
           onClick={() => {
@@ -109,7 +113,7 @@ function Cropper({
           size='small'
           className='w-min p-1'
         >
-          Save
+          {t('save')}
         </Button>
 
         {src !== image && (
@@ -123,7 +127,7 @@ function Cropper({
             size='small'
             variant='danger'
           >
-            Delete
+            {t('delete')}
           </Button>
         )}
       </div>
