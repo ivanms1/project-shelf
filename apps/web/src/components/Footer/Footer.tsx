@@ -59,6 +59,10 @@ const Footer = () => {
           <div className='flex flex-col gap-5 text-silver'>
             <Link href='/search'>{t('search')}</Link>
             <Link href='/rankings'>{t('rankings')}</Link>
+            <Link href='/privacy-policy'>{t('privacy-policy')}</Link>
+            <Link href='/terms-and-conditions'>
+              {t('terms-and-conditions')}
+            </Link>
           </div>
         </div>
         <div className='flex flex-col gap-5'>
