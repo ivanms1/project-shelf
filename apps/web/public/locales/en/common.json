@@ -28,5 +28,7 @@
   "select-image": "Select Image",
   "create-account-or-login": "Please create an account or login for this action",
   "sign-in-to-discover": "Sign in to discover new projects and interact",
-  "all-rights-reserved": " ©{{year}} Project Shelf. All rights reserved."
+  "all-rights-reserved": " ©{{year}} Project Shelf. All rights reserved.",
+  "privacy-policy": "Privacy Policy",
+  "terms-and-conditions": "Terms and Conditions"
 }
