@@ -1,3 +1,3 @@
-import PrivacyPolicy from './PrivacyPolicy';
+import Privacy from './Privacy';
 
-export default PrivacyPolicy;
+export default Privacy;

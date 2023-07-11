@@ -4,8 +4,9 @@ import { NextSeo } from 'next-seo';
 
 const arr = Array.from(Array(8).keys()).map((_, index) => index + 1);
 
-function PrivacyPolicy() {
+export default function Privacy() {
   const { t } = useTranslation('privacy-policy');
+
   return (
     <div className='bg-black'>
       <div className='m-auto flex max-w-[1080px] flex-col items-center gap-8 py-32'>
@@ -25,5 +26,3 @@ function PrivacyPolicy() {
     </div>
   );
 }
-
-export default PrivacyPolicy;
