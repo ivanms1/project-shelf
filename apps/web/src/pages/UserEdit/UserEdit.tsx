@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useRouter } from 'next/router';
 import toast from 'react-hot-toast';
@@ -6,7 +6,14 @@ import * as zod from 'zod';
 import { NextSeo } from 'next-seo';
 import { useTranslation } from 'next-i18next';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Button, FormInput, FormTextArea } from 'ui';
+import {
+  Button,
+  FormInput,
+  FormTextArea,
+  Modal,
+  LoaderOverlay,
+  Loader,
+} from 'ui';
 import {
   UploadImageMutation,
   useUpdateUserMutation,
@@ -15,11 +22,11 @@ import {
 
 import useIsLoggedIn from '@/hooks/useIsLoggedIn';
 
-import AvatarDropzone from 'src/components/AvatarDropzone';
-
 import fileReader from '@/helpers/fileReader';
 
 import type { FetchResult } from '@apollo/client';
+import Cropper from '@/components/Cropper';
+import Image from 'next/future/image';
 
 const COVER_PLACEHOLDER = 'https://via.placeholder.com/1665x288';
 
@@ -52,6 +59,15 @@ const validationSchema = zod
   .required();
 
 const UserEdit = () => {
+  const [showProfilePic, setShowProfilePic] = useState(false);
+  const [showCoverPic, setShowCoverPic] = useState(false);
+  const [image, setImage] = useState();
+  const [imageCover, setImageCover] = useState();
+  const [showCoverLoader, setShowCoverLoader] = useState(true);
+  const [showProfilePicLoader, setShowProfilePicLoader] = useState(true);
+
+  const [croppedImage, setCroppedImage] = useState(null);
+  const [coverImage, setCoverImage] = useState(null);
   const { currentUser } = useIsLoggedIn();
 
   const { t } = useTranslation('user-edit');
@@ -75,7 +91,6 @@ const UserEdit = () => {
     register,
     watch,
     getValues,
-    setValue,
     handleSubmit,
     reset,
     formState: { errors, dirtyFields, isDirty },
@@ -93,6 +108,56 @@ const UserEdit = () => {
 
   const notifySuccess = () => toast.success(t('edit-success'));
   const notifyError = () => toast.error(t('edit-failure'));
+
+  const onAvatarSubmit = async () => {
+    try {
+      const res = await uploadImage({
+        variables: {
+          path: String(croppedImage),
+        },
+      });
+      const updateUserResponse = await updateUser({
+        variables: {
+          input: {
+            avatar: res.data?.image,
+          },
+        },
+      });
+      if (updateUserResponse) {
+        setShowProfilePic(false);
+      }
+
+      toast.success(t('success-profile-pic'));
+      router.push(`/user/${userId}`);
+    } catch (error) {
+      toast.error(t('error-profile-pic'));
+    }
+  };
+
+  const onCoverSubmit = async () => {
+    try {
+      const res = await uploadImage({
+        variables: {
+          path: String(coverImage),
+        },
+      });
+      const updateUserResponse = await updateUser({
+        variables: {
+          input: {
+            cover: res.data?.image,
+          },
+        },
+      });
+      if (updateUserResponse) {
+        setShowCoverPic(false);
+      }
+
+      toast.success(t('success-profile-pic'));
+      router.push(`/user/${userId}`);
+    } catch (error) {
+      toast.error(t('error-profile-pic'));
+    }
+  };
 
   const onSubmit: SubmitHandler<FormTypes> = async () => {
     if (!isDirty) {
@@ -165,33 +230,66 @@ const UserEdit = () => {
 
   return (
     <div className='flex items-center justify-center bg-black '>
+      {imageUploading && <LoaderOverlay transparent size='lg' />}
       <form
-        className='mb-10 flex w-full flex-col items-center'
+        className='mb-10 flex w-full flex-col items-center '
         onSubmit={handleSubmit(onSubmit)}
       >
-        <AvatarDropzone
-          currentFile={currentCover || COVER_PLACEHOLDER}
-          onDrop={(files) => {
-            setValue('cover', files[0], { shouldDirty: true });
+        <div
+          className='h-72 w-full '
+          onClick={() => {
+            setShowCoverPic(true);
           }}
-          overlayText={t('cover-label')}
-          accept='image/*'
-          className='relative h-72 w-full'
-          imageClassname='object-cover'
-          withPreview
-        />
-        <AvatarDropzone
-          accept='image/*'
-          overlayText={t('avatar-label')}
-          currentFile={currentImage}
-          onDrop={(files) => {
-            setValue('preview', files[0], { shouldDirty: true });
+        >
+          <div className='group relative flex h-72 w-full cursor-pointer'>
+            {showCoverLoader && (
+              <div className='flex w-full items-center justify-center'>
+                <Loader size='lg' />
+              </div>
+            )}
+            <Image
+              className='h-full w-full  object-cover'
+              src={String(currentCover) || COVER_PLACEHOLDER}
+              alt={String(currentCover)}
+              onLoad={() => setShowCoverLoader(false)}
+              onError={() => setShowCoverLoader(false)}
+              width={200}
+              height={200}
+            />
+
+            <div className='absolute top-0 left-0 flex h-full w-full cursor-pointer items-center justify-center  bg-overlay text-xl opacity-0 transition-opacity group-hover:opacity-100 '>
+              <span className='text-l text-white '>{t('change-cover')}</span>
+            </div>
+          </div>
+        </div>
+        <div
+          className='-mt-[100px] '
+          onClick={() => {
+            setShowProfilePic(true);
           }}
-          className='z-10 -mt-[100px] h-[200px] w-[200px]'
-          imageClassname='object-cover rounded-full'
-          overlayClassName='rounded-full'
-          withPreview
-        />
+        >
+          <div className='group relative h-60 w-60 overflow-hidden '>
+            {showProfilePicLoader && (
+              <div className='absolute top-0 left-0 flex h-60 w-60 items-center justify-center rounded-circle border-2'>
+                <Loader size='lg' />
+              </div>
+            )}
+            <Image
+              className='h-full w-full cursor-pointer rounded-circle object-contain'
+              src={croppedImage || String(currentImage)}
+              alt={String(currentImage)}
+              width={200}
+              height={200}
+              onLoad={() => setShowProfilePicLoader(false)}
+              onError={() => setShowProfilePicLoader(false)}
+            />
+            {!showProfilePicLoader && (
+              <div className='absolute bottom-0 left-0 flex h-full w-full cursor-pointer items-center justify-center rounded-circle bg-[rgba(0,0,0,0.6)] text-xl opacity-0 transition-opacity group-hover:opacity-100'>
+                <span className='text-l text-white'>{t('change-image')}</span>
+              </div>
+            )}
+          </div>
+        </div>
 
         <div className='flex w-full max-w-4xl flex-col gap-5 px-[30px]'>
           <FormInput
@@ -241,6 +339,49 @@ const UserEdit = () => {
           </div>
         </div>
       </form>
+
+      <Modal
+        open={showProfilePic}
+        onClose={() => setShowProfilePic(false)}
+        modalClassName='bg-grey-dark flex flex-col justify-center p-12 w-[40vw] overflow-hidden'
+      >
+        <div className='flex flex-col items-center'>
+          <p className=' w-full text-[30px]'>{t('change-profile-pic')}</p>
+
+          <div className='my-5  h-full w-full overflow-hidden'>
+            <Cropper
+              src={currentImage}
+              setCroppedImage={setCroppedImage}
+              image={image || ''}
+              setImage={setImage}
+              onSubmit={onAvatarSubmit}
+              type='avatar'
+            />
+          </div>
+        </div>
+      </Modal>
+
+      <Modal
+        open={showCoverPic}
+        onClose={() => setShowCoverPic(false)}
+        modalClassName='bg-grey-dark flex flex-col justify-center p-12 w-[40vw] overflow-hidden'
+      >
+        <div className='flex flex-col items-center'>
+          <p className=' w-full text-[30px]'>{t('change-cover-image')}</p>
+
+          <div className='my-5  h-full w-full overflow-hidden'>
+            <Cropper
+              src={currentCover}
+              setCroppedImage={setCoverImage}
+              image={imageCover || ''}
+              setImage={setImageCover}
+              onSubmit={onCoverSubmit}
+              type='cover'
+            />
+          </div>
+        </div>
+      </Modal>
+
       <NextSeo title={t('seo-title')}></NextSeo>
     </div>
   );
