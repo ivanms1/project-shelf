@@ -15,7 +15,7 @@ import { useTranslation } from 'next-i18next';
 
 interface Props {
   src: string | null | File | undefined;
-  image: string | null | undefined;
+  image: string;
   setImage: Dispatch<SetStateAction<string | ArrayBuffer | null | undefined>>;
   setCroppedImage: Dispatch<SetStateAction<string | null>>;
   onSubmit: () => void;
