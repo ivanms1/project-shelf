@@ -42,7 +42,7 @@ const About = ({ members }: AboutProps) => {
           ))}
         </div>
       </div>
-      <NextSeo title={t('seo-title')} />
+      <NextSeo title={t('about')} />
     </div>
   );
 };
