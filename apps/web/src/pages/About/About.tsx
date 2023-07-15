@@ -44,7 +44,25 @@ const About = ({ members }: AboutProps) => {
           ))}
         </div>
       </div>
-      <NextSeo title={t('about')} />
+
+      <NextSeo
+        title={t('seo-title')}
+        description={t('description')}
+        openGraph={{
+          type: 'website',
+          title: t('title'),
+          description: t('description'),
+          site_name: 'Project Shelf',
+          images: [
+            {
+              url: 'https://www.projectshelf.dev/assets/images/shelf.png',
+              width: 200,
+              height: 200,
+              alt: 'Project Shelf',
+            },
+          ],
+        }}
+      />
     </div>
   );
 };
