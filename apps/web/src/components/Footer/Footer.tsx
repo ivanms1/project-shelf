@@ -60,7 +60,7 @@ const Footer = () => {
             <Link href='/about'>{t('about')}</Link>
             <Link href='/search'>{t('search')}</Link>
 
-            <Link href='/privacy-policy'>{t('privacy-policy')}</Link>
+            <Link href='/privacy'>{t('privacy-policy')}</Link>
             <Link href='/terms-and-conditions'>
               {t('terms-and-conditions')}
             </Link>

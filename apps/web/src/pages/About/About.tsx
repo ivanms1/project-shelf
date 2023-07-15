@@ -34,7 +34,9 @@ const About = ({ members }: AboutProps) => {
 
   return (
     <div className='flex flex-col items-center justify-between gap-16 bg-black px-28 pt-10 pb-20 max-lg:px-[30px]'>
-      <p className='text-center text-5xl font-semibold'>{t('title')}</p>
+      <p className='text-center text-3xl font-semibold leading-9  sm:text-5xl'>
+        {t('title')}
+      </p>
       <div>
         <div className='m-x-auto flex max-w-[1100px] flex-row flex-wrap  justify-center gap-2  '>
           {members.map((member) => (
