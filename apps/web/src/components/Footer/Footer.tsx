@@ -46,8 +46,9 @@ const Footer = () => {
                     href={social.link}
                     target='_blank'
                     rel='noreferrer'
+                    className='hover:text-red-500'
                   >
-                    <Icon className='h-6 w-6' />
+                    <Icon className='h-6 w-6  ' />
                   </a>
                 );
               })}
@@ -57,11 +58,17 @@ const Footer = () => {
         <div>
           <p className='mb-6 font-mono text-2xl font-bold'>{t('explore')}</p>
           <div className='flex flex-col gap-5 text-silver'>
-            <Link href='/about'>{t('about')}</Link>
-            <Link href='/search'>{t('search')}</Link>
+            <Link href='/about' className='hover:text-primary'>
+              {t('about')}
+            </Link>
+            <Link href='/search' className='hover:text-primary'>
+              {t('search')}
+            </Link>
 
-            <Link href='/privacy'>{t('privacy-policy')}</Link>
-            <Link href='/terms-and-conditions'>
+            <Link href='/privacy' className='hover:text-primary'>
+              {t('privacy-policy')}
+            </Link>
+            <Link href='/terms-and-conditions' className='hover:text-primary'>
               {t('terms-and-conditions')}
             </Link>
           </div>
