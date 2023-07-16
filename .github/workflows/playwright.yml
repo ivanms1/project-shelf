@@ -27,7 +27,7 @@ jobs:
           # Maps tcp port 5432 on service container to the host
           - 5432:5432
     env:
-      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/project-shelf
+      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/project-shelf?connection_limit=5&pool_timeout=0
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
