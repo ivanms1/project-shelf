@@ -12,3 +12,4 @@ export * from './LoaderOverlay';
 export * from './NativeSelect';
 export * from './Drawer';
 export * from './TextArea';
+export * from './Floating';
