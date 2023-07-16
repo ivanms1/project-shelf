@@ -14,7 +14,30 @@ export const Member = ({ member }: MemberProps) => {
   const isMobile = useIsMobile();
   const { t } = useTranslation('about');
 
-  const renderData = (
+  return (
+    <>
+      {isMobile ? (
+        <Card member={member} />
+      ) : (
+        <Floating
+          content={
+            <div className='flex w-full items-center gap-4 rounded-full bg-black py-2 px-4 hover:scale-105 hover:bg-grey-dark'>
+              <p className='text-sm capitalize'>{t('contributions')}</p>
+              <p className='font-bold text-white'>{member.contributions}</p>
+            </div>
+          }
+        >
+          <Card member={member} />
+        </Floating>
+      )}
+    </>
+  );
+};
+
+const Card = ({ member }: MemberProps) => {
+  const { t } = useTranslation('about');
+  const isMobile = useIsMobile();
+  return (
     <a
       target='_blank'
       href={member.html_url}
@@ -37,25 +60,6 @@ export const Member = ({ member }: MemberProps) => {
         </div>
       )}
     </a>
-  );
-
-  return (
-    <>
-      {isMobile ? (
-        <>{renderData}</>
-      ) : (
-        <Floating
-          content={
-            <div className='flex w-full items-center gap-4 rounded-full bg-black py-2 px-4 hover:scale-105 hover:bg-grey-dark'>
-              <p className='text-sm capitalize'>{t('contributions')}</p>
-              <p className='font-bold text-white'>{member.contributions}</p>
-            </div>
-          }
-        >
-          {renderData}
-        </Floating>
-      )}
-    </>
   );
 };
 

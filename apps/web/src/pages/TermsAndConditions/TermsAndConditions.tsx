@@ -8,7 +8,7 @@ function TermsAndConditions() {
 
   return (
     <div className='bg-black'>
-      <div className='m-auto flex max-w-[1080px] flex-col gap-8 py-32'>
+      <div className='m-auto flex max-w-[1080px] flex-col gap-8 pt-16 pb-32'>
         <p className='text-center text-4xl font-semibold'>
           {t('terms-and-conditions')}
         </p>
