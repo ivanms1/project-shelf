@@ -22,6 +22,7 @@
     "dev:admin": "turbo run dev --parallel --filter=!web",
     "dev:api": "turbo run dev --filter=api",
     "dev:ui": "turbo run dev --filter=ui",
+    "playwright:web": "turbo run playwright --filter=web",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "prepare": "husky install",

@@ -41,8 +41,6 @@ jobs:
         run: cd apps/api && npx prisma generate && npx prisma migrate reset --force
         # Environment variables used by the `client.js` script to create a new PostgreSQL table.
 
-      - name: Start web app
-        run: yarn dev:web
       - name: Run Playwright tests
         run: cd apps/web && yarn playwright test
       - uses: actions/upload-artifact@v3
