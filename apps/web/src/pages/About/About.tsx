@@ -34,15 +34,35 @@ const About = ({ members }: AboutProps) => {
 
   return (
     <div className='flex flex-col items-center justify-between gap-16 bg-black px-28 pt-10 pb-20 max-lg:px-[30px]'>
-      <p className='text-center text-5xl font-semibold'>{t('title')}</p>
+      <p className='text-center text-3xl font-semibold leading-9  sm:text-5xl'>
+        {t('title')}
+      </p>
       <div>
-        <div className='flex flex-wrap justify-between gap-10 after:flex-auto after:content-[""] max-lg:justify-center'>
+        <div className='m-x-auto flex max-w-[1100px] flex-row flex-wrap  justify-center gap-2  '>
           {members.map((member) => (
             <Member key={member?.id} member={member} />
           ))}
         </div>
       </div>
-      <NextSeo title={t('seo-title')} />
+
+      <NextSeo
+        title={t('seo-title')}
+        description={t('description')}
+        openGraph={{
+          type: 'website',
+          title: t('title'),
+          description: t('description'),
+          site_name: 'Project Shelf',
+          images: [
+            {
+              url: 'https://www.projectshelf.dev/assets/images/shelf.png',
+              width: 200,
+              height: 200,
+              alt: 'Project Shelf',
+            },
+          ],
+        }}
+      />
     </div>
   );
 };

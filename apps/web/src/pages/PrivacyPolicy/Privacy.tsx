@@ -9,7 +9,7 @@ export default function Privacy() {
 
   return (
     <div className='bg-black'>
-      <div className='m-auto flex max-w-[1080px] flex-col items-center gap-8 py-32'>
+      <div className='m-auto flex max-w-[1080px] flex-col items-center gap-8 pt-16 pb-32'>
         <p className='text-4xl font-semibold'>{t('privacy-policy')}</p>
         <div className='flex flex-col gap-6'>
           {arr.map((paragraph) => (
