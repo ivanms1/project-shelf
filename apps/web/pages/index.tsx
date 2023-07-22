@@ -33,6 +33,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
           'common',
         ])),
       },
+      revalidate: 120,
     });
   } catch {
     return {
