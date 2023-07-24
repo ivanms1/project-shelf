@@ -52,7 +52,9 @@ function Home() {
           className='max-lg:mb-10 max-lg:w-full'
           passHref
         >
-          <Button className='max-lg:w-full'>{t('common:add-project')}</Button>
+          <Button bordeRadius='10px' className='max-lg:w-full'>
+            {t('common:add-project')}
+          </Button>
         </Link>
       ) : (
         <Button
@@ -129,7 +131,9 @@ function Home() {
             </p>
           </div>
           <Link href='/top-creators' passHref>
-            <Button className='max-lg:hidden'>{t('view-rankings')}</Button>
+            <Button bordeRadius='10px' className='max-lg:hidden'>
+              {t('view-rankings')}
+            </Button>
           </Link>
         </div>
         <div className='flex flex-wrap justify-center gap-[30px] max-lg:mb-10'>
@@ -137,12 +141,6 @@ function Home() {
             <TopCreator key={creator.id} creator={creator} />
           ))}
         </div>
-
-        <Link href='/top-creators' passHref>
-          <Button className='hidden w-full text-center max-lg:block'>
-            {t('view-rankings')}
-          </Button>
-        </Link>
       </div>
       <div className='py-20 max-lg:pt-0'>
         <div className='flex items-center justify-between pb-20  max-lg:flex-col max-lg:items-start max-lg:pb-10'>
@@ -155,7 +153,9 @@ function Home() {
             </p>
           </div>
           <Link href='/top-projects' passHref>
-            <Button className='max-lg:hidden'>{t('see-all-projects')}</Button>
+            <Button bordeRadius='10px' className='max-lg:hidden'>
+              {t('see-all-projects')}
+            </Button>
           </Link>
         </div>
         <div className='flex justify-between gap-8 max-lg:mb-10 max-lg:flex-col'>
@@ -163,13 +163,6 @@ function Home() {
             <ProjectCard key={project.id} light project={project} noLike />
           ))}
         </div>
-
-        <Link href='/top-projects' passHref>
-          <Button className='hidden w-full text-center max-lg:block'>
-            {' '}
-            {t('see-all-projects')}
-          </Button>
-        </Link>
       </div>
       <div
         className='relative -mx-28 flex h-[640px] items-end bg-cover bg-center  max-lg:-mx-[30px] max-lg:items-center'
