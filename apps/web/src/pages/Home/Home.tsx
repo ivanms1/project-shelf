@@ -172,10 +172,10 @@ function Home() {
         </Link>
       </div>
       <div
-        className='-mx-28 flex h-[640px] items-end bg-cover bg-center max-lg:-mx-[30px] max-lg:items-center'
+        className='relative -mx-28 flex h-[640px] items-end bg-cover bg-center  max-lg:-mx-[30px] max-lg:items-center'
         style={{ backgroundImage: `url(${coverProject?.preview})` }}
       >
-        <div className='flex flex-col gap-[30px] py-16 px-28 max-lg:px-[30px]'>
+        <div className='z-10 flex flex-col gap-[30px] py-16 px-28 max-lg:px-[30px]'>
           <div className='flex w-fit items-center gap-3 rounded-lg bg-grey-dark px-5 py-[10px]'>
             <Image
               className='rounded-full'
@@ -195,6 +195,7 @@ function Home() {
             </Button>
           </Link>
         </div>
+        <div className='absolute top-0 left-0 h-full w-full bg-black opacity-60' />
       </div>
       <div className='py-20 max-lg:pt-10'>
         <div className='mb-10 flex flex-col gap-[10px]'>
