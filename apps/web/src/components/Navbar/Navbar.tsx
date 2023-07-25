@@ -1,15 +1,19 @@
 import { useState } from 'react';
 import { signIn } from 'next-auth/react';
+import { useRouter } from 'next/router';
+import classNames from 'classnames';
 import { useTranslation } from 'next-i18next';
 import Image from 'next/future/image';
 import Link from 'next/link';
 import { Button, DropDown } from 'ui';
 
+import BellIcon from '@/assets/icons/bell.svg';
 import MobileMenu from '../MobileMenu';
 
 import useIsLoggedIn from '@/hooks/useIsLoggedIn';
 
 const Navbar = () => {
+  const { route } = useRouter();
   const { isLoggedIn, logout, currentUser } = useIsLoggedIn();
   const [isAuthLoading, setIsAuthLoading] = useState(false);
   const [open, setOpen] = useState(false);
@@ -81,6 +85,18 @@ const Navbar = () => {
               <Button className='mr-1 px-7' size='small'>
                 {t('add-project')}
               </Button>
+            </Link>
+
+            <Link href='/notifications' passHref>
+              <BellIcon
+                HeartIcon
+                className={classNames(
+                  'h-[20px] w-[30px] scale-105  transition duration-100 ease-out hover:fill-pink-light active:scale-75',
+                  {
+                    'fill-pink-light': route.includes('notifications'),
+                  }
+                )}
+              />
             </Link>
             <DropDown
               open={open}
