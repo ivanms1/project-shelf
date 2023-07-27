@@ -10,7 +10,7 @@ import MobileMenu from '../MobileMenu';
 import useIsLoggedIn from '@/hooks/useIsLoggedIn';
 
 const Navbar = () => {
-  const { isLoggedIn, logout, currentUser } = useIsLoggedIn();
+  const { isLoggedIn, logout, currentUser, loading } = useIsLoggedIn();
   const [isAuthLoading, setIsAuthLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const [isTopOpen, setIsTopOpen] = useState(false);
@@ -86,13 +86,17 @@ const Navbar = () => {
               open={open}
               setOpen={setOpen}
               parent={
-                <Image
-                  className='h-10 w-10 cursor-pointer rounded-full object-cover'
-                  src={currentUser?.avatar ?? ''}
-                  width={40}
-                  height={40}
-                  alt={currentUser?.name ?? 'user avatar'}
-                />
+                currentUser?.avatar ? (
+                  <Image
+                    className='h-10 w-10 cursor-pointer rounded-full object-cover'
+                    src={currentUser?.avatar ?? ''}
+                    width={40}
+                    height={40}
+                    alt={currentUser?.name ?? 'user avatar'}
+                  />
+                ) : (
+                  <div className='h-10 w-10 animate-pulse rounded-full bg-slate-700' />
+                )
               }
             >
               <div className='flex w-40 flex-col rounded-sm bg-grey-dark'>
@@ -122,9 +126,9 @@ const Navbar = () => {
           </>
         ) : (
           <Button
-            className='px-7'
+            className='min-w-[120px] px-7'
             size='small'
-            isLoading={isAuthLoading}
+            isLoading={loading || isAuthLoading}
             onClick={handleLogin}
           >
             {t('login')}
