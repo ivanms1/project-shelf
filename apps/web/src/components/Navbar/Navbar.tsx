@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { signIn } from 'next-auth/react';
 import { useTranslation } from 'next-i18next';
 import Image from 'next/future/image';
@@ -10,11 +10,17 @@ import MobileMenu from '../MobileMenu';
 import useIsLoggedIn from '@/hooks/useIsLoggedIn';
 
 const Navbar = () => {
-  const { isLoggedIn, logout, currentUser, loading } = useIsLoggedIn();
+  const { isLoggedIn, logout, currentUser, loading, session } = useIsLoggedIn();
   const [isAuthLoading, setIsAuthLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const [isTopOpen, setIsTopOpen] = useState(false);
   const { t } = useTranslation('common');
+
+  useEffect(() => {
+    if (session.status === 'unauthenticated') {
+      setIsAuthLoading(false);
+    }
+  }, [session.status]);
 
   const handleLogin = async () => {
     setIsAuthLoading(true);
