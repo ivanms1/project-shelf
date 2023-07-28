@@ -137,6 +137,12 @@ function Home() {
             <TopCreator key={creator.id} creator={creator} />
           ))}
         </div>
+
+        <Link href='/top-creators' passHref>
+          <Button className='hidden w-full text-center max-lg:block'>
+            {t('view-rankings')}
+          </Button>
+        </Link>
       </div>
       <div className='py-20 max-lg:pt-0'>
         <div className='flex items-center justify-between pb-20  max-lg:flex-col max-lg:items-start max-lg:pb-10'>
@@ -157,6 +163,13 @@ function Home() {
             <ProjectCard key={project.id} light project={project} noLike />
           ))}
         </div>
+
+        <Link href='/top-projects' passHref>
+          <Button className='hidden w-full text-center max-lg:block'>
+            {' '}
+            {t('see-all-projects')}
+          </Button>
+        </Link>
       </div>
       <div
         className='relative -mx-28 flex h-[640px] items-end bg-cover bg-center  max-lg:-mx-[30px] max-lg:items-center'
