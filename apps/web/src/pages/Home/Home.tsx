@@ -52,9 +52,7 @@ function Home() {
           className='max-lg:mb-10 max-lg:w-full'
           passHref
         >
-          <Button bordeRadius='10px' className='max-lg:w-full'>
-            {t('common:add-project')}
-          </Button>
+          <Button className='max-lg:w-full'>{t('common:add-project')}</Button>
         </Link>
       ) : (
         <Button
@@ -131,9 +129,7 @@ function Home() {
             </p>
           </div>
           <Link href='/top-creators' passHref>
-            <Button bordeRadius='10px' className='max-lg:hidden'>
-              {t('view-rankings')}
-            </Button>
+            <Button className='max-lg:hidden'>{t('view-rankings')}</Button>
           </Link>
         </div>
         <div className='flex flex-wrap justify-center gap-[30px] max-lg:mb-10'>
@@ -153,9 +149,7 @@ function Home() {
             </p>
           </div>
           <Link href='/top-projects' passHref>
-            <Button bordeRadius='10px' className='max-lg:hidden'>
-              {t('see-all-projects')}
-            </Button>
+            <Button className='max-lg:hidden'>{t('see-all-projects')}</Button>
           </Link>
         </div>
         <div className='flex justify-between gap-8 max-lg:mb-10 max-lg:flex-col'>

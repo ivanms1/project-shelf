@@ -78,7 +78,7 @@ const Navbar = () => {
         {isLoggedIn ? (
           <>
             <Link href='/create-project' passHref>
-              <Button bordeRadius='10px' className='mr-1 px-7' size='small'>
+              <Button className='mr-1 px-7' size='small'>
                 {t('add-project')}
               </Button>
             </Link>
