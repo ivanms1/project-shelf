@@ -13,10 +13,12 @@ const useIsLoggedIn = () => {
   };
 
   return {
-    isLoggedIn: !!data?.getCurrentUser?.id,
-    loading,
+    isLoggedIn:
+      !!data?.getCurrentUser?.id || session.status === 'authenticated',
+    loading: loading || session.status === 'loading',
     logout,
     currentUser: data?.getCurrentUser,
+    session,
   };
 };
 
