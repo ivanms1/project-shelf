@@ -27,7 +27,7 @@ function Home() {
   const { data: projectsData } = useGetTopProjectsForHomePageQuery();
   const { data: creatorsData } = useGetTopCreatorsForHomePageQuery();
 
-  const { isLoggedIn } = useIsLoggedIn();
+  const { isLoggedIn, loading } = useIsLoggedIn();
 
   const isMobile = useIsMobile();
 
@@ -58,7 +58,7 @@ function Home() {
         <Button
           className='w-fit max-lg:mb-10 max-lg:w-full'
           onClick={handleLogin}
-          isLoading={isAuthLoading}
+          isLoading={isAuthLoading || loading}
         >
           {t('common:login')}
         </Button>

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { signIn } from 'next-auth/react';
 import { useTranslation } from 'next-i18next';
 import Image from 'next/future/image';
@@ -10,11 +10,17 @@ import MobileMenu from '../MobileMenu';
 import useIsLoggedIn from '@/hooks/useIsLoggedIn';
 
 const Navbar = () => {
-  const { isLoggedIn, logout, currentUser } = useIsLoggedIn();
+  const { isLoggedIn, logout, currentUser, loading, session } = useIsLoggedIn();
   const [isAuthLoading, setIsAuthLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const [isTopOpen, setIsTopOpen] = useState(false);
   const { t } = useTranslation('common');
+
+  useEffect(() => {
+    if (session.status === 'unauthenticated') {
+      setIsAuthLoading(false);
+    }
+  }, [session.status]);
 
   const handleLogin = async () => {
     setIsAuthLoading(true);
@@ -45,7 +51,7 @@ const Navbar = () => {
         </>
       </Link>
       <div className='flex flex-row items-center gap-[10px] max-lg:hidden'>
-        <Link href='/search' className='py-5 px-3'>
+        <Link href='/search' className='py-5 px-3 hover:text-primary'>
           {t('search')}
         </Link>
 
@@ -53,7 +59,7 @@ const Navbar = () => {
           open={isTopOpen}
           setOpen={setIsTopOpen}
           parent={
-            <Button variant='ghost' className='px-3'>
+            <Button variant='ghost' className='px-3 hover:text-primary'>
               {t('top')}
             </Button>
           }
@@ -86,13 +92,17 @@ const Navbar = () => {
               open={open}
               setOpen={setOpen}
               parent={
-                <Image
-                  className='h-10 w-10 cursor-pointer rounded-full object-cover'
-                  src={currentUser?.avatar ?? ''}
-                  width={40}
-                  height={40}
-                  alt={currentUser?.name ?? 'user avatar'}
-                />
+                currentUser?.avatar ? (
+                  <Image
+                    className='h-10 w-10 cursor-pointer rounded-full object-cover'
+                    src={currentUser?.avatar ?? ''}
+                    width={40}
+                    height={40}
+                    alt={currentUser?.name ?? 'user avatar'}
+                  />
+                ) : (
+                  <div className='h-10 w-10 animate-pulse rounded-full bg-slate-700' />
+                )
               }
             >
               <div className='flex w-40 flex-col rounded-sm bg-grey-dark'>
@@ -122,9 +132,9 @@ const Navbar = () => {
           </>
         ) : (
           <Button
-            className='px-7'
+            className='min-w-[120px] px-7'
             size='small'
-            isLoading={isAuthLoading}
+            isLoading={loading || isAuthLoading}
             onClick={handleLogin}
           >
             {t('login')}
