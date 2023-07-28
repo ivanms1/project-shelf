@@ -11,7 +11,7 @@ import MenuIcon from '@/assets/icons/menu-icon.svg';
 const MobileMenu = () => {
   const { t } = useTranslation('common');
   const [open, setOpen] = useState(false);
-  const { isLoggedIn, logout, currentUser } = useIsLoggedIn();
+  const { isLoggedIn, logout, currentUser, loading } = useIsLoggedIn();
   const [isAuthLoading, setIsAuthLoading] = useState(false);
 
   const handleLogout = async () => {
@@ -100,7 +100,7 @@ const MobileMenu = () => {
               className='px-7'
               size='small'
               onClick={handleLogin}
-              isLoading={isAuthLoading}
+              isLoading={isAuthLoading || loading}
             >
               {t('login')}
             </Button>
