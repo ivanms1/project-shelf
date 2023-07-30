@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Button, Drawer } from 'ui';
 import { useTranslation } from 'next-i18next';
 import Link from 'next/link';
-import { signIn } from 'next-auth/react';
 
 import useIsLoggedIn from '@/hooks/useIsLoggedIn';
 
@@ -11,19 +10,13 @@ import MenuIcon from '@/assets/icons/menu-icon.svg';
 const MobileMenu = () => {
   const { t } = useTranslation('common');
   const [open, setOpen] = useState(false);
-  const { isLoggedIn, logout, currentUser, loading } = useIsLoggedIn();
+  const { isLoggedIn, logout, currentUser } = useIsLoggedIn();
   const [isAuthLoading, setIsAuthLoading] = useState(false);
 
   const handleLogout = async () => {
     setIsAuthLoading(true);
     await logout();
     setOpen(false);
-    // Not setting the isAuthLoading state to false because of the loading UI flicker on click
-  };
-
-  const handleLogin = async () => {
-    setIsAuthLoading(true);
-    await signIn('github');
     // Not setting the isAuthLoading state to false because of the loading UI flicker on click
   };
 
@@ -96,14 +89,11 @@ const MobileMenu = () => {
               </Link>
             </>
           ) : (
-            <Button
-              className='px-7'
-              size='small'
-              onClick={handleLogin}
-              isLoading={isAuthLoading || loading}
-            >
-              {t('login')}
-            </Button>
+            <Link href='/login' passHref>
+              <Button className='px-7' size='small'>
+                {t('login')}
+              </Button>
+            </Link>
           )}
         </div>
       </Drawer>

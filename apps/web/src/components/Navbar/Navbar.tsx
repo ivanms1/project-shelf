@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { signIn } from 'next-auth/react';
 import { useTranslation } from 'next-i18next';
 import Image from 'next/future/image';
 import Link from 'next/link';
@@ -21,12 +20,6 @@ const Navbar = () => {
       setIsAuthLoading(false);
     }
   }, [session.status]);
-
-  const handleLogin = async () => {
-    setIsAuthLoading(true);
-    await signIn('github');
-    // Not setting the isAuthLoading state to false because of the loading UI flicker on click
-  };
 
   const handleLogout = async () => {
     setIsAuthLoading(true);
@@ -95,7 +88,7 @@ const Navbar = () => {
                 currentUser?.avatar ? (
                   <Image
                     className='h-10 w-10 cursor-pointer rounded-full object-cover'
-                    src={currentUser?.avatar ?? ''}
+                    src={currentUser?.avatar}
                     width={40}
                     height={40}
                     alt={currentUser?.name ?? 'user avatar'}
@@ -131,14 +124,15 @@ const Navbar = () => {
             </DropDown>
           </>
         ) : (
-          <Button
-            className='min-w-[120px] px-7'
-            size='small'
-            isLoading={loading || isAuthLoading}
-            onClick={handleLogin}
-          >
-            {t('login')}
-          </Button>
+          <Link href='/login' passHref>
+            <Button
+              className='min-w-[120px] px-7'
+              size='small'
+              isLoading={loading || isAuthLoading}
+            >
+              {t('login')}
+            </Button>
+          </Link>
         )}
       </div>
       <MobileMenu />

@@ -27,7 +27,7 @@ export const DropDown = ({ open, setOpen, parent, children }: IDropDown) => {
   const { refs, floatingStyles, context } = useFloating({
     open,
     onOpenChange: setOpen,
-    middleware: [offset({ mainAxis: 30, crossAxis: -40 }), flip(), shift()],
+    middleware: [offset({ mainAxis: 30, crossAxis: 0 }), flip(), shift()],
     whileElementsMounted: autoUpdate,
   });
 
