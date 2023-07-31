@@ -1,12 +1,13 @@
 {
-  "project-question": "What's your project?",
-  "project-sneak-peek": "Upload a sneak peek of what you've built",
-  "project-title-placeholder": "Give me a name",
-  "thumbnail-label": "Drop your thumbnail",
-  "drag-and-drop": "Drag and drop an image or browse",
-  "description-placeholder": "Add a brief description about your project and what went into creating it",
-  "final-details": "Final details",
-  "repo-link": "Repository Link",
-  "site-link": "Live Site Link",
-  "tags": "Tags"
+  "whats-your-project": "당신의 프로젝트는 무엇인가요?",
+  "upload-a-sneak": "무엇을 만들었는지 간략히 업로드해주세요",
+  "drag-drop": "이미지를 드래그하여 업로드하거나 둘러보기",
+  "give-a-name": "이름을 지어주세요",
+  "desc": "프로젝트에 대해 간단한 설명과 만들면서 노력한 내용을 추가해주세요",
+  "final-details": "최종 세부 정보",
+  "repository-link": "저장소 링크",
+  "live-link": "실시간 사이트 링크",
+  "tags": "태그",
+  "project-create-success": "프로젝트가 성공적으로 생성되었습니다",
+  "project-create-failure": "문제가 발생했습니다"
 }

@@ -1,9 +1,12 @@
 {
-  "bio": "Bio",
-  "location": "Location",
-  "follow": "Follow",
-  "unfollow": "Unfollow",
-  "follower_count_one": "{{count}} Follower",
-  "follower_count_other": "{{count}} Followers",
-  "user_not_found": "User not found"
+  "bio": "소개",
+  "location": "위치",
+  "follow": "팔로우",
+  "unfollow": "언팔로우",
+  "follower_count_one": "{{count}} 팔로워",
+  "follower_count_other": "{{count}} 팔로워",
+  "user_not_found": "사용자를 찾을 수 없습니다",
+  "projects": "프로젝트",
+  "likes": "좋아요",
+  "followers": "팔로워"
 }

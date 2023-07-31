@@ -1,16 +1,16 @@
 {
-  "edit-success": "Profile updated successfully.",
-  "edit-failure": "Failed to update profile.",
-  "avatar-label": "Drop your avatar",
-  "cover-label": "Drop your cover",
-  "name-description": "We're big on real names around here, so people know who's who.",
-  "name": "Name",
-  "location": "Location",
-  "website": "Website",
+  "edit-success": "Perfil actualizado con éxito.",
+  "edit-failure": "Error al actualizar el perfil.",
+  "avatar-label": "Agrega tu avatar aquí",
+  "cover-label": "Agrega tu portada aquí",
+  "name-description": "Valoramos los nombres reales aquí, para que las personas sepan quién es quién.",
+  "name": "Nombre",
+  "location": "Ubicación",
+  "website": "Sitio web",
   "twitter": "Twitter",
   "discord": "Discord",
-  "bio": "Bio",
-  "bio-description": "Brief description for your profile.",
-  "save-profile": "Save Profile",
-  "seo-title": "Edit Profile"
+  "bio": "Biografía",
+  "bio-description": "Breve descripción para tu perfil.",
+  "save-profile": "Guardar Perfil",
+  "seo-title": "Editar Perfil"
 }

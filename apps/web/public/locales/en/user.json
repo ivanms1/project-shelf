@@ -5,5 +5,8 @@
   "unfollow": "Unfollow",
   "follower_count_one": "{{count}} Follower",
   "follower_count_other": "{{count}} Followers",
-  "user_not_found": "User not found"
+  "user_not_found": "User not found",
+  "projects": "Projects",
+  "likes": "Likes",
+  "followers": "Followers"
 }
