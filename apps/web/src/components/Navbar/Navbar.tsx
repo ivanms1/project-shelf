@@ -1,20 +1,25 @@
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 import { signIn } from 'next-auth/react';
 import { useTranslation } from 'next-i18next';
-import Image from 'next/future/image';
+import Image from 'next/image';
 import Link from 'next/link';
 import { Button, DropDown } from 'ui';
 
 import MobileMenu from '../MobileMenu';
 
 import useIsLoggedIn from '@/hooks/useIsLoggedIn';
+import { LOCALES } from 'const';
 
 const Navbar = () => {
   const { isLoggedIn, logout, currentUser, loading, session } = useIsLoggedIn();
   const [isAuthLoading, setIsAuthLoading] = useState(false);
   const [open, setOpen] = useState(false);
+  const [openLanguage, setOpenLanguage] = useState(false);
   const [isTopOpen, setIsTopOpen] = useState(false);
   const { t } = useTranslation('common');
+
+  const router = useRouter();
 
   useEffect(() => {
     if (session.status === 'unauthenticated') {
@@ -78,6 +83,34 @@ const Navbar = () => {
             >
               {t('creators')}
             </Link>
+          </div>
+        </DropDown>
+
+        <DropDown
+          open={openLanguage}
+          setOpen={setOpenLanguage}
+          parent={
+            <div className='flex  cursor-pointer items-center justify-center rounded-circle bg-grey-dark p-2'>
+              {LOCALES.filter((a) => a.code == router.locale)[0]?.flag}
+            </div>
+          }
+        >
+          <div className='flex flex-row flex-wrap justify-between gap-3 rounded-sm  bg-grey-dark py-2 px-3'>
+            {LOCALES.map((locale) => {
+              if (locale.code !== router.locale) {
+                return (
+                  <Link
+                    key={locale.code}
+                    href={router.asPath}
+                    locale={locale.code}
+                  >
+                    <div className='flex cursor-pointer items-center justify-center rounded-circle p-2  hover:bg-black'>
+                      {locale.flag}
+                    </div>
+                  </Link>
+                );
+              }
+            })}
           </div>
         </DropDown>
 
