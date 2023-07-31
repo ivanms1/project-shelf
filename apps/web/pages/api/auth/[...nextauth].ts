@@ -8,9 +8,9 @@ import MUTATION_SIGNUP from './mutationSignup.graphql';
 export default NextAuth({
   session: { strategy: 'jwt' },
   jwt: {
-    secret: process.env.JWT_SECRET,
+    secret: process.env.NEXTAUTH_SECRET,
   },
-  secret: process.env.JWT_SECRET,
+  secret: process.env.NEXTAUTH_SECRET,
   providers: [
     GithubProvider({
       clientId: process.env.GITHUB_CLIENT_ID!,
@@ -45,6 +45,9 @@ export default NextAuth({
       // @ts-expect-error TODO: find a way to add serverToken to the session type
       session.token = token?.serverToken;
       return session;
+    },
+    redirect({ baseUrl }) {
+      return baseUrl;
     },
   },
 });
