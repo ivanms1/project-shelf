@@ -45,12 +45,12 @@ export const LANG_LOCALE_STORAGE_KEY = 'project-shelf-lang';
 export const LOCALES = [
   {
     code: 'en',
-    flag: EnglishFlag,
+    flag: <EnglishFlag />,
   },
-  { code: 'ne', flag: NepalFlag },
-  { code: 'hi', flag: IndiaFlag },
-  { code: 'ko', flag: KoreaFlag },
-  { code: 'es', flag: SpainFlag },
+  { code: 'ne', flag: <NepalFlag /> },
+  { code: 'hi', flag: <IndiaFlag /> },
+  { code: 'ko', flag: <KoreaFlag /> },
+  { code: 'es', flag: <SpainFlag /> },
 ];
 
 export const NEXT_LOCALE = 'NEXT_LOCALE';
