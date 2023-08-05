@@ -18,11 +18,14 @@ import {
 import useIsLoggedIn from '@/hooks/useIsLoggedIn';
 
 import { type FormTypes, projectValidationSchema } from 'const';
+import { type NextPageWithLayout } from 'pages/_app';
+import Layout from '@/components/Layout';
+import AuthProvider from '@/components/AuthProvider';
 
 const notifySuccess = () => toast.success('Project created successfully');
 const notifyError = () => toast.error('Something went wrong');
 
-function CreateProject() {
+const CreateProject: NextPageWithLayout = () => {
   const { currentUser } = useIsLoggedIn();
   const router = useRouter();
   const { t } = useTranslation('create-project');
@@ -97,8 +100,14 @@ function CreateProject() {
       <NextSeo title={t('seo-title')} description={t('seo-description')} />
     </>
   );
-}
+};
 
-CreateProject.auth = true;
+CreateProject.getLayout = function getLayout(page: React.ReactElement) {
+  return (
+    <AuthProvider>
+      <Layout>{page}</Layout>
+    </AuthProvider>
+  );
+};
 
 export default CreateProject;

@@ -10,6 +10,7 @@ import {
 
 import TopCreator from './TopCreator';
 import ProjectCard from '@/components/ProjectCard';
+import Layout from '@/components/Layout';
 
 import useIsLoggedIn from '@/hooks/useIsLoggedIn';
 import useIsMobile from '@/hooks/useIsMobile';
@@ -19,7 +20,9 @@ import StartupIcon from '@/assets/icons/startup.svg';
 import FeedbackIcon from '@/assets/icons/feedback.svg';
 import newsletterImage from '@/assets/images/newsletter.jpeg';
 
-function Home() {
+import { NextPageWithLayout } from 'pages/_app';
+
+const Home: NextPageWithLayout = () => {
   const { t } = useTranslation('home');
   const { data: projectsData } = useGetTopProjectsForHomePageQuery();
   const { data: creatorsData } = useGetTopCreatorsForHomePageQuery();
@@ -258,7 +261,7 @@ function Home() {
       />
     </div>
   );
-}
+};
 
 const PROJECT_SHELF_STEPS = [
   {
@@ -277,5 +280,9 @@ const PROJECT_SHELF_STEPS = [
     icon: FeedbackIcon,
   },
 ];
+
+Home.getLayout = function getLayout(page: React.ReactElement) {
+  return <Layout>{page}</Layout>;
+};
 
 export default Home;
