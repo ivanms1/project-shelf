@@ -103,7 +103,7 @@ const MobileMenu = () => {
               </>
             ) : (
               <Link href='/login' passHref>
-                <Button className='px-7' size='small'>
+                <Button className='w-full px-7' size='small'>
                   {t('login')}
                 </Button>
               </Link>
