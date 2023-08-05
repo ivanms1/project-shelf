@@ -2,13 +2,14 @@ import { signIn } from 'next-auth/react';
 import { useTranslation } from 'next-i18next';
 import React from 'react';
 import { Button } from 'ui';
+import Image from 'next/future/image';
+
+import AuthProvider from '@/components/AuthProvider';
 
 import GithubIcon from '@/assets/icons/github.svg';
 import DiscordIcon from '@/assets/icons/discord-white-icon.svg';
-import bgLogin from '@/assets/images/login-bg.jpg';
-import Image from 'next/future/image';
-import { NextPageWithLayout } from 'pages/_app';
-import AuthProvider from '@/components/AuthProvider';
+
+import type { NextPageWithLayout } from 'pages/_app';
 
 const Login: NextPageWithLayout = () => {
   const { t } = useTranslation('login');
@@ -43,7 +44,7 @@ const Login: NextPageWithLayout = () => {
         </div>
       </div>
       <div className='relative w-1/2'>
-        <Image priority src={bgLogin} fill alt='library' />
+        <Image priority src='/assets/images/login-bg.jpg' fill alt='library' />
       </div>
     </div>
   );
