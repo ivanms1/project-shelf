@@ -28,7 +28,7 @@
     "pre-commit": "lint-staged"
   },
   "devDependencies": {
-    "@commitlint/cli": "^17.6.1",
+    "@commitlint/cli": "^17.6.7",
     "@commitlint/config-conventional": "^17.6.1",
     "husky": "^8.0.3",
     "lint-staged": "^13.2.3",
