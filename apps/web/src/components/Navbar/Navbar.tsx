@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/router';
 import { signIn } from 'next-auth/react';
 import { useTranslation } from 'next-i18next';
@@ -38,6 +38,10 @@ const Navbar = () => {
     await logout();
     // Not setting the isAuthLoading state to false because of the loading UI flicker on click
   };
+
+  const CurrentLocaleFlag = useMemo(() => {
+    return LOCALES.filter((a) => a.code == router.locale)[0]?.flag;
+  }, [router.locale]);
 
   return (
     <div className='flex flex-row justify-between bg-black py-5 px-12 text-white max-lg:py-3 max-lg:px-7'>
@@ -91,13 +95,14 @@ const Navbar = () => {
           setOpen={setOpenLanguage}
           parent={
             <div className='flex  cursor-pointer items-center justify-center rounded-circle bg-grey-dark p-2'>
-              {LOCALES.filter((a) => a.code == router.locale)[0]?.flag}
+              <CurrentLocaleFlag />
             </div>
           }
         >
           <div className='flex flex-row flex-wrap justify-between gap-3 rounded-sm  bg-grey-dark py-2 px-3'>
             {LOCALES.map((locale) => {
               if (locale.code !== router.locale) {
+                const Flag = locale.flag;
                 return (
                   <Link
                     key={locale.code}
@@ -105,7 +110,7 @@ const Navbar = () => {
                     locale={locale.code}
                   >
                     <div className='flex cursor-pointer items-center justify-center rounded-circle p-2  hover:bg-black'>
-                      {locale.flag}
+                      <Flag />
                     </div>
                   </Link>
                 );

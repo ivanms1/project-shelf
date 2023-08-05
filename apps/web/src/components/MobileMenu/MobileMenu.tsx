@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Button, Drawer } from 'ui';
 import { useTranslation } from 'next-i18next';
 import Link from 'next/link';
@@ -34,6 +34,10 @@ const MobileMenu = () => {
     await signIn('github');
     // Not setting the isAuthLoading state to false because of the loading UI flicker on click
   };
+
+  const CurrentLocaleFlag = useMemo(() => {
+    return LOCALES.filter((a) => a.code == router.locale)[0]?.flag;
+  }, [router.locale]);
 
   return (
     <div className='hidden items-center  max-lg:flex'>
@@ -127,7 +131,7 @@ const MobileMenu = () => {
                 className='rounded-circle bg-black p-2'
               >
                 <div className='overflow-hidden rounded-circle'>
-                  {LOCALES.filter((a) => a.code == router.locale)[0]?.flag}
+                  <CurrentLocaleFlag />
                 </div>
               </button>
             </div>
@@ -139,6 +143,7 @@ const MobileMenu = () => {
             >
               {LOCALES.map((locale) => {
                 if (locale.code !== router.locale) {
+                  const Flag = locale.flag;
                   return (
                     <Link
                       key={locale.code}
@@ -146,7 +151,7 @@ const MobileMenu = () => {
                       locale={locale.code}
                     >
                       <div className='flex cursor-pointer items-center justify-center rounded-circle bg-grey-dark p-2'>
-                        {locale.flag}
+                        <Flag />
                       </div>
                     </Link>
                   );
