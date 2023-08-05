@@ -6,6 +6,9 @@ import React from 'react';
 import { Loader, Tabs } from 'ui';
 
 import CreatorsTable from '@/pages/TopCreators/CreatorsTable';
+import Layout from '@/components/Layout';
+
+import type { NextPageWithLayout } from 'pages/_app';
 
 const YESTERDAY = Math.floor(Date.now() / 1000) - 24 * 60 * 60;
 const A_WEEK_AGO = Math.floor(Date.now() / 1000) - 7 * 24 * 60 * 60;
@@ -18,7 +21,7 @@ const TOP_CREATOR_INTERVALS: Record<number, string> = {
   3: 'all-time',
 };
 
-const TopCreators = () => {
+const TopCreators: NextPageWithLayout = () => {
   const { t } = useTranslation('top');
   const { push, query, isReady } = useRouter();
 
@@ -103,6 +106,10 @@ const TopCreators = () => {
       />
     </div>
   );
+};
+
+TopCreators.getLayout = function getLayout(page: React.ReactElement) {
+  return <Layout>{page}</Layout>;
 };
 
 export default TopCreators;

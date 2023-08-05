@@ -1,10 +1,11 @@
 import React from 'react';
 import { useTranslation } from 'next-i18next';
 import { NextSeo } from 'next-seo';
+import Layout from '@/components/Layout';
 
 const arr = Array.from(Array(8).keys()).map((_, index) => index + 1);
 
-export default function Privacy() {
+const Privacy = () => {
   const { t } = useTranslation('privacy-policy');
 
   return (
@@ -25,4 +26,10 @@ export default function Privacy() {
       <NextSeo title={t('privacy-policy')} />
     </div>
   );
-}
+};
+
+Privacy.getLayout = (page: React.ReactNode) => {
+  return <Layout>{page}</Layout>;
+};
+
+export default Privacy;

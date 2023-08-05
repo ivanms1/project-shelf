@@ -2,6 +2,9 @@ import { NextSeo } from 'next-seo';
 import { useTranslation } from 'next-i18next';
 
 import Member from '@/pages/About/Member';
+import Layout from '@/components/Layout';
+
+import type { NextPageWithLayout } from 'pages/_app';
 
 export type MemberType = {
   login: string;
@@ -29,7 +32,7 @@ interface AboutProps {
   members: MemberType[];
 }
 
-const About = ({ members }: AboutProps) => {
+const About: NextPageWithLayout<AboutProps> = ({ members }) => {
   const { t } = useTranslation('about');
 
   return (
@@ -65,6 +68,10 @@ const About = ({ members }: AboutProps) => {
       />
     </div>
   );
+};
+
+About.getLayout = function getLayout(page: React.ReactElement) {
+  return <Layout>{page}</Layout>;
 };
 
 export default About;

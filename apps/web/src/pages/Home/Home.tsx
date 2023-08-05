@@ -1,8 +1,6 @@
-import { useState } from 'react';
 import { Button, Input } from 'ui';
 import Image from 'next/future/image';
 import { NextSeo } from 'next-seo';
-import { signIn } from 'next-auth/react';
 import { useTranslation } from 'next-i18next';
 import Link from 'next/link';
 import {
@@ -12,6 +10,7 @@ import {
 
 import TopCreator from './TopCreator';
 import ProjectCard from '@/components/ProjectCard';
+import Layout from '@/components/Layout';
 
 import useIsLoggedIn from '@/hooks/useIsLoggedIn';
 import useIsMobile from '@/hooks/useIsMobile';
@@ -21,13 +20,14 @@ import StartupIcon from '@/assets/icons/startup.svg';
 import FeedbackIcon from '@/assets/icons/feedback.svg';
 import newsletterImage from '@/assets/images/newsletter.jpeg';
 
-function Home() {
+import { NextPageWithLayout } from 'pages/_app';
+
+const Home: NextPageWithLayout = () => {
   const { t } = useTranslation('home');
-  const [isAuthLoading, setIsAuthLoading] = useState(false);
   const { data: projectsData } = useGetTopProjectsForHomePageQuery();
   const { data: creatorsData } = useGetTopCreatorsForHomePageQuery();
 
-  const { isLoggedIn, loading } = useIsLoggedIn();
+  const { isLoggedIn } = useIsLoggedIn();
 
   const isMobile = useIsMobile();
 
@@ -37,12 +37,6 @@ function Home() {
     projectsData?.getTopProjectsForHomePage?.results.slice(1, 4) ?? [];
 
   const coverProject = projectsData?.getTopProjectsForHomePage?.results?.[5];
-
-  const handleLogin = async () => {
-    setIsAuthLoading(true);
-    await signIn('github');
-    // Not setting the state to false because of the loading UI flicker on click
-  };
 
   const homeButtonAndActionButtons = (
     <>
@@ -55,13 +49,11 @@ function Home() {
           <Button className='max-lg:w-full'>{t('common:add-project')}</Button>
         </Link>
       ) : (
-        <Button
-          className='w-fit max-lg:mb-10 max-lg:w-full'
-          onClick={handleLogin}
-          isLoading={isAuthLoading || loading}
-        >
-          {t('common:login')}
-        </Button>
+        <Link href='/login' passHref>
+          <Button className='w-fit max-lg:mb-10 max-lg:w-full'>
+            {t('common:login')}
+          </Button>
+        </Link>
       )}
       <div className='flex w-1/2 gap-[30px] max-lg:w-auto'>
         <div className='flex flex-col gap-1'>
@@ -269,7 +261,7 @@ function Home() {
       />
     </div>
   );
-}
+};
 
 const PROJECT_SHELF_STEPS = [
   {
@@ -288,5 +280,9 @@ const PROJECT_SHELF_STEPS = [
     icon: FeedbackIcon,
   },
 ];
+
+Home.getLayout = function getLayout(page: React.ReactElement) {
+  return <Layout>{page}</Layout>;
+};
 
 export default Home;

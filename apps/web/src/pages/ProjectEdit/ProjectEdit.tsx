@@ -7,6 +7,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { LoaderOverlay } from 'ui';
 
 import ProjectForm from '@/components/ProjectForm';
+import Layout from '@/components/Layout';
+import AuthProvider from '@/components/AuthProvider';
 
 import {
   useGetProjectQuery,
@@ -15,11 +17,12 @@ import {
 } from 'apollo-hooks';
 
 import { type FormTypes, projectValidationSchema } from 'const';
+import type { NextPageWithLayout } from 'pages/_app';
 
 const notifySuccess = () => toast.success('Project edited successfully');
 const notifyError = () => toast.error('Something went wrong');
 
-const ProjectEdit = () => {
+const ProjectEdit: NextPageWithLayout = () => {
   const { query, push } = useRouter();
 
   const { data } = useGetProjectQuery({
@@ -143,6 +146,12 @@ const ProjectEdit = () => {
   );
 };
 
-ProjectEdit.auth = true;
+ProjectEdit.getLayout = function getLayout(page: React.ReactElement) {
+  return (
+    <AuthProvider>
+      <Layout>{page}</Layout>
+    </AuthProvider>
+  );
+};
 
 export default ProjectEdit;

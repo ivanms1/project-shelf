@@ -3,7 +3,11 @@ import { useTranslation } from 'next-i18next';
 import { TERMS_AND_CONDITIONS } from 'const';
 import { NextSeo } from 'next-seo';
 
-function TermsAndConditions() {
+import Layout from '@/components/Layout';
+
+import type { NextPageWithLayout } from 'pages/_app';
+
+const TermsAndConditions: NextPageWithLayout = () => {
   const { t } = useTranslation('terms-and-conditions');
 
   return (
@@ -28,6 +32,10 @@ function TermsAndConditions() {
       <NextSeo title={t('terms-and-conditions')} />
     </div>
   );
-}
+};
+
+TermsAndConditions.getLayout = function getLayout(page: React.ReactElement) {
+  return <Layout>{page}</Layout>;
+};
 
 export default TermsAndConditions;

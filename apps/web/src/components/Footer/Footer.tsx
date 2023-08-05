@@ -5,9 +5,16 @@ import React from 'react';
 import DiscordIcon from '@/assets/icons/discord-icon.svg';
 import InstagramIcon from '@/assets/icons/instagram-icon.svg';
 import TwitterIcon from '@/assets/icons/twitter-icon.svg';
+import GithubIcon from '@/assets/icons/github.svg';
+
 import { Button, Input } from 'ui';
 
 const SOCIALS = [
+  {
+    id: 'github',
+    icon: GithubIcon,
+    link: 'https://github.com/ivanms1/project-shelf',
+  },
   {
     id: 'twitter',
     icon: TwitterIcon,
@@ -48,7 +55,7 @@ const Footer = () => {
                     rel='noreferrer'
                     className='hover:text-red-500'
                   >
-                    <Icon className='h-6 w-6  ' />
+                    <Icon className='h-6 w-6 fill-grey-light' />
                   </a>
                 );
               })}

@@ -19,7 +19,7 @@ enum Role {
 
 model User {
   id              String    @id @default(cuid())
-  providerId      Int       @unique
+  providerId      String       @unique
   provider        String
   avatar          String?
   cover           String?
@@ -37,8 +37,8 @@ model User {
   projects        Project[]
   followers       User[]    @relation(name: "UserFollower")
   following       User[]    @relation(name: "UserFollowing")
-  UserFollower    User?     @relation("UserFollower", fields: [userFollowerId], references: [id])
-  UserFollowing   User?     @relation("UserFollowing", fields: [userFollowingId], references: [id])
+  UserFollower    User?     @relation("UserFollower", fields: [userFollowerId], references: [id], onDelete: Cascade)
+  UserFollowing   User?     @relation("UserFollowing", fields: [userFollowingId], references: [id], onDelete: Cascade)
   userFollowerId  String?
   userFollowingId String?
   Like            Like[]    @relation("UserLikeId")
@@ -67,11 +67,11 @@ model Project {
 model Like {
   id        String   @id @default(cuid())
   createdAt DateTime @default(now())
-  user      User     @relation("UserLikeId", fields: [userId], references: [id])
+  user      User     @relation("UserLikeId", fields: [userId], references: [id], onDelete: Cascade)
   userId    String
   project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
   projectId String
-  author    User     @relation("AuthorLikeId", fields: [authorId], references: [id])
+  author    User     @relation("AuthorLikeId", fields: [authorId], references: [id], onDelete: Cascade)
   authorId  String
 
   @@unique([userId, projectId])
