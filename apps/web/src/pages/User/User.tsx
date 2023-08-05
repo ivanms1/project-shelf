@@ -7,10 +7,13 @@ import { Loader } from 'ui';
 
 import ProjectsGrid from '@/components/ProjectsGrid';
 import UserInfo from './UserInfo';
+import Layout from '@/components/Layout';
+
+import type { NextPageWithLayout } from 'pages/_app';
 
 const COVER_PLACEHOLDER = 'https://via.placeholder.com/1665x288';
 
-const User = () => {
+const User: NextPageWithLayout = () => {
   const { query } = useRouter();
   const { t } = useTranslation('user');
 
@@ -122,6 +125,10 @@ const User = () => {
       />
     </div>
   );
+};
+
+User.getLayout = function getLayout(page: React.ReactElement) {
+  return <Layout>{page}</Layout>;
 };
 
 export default User;

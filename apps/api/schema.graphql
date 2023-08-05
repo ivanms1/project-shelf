@@ -55,10 +55,10 @@ type Mutation {
   followUser(input: FollowUserInput!): User!
 
   """Login in as a admin"""
-  loginAsAdmin(token: String!): String!
+  loginAsAdmin(provider: Providers!, token: String!): String!
 
   """Create a new user"""
-  signup(token: String!): String!
+  signup(provider: Providers!, token: String!): String!
 
   """Update a project"""
   updateProject(input: CreateProjectInput!, projectId: String!): Project!
@@ -101,6 +101,12 @@ type ProjectsResponse {
   prevCursor: String
   results: [Project!]!
   totalCount: Int!
+}
+
+"""signup providers"""
+enum Providers {
+  discord
+  github
 }
 
 type Query {
