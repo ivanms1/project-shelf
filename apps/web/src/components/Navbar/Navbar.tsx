@@ -56,7 +56,7 @@ const Navbar = () => {
         </>
       </Link>
       <div className='flex flex-row items-center gap-[10px] max-lg:hidden'>
-        <Link href='/search' className='py-5 px-3'>
+        <Link href='/search' className='py-5 px-3 hover:text-primary'>
           {t('search')}
         </Link>
 
@@ -64,7 +64,7 @@ const Navbar = () => {
           open={isTopOpen}
           setOpen={setIsTopOpen}
           parent={
-            <Button variant='ghost' className='px-3'>
+            <Button variant='ghost' className='px-3 hover:text-primary'>
               {t('top')}
             </Button>
           }
