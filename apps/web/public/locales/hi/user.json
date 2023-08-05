@@ -1,9 +1,12 @@
 {
-  "bio": "Bio",
-  "location": "Location",
-  "follow": "Follow",
-  "unfollow": "Unfollow",
-  "follower_count_one": "{{count}} Follower",
-  "follower_count_other": "{{count}} Followers",
-  "user_not_found": "User not found"
+  "bio": "जीवनी",
+  "location": "स्थान",
+  "follow": "फॉलो करें",
+  "unfollow": "अनफॉलो करें",
+  "follower_count_one": "{{count}} फॉलोअर",
+  "follower_count_other": "{{count}} फॉलोअर्स",
+  "user_not_found": "उपयोगकर्ता नहीं मिला",
+  "projects": "प्रोजेक्ट्स",
+  "likes": "पसंद",
+  "followers": "फॉलोअर्स"
 }
