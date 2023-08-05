@@ -5,7 +5,7 @@ import { Button } from 'ui';
 
 import GithubIcon from '@/assets/icons/github.svg';
 import DiscordIcon from '@/assets/icons/discord-white-icon.svg';
-import bgLogin from '@/assets/images/login-bg.jpeg';
+import bgLogin from '@/assets/images/login-bg.jpg';
 import Image from 'next/future/image';
 import { NextPageWithLayout } from 'pages/_app';
 import AuthProvider from '@/components/AuthProvider';
@@ -43,7 +43,7 @@ const Login: NextPageWithLayout = () => {
         </div>
       </div>
       <div className='relative w-1/2'>
-        <Image src={bgLogin} fill alt='library' />
+        <Image priority src={bgLogin} fill alt='library' />
       </div>
     </div>
   );
