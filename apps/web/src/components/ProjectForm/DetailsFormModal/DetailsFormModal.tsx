@@ -39,13 +39,13 @@ const DetailsFormModal = ({
       <div className='mb-11 flex flex-col gap-8'>
         <FormInput
           type='url'
-          placeholder={t('repo-link')}
+          placeholder={t('repository-link')}
           register={register('repoLink')}
           error={errors.repoLink}
         />
         <FormInput
           type='url'
-          placeholder={t('site-link')}
+          placeholder={t('live-link')}
           register={register('siteLink')}
           error={errors.siteLink}
         />

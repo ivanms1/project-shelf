@@ -19,13 +19,12 @@ import useIsLoggedIn from '@/hooks/useIsLoggedIn';
 
 import { type FormTypes, projectValidationSchema } from 'const';
 
-const notifySuccess = () => toast.success('Project created successfully');
-const notifyError = () => toast.error('Something went wrong');
-
 function CreateProject() {
   const { currentUser } = useIsLoggedIn();
   const router = useRouter();
   const { t } = useTranslation('create-project');
+  const notifySuccess = () => toast.success(t('project-create-success'));
+  const notifyError = () => toast.error(t('project-create-failure'));
   const methods = useForm<FormTypes>({
     resolver: zodResolver(projectValidationSchema),
   });

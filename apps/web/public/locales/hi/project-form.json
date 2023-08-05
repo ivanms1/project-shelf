@@ -1,12 +1,13 @@
 {
-  "project-question": "What's your project?",
-  "project-sneak-peek": "Upload a sneak peek of what you've built",
-  "project-title-placeholder": "Give me a name",
-  "thumbnail-label": "Drop your thumbnail",
-  "drag-and-drop": "Drag and drop an image or browse",
-  "description-placeholder": "Add a brief description about your project and what went into creating it",
-  "final-details": "Final details",
-  "repo-link": "Repository Link",
-  "site-link": "Live Site Link",
-  "tags": "Tags"
+  "whats-your-project": "आपका प्रोजेक्ट क्या है?",
+  "upload-a-sneak": "वह चीज़ का एक छोटा सा अंश अपलोड करें जो आपने बनाया है",
+  "drag-drop": "एक तस्वीर खींचें और छोड़ें या ब्राउज़ करें",
+  "give-a-name": "मुझे एक नाम दें",
+  "desc": "अपने प्रोजेक्ट के बारे में एक संक्षेप्त विवरण और उसे बनाने में जो कुछ गया है, उसका विवरण डालें",
+  "final-details": "अंतिम विवरण",
+  "repository-link": "प्रतिलिपि भंडार का लिंक",
+  "live-link": "लाइव साइट का लिंक",
+  "tags": "टैग",
+  "project-create-success": "प्रोजेक्ट सफलतापूर्वक बनाया गया",
+  "project-create-failure": "कुछ ग़लत हो गया"
 }

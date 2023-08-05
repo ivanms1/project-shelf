@@ -1,9 +1,12 @@
 {
-  "bio": "Bio",
-  "location": "Location",
-  "follow": "Follow",
-  "unfollow": "Unfollow",
-  "follower_count_one": "{{count}} Follower",
-  "follower_count_other": "{{count}} Followers",
-  "user_not_found": "User not found"
+  "bio": "Biografía",
+  "location": "Ubicación",
+  "follow": "Seguir",
+  "unfollow": "Dejar de seguir",
+  "follower_count_one": "{{count}} Seguidor",
+  "follower_count_other": "{{count}} Seguidores",
+  "user_not_found": "Usuario no encontrado",
+  "projects": "Proyectos",
+  "likes": "Me gusta",
+  "followers": "Seguidores"
 }
