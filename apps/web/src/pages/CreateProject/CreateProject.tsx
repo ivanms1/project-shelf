@@ -8,6 +8,8 @@ import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import type { FetchResult } from '@apollo/client';
 
 import ProjectForm from 'src/components/ProjectForm';
+import Layout from '@/components/Layout';
+import AuthProvider from '@/components/AuthProvider';
 
 import {
   UploadImageMutation,
@@ -19,16 +21,13 @@ import useIsLoggedIn from '@/hooks/useIsLoggedIn';
 
 import { type FormTypes, projectValidationSchema } from 'const';
 import { type NextPageWithLayout } from 'pages/_app';
-import Layout from '@/components/Layout';
-import AuthProvider from '@/components/AuthProvider';
-
-const notifySuccess = () => toast.success('Project created successfully');
-const notifyError = () => toast.error('Something went wrong');
 
 const CreateProject: NextPageWithLayout = () => {
   const { currentUser } = useIsLoggedIn();
   const router = useRouter();
   const { t } = useTranslation('create-project');
+  const notifySuccess = () => toast.success(t('project-create-success'));
+  const notifyError = () => toast.error(t('project-create-failure'));
   const methods = useForm<FormTypes>({
     resolver: zodResolver(projectValidationSchema),
   });

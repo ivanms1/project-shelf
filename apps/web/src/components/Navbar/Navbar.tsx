@@ -1,19 +1,24 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
-import Image from 'next/future/image';
+import Image from 'next/image';
 import Link from 'next/link';
 import { Button, DropDown } from 'ui';
 
 import MobileMenu from '../MobileMenu';
 
 import useIsLoggedIn from '@/hooks/useIsLoggedIn';
+import { LOCALES } from 'const';
 
 const Navbar = () => {
   const { isLoggedIn, logout, currentUser, loading, session } = useIsLoggedIn();
   const [isAuthLoading, setIsAuthLoading] = useState(false);
   const [open, setOpen] = useState(false);
+  const [openLanguage, setOpenLanguage] = useState(false);
   const [isTopOpen, setIsTopOpen] = useState(false);
   const { t } = useTranslation('common');
+
+  const router = useRouter();
 
   useEffect(() => {
     if (session.status === 'unauthenticated') {
@@ -26,6 +31,10 @@ const Navbar = () => {
     await logout();
     // Not setting the isAuthLoading state to false because of the loading UI flicker on click
   };
+
+  const CurrentLocaleFlag = useMemo(() => {
+    return LOCALES.filter((a) => a.code == router.locale)[0]?.flag;
+  }, [router.locale]);
 
   return (
     <div className='flex flex-row justify-between bg-black py-5 px-12 text-white max-lg:py-3 max-lg:px-7'>
@@ -71,6 +80,35 @@ const Navbar = () => {
             >
               {t('creators')}
             </Link>
+          </div>
+        </DropDown>
+
+        <DropDown
+          open={openLanguage}
+          setOpen={setOpenLanguage}
+          parent={
+            <div className='flex  cursor-pointer items-center justify-center rounded-circle bg-grey-dark p-2'>
+              <CurrentLocaleFlag />
+            </div>
+          }
+        >
+          <div className='flex flex-row flex-wrap justify-between gap-3 rounded-sm  bg-grey-dark py-2 px-3'>
+            {LOCALES.map((locale) => {
+              if (locale.code !== router.locale) {
+                const Flag = locale.flag;
+                return (
+                  <Link
+                    key={locale.code}
+                    href={router.asPath}
+                    locale={locale.code}
+                  >
+                    <div className='flex cursor-pointer items-center justify-center rounded-circle p-2  hover:bg-black'>
+                      <Flag />
+                    </div>
+                  </Link>
+                );
+              }
+            })}
           </div>
         </DropDown>
 

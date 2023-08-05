@@ -67,7 +67,7 @@ const AvatarDropzone = ({
             />
             <div
               className={classNames(
-                'absolute bottom-0 flex h-full w-full items-center justify-center bg-[rgba(0,0,0,0.6)] text-xl opacity-0 transition-opacity group-hover:opacity-100',
+                'absolute bottom-0 flex h-full w-full items-center justify-center  bg-[rgba(0,0,0,0.6)] p-3 text-center text-xl opacity-0 transition-opacity group-hover:opacity-100',
                 overlayClassName
               )}
             >
