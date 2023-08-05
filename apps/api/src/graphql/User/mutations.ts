@@ -5,9 +5,9 @@ import builder from '../../builder';
 import db from '../../db';
 
 import decodeAccessToken from '../../helpers/decodeAccessToken';
+import { getDataFromProvider } from '../../helpers/getDataFromProvider';
 
 import { Role } from './queries';
-import { getDataFromProvider } from '@/helpers/getDataFromProvider';
 
 export const Providers = builder.enumType('Providers', {
   values: ['discord', 'github'] as const,
