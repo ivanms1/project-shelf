@@ -37,7 +37,7 @@ export const Button = React.forwardRef<HTMLButtonElement, Button>(
       <button
         ref={ref}
         className={classNames(
-          'rounded-[20px] px-12 font-semibold disabled:cursor-not-allowed disabled:opacity-50',
+          'rounded-[20px] px-12 font-semibold transition-all disabled:cursor-not-allowed disabled:opacity-50',
           BUTTON_SIZES[size],
           BUTON_VARIANTS[variant],
           { 'active:translate-y-0.5': !noAnimation },

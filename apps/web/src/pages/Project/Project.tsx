@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Image from 'next/future/image';
 import Link from 'next/link';
 import { NextSeo } from 'next-seo';
+import { type NextPageWithLayout } from 'pages/_app';
 import {
   type Project,
   useDeleteProjectsMutation,
@@ -12,19 +13,20 @@ import { useRouter } from 'next/router';
 import { Button, Modal, LoaderOverlay } from 'ui';
 import toast from 'react-hot-toast';
 import { useTranslation } from 'next-i18next';
-import useIsLoggedIn from '@/hooks/useIsLoggedIn';
 
 import LikeButton from './LikeButton/LikeButton';
+import ReportModal from '@/components/ReportModal';
+import LoginModal from '@/components/Modals/LoginModal';
+import ShareModal from '@/components/ShareModal';
+import Layout from '@/components/Layout';
 
 import useIsProjectAuthor from '@/hooks/useIsProjectAuthor';
+import useIsLoggedIn from '@/hooks/useIsLoggedIn';
 
 import WorldIcon from '@/assets/icons/world-icon.svg';
 import GithubIcon from '@/assets/icons/github.svg';
 import ReportIcon from '@/assets/icons/report.svg';
 import ShareIcon from '@/assets/icons/share.svg';
-import ReportModal from '@/components/ReportModal';
-import LoginModal from '@/components/Modals/LoginModal';
-import ShareModal from '@/components/ShareModal';
 
 const DATE_OPTIONS: Intl.DateTimeFormatOptions = {
   weekday: 'long',
@@ -33,7 +35,7 @@ const DATE_OPTIONS: Intl.DateTimeFormatOptions = {
   day: 'numeric',
 };
 
-function Project() {
+const Project: NextPageWithLayout = () => {
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [openReportModal, setOpenReportModal] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
@@ -309,6 +311,10 @@ function Project() {
       />
     </>
   );
-}
+};
+
+Project.getLayout = function getLayout(page: React.ReactElement) {
+  return <Layout>{page}</Layout>;
+};
 
 export default Project;

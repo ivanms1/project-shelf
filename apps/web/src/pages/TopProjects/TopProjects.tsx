@@ -7,8 +7,11 @@ import { NextSeo } from 'next-seo';
 import useIsMobile from '@/hooks/useIsMobile';
 
 import ProjectsTable from './ProjectsTable';
+import Layout from '@/components/Layout';
 
 import { YESTERDAY, A_WEEK_AGO, A_MONTH_AGO } from 'const';
+
+import type { NextPageWithLayout } from 'pages/_app';
 
 const TOP_CREATOR_INTERVALS: Record<number, string> = {
   0: 'today',
@@ -17,7 +20,7 @@ const TOP_CREATOR_INTERVALS: Record<number, string> = {
   3: 'all-time',
 };
 
-const TopProjects = () => {
+const TopProjects: NextPageWithLayout = () => {
   const { t } = useTranslation('top');
   const { push, query, isReady } = useRouter();
 
@@ -96,6 +99,10 @@ const TopProjects = () => {
       />
     </div>
   );
+};
+
+TopProjects.getLayout = function getLayout(page: React.ReactElement) {
+  return <Layout>{page}</Layout>;
 };
 
 export default TopProjects;

@@ -54,7 +54,7 @@ export const getUserPaginationArgs = (
 
 export const getReportsPaginationArgs = (
   args: SearchArgs,
-  filter: Prisma.UserScalarWhereInput | undefined,
+  filter: Prisma.ReportScalarWhereInput | undefined,
   isFirst: boolean
 ) => {
   return {

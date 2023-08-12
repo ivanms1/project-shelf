@@ -5,7 +5,7 @@ const prisma = new PrismaClient();
 
 const users = Array.from({ length: 10 }).map(() => {
   return {
-    providerId: +faker.helpers.unique(() => faker.random.numeric(5)),
+    providerId: faker.helpers.unique(() => faker.random.numeric(5)),
     provider: 'github',
     name: faker.name.fullName(),
     email: faker.internet.email(),
