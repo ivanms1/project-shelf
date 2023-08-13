@@ -298,7 +298,25 @@ const Users = () => {
       <div className='flex h-[600px] w-full'>
         <Table instance={instance} loading={loading} onFetchMore={onRefetch} />
       </div>
-      <NextSeo title='Users' />
+      <NextSeo
+        title='Admin | Users'
+        description='Admin users page'
+        openGraph={{
+          type: 'website',
+          title: 'Admin | Users',
+          description:
+            'Control the users status, project and ban them if necessary',
+          site_name: 'Admin users page',
+          images: [
+            {
+              url: 'https://project-shelf-dev.netlify.app/assets/images/shelf.png',
+              width: 200,
+              height: 200,
+              alt: 'Project Shelf',
+            },
+          ],
+        }}
+      />
     </div>
   );
 };

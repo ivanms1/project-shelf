@@ -267,7 +267,25 @@ const Projects = () => {
           <Button onClick={() => setDeleteProjectId(null)}>No</Button>
         </div>
       </Modal>
-      <NextSeo title='Projects' />
+      <NextSeo
+        title='Admin | Projects'
+        description='Admin projects page'
+        openGraph={{
+          type: 'website',
+          title: 'Admin | Projects',
+          description:
+            'Control the users status, project and ban them if necessary',
+          site_name: 'Admin projects page',
+          images: [
+            {
+              url: 'https://project-shelf-dev.netlify.app/assets/images/shelf.png',
+              width: 200,
+              height: 200,
+              alt: 'Project Shelf',
+            },
+          ],
+        }}
+      />
     </div>
   );
 };
