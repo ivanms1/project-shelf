@@ -2,6 +2,7 @@ import { initializeApollo } from 'apollo';
 import { LoginAsAdminMutation } from 'apollo-hooks';
 import NextAuth from 'next-auth';
 import GithubProvider from 'next-auth/providers/github';
+import DiscordProvider from 'next-auth/providers/discord';
 
 import MUTATION_LOGIN_AS_ADMIN from './mutationLoginAsAdmin.graphql';
 
@@ -16,6 +17,15 @@ export default NextAuth({
       clientId: process.env.GITHUB_CLIENT_ID,
       clientSecret: process.env.GITHUB_CLIENT_SECRET,
     }),
+    DiscordProvider({
+      clientId: process.env.DISCORD_CLIENT_ID!,
+      clientSecret: process.env.DISCORD_CLIENT_SECRET!,
+      authorization: {
+        params: {
+          scope: 'identify email',
+        },
+      },
+    }),
   ],
   callbacks: {
     async signIn({ account }) {
@@ -25,6 +35,7 @@ export default NextAuth({
         mutation: MUTATION_LOGIN_AS_ADMIN,
         variables: {
           token: account.access_token,
+          provider: account?.provider,
         },
       });
       if (account) {
