@@ -6,8 +6,11 @@ import { NextSeo } from 'next-seo';
 import { useTranslation } from 'next-i18next';
 
 import ProjectsGrid from '@/components/ProjectsGrid';
+import Layout from '@/components/Layout';
 
-function Search() {
+import type { NextPageWithLayout } from 'pages/_app';
+
+const Search: NextPageWithLayout = () => {
   const { query, push } = useRouter();
 
   const { t } = useTranslation('search');
@@ -97,6 +100,10 @@ function Search() {
       <NextSeo title={t('seo-title')} />
     </div>
   );
-}
+};
+
+Search.getLayout = function getLayout(page: React.ReactElement) {
+  return <Layout>{page}</Layout>;
+};
 
 export default Search;

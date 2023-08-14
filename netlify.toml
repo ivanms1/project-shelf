@@ -1,4 +1,0 @@
-# netlify.toml
-
-[functions]
-included_files = ["apps/web/next-i18next.config.js", "apps/web/public/locales/**","apps/admin/next-i18next.config.js", "apps/admin/public/locales/**"]

@@ -5,19 +5,7 @@ import { schema } from './schema';
 
 const PORT = process.env.PORT || 8080;
 
-const DEV_ORIGINS = [
-  'http://localhost:3000',
-  'https://studio.apollographql.com',
-  'http://localhost:4000',
-];
-
-const PROD_ORIGINS = [
-  'https://project-shelf-dev.netlify.app',
-  'https://project-shelf-web.vercel.app',
-  'https://project-shelf-admin.vercel.app',
-  'https://project-shelf.fly.dev',
-  'https://www.projectshelf.dev',
-];
+const ORIGINS = JSON.parse(process.env.ORIGINS || '[]');
 
 const apollo = new ApolloServer({
   schema,
@@ -34,8 +22,7 @@ apollo.start().then(() =>
   apollo.applyMiddleware({
     app,
     cors: {
-      origin:
-        process.env.NODE_ENV === 'production' ? PROD_ORIGINS : DEV_ORIGINS,
+      origin: ORIGINS,
       credentials: true,
     },
   })

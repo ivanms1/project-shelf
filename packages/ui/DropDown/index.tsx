@@ -1,14 +1,20 @@
 import * as React from 'react';
+
 import {
   useFloating,
   useInteractions,
-  autoUpdate,
+  useClick,
+  useDismiss,
+  FloatingFocusManager,
+  FloatingPortal,
+  useRole,
   offset,
   flip,
-  shift,
   useHover,
+  autoUpdate,
+  shift,
   safePolygon,
-} from '@floating-ui/react-dom-interactions';
+} from '@floating-ui/react';
 
 interface IDropDown {
   parent: JSX.Element;
@@ -17,50 +23,51 @@ interface IDropDown {
   setOpen: (e: boolean) => void;
 }
 
-const Z_INDEX = 999;
-
 export const DropDown = ({ open, setOpen, parent, children }: IDropDown) => {
-  const { x, y, reference, floating, strategy, context } =
-    useFloating<HTMLButtonElement>({
-      open: open,
-      onOpenChange: setOpen,
-      middleware: [offset(5), flip(), shift()],
-      whileElementsMounted: autoUpdate,
-      strategy: 'fixed',
-    });
-
-  const hover = useHover(context, {
-    handleClose: safePolygon(),
+  const { refs, floatingStyles, context } = useFloating({
+    open,
+    onOpenChange: setOpen,
+    middleware: [offset({ mainAxis: 30, crossAxis: 0 }), flip(), shift()],
+    whileElementsMounted: autoUpdate,
   });
 
-  const { getReferenceProps, getFloatingProps } = useInteractions([hover]);
+  // Handles opening the floating element via the Choose Emoji button.
+  const { getReferenceProps, getFloatingProps } = useInteractions([
+    useClick(context),
+    useHover(context, {
+      enabled: true,
+      delay: { open: 75 },
+      handleClose: safePolygon({ blockPointerEvents: true }),
+    }),
+    useDismiss(context),
+    useRole(context),
+  ]);
 
   return (
     <>
-      <div
-        {...getReferenceProps({
-          ref: reference,
-        })}
-      >
+      <div ref={refs.setReference} {...getReferenceProps()}>
         {parent}
       </div>
 
-      {open && (
-        <div
-          {...getFloatingProps({
-            ref: floating,
-
-            style: {
-              position: strategy,
-              top: y ? y + 20 : 0,
-              left: x ?? 0,
-              zIndex: Z_INDEX,
-            },
-          })}
-        >
-          {children}
-        </div>
-      )}
+      <FloatingPortal>
+        {open && (
+          <FloatingFocusManager
+            context={context}
+            modal={false}
+            initialFocus={-1}
+          >
+            <div
+              ref={refs.setFloating}
+              style={floatingStyles}
+              {...getFloatingProps({
+                onClick: () => setOpen(false),
+              })}
+            >
+              {children}
+            </div>
+          </FloatingFocusManager>
+        )}
+      </FloatingPortal>
     </>
   );
 };

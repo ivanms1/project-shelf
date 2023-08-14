@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'next-i18next';
-import { signIn } from 'next-auth/react';
+import Link from 'next/link';
 import Image from 'next/future/image';
 
 import { Modal, Button } from 'ui';
@@ -38,9 +38,9 @@ const LoginModal = ({ isOpen, onClose, ...props }: LoginModalProps) => {
       <p className='text-center text-base lg:text-base'>
         {t('create-account-or-login')}
       </p>
-      <Button onClick={() => signIn('github')} className='w-full'>
-        {t('login')}
-      </Button>
+      <Link href='/login' passHref>
+        <Button className='w-full'>{t('login')}</Button>
+      </Link>
     </Modal>
   );
 };

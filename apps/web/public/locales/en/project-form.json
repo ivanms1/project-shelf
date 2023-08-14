@@ -1,12 +1,13 @@
 {
-  "project-question": "What's your project?",
-  "project-sneak-peek": "Upload a sneak peek of what you've built",
-  "project-title-placeholder": "Give me a name",
-  "thumbnail-label": "Drop your thumbnail",
-  "drag-and-drop": "Drag and drop an image or browse",
-  "description-placeholder": "Add a brief description about your project and what went into creating it",
+  "whats-your-project": "What's your project?",
+  "upload-a-sneak": "Upload a sneak peek of what you've built",
+  "drag-drop": "Drag and drop an image or browse",
+  "give-a-name": "Give me a name",
+  "desc": "Add a brief description about your project and what went into creating it",
   "final-details": "Final details",
-  "repo-link": "Repository Link",
-  "site-link": "Live Site Link",
-  "tags": "Tags"
+  "repository-link": "Repository Link",
+  "live-link": "Live Site Link",
+  "tags": "Tags",
+  "project-create-success": "Project created successfully",
+  "project-create-failure": "Something went wrong"
 }

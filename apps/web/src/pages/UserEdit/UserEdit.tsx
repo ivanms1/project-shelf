@@ -13,13 +13,16 @@ import {
   useUploadImageMutation,
 } from 'apollo-hooks';
 
-import useIsLoggedIn from '@/hooks/useIsLoggedIn';
-
 import AvatarDropzone from 'src/components/AvatarDropzone';
+import Layout from '@/components/Layout';
+import AuthProvider from '@/components/AuthProvider';
+
+import useIsLoggedIn from '@/hooks/useIsLoggedIn';
 
 import fileReader from '@/helpers/fileReader';
 
 import type { FetchResult } from '@apollo/client';
+import type { NextPageWithLayout } from 'pages/_app';
 
 const COVER_PLACEHOLDER = 'https://via.placeholder.com/1665x288';
 
@@ -51,7 +54,7 @@ const validationSchema = zod
   })
   .required();
 
-const UserEdit = () => {
+const UserEdit: NextPageWithLayout = () => {
   const { currentUser } = useIsLoggedIn();
 
   const { t } = useTranslation('user-edit');
@@ -246,6 +249,12 @@ const UserEdit = () => {
   );
 };
 
-UserEdit.auth = true;
+UserEdit.getLayout = function getLayout(page: React.ReactElement) {
+  return (
+    <AuthProvider>
+      <Layout>{page}</Layout>
+    </AuthProvider>
+  );
+};
 
 export default UserEdit;

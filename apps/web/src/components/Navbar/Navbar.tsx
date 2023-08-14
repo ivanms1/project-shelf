@@ -1,32 +1,40 @@
-import { useState } from 'react';
-import { signIn } from 'next-auth/react';
+import { useEffect, useMemo, useState } from 'react';
+import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
-import Image from 'next/future/image';
+import Image from 'next/image';
 import Link from 'next/link';
 import { Button, DropDown } from 'ui';
 
 import MobileMenu from '../MobileMenu';
 
 import useIsLoggedIn from '@/hooks/useIsLoggedIn';
+import { LOCALES } from 'const';
 
 const Navbar = () => {
-  const { isLoggedIn, logout, currentUser } = useIsLoggedIn();
+  const { isLoggedIn, logout, currentUser, loading, session } = useIsLoggedIn();
   const [isAuthLoading, setIsAuthLoading] = useState(false);
   const [open, setOpen] = useState(false);
+  const [openLanguage, setOpenLanguage] = useState(false);
   const [isTopOpen, setIsTopOpen] = useState(false);
   const { t } = useTranslation('common');
 
-  const handleLogin = async () => {
-    setIsAuthLoading(true);
-    await signIn('github');
-    // Not setting the isAuthLoading state to false because of the loading UI flicker on click
-  };
+  const router = useRouter();
+
+  useEffect(() => {
+    if (session.status === 'unauthenticated') {
+      setIsAuthLoading(false);
+    }
+  }, [session.status]);
 
   const handleLogout = async () => {
     setIsAuthLoading(true);
     await logout();
     // Not setting the isAuthLoading state to false because of the loading UI flicker on click
   };
+
+  const CurrentLocaleFlag = useMemo(() => {
+    return LOCALES.filter((a) => a.code == router.locale)[0]?.flag;
+  }, [router.locale]);
 
   return (
     <div className='flex flex-row justify-between bg-black py-5 px-12 text-white max-lg:py-3 max-lg:px-7'>
@@ -45,7 +53,7 @@ const Navbar = () => {
         </>
       </Link>
       <div className='flex flex-row items-center gap-[10px] max-lg:hidden'>
-        <Link href='/search' className='py-5 px-3'>
+        <Link href='/search' className='py-5 px-3 hover:text-primary'>
           {t('search')}
         </Link>
 
@@ -53,7 +61,7 @@ const Navbar = () => {
           open={isTopOpen}
           setOpen={setIsTopOpen}
           parent={
-            <Button variant='ghost' className='px-3'>
+            <Button variant='ghost' className='px-3 hover:text-primary'>
               {t('top')}
             </Button>
           }
@@ -75,6 +83,35 @@ const Navbar = () => {
           </div>
         </DropDown>
 
+        <DropDown
+          open={openLanguage}
+          setOpen={setOpenLanguage}
+          parent={
+            <div className='flex  cursor-pointer items-center justify-center rounded-circle bg-grey-dark p-2'>
+              <CurrentLocaleFlag />
+            </div>
+          }
+        >
+          <div className='flex flex-row flex-wrap justify-between gap-3 rounded-sm  bg-grey-dark py-2 px-3'>
+            {LOCALES.map((locale) => {
+              if (locale.code !== router.locale) {
+                const Flag = locale.flag;
+                return (
+                  <Link
+                    key={locale.code}
+                    href={router.asPath}
+                    locale={locale.code}
+                  >
+                    <div className='flex cursor-pointer items-center justify-center rounded-circle p-2  hover:bg-black'>
+                      <Flag />
+                    </div>
+                  </Link>
+                );
+              }
+            })}
+          </div>
+        </DropDown>
+
         {isLoggedIn ? (
           <>
             <Link href='/create-project' passHref>
@@ -86,13 +123,17 @@ const Navbar = () => {
               open={open}
               setOpen={setOpen}
               parent={
-                <Image
-                  className='h-10 w-10 cursor-pointer rounded-full object-cover'
-                  src={currentUser?.avatar ?? ''}
-                  width={40}
-                  height={40}
-                  alt={currentUser?.name ?? 'user avatar'}
-                />
+                currentUser?.avatar ? (
+                  <Image
+                    className='h-10 w-10 cursor-pointer rounded-full object-cover'
+                    src={currentUser?.avatar}
+                    width={40}
+                    height={40}
+                    alt={currentUser?.name ?? 'user avatar'}
+                  />
+                ) : (
+                  <div className='h-10 w-10 animate-pulse rounded-full bg-slate-700' />
+                )
               }
             >
               <div className='flex w-40 flex-col rounded-sm bg-grey-dark'>
@@ -121,14 +162,15 @@ const Navbar = () => {
             </DropDown>
           </>
         ) : (
-          <Button
-            className='px-7'
-            size='small'
-            isLoading={isAuthLoading}
-            onClick={handleLogin}
-          >
-            {t('login')}
-          </Button>
+          <Link href='/login' passHref>
+            <Button
+              className='min-w-[120px] px-7'
+              size='small'
+              isLoading={loading || isAuthLoading}
+            >
+              {t('login')}
+            </Button>
+          </Link>
         )}
       </div>
       <MobileMenu />

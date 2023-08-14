@@ -54,10 +54,10 @@ const ProjectForm = ({ onSubmit, loading }: ProjectFormProps) => {
         {!currentImage && (
           <>
             <h1 className='mb-4 text-4xl font-semibold'>
-              {t('project-question')}
+              {t('whats-your-project')}
             </h1>
             <p className='mb-10 font-mono text-xl text-grey-light'>
-              {t('project-sneak-peek')}
+              {t('upload-a-sneak')}
             </p>
           </>
         )}
@@ -65,7 +65,7 @@ const ProjectForm = ({ onSubmit, loading }: ProjectFormProps) => {
           <input
             autoFocus
             className='mb-5 w-full max-w-[800px] bg-black text-3xl font-semibold focus:outline-none'
-            placeholder={t('project-title-placeholder')}
+            placeholder={t('give-a-name')}
             {...register('title')}
           />
         )}
@@ -80,7 +80,7 @@ const ProjectForm = ({ onSubmit, loading }: ProjectFormProps) => {
         >
           <div className='flex flex-col items-center justify-center'>
             <ImageIcon className='w-20' />
-            <p>{t('drag-and-drop')}</p>
+            <p>{t('drag-drop')}</p>
           </div>
         </Dropzone>
         {currentImage && (
@@ -90,6 +90,11 @@ const ProjectForm = ({ onSubmit, loading }: ProjectFormProps) => {
           //   {...register('description')}
           // />
           <Editor />
+          // <textarea
+          //   className='mt-5 min-h-[100px] w-full max-w-[800px] bg-black font-mono text-xl focus:outline-none'
+          //   placeholder={t('desc')}
+          //   {...register('description')}
+          // />
         )}
         <DetailsFormModal
           isOpen={isDetailsModalOpen}

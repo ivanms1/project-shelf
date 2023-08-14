@@ -1,17 +1,18 @@
 import jwt from 'jsonwebtoken';
-import got from 'got';
 import { Role as PrismaUserRole } from '@prisma/client';
 
 import builder from '../../builder';
 import db from '../../db';
 
 import decodeAccessToken from '../../helpers/decodeAccessToken';
+import { getDataFromProvider } from '../../helpers/getDataFromProvider';
 
 import { Role } from './queries';
 
-const GITHUB_API_URL = 'https://api.github.com/user';
-
-const GITHUB = 'github';
+export const Providers = builder.enumType('Providers', {
+  values: ['discord', 'github'] as const,
+  description: 'signup providers',
+});
 
 const UpdateUserInput = builder.inputType('UpdateUserInput', {
   description: 'Update the user information',
@@ -48,26 +49,14 @@ builder.mutationType({
       description: 'Create a new user',
       args: {
         token: t.arg.string({ required: true }),
+        provider: t.arg({ type: Providers, required: true }),
       },
-      resolve: async (_, { token: githubToken }) => {
-        const data: {
-          email: string;
-          name: string;
-          login: string;
-          avatar_url: string;
-          id: number;
-        } = await got
-          .get(GITHUB_API_URL, {
-            headers: {
-              Authorization: `Bearer ${githubToken}`,
-              Accept: 'application/vnd.github+json',
-            },
-          })
-          .json();
+      resolve: async (_, { token: providerToken, provider }) => {
+        const data = await getDataFromProvider(provider, providerToken);
 
-        const user = await db.user.findFirst({
+        const user = await db.user.findUnique({
           where: {
-            providerId: data?.id,
+            email: data?.email,
           },
         });
 
@@ -79,12 +68,13 @@ builder.mutationType({
 
         const newUser = await db.user.create({
           data: {
-            providerId: data?.id,
-            provider: GITHUB,
-            name: data?.name || data?.login,
+            providerId: String(data?.id),
+            provider,
+            name: data?.name || data?.login || data?.username,
             email: data?.email,
             github: data?.login,
             avatar: data?.avatar_url,
+            discord: data?.username,
           },
         });
 
@@ -98,26 +88,14 @@ builder.mutationType({
       description: 'Login in as a admin',
       args: {
         token: t.arg.string({ required: true }),
+        provider: t.arg({ type: Providers, required: true }),
       },
-      resolve: async (_, { token: githubToken }) => {
-        const data: {
-          email: string;
-          name: string;
-          login: string;
-          avatar_url: string;
-          id: number;
-        } = await got
-          .get(GITHUB_API_URL, {
-            headers: {
-              Authorization: `Bearer ${githubToken}`,
-              Accept: 'application/vnd.github+json',
-            },
-          })
-          .json();
+      resolve: async (_, { token: githubToken, provider }) => {
+        const data = await getDataFromProvider(provider, githubToken);
 
         const user = await db.user.findFirst({
           where: {
-            providerId: data?.id,
+            providerId: String(data?.id),
           },
         });
 

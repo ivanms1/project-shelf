@@ -10,6 +10,8 @@ const PRIVATE_ROUTES = [
   '/create-project',
 ];
 
+const LOGIN_ROUTES = ['/login'];
+
 interface AuthProvider {
   children: React.ReactNode;
 }
@@ -20,6 +22,10 @@ function AuthProvider({ children }: AuthProvider) {
 
   useEffect(() => {
     if (!loading && !isLoggedIn && PRIVATE_ROUTES.includes(router.pathname)) {
+      router.replace('/');
+    }
+
+    if (isLoggedIn && LOGIN_ROUTES.includes(router.pathname)) {
       router.replace('/');
     }
   }, [isLoggedIn, loading]);
