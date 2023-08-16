@@ -307,8 +307,9 @@ function BlockOptionsDropdownList({
 
     if (toolbar !== null && dropDown !== null) {
       const { top, left } = toolbar.getBoundingClientRect();
-      dropDown.style.top = `${top + 40}px`;
-      dropDown.style.left = `${left}px`;
+      console.log({ top, left });
+      dropDown.style.top = `${top + window.scrollY + 40}px`;
+      dropDown.style.left = `${left + 140}px`;
     }
   }, [dropDownRef, toolbarRef]);
 
@@ -424,38 +425,38 @@ function BlockOptionsDropdownList({
 
   return (
     <div className='dropdown' ref={dropDownRef}>
-      <button className='item' onClick={formatParagraph}>
+      <button type='button' className='item' onClick={formatParagraph}>
         <span className='icon paragraph' />
         <span className='text'>Normal</span>
         {blockType === 'paragraph' && <span className='active' />}
       </button>
-      <button className='item' onClick={formatLargeHeading}>
+      <button type='button' className='item' onClick={formatLargeHeading}>
         <span className='icon large-heading' />
         <span className='text'>Large Heading</span>
         {blockType === 'h1' && <span className='active' />}
       </button>
-      <button className='item' onClick={formatSmallHeading}>
+      <button type='button' className='item' onClick={formatSmallHeading}>
         <span className='icon small-heading' />
         <span className='text'>Small Heading</span>
         {blockType === 'h2' && <span className='active' />}
       </button>
-      <button className='item' onClick={formatBulletList}>
+      <button type='button' className='item' onClick={formatBulletList}>
         <span className='icon bullet-list' />
         <span className='text'>Bullet List</span>
         {blockType === 'ul' && <span className='active' />}
       </button>
-      <button className='item' onClick={formatNumberedList}>
+      <button type='button' className='item' onClick={formatNumberedList}>
         <span className='icon numbered-list' />
         <span className='text'>Numbered List</span>
         {blockType === 'ol' && <span className='active' />}
       </button>
-      <button className='item' onClick={formatQuote}>
+      <button type='button' className='item' onClick={formatQuote}>
         <span className='icon quote' />
         <span className='text'>Quote</span>
         {blockType === 'quote' && <span className='active' />}
       </button>
-      <button className='item' onClick={formatCode}>
-        <CodeIcon />
+      <button type='button' className='item' onClick={formatCode}>
+        <span className='icon code' />
         <span className='text'>Code Block</span>
         {blockType === 'code' && <span className='active' />}
       </button>
@@ -586,6 +587,7 @@ export default function Toolbar() {
   return (
     <div className='toolbar' ref={toolbarRef}>
       <button
+        type='button'
         disabled={!canUndo}
         onClick={() => {
           // @ts-expect-error TODO: check why it expects another argument
@@ -597,6 +599,7 @@ export default function Toolbar() {
         <ArrowCounterClockWiseIcon />
       </button>
       <button
+        type='button'
         disabled={!canRedo}
         onClick={() => {
           // @ts-expect-error TODO: check why it expects another argument
@@ -611,6 +614,7 @@ export default function Toolbar() {
       {supportedBlockTypes.has(blockType) && (
         <>
           <button
+            type='button'
             className='toolbar-item block-controls'
             onClick={() =>
               setShowBlockOptionsDropDown(!showBlockOptionsDropDown)
@@ -647,6 +651,7 @@ export default function Toolbar() {
       ) : (
         <>
           <button
+            type='button'
             onClick={() => {
               editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'bold');
             }}
@@ -656,6 +661,7 @@ export default function Toolbar() {
             <BoldIcon />
           </button>
           <button
+            type='button'
             onClick={() => {
               editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'italic');
             }}
@@ -665,6 +671,7 @@ export default function Toolbar() {
             <ItalicIcon />
           </button>
           <button
+            type='button'
             onClick={() => {
               editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'underline');
             }}
@@ -674,6 +681,7 @@ export default function Toolbar() {
             <UnderlineIcon />
           </button>
           <button
+            type='button'
             onClick={() => {
               editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'strikethrough');
             }}
@@ -685,6 +693,7 @@ export default function Toolbar() {
             <StrikethroughIcon />
           </button>
           <button
+            type='button'
             onClick={() => {
               editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'code');
             }}
@@ -694,6 +703,7 @@ export default function Toolbar() {
             <CodeIcon />
           </button>
           <button
+            type='button'
             onClick={insertLink}
             className={'toolbar-item spaced ' + (isLink ? 'active' : '')}
             aria-label='Insert Link'
@@ -704,6 +714,7 @@ export default function Toolbar() {
             createPortal(<FloatingLinkEditor editor={editor} />, document.body)}
           <Divider />
           <button
+            type='button'
             onClick={() => {
               editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'left');
             }}
@@ -713,6 +724,7 @@ export default function Toolbar() {
             <LeftAlignIcon />
           </button>
           <button
+            type='button'
             onClick={() => {
               editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'center');
             }}
@@ -722,6 +734,7 @@ export default function Toolbar() {
             <CenterAlignIcon />
           </button>
           <button
+            type='button'
             onClick={() => {
               editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'right');
             }}
@@ -731,6 +744,7 @@ export default function Toolbar() {
             <RightAlignIcon />
           </button>
           <button
+            type='button'
             onClick={() => {
               editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'justify');
             }}

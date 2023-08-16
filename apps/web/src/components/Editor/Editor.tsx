@@ -13,17 +13,16 @@ import { AutoLinkNode, LinkNode } from '@lexical/link';
 import { LinkPlugin } from '@lexical/react/LexicalLinkPlugin';
 import { ListPlugin } from '@lexical/react/LexicalListPlugin';
 import { MarkdownShortcutPlugin } from '@lexical/react/LexicalMarkdownShortcutPlugin';
+import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin';
 import { TRANSFORMERS } from '@lexical/markdown';
-
 import Toolbar from './Toolbar';
 import CodeHighlightPlugin from './CodeHighlight';
-import prepopulatedText from './sampleText';
-import ActionsPlugin from './Actions';
+import { EditorState } from 'lexical';
 
-function Placeholder() {
+function Placeholder({ isReadOnly }: { isReadOnly: boolean }) {
   return (
     <div className='editor-placeholder'>
-      Play around with the Markdown plugin...
+      {isReadOnly ? 'No Description added' : 'Start editing here...'}
     </div>
   );
 }
@@ -98,13 +97,14 @@ const exampleTheme = {
 };
 
 const editorConfig = {
-  editorState: prepopulatedText,
   namespace: 'project-shelf-editor',
   theme: exampleTheme,
   // Handling of errors during update
   onError(error: Error) {
     throw error;
   },
+  canShowPlaceholder: true,
+  editable: true,
   // Any custom nodes go here
   nodes: [
     HeadingNode,
@@ -121,15 +121,35 @@ const editorConfig = {
   ],
 };
 
-export default function Editor() {
+export default function Editor({ onChange, value, readOnly }: any) {
+  const changeHandler = (editorState: EditorState) => {
+    onChange(JSON.stringify(editorState.toJSON()));
+  };
+
+  editorConfig.editable = !readOnly;
+
   return (
-    <LexicalComposer initialConfig={editorConfig}>
+    <LexicalComposer
+      initialConfig={
+        value ? { ...editorConfig, editorState: value } : editorConfig
+      }
+    >
       <div className='editor-container'>
-        <Toolbar />
+        {!readOnly && (
+          <>
+            <Toolbar /> <OnChangePlugin onChange={changeHandler} />
+          </>
+        )}
         <div className='editor-inner'>
           <RichTextPlugin
-            contentEditable={<ContentEditable className='editor-input' />}
-            placeholder={<Placeholder />}
+            contentEditable={
+              <ContentEditable
+                className={`editor-input ${
+                  readOnly ? 'min-h-0' : 'min-h-[150px]'
+                }`}
+              />
+            }
+            placeholder={<Placeholder isReadOnly={readOnly} />}
             ErrorBoundary={LexicalErrorBoundary}
           />
           <HistoryPlugin />
@@ -139,7 +159,6 @@ export default function Editor() {
           <MarkdownShortcutPlugin transformers={TRANSFORMERS} />
           <CodeHighlightPlugin />
         </div>
-        <ActionsPlugin />
       </div>
     </LexicalComposer>
   );

@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
-import { type SubmitHandler, useFormContext } from 'react-hook-form';
+import {
+  type SubmitHandler,
+  useFormContext,
+  Controller,
+} from 'react-hook-form';
 import { Button } from 'ui';
 import { useTranslation } from 'next-i18next';
 
@@ -23,7 +27,7 @@ const ProjectForm = ({ onSubmit, loading }: ProjectFormProps) => {
 
   const { t } = useTranslation('project-form');
 
-  const { register, setValue, watch, handleSubmit } =
+  const { register, setValue, watch, handleSubmit, control } =
     useFormContext<FormTypes>();
 
   const handleSubmitFn: SubmitHandler<FormTypes> = (values) => {
@@ -34,6 +38,7 @@ const ProjectForm = ({ onSubmit, loading }: ProjectFormProps) => {
   const currentTitle = watch('title');
   const currentDescription = watch('description');
 
+  console.log(currentDescription);
   return (
     <div className='flex flex-col bg-black px-28 pb-20 max-lg:flex-col-reverse max-lg:px-[30px] max-lg:pb-10 max-lg:pt-10'>
       <div className='sticky top-0 flex w-full justify-between pt-10'>
@@ -89,7 +94,18 @@ const ProjectForm = ({ onSubmit, loading }: ProjectFormProps) => {
           //   placeholder={t('description-placeholder')}
           //   {...register('description')}
           // />
-          <Editor />
+          <Controller
+            control={control}
+            name='description'
+            defaultValue=''
+            render={({ field }) => (
+              <Editor
+                value={field.value}
+                onChange={(newValue: string) => field.onChange(newValue)}
+              />
+            )}
+          />
+
           // <textarea
           //   className='mt-5 min-h-[100px] w-full max-w-[800px] bg-black font-mono text-xl focus:outline-none'
           //   placeholder={t('desc')}

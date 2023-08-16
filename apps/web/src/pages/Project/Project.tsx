@@ -27,6 +27,7 @@ import WorldIcon from '@/assets/icons/world-icon.svg';
 import GithubIcon from '@/assets/icons/github.svg';
 import ReportIcon from '@/assets/icons/report.svg';
 import ShareIcon from '@/assets/icons/share.svg';
+import Editor from '@/components/Editor';
 
 const DATE_OPTIONS: Intl.DateTimeFormatOptions = {
   weekday: 'long',
@@ -166,9 +167,9 @@ const Project: NextPageWithLayout = () => {
                   </Link>
                 )}
               </div>
-              <div className='flex flex-col gap-[10px]'>
+              <div className='flex w-full flex-col gap-[10px]'>
                 <p className='font-mono text-grey-light'>{t('description')}</p>
-                <p>{data?.project?.description}</p>
+                <Editor readOnly={true} value={data?.project?.description} />
               </div>
               <div className='flex flex-col gap-[10px]'>
                 <p className='font-mono text-grey-light'>{t('details')}</p>
