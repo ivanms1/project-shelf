@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import Image from 'next/future/image';
 import Link from 'next/link';
 import { NextSeo } from 'next-seo';
@@ -114,43 +114,45 @@ const Project: NextPageWithLayout = () => {
     }
   };
 
+  let description: string = useMemo(() => {
+    try {
+      JSON.parse(description);
+      return data?.project?.description || '';
+    } catch (error) {
+      const newJSON = {
+        root: {
+          children: [
+            {
+              children: [
+                {
+                  mode: 'normal',
+                  text: description,
+                  type: 'text',
+                  version: 1,
+                },
+              ],
+              direction: 'ltr',
+              indent: 0,
+              type: 'paragraph',
+              version: 1,
+            },
+          ],
+          direction: 'ltr',
+          indent: 0,
+          type: 'root',
+          version: 1,
+        },
+      };
+      return JSON.stringify(newJSON);
+    }
+  }, [data?.project?.description]);
+
   if (getProjectQueryLoading || deleteProjectLoading) {
     return <LoaderOverlay size='lg' />;
   }
 
   if (!data?.project) {
     return null;
-  }
-
-  let description = data?.project?.description;
-  try {
-    JSON.parse(description);
-  } catch (error) {
-    const newJSON = {
-      root: {
-        children: [
-          {
-            children: [
-              {
-                mode: 'normal',
-                text: description,
-                type: 'text',
-                version: 1,
-              },
-            ],
-            direction: 'ltr',
-            indent: 0,
-            type: 'paragraph',
-            version: 1,
-          },
-        ],
-        direction: 'ltr',
-        indent: 0,
-        type: 'root',
-        version: 1,
-      },
-    };
-    description = JSON.stringify(newJSON);
   }
 
   return (

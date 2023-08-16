@@ -38,7 +38,6 @@ const ProjectForm = ({ onSubmit, loading }: ProjectFormProps) => {
   const currentTitle = watch('title');
   const currentDescription = watch('description');
 
-  console.log(currentDescription);
   return (
     <div className='flex flex-col bg-black px-28 pb-20 max-lg:flex-col-reverse max-lg:px-[30px] max-lg:pb-10 max-lg:pt-10'>
       <div className='sticky top-0 flex w-full justify-between pt-10'>
@@ -89,15 +88,9 @@ const ProjectForm = ({ onSubmit, loading }: ProjectFormProps) => {
           </div>
         </Dropzone>
         {currentImage && (
-          // <textarea
-          //   className='mt-5 min-h-[100px] w-full max-w-[800px] bg-black font-mono text-xl focus:outline-none'
-          //   placeholder={t('description-placeholder')}
-          //   {...register('description')}
-          // />
           <Controller
             control={control}
             name='description'
-            defaultValue=''
             render={({ field }) => (
               <Editor
                 value={field.value}
@@ -105,12 +98,6 @@ const ProjectForm = ({ onSubmit, loading }: ProjectFormProps) => {
               />
             )}
           />
-
-          // <textarea
-          //   className='mt-5 min-h-[100px] w-full max-w-[800px] bg-black font-mono text-xl focus:outline-none'
-          //   placeholder={t('desc')}
-          //   {...register('description')}
-          // />
         )}
         <DetailsFormModal
           isOpen={isDetailsModalOpen}
