@@ -50,7 +50,7 @@ const exampleTheme = {
     listitem: 'my-2 mx-8',
   },
   image: '',
-  link: 'text-blue-light no-underline',
+  link: 'text-blue-light no-underline editor-link',
   text: {
     bold: 'font-bold',
     italic: 'italic',

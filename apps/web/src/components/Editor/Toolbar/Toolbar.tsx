@@ -49,6 +49,7 @@ import {
 
 import BoldIcon from '@/assets/icons/type-bold.svg';
 import ItalicIcon from '@/assets/icons/type-italic.svg';
+import PencilIcon from '@/assets/icons/pencil-fill.svg';
 import UnderlineIcon from '@/assets/icons/type-underline.svg';
 import StrikethroughIcon from '@/assets/icons/type-strikethrough.svg';
 import CodeIcon from '@/assets/icons/code.svg';
@@ -148,7 +149,7 @@ const FloatingLinkEditor = ({ editor }: { editor: LexicalEditor }) => {
       const domRange = nativeSelection?.getRangeAt(0);
       let rect;
       if (nativeSelection?.anchorNode === rootElement) {
-        let inner = rootElement;
+        let inner: Element = rootElement;
         while (inner.firstElementChild != null) {
           inner = inner.firstElementChild;
         }
@@ -241,7 +242,9 @@ const FloatingLinkEditor = ({ editor }: { editor: LexicalEditor }) => {
               onClick={() => {
                 setEditMode(true);
               }}
-            />
+            >
+              <PencilIcon />
+            </div>
           </div>
         </>
       )}

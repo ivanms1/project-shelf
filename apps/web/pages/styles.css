@@ -485,6 +485,10 @@ i.chevron-down {
   background-color: #eee;
 }
 
+.dropdown .item:hover span {
+  color: #000;
+}
+
 .dropdown .item .text {
   display: flex;
   line-height: 20px;
@@ -545,6 +549,17 @@ i.chevron-down {
   top: 0;
   bottom: 0;
   cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.link-editor div.link-edit svg {
+  fill: #6f6f6f;
+}
+
+.editor-link span {
+  color: rgb(58, 140, 255);
 }
 
 .link-editor .link-input a {
