@@ -3,6 +3,7 @@ mutation UpdateProject($input: CreateProjectInput!, $projectId: String!) {
     id
     preview
     repoLink
+    description
     siteLink
     tags
     title

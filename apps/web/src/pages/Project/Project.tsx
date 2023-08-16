@@ -122,6 +122,37 @@ const Project: NextPageWithLayout = () => {
     return null;
   }
 
+  let description = data?.project?.description;
+  try {
+    JSON.parse(description);
+  } catch (error) {
+    const newJSON = {
+      root: {
+        children: [
+          {
+            children: [
+              {
+                mode: 'normal',
+                text: description,
+                type: 'text',
+                version: 1,
+              },
+            ],
+            direction: 'ltr',
+            indent: 0,
+            type: 'paragraph',
+            version: 1,
+          },
+        ],
+        direction: 'ltr',
+        indent: 0,
+        type: 'root',
+        version: 1,
+      },
+    };
+    description = JSON.stringify(newJSON);
+  }
+
   return (
     <>
       <div className='relative h-[560px] max-lg:h-[320px]'>
@@ -169,7 +200,7 @@ const Project: NextPageWithLayout = () => {
               </div>
               <div className='flex w-full flex-col gap-[10px]'>
                 <p className='font-mono text-grey-light'>{t('description')}</p>
-                <Editor readOnly={true} value={data?.project?.description} />
+                <Editor readOnly={true} value={description} />
               </div>
               <div className='flex flex-col gap-[10px]'>
                 <p className='font-mono text-grey-light'>{t('details')}</p>

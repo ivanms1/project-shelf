@@ -115,10 +115,12 @@ export type MutationFollowUserArgs = {
 };
 
 export type MutationLoginAsAdminArgs = {
+  provider: Providers;
   token: Scalars['String'];
 };
 
 export type MutationSignupArgs = {
+  provider: Providers;
   token: Scalars['String'];
 };
 
@@ -177,6 +179,12 @@ export type ProjectsResponse = {
   results: Array<Project>;
   totalCount: Scalars['Int'];
 };
+
+/** signup providers */
+export enum Providers {
+  Discord = 'discord',
+  Github = 'github',
+}
 
 export type Query = {
   __typename?: 'Query';
@@ -383,6 +391,7 @@ export type UsersResponse = {
 
 export type LoginAsAdminMutationVariables = Exact<{
   token: Scalars['String'];
+  provider: Providers;
 }>;
 
 export type LoginAsAdminMutation = {
@@ -614,6 +623,7 @@ export type GetAllUsersQuery = {
 
 export type SignupMutationVariables = Exact<{
   token: Scalars['String'];
+  provider: Providers;
 }>;
 
 export type SignupMutation = { __typename?: 'Mutation'; signup: string };
@@ -905,6 +915,7 @@ export type UpdateProjectMutation = {
     id: string;
     preview: string;
     repoLink: string;
+    description: string;
     siteLink: string;
     tags: Array<string>;
     title: string;
@@ -1102,8 +1113,8 @@ export const ProjectCardFragmentFragmentDoc = gql`
   }
 `;
 export const LoginAsAdminDocument = gql`
-  mutation LoginAsAdmin($token: String!) {
-    loginAsAdmin(token: $token)
+  mutation LoginAsAdmin($token: String!, $provider: Providers!) {
+    loginAsAdmin(token: $token, provider: $provider)
   }
 `;
 export type LoginAsAdminMutationFn = Apollo.MutationFunction<
@@ -1125,6 +1136,7 @@ export type LoginAsAdminMutationFn = Apollo.MutationFunction<
  * const [loginAsAdminMutation, { data, loading, error }] = useLoginAsAdminMutation({
  *   variables: {
  *      token: // value for 'token'
+ *      provider: // value for 'provider'
  *   },
  * });
  */
@@ -1723,8 +1735,8 @@ export type GetAllUsersQueryResult = Apollo.QueryResult<
   GetAllUsersQueryVariables
 >;
 export const SignupDocument = gql`
-  mutation Signup($token: String!) {
-    signup(token: $token)
+  mutation Signup($token: String!, $provider: Providers!) {
+    signup(token: $token, provider: $provider)
   }
 `;
 export type SignupMutationFn = Apollo.MutationFunction<
@@ -1746,6 +1758,7 @@ export type SignupMutationFn = Apollo.MutationFunction<
  * const [signupMutation, { data, loading, error }] = useSignupMutation({
  *   variables: {
  *      token: // value for 'token'
+ *      provider: // value for 'provider'
  *   },
  * });
  */
@@ -2606,6 +2619,7 @@ export const UpdateProjectDocument = gql`
       id
       preview
       repoLink
+      description
       siteLink
       tags
       title
