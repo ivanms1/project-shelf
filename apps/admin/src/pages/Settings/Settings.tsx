@@ -4,9 +4,27 @@ import { NextSeo } from 'next-seo';
 
 function Index() {
   return (
-    <div className='w-full h-full bg-white p-[30px]'>
-      <p className='text-gray-900 text-3xl font-bold'>Settings</p>
-      <NextSeo title='Settings' />
+    <div className='h-full w-full bg-white p-[30px]'>
+      <p className='text-3xl font-bold text-gray-900'>Settings</p>
+      <NextSeo
+        title='Admin | Settings'
+        description='Admin settings page'
+        openGraph={{
+          type: 'website',
+          title: 'Admin | Settings',
+          description:
+            'Control the users status, project and ban them if necessary',
+          site_name: 'Admin Settings page',
+          images: [
+            {
+              url: 'https://project-shelf-dev.netlify.app/assets/images/shelf.png',
+              width: 200,
+              height: 200,
+              alt: 'Project Shelf',
+            },
+          ],
+        }}
+      />
     </div>
   );
 }

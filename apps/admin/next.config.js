@@ -22,6 +22,7 @@ module.exports = withTM({
       'loremflickr.com',
       'github.com',
       'github.githubassets.com',
+      'cdn.discordapp.com',
     ],
   },
 });

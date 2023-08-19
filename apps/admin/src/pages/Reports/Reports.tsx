@@ -233,7 +233,25 @@ const Reports = () => {
           <Button onClick={() => setDeleteReportId(null)}>No</Button>
         </div>
       </Modal>
-      <NextSeo title='Reports' />
+      <NextSeo
+        title='Admin | Reports'
+        description='Admin reports page'
+        openGraph={{
+          type: 'website',
+          title: 'Admin | Reports',
+          description:
+            'See who has reported a project in the project shelf project',
+          site_name: 'Admin reports page',
+          images: [
+            {
+              url: 'https://project-shelf-dev.netlify.app/assets/images/shelf.png',
+              width: 200,
+              height: 200,
+              alt: 'Project Shelf',
+            },
+          ],
+        }}
+      />
     </div>
   );
 };

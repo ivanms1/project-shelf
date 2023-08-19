@@ -9,13 +9,13 @@ const Dashboard = () => {
   const { data: projectsAdminData } = useGetProjectsAdminQuery();
 
   return (
-    <div className='w-full h-full  flex flex-col border-2'>
+    <div className='flex h-full  w-full flex-col border-2'>
       <div className=' flex flex-row gap-[100px] pb-10'>
-        <div className=' h-[266px] w-[232px] py-5 px-14 bg-white flex flex-col items-center justify-center gap-5 rounded-t-md border-2 border-[#72767C]-200'>
-          <span className='w-10 h-10 rounded-circle flex items-center justify-center bg-red-200 ' />
+        <div className=' border-[#72767C]-200 flex h-[266px] w-[232px] flex-col items-center justify-center gap-5 rounded-t-md border-2 bg-white py-5 px-14'>
+          <span className='flex h-10 w-10 items-center justify-center rounded-circle bg-red-200 ' />
 
           <div className='flex flex-col items-center gap-2.5 '>
-            <span className='text-2xl text-dark-blue text-center'>
+            <span className='text-center text-2xl text-dark-blue'>
               Total Users
             </span>
             <span className='text-2xl text-dark-blue '>
@@ -24,11 +24,11 @@ const Dashboard = () => {
           </div>
         </div>
 
-        <div className=' h-[266px] w-[232px] py-5 px-14 bg-white flex flex-col items-center justify-center gap-5 rounded-t-md border-2 border-[#72767C]-200'>
-          <span className='w-10 h-10 rounded-circle flex items-center justify-center bg-red-200 ' />
+        <div className=' border-[#72767C]-200 flex h-[266px] w-[232px] flex-col items-center justify-center gap-5 rounded-t-md border-2 bg-white py-5 px-14'>
+          <span className='flex h-10 w-10 items-center justify-center rounded-circle bg-red-200 ' />
 
-          <div className='flex flex-col gap-2.5 items-center'>
-            <span className='text-5 text-dark-blue text-center'>
+          <div className='flex flex-col items-center gap-2.5'>
+            <span className='text-5 text-center text-dark-blue'>
               Banned Users
             </span>
             <span className='text-2xl text-dark-blue '>
@@ -37,11 +37,11 @@ const Dashboard = () => {
           </div>
         </div>
 
-        <div className=' h-[266px] w-[232px] py-5 px-14 bg-white flex flex-col items-center justify-center gap-5 rounded-t-md border-2 border-[#72767C]-200'>
-          <span className='w-10 h-10 rounded-circle flex items-center justify-center bg-red-200 ' />
+        <div className=' border-[#72767C]-200 flex h-[266px] w-[232px] flex-col items-center justify-center gap-5 rounded-t-md border-2 bg-white py-5 px-14'>
+          <span className='flex h-10 w-10 items-center justify-center rounded-circle bg-red-200 ' />
 
-          <div className='flex flex-col gap-2.5 items-center'>
-            <span className='text-5 text-dark-blue text-center'>
+          <div className='flex flex-col items-center gap-2.5'>
+            <span className='text-5 text-center text-dark-blue'>
               Total Projects
             </span>
             <span className='text-2xl text-dark-blue'>
@@ -51,9 +51,9 @@ const Dashboard = () => {
         </div>
       </div>
 
-      <div className='flex flex-row gap-12 h-full w-full '>
-        <div className='flex flex-col h-full w-full gap-5 bg-white rounded-t-md py-[22px] px-6'>
-          <div className='flex flex-row text-dark-blue text-5 '>
+      <div className='flex h-full w-full flex-row gap-12 '>
+        <div className='flex h-full w-full flex-col gap-5 rounded-t-md bg-white py-[22px] px-6'>
+          <div className='text-5 flex flex-row text-dark-blue '>
             <span className='font-bold'>
               User <span className='font-normal'>Statistics</span>
             </span>
@@ -61,8 +61,8 @@ const Dashboard = () => {
           <BarGraph fillColor='#FF764C' />
         </div>
 
-        <div className='flex flex-col h-full w-full gap-5 bg-white rounded-t-md py-[22px] px-6'>
-          <div className='flex flex-row text-dark-blue text-5 '>
+        <div className='flex h-full w-full flex-col gap-5 rounded-t-md bg-white py-[22px] px-6'>
+          <div className='text-5 flex flex-row text-dark-blue '>
             <span className='font-bold'>
               Project <span className='font-normal'>Statistics</span>
             </span>
@@ -71,7 +71,25 @@ const Dashboard = () => {
         </div>
       </div>
 
-      <NextSeo title='Dashboard' />
+      <NextSeo
+        title='Admin | Dashboard'
+        description='Admin dashboard page'
+        openGraph={{
+          type: 'website',
+          title: 'Admin | Dashboard',
+          description:
+            'Control the users status, project and ban them if necessary',
+          site_name: 'Admin dashboard page',
+          images: [
+            {
+              url: 'https://project-shelf-dev.netlify.app/assets/images/shelf.png',
+              width: 200,
+              height: 200,
+              alt: 'Project Shelf',
+            },
+          ],
+        }}
+      />
     </div>
   );
 };
