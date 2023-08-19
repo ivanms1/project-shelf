@@ -3,6 +3,7 @@ import { useTranslation } from 'next-i18next';
 import React from 'react';
 import { Button } from 'ui';
 import Image from 'next/future/image';
+import { NextSeo } from 'next-seo';
 
 import AuthProvider from '@/components/AuthProvider';
 
@@ -46,6 +47,24 @@ const Login: NextPageWithLayout = () => {
       <div className='relative w-1/2'>
         <Image priority src='/assets/images/login-bg.jpg' fill alt='library' />
       </div>
+      <NextSeo
+        title={t('login-title')}
+        description={t('description')}
+        openGraph={{
+          type: 'website',
+          title: t('login-title'),
+          description: t('description'),
+          site_name: 'Project Shelf / Login',
+          images: [
+            {
+              url: 'https://www.projectshelf.dev/assets/images/shelf.png',
+              width: 200,
+              height: 200,
+              alt: 'Project Shelf',
+            },
+          ],
+        }}
+      />
     </div>
   );
 };

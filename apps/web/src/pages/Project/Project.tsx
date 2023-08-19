@@ -282,6 +282,8 @@ const Project: NextPageWithLayout = () => {
           title: data?.project?.title,
           description: data?.project?.description,
           site_name: 'Project Shelf',
+          defaultImageHeight: 600,
+          defaultImageWidth: 800,
           images: [
             {
               url: data?.project?.preview,
