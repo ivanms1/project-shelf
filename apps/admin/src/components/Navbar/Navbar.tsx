@@ -7,10 +7,10 @@ const Navbar = () => {
   const { currentUser } = useIsLoggedIn();
 
   return (
-    <div className='bg-white w-full h-20 flex flex-row justify-end items-center px-20'>
-      <div className='rounded-full overflow-hidden w-[50px] h-[50px]'>
+    <div className='flex h-20 w-full flex-row items-center justify-end px-20'>
+      <div className='h-[50px] w-[50px] overflow-hidden rounded-full'>
         <Image
-          className='w-full h-full cursor-pointer rounded-full object-cover'
+          className='h-full w-full cursor-pointer rounded-full object-cover'
           alt={currentUser?.name}
           src={currentUser?.avatar}
           width={40}

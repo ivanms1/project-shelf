@@ -172,7 +172,12 @@ const Users = () => {
       size: 475,
       cell: (info) => {
         return (
-          <div className='flex flex-row gap-[20px]'>
+          <a
+            target='_blank'
+            rel='noreferrer'
+            className='flex flex-row gap-[20px]'
+            href={`https://www.projectshelf.dev/user/${info?.row?.original?.id}`}
+          >
             <Image
               src={info?.row?.original?.avatar}
               alt={info?.row?.original?.avatar}
@@ -181,32 +186,27 @@ const Users = () => {
               height={50}
             />
             <div className='flex w-full flex-col'>
-              <span className='w-full text-[17px] font-bold text-gray-700'>
+              <span className='w-full text-[17px] font-bold'>
                 {info?.getValue()}
               </span>
-              <div className='flex flex-col gap-[2px]'>
-                <span className='w-full text-[15px] font-medium text-gray-700'>
+              <div className='flex flex-col gap-2'>
+                <span className='w-full text-[15px] font-medium'>
                   {info?.row?.original?.email}
                 </span>
 
-                <a
-                  href={`https://github.com/` + info?.row?.original?.github}
-                  target='_blank'
-                  rel='noreferrer'
-                  className='flex flex-row items-center gap-[10px]'
-                >
+                <div className='flex flex-row items-center gap-[10px]'>
                   <span className='flex w-full flex-row items-center gap-[5px]'>
                     <i className='h-[20px] w-[20px]'>
                       <GithubIcon className='fill-[#a3aed0]' />
                     </i>
-                    <span className='text-[14px] font-bold text-gray-700'>
+                    <span className='text-[14px] font-bold'>
                       {info?.row?.original?.github}
                     </span>
                   </span>
-                </a>
+                </div>
               </div>
             </div>
-          </div>
+          </a>
         );
       },
     }),
@@ -229,7 +229,7 @@ const Users = () => {
         };
 
         return (
-          <span className='text-sm font-bold text-gray-700'>
+          <span className='text-sm font-bold'>
             <Select
               isSearchable={false}
               options={OPTIONS}
@@ -283,13 +283,13 @@ const Users = () => {
   });
 
   return (
-    <div className='flex h-full w-full flex-col gap-5 bg-white p-7'>
-      <p className='text-3xl font-bold text-gray-900'>Users</p>
+    <div className='flex h-full w-full flex-col gap-5 p-7'>
+      <p className='text-3xl font-bold'>Users</p>
       <input
         type='text'
         placeholder='Search'
         value={search}
-        className='h-[50px] w-full rounded-md border border-gray-300 p-2.5 focus:border-blue focus:outline-none'
+        className='h-[50px] w-full rounded-md border border-gray-300 bg-[#0b0a0a] p-2.5 focus:border-white focus:outline-none'
         onChange={(e) => {
           setSearch(e.target.value);
         }}

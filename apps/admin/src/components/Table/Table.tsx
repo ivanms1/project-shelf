@@ -20,10 +20,7 @@ const Table = <T extends object>({
   return (
     <div className='w-full'>
       <div role='table' className='relative min-w-fit'>
-        <div
-          role='thead'
-          className='sticky top-0 z-10 border-b border-gray-200 bg-white py-5'
-        >
+        <div role='thead' className='sticky top-0 z-10'>
           {instance.getHeaderGroups().map((headerGroup) => (
             <div role='trow' className='flex ' key={headerGroup.id}>
               {headerGroup.headers.map((header) => (
@@ -67,7 +64,7 @@ const Table = <T extends object>({
                 <div
                   role='td'
                   key={cell.id}
-                  className='flex items-center p-2 text-sm font-bold text-gray-700'
+                  className='flex items-center p-2 text-sm font-bold'
                   style={{
                     minWidth:
                       cell.column.getSize() !== 0
@@ -91,7 +88,7 @@ const Table = <T extends object>({
           )}
 
           {noRows && !loading && (
-            <div className='flex h-full max-h-[400px] items-center justify-center  text-2xl font-bold text-gray-700'>
+            <div className='flex h-full max-h-[400px] items-center justify-center  text-2xl font-bold'>
               No Data
             </div>
           )}
