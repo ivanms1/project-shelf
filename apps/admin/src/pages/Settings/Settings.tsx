@@ -2,10 +2,10 @@ import React from 'react';
 
 import { NextSeo } from 'next-seo';
 
-function Index() {
+function Settings() {
   return (
-    <div className='h-full w-full bg-white p-[30px]'>
-      <p className='text-3xl font-bold text-gray-900'>Settings</p>
+    <div className='h-full w-full p-[30px]'>
+      <p className='text-3xl font-bold'>Settings</p>
       <NextSeo
         title='Admin | Settings'
         description='Admin settings page'
@@ -29,4 +29,4 @@ function Index() {
   );
 }
 
-export default Index;
+export default Settings;

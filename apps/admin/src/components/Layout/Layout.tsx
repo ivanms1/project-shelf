@@ -16,15 +16,13 @@ const Layout = ({ children }: LayoutProps) => {
   }
 
   return (
-    <div className='bg-gray-200 flex flex-row h-screen w-screen'>
+    <div className='flex h-screen w-screen flex-row'>
       <SideNav />
 
-      <div className='flex flex-col w-full h-full'>
+      <div className='flex h-full w-full flex-col'>
         <Navbar />
 
-        <div className='bg-gray-200 w-full h-full flex-1 p-[30px]'>
-          {children}
-        </div>
+        <div className='h-full w-full flex-1 p-[30px]'>{children}</div>
       </div>
     </div>
   );

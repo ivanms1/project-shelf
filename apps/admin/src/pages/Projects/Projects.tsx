@@ -131,7 +131,7 @@ const Projects = () => {
               />
             </div>
             <div className='flex flex-col gap-[5px]'>
-              <span className='w-full text-[16px] font-medium text-gray-700'>
+              <span className='w-full text-[16px] font-medium'>
                 {info?.getValue()}
               </span>
 
@@ -139,7 +139,7 @@ const Projects = () => {
                 {info?.row?.original?.tags?.map((tag) => (
                   <span
                     key={tag}
-                    className='flex w-fit items-center rounded-lg bg-[#e5e7eb] px-2.5 py-[2px] text-xs font-medium capitalize text-gray-700'
+                    className='flex w-fit items-center rounded-lg bg-[#e5e7eb] px-2.5 py-[2px] text-xs font-medium capitalize text-black'
                   >
                     {tag}
                   </span>
@@ -169,7 +169,7 @@ const Projects = () => {
       cell: (info) => {
         return (
           <a href={info?.getValue()} target='_blank' rel='noopener noreferrer'>
-            <GithubIcon className='w-5' />
+            <GithubIcon className='w-5 fill-gray-400' />
           </a>
         );
       },
@@ -225,14 +225,14 @@ const Projects = () => {
   });
 
   return (
-    <div className='flex h-full w-full flex-col gap-5 bg-white p-7'>
-      <p className='text-3xl font-bold text-gray-900'>Projects</p>
+    <div className='flex h-full w-full flex-col gap-5 p-7'>
+      <p className='text-3xl font-bold'>Projects</p>
       <div className='relative'>
         <input
           type='text'
           placeholder='Search'
           value={search}
-          className='h-12 w-full rounded-md border border-gray-300 p-2.5 focus:border-blue focus:outline-none'
+          className='h-12 w-full rounded-md border border-gray-300 bg-[#0b0a0a] p-2.5 focus:border-white focus:outline-none'
           onChange={(e) => {
             setSearch(e.target.value);
           }}
@@ -252,7 +252,7 @@ const Projects = () => {
       <Modal
         open={!!deleteProjectId}
         onClose={() => setDeleteProjectId(false)}
-        modalClassName='bg-white flex flex-col  justify-center p-[20px] h-[full] w-[500px] '
+        modalClassName='flex flex-col  justify-center p-[20px] h-[full] w-[500px] '
       >
         <p className=' mb-[20px] w-full text-center text-[30px] font-semibold'>
           Are you sure ?

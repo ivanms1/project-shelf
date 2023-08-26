@@ -15,15 +15,15 @@ const Button = React.forwardRef<HTMLButtonElement, Button>(
         onClick={onClick}
         ref={ref}
         className={classNames(
-          'flex cursor-pointer flex-row  items-center gap-5 rounded-sm px-2 py-2 hover:bg-gray-200 hover:ease-in',
+          'flex cursor-pointer flex-row  items-center gap-5 rounded-sm px-2 py-2 hover:bg-[#27262B] hover:ease-in',
           {
-            'bg-gray-200': selected,
+            'bg-[#27262B]': selected,
           }
         )}
         {...props}
       >
         {icon && <span>{icon ?? 'icon'}</span>}
-        <span className='text-sm font-medium text-gray-700'>{children}</span>
+        <span className='text-sm font-medium'>{children}</span>
       </button>
     );
   }
