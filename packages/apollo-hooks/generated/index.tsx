@@ -915,6 +915,7 @@ export type UpdateProjectMutation = {
     id: string;
     preview: string;
     repoLink: string;
+    description: string;
     siteLink: string;
     tags: Array<string>;
     title: string;
@@ -2618,6 +2619,7 @@ export const UpdateProjectDocument = gql`
       id
       preview
       repoLink
+      description
       siteLink
       tags
       title

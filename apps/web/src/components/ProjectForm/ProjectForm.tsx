@@ -1,11 +1,16 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
-import { type SubmitHandler, useFormContext } from 'react-hook-form';
+import {
+  type SubmitHandler,
+  useFormContext,
+  Controller,
+} from 'react-hook-form';
 import { Button } from 'ui';
 import { useTranslation } from 'next-i18next';
 
 import Dropzone from 'src/components/Dropzone';
 import DetailsFormModal from '@/components/ProjectForm/DetailsFormModal';
+import Editor from '../Editor';
 
 import ImageIcon from '@/assets/icons/image.svg';
 
@@ -22,7 +27,7 @@ const ProjectForm = ({ onSubmit, loading }: ProjectFormProps) => {
 
   const { t } = useTranslation('project-form');
 
-  const { register, setValue, watch, handleSubmit } =
+  const { register, setValue, watch, handleSubmit, control } =
     useFormContext<FormTypes>();
 
   const handleSubmitFn: SubmitHandler<FormTypes> = (values) => {
@@ -83,10 +88,15 @@ const ProjectForm = ({ onSubmit, loading }: ProjectFormProps) => {
           </div>
         </Dropzone>
         {currentImage && (
-          <textarea
-            className='mt-5 min-h-[100px] w-full max-w-[800px] bg-black font-mono text-xl focus:outline-none'
-            placeholder={t('desc')}
-            {...register('description')}
+          <Controller
+            control={control}
+            name='description'
+            render={({ field }) => (
+              <Editor
+                value={field.value}
+                onChange={(newValue: string) => field.onChange(newValue)}
+              />
+            )}
           />
         )}
         <DetailsFormModal
