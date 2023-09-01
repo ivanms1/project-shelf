@@ -23,7 +23,7 @@
     "next": "12.3.0",
     "next-auth": "^4.20.1",
     "next-i18next": "^13.0.2",
-    "next-seo": "^5.1.0",
+    "next-seo": "^6.1.0",
     "next-sitemap": "^4.0.7",
     "nextjs-progressbar": "^0.0.16",
     "react": "18.2.0",
