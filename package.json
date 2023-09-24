@@ -22,6 +22,7 @@
     "dev:admin": "turbo run dev --parallel --filter=!web",
     "dev:api": "turbo run dev --filter=api",
     "dev:ui": "turbo run dev --filter=ui",
+    "playwright:web": "turbo run playwright --filter=web",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "prepare": "husky install",
@@ -37,7 +38,7 @@
   },
   "engines": {
     "npm": ">=9.0.0",
-    "node": ">=18.0.0"
+    "node": ">=16.0.0"
   },
   "packageManager": "yarn@1.22.17",
   "lint-staged": {

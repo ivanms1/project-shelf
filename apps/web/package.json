@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "generate": "plop",
-    "postbuild": "next-sitemap"
+    "postbuild": "next-sitemap",
+    "playwright": "playwright test"
   },
   "dependencies": {
     "@apollo/client": "^3.6.6",
@@ -40,6 +41,7 @@
   },
   "devDependencies": {
     "@cld-apis/types": "^0.1.6",
+    "@playwright/test": "^1.36.1",
     "@svgr/webpack": "^7.0.0",
     "@types/lodash": "^4.14.194",
     "@types/react": "18.2.0",

@@ -15,6 +15,9 @@
     },
     "migrate:dev": {
       "cache": false
+    },
+    "playwright": {
+      "cache": false
     }
   }
 }
