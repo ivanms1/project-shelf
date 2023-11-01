@@ -11,7 +11,7 @@
     "postbuild": "next-sitemap"
   },
   "dependencies": {
-    "@apollo/client": "^3.6.6",
+    "@apollo/client": "^3.8.6",
     "@hookform/resolvers": "^2.8.5",
     "@mantine/hooks": "^5.10.3",
     "@vercel/analytics": "^1.0.0",
