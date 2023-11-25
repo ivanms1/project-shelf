@@ -4,6 +4,7 @@ module.exports = {
     extend: {
       fontFamily: {
         poppins: ["Poppins", "sans-serif"],
+        mono: ['"Space Mono"', "monospace"],
       },
       colors: {
         primary: "#A259FF",
@@ -31,9 +32,6 @@ module.exports = {
       zIndex: {
         "loading-overlay": "999",
         "modal-overlay": "99999",
-      },
-      fontFamily: {
-        mono: ['"Space Mono"', "monospace"],
       },
       borderRadius: {
         sm: "8px",
