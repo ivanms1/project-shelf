@@ -37,7 +37,7 @@ const Navbar = () => {
   }, [router.locale]);
 
   return (
-    <div className='flex flex-row justify-between bg-black py-5 px-12 text-white max-lg:py-3 max-lg:px-7'>
+    <div className='mx-auto flex w-full max-w-screen-xl flex-row justify-between bg-black py-5 px-12 text-white max-lg:py-3 max-lg:px-7'>
       <Link className='flex flex-row items-center gap-3' href='/'>
         <>
           <Image
