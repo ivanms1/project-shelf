@@ -3,7 +3,7 @@ import { faker } from '@faker-js/faker';
 
 const prisma = new PrismaClient();
 
-const users = Array.from({ length: 50 }).map(() => {
+const users = Array.from({ length: 10 }).map(() => {
   return {
     providerId: faker.helpers.unique(() => faker.random.numeric(5)),
     provider: 'github',
@@ -28,7 +28,7 @@ async function main() {
   console.log(`Created ${usersCreated.length} users`);
 
   await Promise.all(
-    Array.from({ length: 550 }).map(async () => {
+    Array.from({ length: 100 }).map(async () => {
       const authorId = faker.helpers.arrayElement(usersCreated).id;
 
       const projectCreated = await prisma.project.create({
@@ -52,7 +52,7 @@ async function main() {
 
       console.log(`Created project ${projectCreated.id}, author ${authorId}`);
 
-      const numberOfLikes = Math.floor(Math.random() * 50) + 1;
+      const numberOfLikes = Math.floor(Math.random() * 10) + 1;
 
       Promise.all(
         faker.helpers
