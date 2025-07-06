@@ -5,12 +5,12 @@ const prisma = new PrismaClient();
 
 const users = Array.from({ length: 50 }).map(() => {
   return {
-    providerId: faker.helpers.unique(() => faker.random.numeric(5)),
+    providerId: faker.string.uuid(),
     provider: 'github',
     name: faker.name.fullName(),
     email: faker.internet.email(),
     avatar: faker.image.avatar(),
-    github: faker.internet.userName(),
+    github: faker.internet.username(),
     banned: false,
   };
 });
@@ -29,13 +29,15 @@ async function main() {
 
   await Promise.all(
     Array.from({ length: 550 }).map(async () => {
-      const authorId = faker.helpers.arrayElement(usersCreated).id;
+      // Randomly select a user to be the author
+      const authorId =
+        usersCreated[Math.floor(Math.random() * usersCreated.length)].id;
 
       const projectCreated = await prisma.project.create({
         data: {
           title: faker.commerce.productName(),
           description: faker.lorem.paragraphs(),
-          preview: faker.image.abstract(800, 600, true),
+          preview: faker.image.url(),
           repoLink: faker.internet.url(),
           siteLink: faker.internet.url(),
           isApproved: true,
@@ -45,7 +47,7 @@ async function main() {
             },
           },
           tags: {
-            set: faker.helpers.uniqueArray(faker.random.word, 5),
+            set: ['React', 'Next.js', 'Tailwind', 'TypeScript', 'Node.js'],
           },
         },
       });
@@ -55,34 +57,32 @@ async function main() {
       const numberOfLikes = Math.floor(Math.random() * 50) + 1;
 
       Promise.all(
-        faker.helpers
-          .arrayElements(usersCreated, numberOfLikes)
-          .map(async (user) => {
-            console.log(
-              `Creating ${numberOfLikes} likes for project ${projectCreated.id}`
-            );
-            await prisma.like.create({
-              data: {
-                project: {
-                  connect: {
-                    id: projectCreated.id,
-                  },
-                },
-                user: {
-                  connect: {
-                    id: user.id,
-                  },
-                },
-                author: {
-                  connect: {
-                    id: String(projectCreated.authorId),
-                  },
+        usersCreated.map(async (user) => {
+          console.log(
+            `Creating ${numberOfLikes} likes for project ${projectCreated.id}`
+          );
+          await prisma.like.create({
+            data: {
+              project: {
+                connect: {
+                  id: projectCreated.id,
                 },
               },
-            });
+              user: {
+                connect: {
+                  id: user.id,
+                },
+              },
+              author: {
+                connect: {
+                  id: String(projectCreated.authorId),
+                },
+              },
+            },
+          });
 
-            return null;
-          })
+          return null;
+        })
       );
     })
   );
