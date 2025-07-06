@@ -50,9 +50,17 @@ This monorepo contains
     Inside the `apps/api` directory
 
     ```
-    DATABASE_URL="database url, if running with docker it would be: postgresql://postgres:postgres@localhost:5432/project-shelf"
+    # Database connection string, if running with docker it would be:
+    DATABASE_URL="postgresql://postgres:postgres@localhost:5432/project-shelf"
+    # Direct url, if running with docker it would be:
+    DIRECT_URL="postgresql://postgres:postgres@localhost:5432/project-shelf"
+    # Origins, you can use the default one
+    ORIGINS=["http://localhost:3000", "http://localhost:3001"]
+    # Cloudinary connection string, you can get it from your cloudinary account
     CLOUDINARY_URL="Your Cloudinary key goes here"
+    # JWT secret, any random string, only for development
     JWT_SECRET="Any random string, only for development"
+    # Server url, you can use the default one
     SERVER_URL="http://localhost"
     ```
 
@@ -68,10 +76,15 @@ This monorepo contains
     Inside the `apps/web` and `apps/admin` directories
 
     ```
+    # Github client id, you can get it from your github account
     GITHUB_CLIENT_ID="your oatuh github client id"
+    # Github client secret, you can get it from your github account
     GITHUB_CLIENT_SECRET="your oatuh github client secret"
+    # JWT secret, any random string, only for development
     JWT_SECRET="some random string, only for development"
+    # Next auth url, you can use the default one
     NEXTAUTH_URL="http://localhost:3000"
+    # Next public server url, you can use the default one
     NEXT_PUBLIC_SERVER_URL="http://localhost:8080/graphql"
     NEXT_PUBLIC_CLOUD_NAME="cloudinary id"
     ```
