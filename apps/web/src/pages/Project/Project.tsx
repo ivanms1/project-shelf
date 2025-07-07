@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import Image from 'next/future/image';
 import Link from 'next/link';
 import { NextSeo } from 'next-seo';
@@ -27,6 +27,7 @@ import WorldIcon from '@/assets/icons/world-icon.svg';
 import GithubIcon from '@/assets/icons/github.svg';
 import ReportIcon from '@/assets/icons/report.svg';
 import ShareIcon from '@/assets/icons/share.svg';
+import Editor from '@/components/Editor';
 
 const DATE_OPTIONS: Intl.DateTimeFormatOptions = {
   weekday: 'long',
@@ -113,6 +114,39 @@ const Project: NextPageWithLayout = () => {
     }
   };
 
+  let description: string = useMemo(() => {
+    try {
+      JSON.parse(description);
+      return data?.project?.description || '';
+    } catch (error) {
+      const newJSON = {
+        root: {
+          children: [
+            {
+              children: [
+                {
+                  mode: 'normal',
+                  text: description,
+                  type: 'text',
+                  version: 1,
+                },
+              ],
+              direction: 'ltr',
+              indent: 0,
+              type: 'paragraph',
+              version: 1,
+            },
+          ],
+          direction: 'ltr',
+          indent: 0,
+          type: 'root',
+          version: 1,
+        },
+      };
+      return JSON.stringify(newJSON);
+    }
+  }, [data?.project?.description]);
+
   if (getProjectQueryLoading || deleteProjectLoading) {
     return <LoaderOverlay size='lg' />;
   }
@@ -166,9 +200,9 @@ const Project: NextPageWithLayout = () => {
                   </Link>
                 )}
               </div>
-              <div className='flex flex-col gap-[10px]'>
+              <div className='flex w-full flex-col gap-[10px]'>
                 <p className='font-mono text-grey-light'>{t('description')}</p>
-                <p>{data?.project?.description}</p>
+                <Editor readOnly={true} value={description} />
               </div>
               <div className='flex flex-col gap-[10px]'>
                 <p className='font-mono text-grey-light'>{t('details')}</p>
