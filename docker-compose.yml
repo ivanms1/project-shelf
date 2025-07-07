@@ -1,0 +1,45 @@
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    container_name: project-shelf-db
+    environment:
+      POSTGRES_DB: project_shelf
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - '5432:5432'
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U postgres']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Single App Container (contains all services)
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: project-shelf-app
+    ports:
+      - '3000:3000' # Web frontend
+      - '4000:4000' # Admin dashboard
+      - '8080:8080' # API
+    environment:
+      NODE_ENV: development
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/project_shelf
+      DIRECT_URL: postgresql://postgres:postgres@postgres:5432/project_shelf
+      NEXT_PUBLIC_API_URL: http://localhost:8080
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /app/apps/web/.next
+      - /app/apps/admin/.next
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+volumes:
+  postgres_data:

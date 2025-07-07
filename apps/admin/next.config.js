@@ -2,6 +2,7 @@ const withTM = require('next-transpile-modules')(['ui']);
 
 module.exports = withTM({
   reactStrictMode: true,
+  output: 'standalone',
   webpack(config) {
     config.module.rules.push({
       test: /\.svg$/,
