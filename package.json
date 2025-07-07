@@ -9,6 +9,7 @@
   "scripts": {
     "build": "turbo run build",
     "build:web": "turbo run build --filter=web",
+    "build:packages": "turbo run build --filter=ui --filter=apollo-hooks",
     "tsc:web": "cd apps/web && yarn tsc",
     "tsc:admin": "cd apps/admin && yarn tsc",
     "tsc:api": "cd apps/api && yarn generate && yarn tsc",
@@ -37,7 +38,7 @@
   },
   "engines": {
     "npm": ">=9.0.0",
-    "node": ">=18.0.0"
+    "node": ">=20.5.0"
   },
   "packageManager": "yarn@1.22.17",
   "lint-staged": {

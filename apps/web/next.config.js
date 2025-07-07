@@ -11,6 +11,7 @@ module.exports = withTM({
     newNextLinkBehavior: true,
     scrollRestoration: true,
   },
+  output: 'standalone',
   i18n,
   webpack(config) {
     config.module.rules.push({

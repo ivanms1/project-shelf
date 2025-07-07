@@ -49,13 +49,13 @@ This monorepo contains
 
     Inside the `apps/api` directory
 
-    ```
+    ```bash
     # Database connection string, if running with docker it would be:
     DATABASE_URL="postgresql://postgres:postgres@localhost:5432/project-shelf"
     # Direct url, if running with docker it would be:
     DIRECT_URL="postgresql://postgres:postgres@localhost:5432/project-shelf"
     # Origins, you can use the default one
-    ORIGINS=["http://localhost:3000", "http://localhost:3001"]
+    ORIGINS=["http://localhost:3000", "http://localhost:4000"]
     # Cloudinary connection string, you can get it from your cloudinary account
     CLOUDINARY_URL="Your Cloudinary key goes here"
     # JWT secret, any random string, only for development
@@ -75,7 +75,7 @@ This monorepo contains
 
     Inside the `apps/web` and `apps/admin` directories
 
-    ```
+    ```bash
     # Github client id, you can get it from your github account
     GITHUB_CLIENT_ID="your oatuh github client id"
     # Github client secret, you can get it from your github account
@@ -143,3 +143,87 @@ This monorepo contains
 - To update the schema on the frontend
   `yarn generate:hooks`
   `yarn build:hooks`
+
+## Running with Docker
+
+The easiest way to run the entire application is using Docker. This setup includes all services in a single container plus a PostgreSQL database.
+
+### Quick Start
+
+```bash
+# Start everything with setup script (recommended)
+./scripts/docker-setup.sh
+
+# Or use Make commands
+make dev-build
+
+# Or use Docker Compose directly
+docker compose up -d --build
+```
+
+### Running After Setup
+
+Once you've completed the initial setup, you can start the app with:
+
+```bash
+# Start all services
+docker compose up -d
+
+# Or use Make
+make dev
+
+# Stop services
+docker compose down
+# Or
+make dev-down
+```
+
+### Services
+
+All services run in one container:
+
+- **Web Frontend**: http://localhost:3000
+- **Admin Dashboard**: http://localhost:3001
+- **API**: http://localhost:8080
+- **Database**: localhost:5432
+
+### Useful Commands
+
+```bash
+# View logs
+make dev-logs
+
+# Stop services
+make dev-down
+
+# Database commands
+make db-studio    # Open Prisma Studio
+make db-migrate   # Run migrations
+make db-seed      # Seed database
+
+# Clean up
+make clean
+```
+
+### What's Included
+
+The Docker setup includes:
+
+- ✅ **All monorepo packages** (ui, apollo-hooks, etc.)
+- ✅ **All apps** (web, admin, api)
+- ✅ **Hot reloading** for all services
+- ✅ **Package building** and linking
+- ✅ **Automatic database setup** (migrations and seeding)
+
+### Troubleshooting
+
+```bash
+# Rebuild everything
+docker compose build --no-cache
+
+# View container logs
+docker compose logs -f app
+
+# Access container shell
+docker compose exec app sh
+```

@@ -1,0 +1,22 @@
+FROM node:20-alpine
+
+# Set working directory
+WORKDIR /app
+
+# Copy all files first
+COPY . .
+
+# Install dependencies (this will properly link workspace packages)
+RUN yarn install --frozen-lockfile
+
+# Build packages first
+RUN yarn build:packages
+
+# Generate Prisma client
+RUN cd apps/api && yarn prisma generate
+
+# Expose ports for all services
+EXPOSE 3000 4000 8080 5555
+
+# Start the development environment
+CMD ["yarn", "dev"] 
