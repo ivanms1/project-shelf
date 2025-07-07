@@ -183,7 +183,7 @@ make dev-down
 All services run in one container:
 
 - **Web Frontend**: http://localhost:3000
-- **Admin Dashboard**: http://localhost:3001
+- **Admin Dashboard**: http://localhost:4000
 - **API**: http://localhost:8080
 - **Database**: localhost:5432
 
